@@ -3951,7 +3951,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1948164939}
   - component: {fileID: 1948164938}
-  - component: {fileID: 1948164937}
+  - component: {fileID: 1948164940}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -3959,25 +3959,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1948164937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948164936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &1948164938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4008,6 +3989,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1948164940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948164936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_PointAction: {fileID: -1654692200621890270, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MoveAction: {fileID: -8784545083839296357, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_SubmitAction: {fileID: 392368643174621059, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_CancelAction: {fileID: 7727032971491509709, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_LeftClickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_MiddleClickAction: {fileID: -2185481485913320682, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_RightClickAction: {fileID: -4090225696740746782, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_ScrollWheelAction: {fileID: 6240969308177333660, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 6564999863303420839, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!1 &2051075705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4626,4 +4635,80 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStateMachine: 0
+  moveInput: 1
+  attackInput: 3
   speed: 2
+  attackDamage: 0
+  attackSpeed: 0
+  leftButtonValue: 0
+  leftButtonStarted: 0
+  leftButtonPerformed: 0
+  leftButtonCancel: 0
+  rightButtonValue: 0
+  rightButtonStarted: 0
+  rightButtonPerformed: 0
+  rightButtonCancel: 0
+  upButtonValue: 0
+  upButtonStarted: 0
+  upButtonPerformed: 0
+  upButtonCancel: 0
+  downButtonValue: 0
+  downButtonStarted: 0
+  downButtonPerformed: 0
+  downButtonCancel: 0
+  dpadLeftButtonValue: 0
+  dpadLeftButtonStarted: 0
+  dpadLeftButtonPerformed: 0
+  dpadLeftButtonCancel: 0
+  dpadRightButtonValue: 0
+  dpadRightButtonStarted: 0
+  dpadRightButtonPerformed: 0
+  dpadRightButtonCancel: 0
+  dpadUpButtonValue: 0
+  dpadUpButtonStarted: 0
+  dpadUpButtonPerformed: 0
+  dpadUpButtonCancel: 0
+  dpadDownButtonValue: 0
+  dpadDownButtonStarted: 0
+  dpadDownButtonPerformed: 0
+  dpadDownButtonCancel: 0
+  startButtonValue: 0
+  startButtonStarted: 0
+  startButtonPerformed: 0
+  startButtonCancel: 0
+  selectButtonValue: 0
+  selectButtonStarted: 0
+  selectButtonPerformed: 0
+  selectButtonCancel: 0
+  leftStickButtonValue: 0
+  leftStickButtonStarted: 0
+  leftStickButtonPerformed: 0
+  leftStickButtonCancel: 0
+  rightStickButtonValue: 0
+  rightStickButtonStarted: 0
+  rightStickButtonPerformed: 0
+  rightStickButtonCancel: 0
+  leftShoulderButtonValue: 0
+  leftShoulderButtonStarted: 0
+  leftShoulderButtonPerformed: 0
+  leftShoulderButtonCancel: 0
+  rightShoulderButtonValue: 0
+  rightShoulderButtonStarted: 0
+  rightShoulderButtonPerformed: 0
+  rightShoulderButtonCancel: 0
+  leftStickAxis: {x: 0, y: 0}
+  leftAxisStarted: 0
+  leftAxisPerformed: 0
+  leftAxisCancel: 0
+  rightStickAxis: {x: 0, y: 0}
+  rightAxisStarted: 0
+  rightAxisPerformed: 0
+  rightAxisCancel: 0
+  rightTriggerValue: 0
+  rightTriggerStarted: 0
+  rightTriggerPerformed: 0
+  rightTriggerCancel: 0
+  leftTriggerValue: 0
+  leftTriggerStarted: 0
+  leftTriggerPerformed: 0
+  leftTriggerCancel: 0
