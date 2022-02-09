@@ -13,9 +13,29 @@ public class PlayerManager : MonoBehaviour
     
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
+
+    #region Input Settings
+    [Header("Input Settings")]
+
+    //only axis
+    public MoveInput moveInput;
+    public enum MoveInput{None, LeftStick, RightStick}
+    
+    //only buttons
+    public AttackInput attackInput;
+    public enum AttackInput{None, UpButton, DownButton, LeftButton, RightButton, DpadUp, DpadDown, DpadLeft, DpadRight, LeftStickButton, RightStickButton, LeftShoulder, RightShoulder, StartButton, SelectButton}
+    
+    
+    //only triggers
+    
+    
+    #endregion
     
     [Header("Current Statistics")] 
     public float speed;
+    public int attackDamage;
+    public float attackSpeed;
+    
     private Vector3 m_moveDirection;
     
     #region Inputs Callback Value
@@ -28,9 +48,6 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector]public bool leftButtonPerformed;
     [HideInInspector]public bool leftButtonCancel;
 
-    public LeftButtonAssign leftButtonAssign;
-    public enum LeftButtonAssign{None, Attack}
-    
     //Right Button
     [HideInInspector]public float rightButtonValue;
     [HideInInspector]public bool rightButtonStarted;
@@ -110,19 +127,32 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector]public bool rightShoulderButtonCancel;
     
     [Header("Axis Value")] 
+    
+    //Left Stick
     [HideInInspector]public Vector2 leftStickAxis;
-
-    public LeftStickAxisAssign leftStickAxisAssign;
-    public enum LeftStickAxisAssign{None, Move}
+    [HideInInspector]public bool leftAxisStarted;
+    [HideInInspector]public bool leftAxisPerformed;
+    [HideInInspector]public bool leftAxisCancel;
     
+    //Right Stick
     [HideInInspector]public Vector2 rightStickAxis;
-    
-    public RightStickAxisAssign rightStickAxisAssign;
-    public enum RightStickAxisAssign{None, Move}
+    [HideInInspector] public bool rightAxisStarted;
+    [HideInInspector] public bool rightAxisPerformed;
+    [HideInInspector] public bool rightAxisCancel;
 
     [Header("Triggers Value")] 
+    
+    //Right Trigger
     [HideInInspector]public float rightTriggerValue;
+    [HideInInspector] public bool rightTriggerStarted;
+    [HideInInspector] public bool rightTriggerPerformed;
+    [HideInInspector] public bool rightTriggerCancel;
+    
+    //Left Trigger
     [HideInInspector]public float leftTriggerValue;
+    [HideInInspector] public bool leftTriggerStarted;
+    [HideInInspector] public bool leftTriggerPerformed;
+    [HideInInspector] public bool leftTriggerCancel;
     
     #endregion
     
@@ -135,8 +165,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        #region READ INPUT
+        #region INITIALIZE INPUT
 
+        //BUTTONS
         m_inputController.Player.UpButton.started += UpButton;
         m_inputController.Player.UpButton.performed += UpButton;
         m_inputController.Player.UpButton.canceled += UpButton;
@@ -145,6 +176,55 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.LeftButton.performed += LeftButton;
         m_inputController.Player.LeftButton.canceled += LeftButton;
         
+        m_inputController.Player.RightButton.started += RightButton;
+        m_inputController.Player.RightButton.performed += RightButton;
+        m_inputController.Player.RightButton.canceled += RightButton;
+        
+        m_inputController.Player.DownButton.started += DownButton;
+        m_inputController.Player.DownButton.performed += DownButton;
+        m_inputController.Player.DownButton.canceled += DownButton;
+
+        m_inputController.Player.DPadUp.started += DPadUp;
+        m_inputController.Player.DPadUp.performed += DPadUp;
+        m_inputController.Player.DPadUp.canceled += DPadUp;
+        
+        m_inputController.Player.DPadDown.started += DPadDown;
+        m_inputController.Player.DPadDown.performed += DPadDown;
+        m_inputController.Player.DPadDown.canceled += DPadDown;
+        
+        m_inputController.Player.DPadLeft.started += DPadLeft;
+        m_inputController.Player.DPadLeft.performed += DPadLeft;
+        m_inputController.Player.DPadLeft.canceled += DPadLeft;
+        
+        m_inputController.Player.DPadRight.started += DPadRight;
+        m_inputController.Player.DPadRight.performed += DPadRight;
+        m_inputController.Player.DPadRight.canceled += DPadRight;
+
+        m_inputController.Player.LeftStickButton.started += LeftStickButton;
+        m_inputController.Player.LeftStickButton.performed += LeftStickButton;
+        m_inputController.Player.LeftStickButton.canceled += LeftStickButton;
+        
+        m_inputController.Player.RightStickButton.started += RightStickButton;
+        m_inputController.Player.RightStickButton.performed += RightStickButton;
+        m_inputController.Player.RightStickButton.canceled += RightStickButton;
+        
+        m_inputController.Player.StartButton.started += StartButton;
+        m_inputController.Player.StartButton.performed += StartButton;
+        m_inputController.Player.StartButton.canceled += StartButton;
+
+        m_inputController.Player.SelectButton.started += SelectButton;
+        m_inputController.Player.SelectButton.performed += SelectButton;
+        m_inputController.Player.SelectButton.canceled += SelectButton;
+        
+        m_inputController.Player.LeftShoulder.started += LeftShoulder;
+        m_inputController.Player.LeftShoulder.performed += LeftShoulder;
+        m_inputController.Player.LeftShoulder.canceled += LeftShoulder;
+        
+        m_inputController.Player.RightShoulder.started += RightShoulder;
+        m_inputController.Player.RightShoulder.performed += RightShoulder;
+        m_inputController.Player.RightShoulder.canceled += RightShoulder;
+        
+        //AXIS
         m_inputController.Player.LeftStick.started += LeftStickAxis;
         m_inputController.Player.LeftStick.performed += LeftStickAxis;
         m_inputController.Player.LeftStick.canceled += LeftStickAxis;
@@ -153,49 +233,149 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.RightStick.performed += RightStick;
         m_inputController.Player.RightStick.canceled += RightStick;
         
+        //TRIGGER
+        
+        m_inputController.Player.LeftTrigger.started += LeftTrigger;
+        m_inputController.Player.LeftTrigger.performed += LeftTrigger;
+        m_inputController.Player.LeftTrigger.canceled += LeftTrigger;
+        
+        m_inputController.Player.RightTrigger.started += RightTrigger;
+        m_inputController.Player.RightTrigger.performed += RightTrigger;
+        m_inputController.Player.RightTrigger.canceled += RightTrigger;
+
         #endregion
         
-        Move();
+        ReadInput();
+    }
+
+    #region READ VALUE INPUT FUNCTIONS
+    private void RightTrigger(InputAction.CallbackContext rightTrigger)
+    {
+        rightTriggerValue = rightTrigger.ReadValue<float>();
+        rightTriggerStarted = rightTrigger.started;
+        rightTriggerPerformed = rightTrigger.performed;
+        rightTriggerCancel = rightTrigger.canceled;
+    }
+
+    private void LeftTrigger(InputAction.CallbackContext leftTrigger)
+    {
+        leftTriggerValue = leftTrigger.ReadValue<float>();
+        leftTriggerStarted = leftTrigger.started;
+        leftTriggerPerformed = leftTrigger.performed;
+        leftTriggerCancel = leftTrigger.canceled;
+    }
+
+    private void RightShoulder(InputAction.CallbackContext rightShoulder)
+    {
+        rightShoulderButtonValue = rightShoulder.ReadValue<float>();
+        rightShoulderButtonStarted = rightShoulder.started;
+        rightShoulderButtonPerformed = rightShoulder.performed;
+        rightShoulderButtonCancel = rightShoulder.canceled;
+    }
+
+    private void LeftShoulder(InputAction.CallbackContext leftShoulder)
+    {
+        leftShoulderButtonValue = leftShoulder.ReadValue<float>();
+        leftShoulderButtonStarted = leftShoulder.started;
+        leftShoulderButtonPerformed = leftShoulder.performed;
+        leftShoulderButtonCancel = leftShoulder.canceled;
+    }
+
+    private void SelectButton(InputAction.CallbackContext selectButton)
+    {
+        selectButtonValue = selectButton.ReadValue<float>();
+        selectButtonStarted = selectButton.started;
+        selectButtonPerformed = selectButton.performed;
+        selectButtonCancel = selectButton.canceled;
+    }
+
+    private void StartButton(InputAction.CallbackContext startButton)
+    {
+        startButtonValue = startButton.ReadValue<float>();
+        startButtonStarted = startButton.started;
+        startButtonPerformed = startButton.performed;
+        startButtonCancel = startButton.canceled;
+    }
+
+    private void RightStickButton(InputAction.CallbackContext rightStickButton)
+    {
+        rightStickButtonValue = rightStickButton.ReadValue<float>();
+        rightStickButtonStarted = rightStickButton.started;
+        rightStickButtonPerformed = rightStickButton.performed;
+        rightStickButtonCancel = rightStickButton.canceled;
+    }
+
+    private void LeftStickButton(InputAction.CallbackContext leftStickButton)
+    {
+        leftStickButtonValue = leftStickButton.ReadValue<float>();
+        leftStickButtonStarted = leftStickButton.started;
+        leftStickButtonPerformed = leftStickButton.performed;
+        leftStickButtonCancel = leftStickButton.canceled;
+    }
+
+    private void DPadRight(InputAction.CallbackContext dpadRight)
+    {
+        dpadRightButtonValue = dpadRight.ReadValue<float>();
+        dpadRightButtonStarted = dpadRight.started;
+        dpadRightButtonPerformed = dpadRight.performed;
+        dpadRightButtonCancel = dpadRight.canceled;
+    }
+
+    private void DPadLeft(InputAction.CallbackContext dpadLeft)
+    {
+        dpadLeftButtonValue = dpadLeft.ReadValue<float>();
+        dpadLeftButtonStarted = dpadLeft.started;
+        dpadLeftButtonPerformed = dpadLeft.performed;
+        dpadLeftButtonCancel = dpadLeft.canceled;
+    }
+
+    private void DPadDown(InputAction.CallbackContext dpadDown)
+    {
+        dpadDownButtonValue = dpadDown.ReadValue<float>();
+        dpadDownButtonStarted = dpadDown.started;
+        dpadDownButtonPerformed = dpadDown.performed;
+        dpadDownButtonCancel = dpadDown.canceled;
+    }
+
+    private void DPadUp(InputAction.CallbackContext dpadUp)
+    {
+        dpadUpButtonValue = dpadUp.ReadValue<float>();
+        dpadUpButtonStarted = dpadUp.started;
+        dpadUpButtonPerformed = dpadUp.performed;
+        dpadUpButtonCancel = dpadUp.canceled;
+    }
+
+    private void DownButton(InputAction.CallbackContext downButton)
+    {
+        downButtonValue = downButton.ReadValue<float>();
+        downButtonStarted = downButton.started;
+        downButtonPerformed = downButton.performed;
+        downButtonCancel = downButton.canceled;
+    }
+
+    private void RightButton(InputAction.CallbackContext rightButton)
+    {
+        rightButtonValue = rightButton.ReadValue<float>();
+        rightButtonStarted = rightButton.started;
+        rightButtonPerformed = rightButton.performed;
+        rightButtonCancel = rightButton.canceled;
     }
 
     private void RightStick(InputAction.CallbackContext rightStick)
     {
         rightStickAxis = rightStick.ReadValue<Vector2>();
+        rightAxisStarted = rightStick.started;
+        rightAxisPerformed = rightStick.performed;
+        rightAxisCancel = rightStick.canceled;
 
-        switch (rightStickAxisAssign)
-        {
-            case RightStickAxisAssign.None:
-                break;
-            
-            case RightStickAxisAssign.Move:
-                m_moveDirection = new Vector3(rightStickAxis.x, 0, rightStickAxis.y);
-
-                if (rightStick.canceled)
-                {
-                    m_moveDirection = Vector3.zero;
-                }
-                break;
-        }
     }
 
     private void LeftStickAxis(InputAction.CallbackContext leftStick)
     {
         leftStickAxis = leftStick.ReadValue<Vector2>();
-
-        switch (leftStickAxisAssign)
-        {
-            case LeftStickAxisAssign.None:
-                break;
-            
-            case LeftStickAxisAssign.Move:
-                m_moveDirection = new Vector3(leftStickAxis.x, 0, leftStickAxis.y);
-
-                if (leftStick.canceled)
-                {
-                    m_moveDirection = Vector3.zero;
-                }
-                break;
-        }
+        leftAxisStarted = leftStick.started;
+        leftAxisPerformed = leftStick.performed;
+        leftAxisCancel = leftStick.canceled;
     }
 
     private void LeftButton(InputAction.CallbackContext leftButton)
@@ -204,18 +384,6 @@ public class PlayerManager : MonoBehaviour
         leftButtonStarted = leftButton.started;
         leftButtonPerformed = leftButton.performed;
         leftButtonCancel = leftButton.canceled;
-
-        switch (leftButtonAssign)
-        {
-            case LeftButtonAssign.Attack:
-
-                if (leftButton.started)
-                {
-                    Debug.Log("Attack performed on left button");
-                }
-                
-                break;
-        }
     }
 
     private void UpButton(InputAction.CallbackContext upButton)
@@ -225,9 +393,81 @@ public class PlayerManager : MonoBehaviour
         upButtonPerformed = upButton.performed;
         upButtonCancel = upButton.canceled;
     }
+    
+    #endregion
 
-    private void Move()
+    private void ReadInput()
     {
+        #region Movement
+        switch (moveInput)
+        {
+            case MoveInput.None:
+                Debug.LogWarning("No input set for movements, please set it up");
+                break;
+            
+            case MoveInput.LeftStick:
+                
+                if (leftAxisPerformed)
+                {
+                    Move(leftStickAxis);
+                    
+                    playerStateMachine = PlayerStateMachine.MOVE;
+                }
+                
+                if(leftAxisCancel)
+                {
+                    playerStateMachine = PlayerStateMachine.IDLE;
+                }
+                
+                break;
+            
+            case MoveInput.RightStick:
+                
+                if (rightAxisPerformed)
+                {
+                    Move(rightStickAxis);
+                    
+                    playerStateMachine = PlayerStateMachine.MOVE;
+                }
+               
+                if(rightAxisCancel)
+                {
+                    playerStateMachine = PlayerStateMachine.IDLE;
+                }
+                break;
+        }
+        #endregion
+
+        #region Attack
+
+        switch (attackInput)
+        {
+            case AttackInput.None:
+                break;
+            
+            case AttackInput.DownButton:
+                if (downButtonPerformed)
+                {
+                    Attack();
+                }
+                break;
+            
+            case AttackInput.LeftButton:
+                if (leftButtonPerformed)
+                {
+                    Attack();
+                }
+                break;
+        }
+
+        #endregion
+    }
+    
+    private void Move(Vector2 directionVector)
+    {
+        //set the move direction by the directionVector determined by input
+        m_moveDirection = new Vector3(directionVector.x, 0, directionVector.y);
+        
         //move to the direction of the input by movement speed
         m_rb.velocity = m_moveDirection * speed;
 
@@ -238,7 +478,7 @@ public class PlayerManager : MonoBehaviour
             m_rb.MoveRotation(lookRotation);
             
             //switch the state of player to MOVE, which means the player is moving
-            playerStateMachine = PlayerStateMachine.MOVE;
+            
         }
         else
         {
@@ -247,14 +487,11 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void OnValidate()
+    private void Attack()
     {
-        if (leftStickAxisAssign == LeftStickAxisAssign.Move && rightStickAxisAssign == RightStickAxisAssign.Move)
-        {
-            Debug.LogWarning("Move is assign to the two sticks, move will be set to left stick by default");
-            rightStickAxisAssign = RightStickAxisAssign.None;
-        }
+        Debug.Log("ATTACK !");
     }
+    
 
     private void OnEnable()
     {

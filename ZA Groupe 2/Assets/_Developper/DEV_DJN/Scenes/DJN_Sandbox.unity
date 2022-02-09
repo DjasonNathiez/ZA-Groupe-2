@@ -4635,12 +4635,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStateMachine: 0
+  moveInput: 1
+  attackInput: 3
   speed: 2
+  attackDamage: 0
+  attackSpeed: 0
   leftButtonValue: 0
   leftButtonStarted: 0
   leftButtonPerformed: 0
   leftButtonCancel: 0
-  leftButtonAssign: 1
   rightButtonValue: 0
   rightButtonStarted: 0
   rightButtonPerformed: 0
@@ -4694,8 +4697,18 @@ MonoBehaviour:
   rightShoulderButtonPerformed: 0
   rightShoulderButtonCancel: 0
   leftStickAxis: {x: 0, y: 0}
-  leftStickAxisAssign: 0
+  leftAxisStarted: 0
+  leftAxisPerformed: 0
+  leftAxisCancel: 0
   rightStickAxis: {x: 0, y: 0}
-  rightStickAxisAssign: 1
+  rightAxisStarted: 0
+  rightAxisPerformed: 0
+  rightAxisCancel: 0
   rightTriggerValue: 0
+  rightTriggerStarted: 0
+  rightTriggerPerformed: 0
+  rightTriggerCancel: 0
   leftTriggerValue: 0
+  leftTriggerStarted: 0
+  leftTriggerPerformed: 0
+  leftTriggerCancel: 0
