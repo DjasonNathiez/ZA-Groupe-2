@@ -406,34 +406,21 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case MoveInput.LeftStick:
-                
+
                 if (leftAxisPerformed)
                 {
                     Move(leftStickAxis);
-                    
-                    playerStateMachine = PlayerStateMachine.MOVE;
-                }
-                
-                if(leftAxisCancel)
-                {
-                    playerStateMachine = PlayerStateMachine.IDLE;
                 }
                 
                 break;
             
             case MoveInput.RightStick:
-                
+
                 if (rightAxisPerformed)
                 {
                     Move(rightStickAxis);
-                    
-                    playerStateMachine = PlayerStateMachine.MOVE;
                 }
-               
-                if(rightAxisCancel)
-                {
-                    playerStateMachine = PlayerStateMachine.IDLE;
-                }
+                
                 break;
         }
         #endregion
@@ -446,17 +433,22 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case AttackInput.DownButton:
+                m_inputController.Player.DownButton.started += context => LoadAttack();
+
                 if (downButtonPerformed)
                 {
-                    Attack();
+                    ChargeAttack(m_inputController.Player.DownButton);
                 }
                 break;
             
             case AttackInput.LeftButton:
+                m_inputController.Player.LeftButton.started += context => LoadAttack();
+
                 if (leftButtonPerformed)
                 {
-                    Attack();
+                    ChargeAttack(m_inputController.Player.LeftButton);
                 }
+                
                 break;
         }
 
@@ -487,9 +479,17 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void LoadAttack()
     {
         Debug.Log("ATTACK !");
+        attackDamage = 1;
+    }
+
+    private void ChargeAttack(InputAction button)
+    {
+        Debug.Log("Charging...");
+        attackDamage += Mathf.RoundToInt(0.1f * Time.time);
+        button.canceled += context => LoadAttack();
     }
     
 
