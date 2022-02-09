@@ -28,18 +28,162 @@ public partial class @InputController : IInputActionCollection2, IDisposable
             ""id"": ""b7bed075-0afa-4979-891c-3f2ef66a5a92"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""UpButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b55c1b6-0f4f-47a0-b23b-7b2a699e304d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DownButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ad27cd4-69d1-42b5-8a4b-fcffe3e87ffd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""98789ab6-dc51-42fc-a0a5-c5ab4dc2bb65"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e4cb7b3-4eeb-416f-b9f4-ac5d553f6b04"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f0e8ce4-e2c0-4da0-afea-a1f2fcfa2421"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""315d0a1a-485d-427c-a66b-28a8ec9d6dc1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""aca212a6-1a07-4bbb-a0a5-4c60ab6c9b03"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DPadRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0ead8d7-96d8-42a3-bc5f-81c364cf749d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftStickButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""e15eb0e9-b58c-44f2-81ac-ade67f173d9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightStickButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""046db688-45ec-479f-88f3-1ef7f02fada6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""8e252676-5d1d-47ea-a21f-717d018c07d6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9ceb7cec-323e-4dd5-a393-500911fed67b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftShoulder"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b3220ce-d2f6-48e0-99bd-bbd2254a5e94"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightShoulder"",
+                    ""type"": ""Button"",
+                    ""id"": ""759b0351-5d0f-4155-bd56-ffb3bd351c63"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftStick"",
                     ""type"": ""Value"",
-                    ""id"": ""7bcbcb60-627f-4961-aaac-403ea47e0d96"",
+                    ""id"": ""062cfae5-1897-4860-8a6b-76fd9300995e"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""RightStick"",
+                    ""type"": ""Value"",
+                    ""id"": ""4b659e23-5343-48b8-b2c6-ebd86525ca8d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LeftTrigger"",
                     ""type"": ""Button"",
-                    ""id"": ""b8850395-370b-4131-a8cc-1b9a77b89952"",
+                    ""id"": ""fd372f27-430c-496a-8e53-b6e2fa10f2e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""cec3dcac-5a6f-481f-88bd-0ce741a63c4f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -49,67 +193,595 @@ public partial class @InputController : IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""7acb521f-bd05-490d-befc-23b41e044f96"",
-                    ""path"": ""<XInputController>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Xbox Controller"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c103e4f3-ba22-465f-9cac-560bab15e60b"",
-                    ""path"": ""<DualShockGamepad>/leftStick"",
+                    ""id"": ""a0cc4d05-9b16-492e-9f7b-1d978f224429"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Playstation Controller"",
-                    ""action"": ""Move"",
+                    ""action"": ""UpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e01a03d0-080d-4b21-89f9-62470874b61c"",
-                    ""path"": ""<SwitchProControllerHID>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0d068f3e-61c3-4e88-9904-91e048609cbc"",
-                    ""path"": ""<XInputController>/buttonWest"",
+                    ""id"": ""079f9dfc-9427-4e8c-b3b2-8f7579baacaa"",
+                    ""path"": ""<XInputController>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Xbox Controller"",
-                    ""action"": ""Attack"",
+                    ""action"": ""UpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b14ecf5f-cf61-4fd1-b803-da54dcf1b078"",
+                    ""id"": ""18964555-8b3d-4ad5-99e2-dfa77938cc1c"",
+                    ""path"": ""<SwitchProControllerHID>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""UpButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""052eea53-7c55-4e64-96c0-3120be945ee0"",
+                    ""path"": ""<DualShockGamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""DownButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d648c25-4f38-48dd-acc2-cb1d005b8a90"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""DownButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70abf673-7f2a-4880-9918-f5dc9c901461"",
+                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""DownButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42feda8d-eba2-4628-8d9e-656d1bc7c427"",
                     ""path"": ""<DualShockGamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Playstation Controller"",
-                    ""action"": ""Attack"",
+                    ""action"": ""LeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b8bf3b29-a261-4eaa-9647-ae37647fcc99"",
+                    ""id"": ""c3c5459f-72e5-4d51-8c8f-d3e1047a6901"",
+                    ""path"": ""<XInputController>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""LeftButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13fb1ef6-f42a-4e1a-ac3e-2cfb84012907"",
                     ""path"": ""<SwitchProControllerHID>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
-                    ""action"": ""Attack"",
+                    ""action"": ""LeftButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01b41480-0b5b-4a4f-aecf-30b0ea403206"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""RightButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e75e5d03-5985-46b9-8c66-b8ad8adf740e"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""RightButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b95a0941-acd6-46f3-8a2e-5132b07a82ea"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""RightButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4339711-ece7-4f51-a88c-bf3187526871"",
+                    ""path"": ""<DualShockGamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""DPadUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9d63c94f-9c7a-46e2-b4e8-abc060dbb505"",
+                    ""path"": ""<XInputController>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""DPadUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77bbf7c4-2e24-4263-a191-553f50987170"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""DPadUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27158b0e-957c-4238-82ff-e2f308c23234"",
+                    ""path"": ""<DualShockGamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""DPadDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7440c2a-c075-4615-bf10-f6b9ecc362ea"",
+                    ""path"": ""<XInputController>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""DPadDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2e44448-b6b4-4313-89db-1355dfb6908b"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""DPadDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5528e6b-dc7f-4bd0-97da-3125967e6954"",
+                    ""path"": ""<DualShockGamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""DPadLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aa327954-271f-441e-bca2-539766846a95"",
+                    ""path"": ""<XInputController>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""DPadLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3628bf94-0f51-4fea-abbd-e5c3b6672fbd"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""DPadLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3aa6d9e-9913-409c-8e56-7565dee31017"",
+                    ""path"": ""<DualShockGamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""DPadRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2ab5d32-a26e-4c53-b488-c0e224e7a5c5"",
+                    ""path"": ""<XInputController>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""DPadRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3315ac25-2673-4725-adc3-82dc734fce0a"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""DPadRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd5368b2-5e8f-4c32-aeeb-d8997d13fb6b"",
+                    ""path"": ""<DualShockGamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""LeftStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe6d3171-cc53-4569-9b48-1304f9efd72f"",
+                    ""path"": ""<XInputController>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""LeftStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aea8f185-656f-4699-8958-1d62eb23932b"",
+                    ""path"": ""<SwitchProControllerHID>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""LeftStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""359efd89-2c8d-4319-8a55-4625af4a511e"",
+                    ""path"": ""<DualShockGamepad>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""RightStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67885933-4713-45c2-a1ce-43a4056a11bf"",
+                    ""path"": ""<XInputController>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""RightStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db8ff228-ce32-4837-bf3c-bbeec595c210"",
+                    ""path"": ""<SwitchProControllerHID>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""RightStickButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d3a122d4-3865-4935-9c1f-98b613064ff0"",
+                    ""path"": ""<DualShockGamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fa5eab6-8bd0-4d3a-8830-34545e6c102d"",
+                    ""path"": ""<XInputController>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e4ad4f7-fcbc-4068-aeb7-5a59696c9f9a"",
+                    ""path"": ""<SwitchProControllerHID>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a59957d0-e9d5-4e93-b445-7a729448742e"",
+                    ""path"": ""<DualShockGamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""SelectButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de25a267-3ea7-4ffb-b0f0-37bdf2a76833"",
+                    ""path"": ""<XInputController>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""SelectButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56a98cc3-ec08-4147-bd83-6d8c6eeb9aa6"",
+                    ""path"": ""<SwitchProControllerHID>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""SelectButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6a382693-55bf-4446-9512-b2461b797dbb"",
+                    ""path"": ""<DualShockGamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""LeftShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efef624f-6475-4011-95f6-afa6ad5a57fc"",
+                    ""path"": ""<XInputController>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""LeftShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3576ba55-e74c-48da-af88-a1af033b4c73"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""LeftShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3a6f9fcc-d24c-4d98-b240-cbc7ca04979b"",
+                    ""path"": ""<DualShockGamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""RightShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7dc460e5-9d9e-4c4b-8df7-32e15396d3ba"",
+                    ""path"": ""<XInputController>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""RightShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f27121f-af10-4f61-b9cf-a036bbda1dcf"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""RightShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a44358f5-11ac-4fb3-bb1f-b402e8b9468b"",
+                    ""path"": ""<DualShockGamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""LeftStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e317b1b-14bd-4aad-981c-418162312a8c"",
+                    ""path"": ""<XInputController>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""LeftStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9cf4e22e-4477-444b-b7c7-6e3ff83b6ea6"",
+                    ""path"": ""<SwitchProControllerHID>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""LeftStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a5cf131-cec1-4ec5-bc99-d4f0a2fc9430"",
+                    ""path"": ""<DualShockGamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""RightStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3bdad21-452f-4ac8-81d5-c3ae81c86ca5"",
+                    ""path"": ""<XInputController>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""RightStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94f77b47-b886-4e36-873b-14a4db2e3d62"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""RightStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5c617faf-c42a-4d2f-94cd-a5620afdd66e"",
+                    ""path"": ""<DualShockGamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecb90c75-3f0a-4a9c-89b5-ec929b0356a6"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3ea7023-ef42-44c0-9331-3f412f54898a"",
+                    ""path"": ""<SwitchProControllerHID>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4667b069-2b01-4c76-a833-19962fb500e2"",
+                    ""path"": ""<DualShockGamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""RightTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""28ec9db0-0ba2-4a8a-9f5f-2e2516c08681"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""RightTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d588e520-49ec-44de-abdf-affd04bed150"",
+                    ""path"": ""<SwitchProControllerHID>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""RightTrigger"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -154,8 +826,24 @@ public partial class @InputController : IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_UpButton = m_Player.FindAction("UpButton", throwIfNotFound: true);
+        m_Player_DownButton = m_Player.FindAction("DownButton", throwIfNotFound: true);
+        m_Player_LeftButton = m_Player.FindAction("LeftButton", throwIfNotFound: true);
+        m_Player_RightButton = m_Player.FindAction("RightButton", throwIfNotFound: true);
+        m_Player_DPadUp = m_Player.FindAction("DPadUp", throwIfNotFound: true);
+        m_Player_DPadDown = m_Player.FindAction("DPadDown", throwIfNotFound: true);
+        m_Player_DPadLeft = m_Player.FindAction("DPadLeft", throwIfNotFound: true);
+        m_Player_DPadRight = m_Player.FindAction("DPadRight", throwIfNotFound: true);
+        m_Player_LeftStickButton = m_Player.FindAction("LeftStickButton", throwIfNotFound: true);
+        m_Player_RightStickButton = m_Player.FindAction("RightStickButton", throwIfNotFound: true);
+        m_Player_StartButton = m_Player.FindAction("StartButton", throwIfNotFound: true);
+        m_Player_SelectButton = m_Player.FindAction("SelectButton", throwIfNotFound: true);
+        m_Player_LeftShoulder = m_Player.FindAction("LeftShoulder", throwIfNotFound: true);
+        m_Player_RightShoulder = m_Player.FindAction("RightShoulder", throwIfNotFound: true);
+        m_Player_LeftStick = m_Player.FindAction("LeftStick", throwIfNotFound: true);
+        m_Player_RightStick = m_Player.FindAction("RightStick", throwIfNotFound: true);
+        m_Player_LeftTrigger = m_Player.FindAction("LeftTrigger", throwIfNotFound: true);
+        m_Player_RightTrigger = m_Player.FindAction("RightTrigger", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -215,14 +903,46 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_UpButton;
+    private readonly InputAction m_Player_DownButton;
+    private readonly InputAction m_Player_LeftButton;
+    private readonly InputAction m_Player_RightButton;
+    private readonly InputAction m_Player_DPadUp;
+    private readonly InputAction m_Player_DPadDown;
+    private readonly InputAction m_Player_DPadLeft;
+    private readonly InputAction m_Player_DPadRight;
+    private readonly InputAction m_Player_LeftStickButton;
+    private readonly InputAction m_Player_RightStickButton;
+    private readonly InputAction m_Player_StartButton;
+    private readonly InputAction m_Player_SelectButton;
+    private readonly InputAction m_Player_LeftShoulder;
+    private readonly InputAction m_Player_RightShoulder;
+    private readonly InputAction m_Player_LeftStick;
+    private readonly InputAction m_Player_RightStick;
+    private readonly InputAction m_Player_LeftTrigger;
+    private readonly InputAction m_Player_RightTrigger;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
         public PlayerActions(@InputController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @UpButton => m_Wrapper.m_Player_UpButton;
+        public InputAction @DownButton => m_Wrapper.m_Player_DownButton;
+        public InputAction @LeftButton => m_Wrapper.m_Player_LeftButton;
+        public InputAction @RightButton => m_Wrapper.m_Player_RightButton;
+        public InputAction @DPadUp => m_Wrapper.m_Player_DPadUp;
+        public InputAction @DPadDown => m_Wrapper.m_Player_DPadDown;
+        public InputAction @DPadLeft => m_Wrapper.m_Player_DPadLeft;
+        public InputAction @DPadRight => m_Wrapper.m_Player_DPadRight;
+        public InputAction @LeftStickButton => m_Wrapper.m_Player_LeftStickButton;
+        public InputAction @RightStickButton => m_Wrapper.m_Player_RightStickButton;
+        public InputAction @StartButton => m_Wrapper.m_Player_StartButton;
+        public InputAction @SelectButton => m_Wrapper.m_Player_SelectButton;
+        public InputAction @LeftShoulder => m_Wrapper.m_Player_LeftShoulder;
+        public InputAction @RightShoulder => m_Wrapper.m_Player_RightShoulder;
+        public InputAction @LeftStick => m_Wrapper.m_Player_LeftStick;
+        public InputAction @RightStick => m_Wrapper.m_Player_RightStick;
+        public InputAction @LeftTrigger => m_Wrapper.m_Player_LeftTrigger;
+        public InputAction @RightTrigger => m_Wrapper.m_Player_RightTrigger;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,22 +952,118 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @UpButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpButton;
+                @UpButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpButton;
+                @UpButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUpButton;
+                @DownButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDownButton;
+                @DownButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDownButton;
+                @DownButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDownButton;
+                @LeftButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftButton;
+                @LeftButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftButton;
+                @LeftButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftButton;
+                @RightButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightButton;
+                @RightButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightButton;
+                @RightButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightButton;
+                @DPadUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadUp;
+                @DPadUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadUp;
+                @DPadUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadUp;
+                @DPadDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadDown;
+                @DPadDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadDown;
+                @DPadDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadDown;
+                @DPadLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadLeft;
+                @DPadLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadLeft;
+                @DPadLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadLeft;
+                @DPadRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadRight;
+                @DPadRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadRight;
+                @DPadRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDPadRight;
+                @LeftStickButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStickButton;
+                @LeftStickButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStickButton;
+                @LeftStickButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStickButton;
+                @RightStickButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStickButton;
+                @RightStickButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStickButton;
+                @RightStickButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStickButton;
+                @StartButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @SelectButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectButton;
+                @SelectButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectButton;
+                @SelectButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSelectButton;
+                @LeftShoulder.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftShoulder;
+                @LeftShoulder.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftShoulder;
+                @LeftShoulder.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftShoulder;
+                @RightShoulder.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightShoulder;
+                @RightShoulder.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightShoulder;
+                @RightShoulder.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightShoulder;
+                @LeftStick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStick;
+                @LeftStick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStick;
+                @LeftStick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftStick;
+                @RightStick.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
+                @RightStick.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
+                @RightStick.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightStick;
+                @LeftTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @RightTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
+                @UpButton.started += instance.OnUpButton;
+                @UpButton.performed += instance.OnUpButton;
+                @UpButton.canceled += instance.OnUpButton;
+                @DownButton.started += instance.OnDownButton;
+                @DownButton.performed += instance.OnDownButton;
+                @DownButton.canceled += instance.OnDownButton;
+                @LeftButton.started += instance.OnLeftButton;
+                @LeftButton.performed += instance.OnLeftButton;
+                @LeftButton.canceled += instance.OnLeftButton;
+                @RightButton.started += instance.OnRightButton;
+                @RightButton.performed += instance.OnRightButton;
+                @RightButton.canceled += instance.OnRightButton;
+                @DPadUp.started += instance.OnDPadUp;
+                @DPadUp.performed += instance.OnDPadUp;
+                @DPadUp.canceled += instance.OnDPadUp;
+                @DPadDown.started += instance.OnDPadDown;
+                @DPadDown.performed += instance.OnDPadDown;
+                @DPadDown.canceled += instance.OnDPadDown;
+                @DPadLeft.started += instance.OnDPadLeft;
+                @DPadLeft.performed += instance.OnDPadLeft;
+                @DPadLeft.canceled += instance.OnDPadLeft;
+                @DPadRight.started += instance.OnDPadRight;
+                @DPadRight.performed += instance.OnDPadRight;
+                @DPadRight.canceled += instance.OnDPadRight;
+                @LeftStickButton.started += instance.OnLeftStickButton;
+                @LeftStickButton.performed += instance.OnLeftStickButton;
+                @LeftStickButton.canceled += instance.OnLeftStickButton;
+                @RightStickButton.started += instance.OnRightStickButton;
+                @RightStickButton.performed += instance.OnRightStickButton;
+                @RightStickButton.canceled += instance.OnRightStickButton;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
+                @SelectButton.started += instance.OnSelectButton;
+                @SelectButton.performed += instance.OnSelectButton;
+                @SelectButton.canceled += instance.OnSelectButton;
+                @LeftShoulder.started += instance.OnLeftShoulder;
+                @LeftShoulder.performed += instance.OnLeftShoulder;
+                @LeftShoulder.canceled += instance.OnLeftShoulder;
+                @RightShoulder.started += instance.OnRightShoulder;
+                @RightShoulder.performed += instance.OnRightShoulder;
+                @RightShoulder.canceled += instance.OnRightShoulder;
+                @LeftStick.started += instance.OnLeftStick;
+                @LeftStick.performed += instance.OnLeftStick;
+                @LeftStick.canceled += instance.OnLeftStick;
+                @RightStick.started += instance.OnRightStick;
+                @RightStick.performed += instance.OnRightStick;
+                @RightStick.canceled += instance.OnRightStick;
+                @LeftTrigger.started += instance.OnLeftTrigger;
+                @LeftTrigger.performed += instance.OnLeftTrigger;
+                @LeftTrigger.canceled += instance.OnLeftTrigger;
+                @RightTrigger.started += instance.OnRightTrigger;
+                @RightTrigger.performed += instance.OnRightTrigger;
+                @RightTrigger.canceled += instance.OnRightTrigger;
             }
         }
     }
@@ -281,7 +1097,23 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
+        void OnUpButton(InputAction.CallbackContext context);
+        void OnDownButton(InputAction.CallbackContext context);
+        void OnLeftButton(InputAction.CallbackContext context);
+        void OnRightButton(InputAction.CallbackContext context);
+        void OnDPadUp(InputAction.CallbackContext context);
+        void OnDPadDown(InputAction.CallbackContext context);
+        void OnDPadLeft(InputAction.CallbackContext context);
+        void OnDPadRight(InputAction.CallbackContext context);
+        void OnLeftStickButton(InputAction.CallbackContext context);
+        void OnRightStickButton(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
+        void OnSelectButton(InputAction.CallbackContext context);
+        void OnLeftShoulder(InputAction.CallbackContext context);
+        void OnRightShoulder(InputAction.CallbackContext context);
+        void OnLeftStick(InputAction.CallbackContext context);
+        void OnRightStick(InputAction.CallbackContext context);
+        void OnLeftTrigger(InputAction.CallbackContext context);
+        void OnRightTrigger(InputAction.CallbackContext context);
     }
 }
