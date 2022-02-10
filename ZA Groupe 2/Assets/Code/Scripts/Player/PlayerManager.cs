@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
 {
     private InputController m_inputController;
     private Rigidbody m_rb;
+    private Animator m_animator;
     
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
@@ -20,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     //only axis
     public MoveInput moveInput;
     public enum MoveInput{None, LeftStick, RightStick}
+    
     
     //only buttons
     public AttackInput attackInput;
@@ -159,7 +161,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         m_inputController = new InputController();
-       
+        m_animator = GetComponent<Animator>();
         m_rb = GetComponent<Rigidbody>();
     }
 
@@ -406,34 +408,21 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case MoveInput.LeftStick:
-                
+
                 if (leftAxisPerformed)
                 {
                     Move(leftStickAxis);
-                    
-                    playerStateMachine = PlayerStateMachine.MOVE;
-                }
-                
-                if(leftAxisCancel)
-                {
-                    playerStateMachine = PlayerStateMachine.IDLE;
                 }
                 
                 break;
             
             case MoveInput.RightStick:
-                
+
                 if (rightAxisPerformed)
                 {
                     Move(rightStickAxis);
-                    
-                    playerStateMachine = PlayerStateMachine.MOVE;
                 }
-               
-                if(rightAxisCancel)
-                {
-                    playerStateMachine = PlayerStateMachine.IDLE;
-                }
+                
                 break;
         }
         #endregion
@@ -446,17 +435,22 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case AttackInput.DownButton:
+                m_inputController.Player.DownButton.started += context => LoadAttack();
+
                 if (downButtonPerformed)
                 {
-                    Attack();
+                    ChargeAttack(m_inputController.Player.DownButton);
                 }
                 break;
             
             case AttackInput.LeftButton:
+                m_inputController.Player.LeftButton.started += context => LoadAttack();
+
                 if (leftButtonPerformed)
                 {
-                    Attack();
+                    ChargeAttack(m_inputController.Player.LeftButton);
                 }
+                
                 break;
         }
 
@@ -487,9 +481,24 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    private void Attack()
+    private void LoadAttack()
     {
         Debug.Log("ATTACK !");
+        attackDamage = 1;
+        m_animator.Play("attack_first");
+        playerStateMachine = PlayerStateMachine.ATTACK;
+    }
+
+    private void ChargeAttack(InputAction button)
+    {
+        Debug.Log("Charging...");
+        attackDamage += Mathf.RoundToInt(0.1f * Time.time);
+        button.canceled += context => LoadAttack();
+    }
+
+    private void ResetState()
+    {
+        playerStateMachine = PlayerStateMachine.IDLE;
     }
     
 
