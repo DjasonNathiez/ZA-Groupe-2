@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
 {
     private InputController m_inputController;
     private Rigidbody m_rb;
+    private Animator m_animator;
     
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
@@ -20,6 +21,7 @@ public class PlayerManager : MonoBehaviour
     //only axis
     public MoveInput moveInput;
     public enum MoveInput{None, LeftStick, RightStick}
+    
     
     //only buttons
     public AttackInput attackInput;
@@ -159,7 +161,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         m_inputController = new InputController();
-       
+        m_animator = GetComponent<Animator>();
         m_rb = GetComponent<Rigidbody>();
     }
 
@@ -483,6 +485,8 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("ATTACK !");
         attackDamage = 1;
+        m_animator.Play("attack_first");
+        playerStateMachine = PlayerStateMachine.ATTACK;
     }
 
     private void ChargeAttack(InputAction button)
@@ -490,6 +494,11 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Charging...");
         attackDamage += Mathf.RoundToInt(0.1f * Time.time);
         button.canceled += context => LoadAttack();
+    }
+
+    private void ResetState()
+    {
+        playerStateMachine = PlayerStateMachine.IDLE;
     }
     
 
