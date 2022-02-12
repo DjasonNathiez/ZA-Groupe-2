@@ -11,7 +11,15 @@ public class PlayerManager : MonoBehaviour
     private InputController m_inputController;
     private Rigidbody m_rb;
     private Animator m_animator;
-    
+
+    public ControlerState controlerState;
+    public enum ControlerState
+    {
+        NORMAL,
+        MOUNT,
+        UI
+    }
+
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
 
@@ -400,64 +408,73 @@ public class PlayerManager : MonoBehaviour
 
     private void ReadInput()
     {
-        #region Movement
-        switch (moveInput)
+        switch (controlerState)
         {
-            case MoveInput.None:
-                Debug.LogWarning("No input set for movements, please set it up");
-                break;
-            
-            case MoveInput.LeftStick:
+            case ControlerState.NORMAL:
 
-                if (leftAxisPerformed)
-                {
-                    Move(leftStickAxis);
-                }
+                #region Movement
                 
-                break;
-            
-            case MoveInput.RightStick:
-
-                if (rightAxisPerformed)
+                switch (moveInput)
                 {
-                    Move(rightStickAxis);
+                    case MoveInput.None:
+                        Debug.LogWarning("No input set for movements, please set it up");
+                        break;
+            
+                    case MoveInput.LeftStick:
+
+                        if (leftAxisPerformed)
+                        {
+                            NormalMove(leftStickAxis);
+                        }
+                
+                        break;
+            
+                    case MoveInput.RightStick:
+
+                        if (rightAxisPerformed)
+                        {
+                            NormalMove(rightStickAxis);
+                        }
+                
+                        break;
                 }
+                #endregion
+
+                #region Attack
+
+                switch (attackInput)
+                {
+                    case AttackInput.None:
+                        break;
+            
+                    case AttackInput.DownButton:
+                        m_inputController.Player.DownButton.started += context => LoadAttack();
+
+                        if (downButtonPerformed)
+                        {
+                            ChargeAttack(m_inputController.Player.DownButton);
+                        }
+                        break;
+            
+                    case AttackInput.LeftButton:
+                        m_inputController.Player.LeftButton.started += context => LoadAttack();
+
+                        if (leftButtonPerformed)
+                        {
+                            ChargeAttack(m_inputController.Player.LeftButton);
+                        }
+                
+                        break;
+                }
+
+                #endregion
                 
                 break;
         }
-        #endregion
-
-        #region Attack
-
-        switch (attackInput)
-        {
-            case AttackInput.None:
-                break;
-            
-            case AttackInput.DownButton:
-                m_inputController.Player.DownButton.started += context => LoadAttack();
-
-                if (downButtonPerformed)
-                {
-                    ChargeAttack(m_inputController.Player.DownButton);
-                }
-                break;
-            
-            case AttackInput.LeftButton:
-                m_inputController.Player.LeftButton.started += context => LoadAttack();
-
-                if (leftButtonPerformed)
-                {
-                    ChargeAttack(m_inputController.Player.LeftButton);
-                }
-                
-                break;
-        }
-
-        #endregion
+      
     }
     
-    private void Move(Vector2 directionVector)
+    private void NormalMove(Vector2 directionVector)
     {
         //set the move direction by the directionVector determined by input
         m_moveDirection = new Vector3(directionVector.x, 0, directionVector.y);
@@ -485,8 +502,9 @@ public class PlayerManager : MonoBehaviour
     {
         Debug.Log("ATTACK !");
         attackDamage = 1;
-        m_animator.Play("attack_first");
+        
         playerStateMachine = PlayerStateMachine.ATTACK;
+        m_animator.Play("attack_first");
     }
 
     private void ChargeAttack(InputAction button)
