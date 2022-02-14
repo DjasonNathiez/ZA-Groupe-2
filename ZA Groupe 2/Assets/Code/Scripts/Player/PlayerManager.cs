@@ -24,24 +24,6 @@ public class PlayerManager : MonoBehaviour
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
 
-    #region Input Settings
-    [Header("Input Settings")]
-
-    //only axis
-    public MoveInput moveInput;
-    public enum MoveInput{None, LeftStick, RightStick}
-    
-    
-    //only buttons
-    public AttackInput attackInput;
-    public enum AttackInput{None, UpButton, DownButton, LeftButton, RightButton, DpadUp, DpadDown, DpadLeft, DpadRight, LeftStickButton, RightStickButton, LeftShoulder, RightShoulder, StartButton, SelectButton}
-    
-    
-    //only triggers
-    
-    
-    #endregion
-    
     [Header("Current Statistics")] 
     public float speed;
     public int attackDamage;
