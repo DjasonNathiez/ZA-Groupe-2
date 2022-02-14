@@ -40,28 +40,27 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-
         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
         m_inputController.Player.Move.canceled += context => m_moveDirection = Vector3.zero;
 
         m_inputController.Player.Melee.started += context => LoadAttack();
         
         NormalMove();
+
     }
     
     
     private void NormalMove()
     {
-        //move to the direction of the input by movement speed
         if (playerStateMachine != PlayerStateMachine.ATTACK)
         {
             m_rb.velocity = m_moveDirection * speed;
             playerStateMachine = PlayerStateMachine.MOVE;
         }
-
         
         if (m_moveDirection != Vector3.zero)
-        {
+        { 
+           
             //change the look direction to the last move direction
             Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection); 
             m_rb.MoveRotation(lookRotation);
