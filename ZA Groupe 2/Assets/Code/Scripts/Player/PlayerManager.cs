@@ -257,7 +257,6 @@ public class PlayerManager : MonoBehaviour
         #endregion
         
         AttributionInput();
-
         NormalMove();
     }
 
@@ -490,6 +489,8 @@ public class PlayerManager : MonoBehaviour
         attackDamage = 1;
         
         playerStateMachine = PlayerStateMachine.ATTACK;
+        
+        m_animator.SetFloat("AttackSpeed", attackSpeed);
         m_animator.Play("attack_first");
     }
 
