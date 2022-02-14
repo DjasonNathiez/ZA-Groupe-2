@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
@@ -255,7 +256,8 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
         
-        ReadInput();
+        AttributionInput();
+        NormalMove();
     }
 
     #region READ VALUE INPUT FUNCTIONS
@@ -406,7 +408,7 @@ public class PlayerManager : MonoBehaviour
     
     #endregion
 
-    private void ReadInput()
+    private void AttributionInput()
     {
         switch (controlerState)
         {
@@ -421,21 +423,17 @@ public class PlayerManager : MonoBehaviour
                         break;
             
                     case MoveInput.LeftStick:
+                        m_inputController.Player.LeftStick.performed += context => m_moveDirection = new Vector3(leftStickAxis.x, 0, leftStickAxis.y);
 
-                        if (leftAxisPerformed)
-                        {
-                            NormalMove(leftStickAxis);
-                        }
-                
+                        m_inputController.Player.LeftStick.canceled += context => m_moveDirection = Vector3.zero;
+                        m_inputController.Player.LeftStick.canceled += context => m_rb.velocity = Vector3.zero;
                         break;
             
                     case MoveInput.RightStick:
-
-                        if (rightAxisPerformed)
-                        {
-                            NormalMove(rightStickAxis);
-                        }
-                
+                        m_inputController.Player.RightStick.performed += context => m_moveDirection = new Vector3(rightStickAxis.x, 0, rightStickAxis.y);
+                        
+                        m_inputController.Player.RightStick.canceled += context => m_moveDirection = Vector3.zero;
+                        m_inputController.Player.RightStick.canceled += context => m_rb.velocity = Vector3.zero;
                         break;
                 }
                 #endregion
@@ -449,21 +447,10 @@ public class PlayerManager : MonoBehaviour
             
                     case AttackInput.DownButton:
                         m_inputController.Player.DownButton.started += context => LoadAttack();
-
-                        if (downButtonPerformed)
-                        {
-                            ChargeAttack(m_inputController.Player.DownButton);
-                        }
                         break;
             
                     case AttackInput.LeftButton:
                         m_inputController.Player.LeftButton.started += context => LoadAttack();
-
-                        if (leftButtonPerformed)
-                        {
-                            ChargeAttack(m_inputController.Player.LeftButton);
-                        }
-                
                         break;
                 }
 
@@ -474,14 +461,16 @@ public class PlayerManager : MonoBehaviour
       
     }
     
-    private void NormalMove(Vector2 directionVector)
+    private void NormalMove()
     {
-        //set the move direction by the directionVector determined by input
-        m_moveDirection = new Vector3(directionVector.x, 0, directionVector.y);
-        
         //move to the direction of the input by movement speed
-        m_rb.velocity = m_moveDirection * speed;
+        if (playerStateMachine != PlayerStateMachine.ATTACK)
+        {
+            m_rb.velocity = m_moveDirection * speed;
+            playerStateMachine = PlayerStateMachine.MOVE;
+        }
 
+        
         if (m_moveDirection != Vector3.zero)
         {
             //change the look direction to the last move direction
@@ -491,11 +480,7 @@ public class PlayerManager : MonoBehaviour
             //switch the state of player to MOVE, which means the player is moving
             
         }
-        else
-        {
-            //in case that the moveDirection Vector is equal to zero, this mean the player isn't moving so he back to the idle state
-            playerStateMachine = PlayerStateMachine.IDLE;
-        }
+        
     }
 
     private void LoadAttack()
@@ -504,14 +489,9 @@ public class PlayerManager : MonoBehaviour
         attackDamage = 1;
         
         playerStateMachine = PlayerStateMachine.ATTACK;
+        
+        m_animator.SetFloat("AttackSpeed", attackSpeed);
         m_animator.Play("attack_first");
-    }
-
-    private void ChargeAttack(InputAction button)
-    {
-        Debug.Log("Charging...");
-        attackDamage += Mathf.RoundToInt(0.1f * Time.time);
-        button.canceled += context => LoadAttack();
     }
 
     private void ResetState()
