@@ -1,11 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Animations.Rigging;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -13,23 +7,35 @@ public class PlayerManager : MonoBehaviour
     private Rigidbody m_rb;
     private Animator m_animator;
 
-    public ControlerState controlerState;
-    public enum ControlerState
-    {
-        NORMAL,
-        MOUNT,
-        UI
-    }
+    [Header("Player States")]
+    public ControlState controlState;
+    public enum ControlState {NORMAL, MOUNT, UI }
 
     public PlayerStateMachine playerStateMachine;
-    public enum PlayerStateMachine { IDLE, MOVE, ATTACK };
+    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
 
-    [Header("Current Statistics")] 
-    public float speed;
-    public int attackDamage;
-    public float attackSpeed;
+    [Header("Movement")] 
+    private float m_speed;
+    public float moveSpeed;
     
     private Vector3 m_moveDirection;
+    
+    [Header("Attack")]
+    public int attackDamage;
+    public float attackSpeed;
+
+    //Animations
+    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+
+
+    [Header("Roll")]
+    public float rollSpeed;
+    [Range(0,1)] public float rollDuration;
+    public float rollCooldown;
+    private float m_rollTimer;
+    private bool m_canRoll;
+    private bool m_isRolling;
+
 
     private void Awake()
     {
@@ -40,33 +46,61 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-        m_inputController.Player.Move.canceled += context => m_moveDirection = Vector3.zero;
-
-        m_inputController.Player.Melee.started += context => LoadAttack();
+        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
         
+        if (!m_isRolling)
+        {
+            m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            m_inputController.Player.Melee.started += _ => LoadAttack();
+        }
+        
+        m_inputController.Player.Roll.started += _ => StartCoroutine(Dash());
+        
+        
+        switch (m_rollTimer)
+        {
+            case > 0:
+                m_rollTimer -= Time.deltaTime;
+                m_canRoll = false;
+                break;
+            case <= 0:
+                m_canRoll = true;
+                break;
+        }
+
         NormalMove();
 
     }
-    
-    
-    private void NormalMove()
+
+    IEnumerator Dash()
     {
-        if (playerStateMachine != PlayerStateMachine.ATTACK)
+        if (m_canRoll)
         {
-            m_rb.velocity = m_moveDirection * speed;
-            playerStateMachine = PlayerStateMachine.MOVE;
-        }
+            m_isRolling = true;
+            m_canRoll = false;
+
+            m_speed = rollSpeed;
         
+            yield return new WaitForSeconds(rollDuration);
+        
+            m_rollTimer = rollCooldown;
+
+            m_speed = moveSpeed;
+            m_isRolling = false;
+        }
+    }
+
+
+    private void NormalMove()
+    { 
+        //le joueur se déplace dans la direction où le joystick est dirigé avec une vitesse donné
+        m_rb.velocity = m_moveDirection * m_speed;
+
         if (m_moveDirection != Vector3.zero)
-        { 
-           
-            //change the look direction to the last move direction
+        {
+            //le joueur regarde dans la direction où il se déplace
             Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection); 
             m_rb.MoveRotation(lookRotation);
-            
-            //switch the state of player to MOVE, which means the player is moving
-            
         }
         
     }
@@ -76,13 +110,11 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("ATTACK !");
         attackDamage = 1;
         
-        playerStateMachine = PlayerStateMachine.ATTACK;
-        
-        m_animator.SetFloat("AttackSpeed", attackSpeed);
+        m_animator.SetFloat(AttackSpeed, attackSpeed);
         m_animator.Play("attack_first");
     }
 
-    private void ResetState()
+    public void ResetState()
     {
         playerStateMachine = PlayerStateMachine.IDLE;
     }
