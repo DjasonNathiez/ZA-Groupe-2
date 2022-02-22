@@ -1,16 +1,17 @@
 using System.Collections;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
     private InputController m_inputController;
-    private Rigidbody m_rb;
+    public Rigidbody m_rb;
     private Animator m_animator;
     private PlayerInput m_playerInput;
 
-
+    private LineRenderer m_lineRenderer;
     private Vector2 mousePos;
     
     [Header("Player States")]
@@ -39,19 +40,27 @@ public class PlayerManager : MonoBehaviour
     [Range(0,1)] public float rollDuration;
     public float rollCooldown;
     private float m_rollTimer;
-    private bool m_canRoll;
+    [SerializeField] private bool m_canRoll;
     private bool m_isRolling;
+    public GameObject pinObj;
+    public GameObject pinPosBase;
+    
+    private GameObject objInFront;
 
+    private TestRope m_rope;
+
+    public GameObject weaponObj;
 
     private void Awake()
     {
         m_inputController = new InputController();
         m_animator = GetComponent<Animator>();
         m_rb = GetComponent<Rigidbody>();
+        m_rope = GetComponent<TestRope>();
         m_playerInput = GetComponent<PlayerInput>();
 
         m_playerInput.actions = m_inputController.asset;
-        
+        m_canRoll = true;
         m_speed = moveSpeed;
     }
 
@@ -61,9 +70,13 @@ public class PlayerManager : MonoBehaviour
       
         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
         m_inputController.Player.Melee.started += _ => LoadAttack();
-        
-        
-        
+
+
+        if (objInFront)
+        {
+            m_inputController.Player.Rope.started += _ => PinToObject();
+        }
+
         m_inputController.Player.Roll.started += _ => StartCoroutine(Dash());
 
         switch (m_rollTimer)
@@ -76,12 +89,8 @@ public class PlayerManager : MonoBehaviour
                 m_canRoll = true;
                 break;
         }
-
-        if (!m_isRolling)
-        {
-            NormalMove();
-        }
-
+        
+        NormalMove();
     }
 
     IEnumerator Dash()
@@ -89,7 +98,6 @@ public class PlayerManager : MonoBehaviour
         if (m_canRoll)
         {
             m_isRolling = true;
-            m_canRoll = false;
 
             m_speed = rollSpeed;
         
@@ -102,19 +110,40 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void PinToObject()
+    {
+        m_rope.pin = pinObj;
+        
+        m_rope.isPinned = !m_rope.isPinned;
+        
+        pinObj.transform.SetParent(objInFront.transform);
+        pinObj.transform.position = objInFront.GetComponent<Pinnable>().pinPoint.transform.position;
 
+        if (objInFront.GetComponent<Pinnable>().canBeGrab)
+        {
+            m_rope.pinnedToObject = true;
+            m_rope.pinnedRb = objInFront.GetComponent<Rigidbody>();
+            m_rope.pinnedObjectDistance = Vector3.Distance(transform.position, pinObj.transform.position);
+        }
+        m_lineRenderer.enabled = true;
+    }
+
+    public void SetFrontObject(GameObject detectedObj)
+    {
+        objInFront = detectedObj;
+    }
+    
     private void NormalMove()
     { 
         //le joueur se déplace dans la direction où le joystick est dirigé avec une vitesse donné
         m_rb.velocity = m_moveDirection * m_speed;
-        
-        
-            //le joueur regarde dans la direction où il se déplace
-            var lookRotation = Quaternion.LookRotation(m_moveDirection);
-            m_rb.MoveRotation(lookRotation);
-        
-        
 
+        //le joueur regarde dans la direction où il se déplace
+        if (m_moveDirection != Vector3.zero)
+        {
+                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
+                m_rb.MoveRotation(lookRotation);
+        }
     }
 
     private void LoadAttack()
