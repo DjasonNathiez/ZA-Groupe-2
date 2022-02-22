@@ -98,6 +98,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""cea91d65-ef52-4ce6-ba04-1d032d572842"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -551,6 +560,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""Rope"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""940874a0-dc76-4b3e-8d61-2368cf6c2f6c"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -617,6 +637,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
         m_Player_Rope = m_Player.FindAction("Rope", throwIfNotFound: true);
+        m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -684,6 +705,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Map;
     private readonly InputAction m_Player_Rope;
+    private readonly InputAction m_Player_MousePosition;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -696,6 +718,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Map => m_Wrapper.m_Player_Map;
         public InputAction @Rope => m_Wrapper.m_Player_Rope;
+        public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -729,6 +752,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Rope.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRope;
                 @Rope.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRope;
                 @Rope.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRope;
+                @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -757,6 +783,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Rope.started += instance.OnRope;
                 @Rope.performed += instance.OnRope;
                 @Rope.canceled += instance.OnRope;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -807,5 +836,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnMap(InputAction.CallbackContext context);
         void OnRope(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

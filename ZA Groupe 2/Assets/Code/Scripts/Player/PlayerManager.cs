@@ -1,12 +1,18 @@
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
     private InputController m_inputController;
     private Rigidbody m_rb;
     private Animator m_animator;
+    private PlayerInput m_playerInput;
 
+
+    private Vector2 mousePos;
+    
     [Header("Player States")]
     public ControlState controlState;
     public enum ControlState {NORMAL, MOUNT, UI }
@@ -42,21 +48,24 @@ public class PlayerManager : MonoBehaviour
         m_inputController = new InputController();
         m_animator = GetComponent<Animator>();
         m_rb = GetComponent<Rigidbody>();
+        m_playerInput = GetComponent<PlayerInput>();
+
+        m_playerInput.actions = m_inputController.asset;
+        
+        m_speed = moveSpeed;
     }
 
     private void Update()
     {
         m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
+      
+        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+        m_inputController.Player.Melee.started += _ => LoadAttack();
         
-        if (!m_isRolling)
-        {
-            m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-            m_inputController.Player.Melee.started += _ => LoadAttack();
-        }
+        
         
         m_inputController.Player.Roll.started += _ => StartCoroutine(Dash());
-        
-        
+
         switch (m_rollTimer)
         {
             case > 0:
@@ -68,7 +77,10 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
 
-        NormalMove();
+        if (!m_isRolling)
+        {
+            NormalMove();
+        }
 
     }
 
@@ -95,19 +107,20 @@ public class PlayerManager : MonoBehaviour
     { 
         //le joueur se déplace dans la direction où le joystick est dirigé avec une vitesse donné
         m_rb.velocity = m_moveDirection * m_speed;
-
-        if (m_moveDirection != Vector3.zero)
-        {
-            //le joueur regarde dans la direction où il se déplace
-            Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection); 
-            m_rb.MoveRotation(lookRotation);
-        }
         
+        
+            //le joueur regarde dans la direction où il se déplace
+            var lookRotation = Quaternion.LookRotation(m_moveDirection);
+            m_rb.MoveRotation(lookRotation);
+        
+        
+
     }
 
     private void LoadAttack()
     {
-        Debug.Log("ATTACK !");
+        Debug.Log(m_playerInput.currentControlScheme);
+
         attackDamage = 1;
         
         m_animator.SetFloat(AttackSpeed, attackSpeed);

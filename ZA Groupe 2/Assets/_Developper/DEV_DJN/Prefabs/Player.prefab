@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8751123335236686186}
   - component: {fileID: 8751123335236686187}
   - component: {fileID: 8751123335236686188}
+  - component: {fileID: 118889164}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae7dd5a6b71315041854b5f6ba4c1891, type: 2}
+  - {fileID: 2100000, guid: 002cfc82a384ccd48b238a40ed54594f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,85 +132,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7eae4262be4bd4469ada03431eff8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlerState: 0
+  controlState: 0
   playerStateMachine: 0
-  moveInput: 1
-  attackInput: 3
-  speed: 3.75
+  moveSpeed: 3.75
   attackDamage: 1
   attackSpeed: 2.2
-  leftButtonValue: 0
-  leftButtonStarted: 0
-  leftButtonPerformed: 0
-  leftButtonCancel: 0
-  rightButtonValue: 0
-  rightButtonStarted: 0
-  rightButtonPerformed: 0
-  rightButtonCancel: 0
-  upButtonValue: 0
-  upButtonStarted: 0
-  upButtonPerformed: 0
-  upButtonCancel: 0
-  downButtonValue: 0
-  downButtonStarted: 0
-  downButtonPerformed: 0
-  downButtonCancel: 0
-  dpadLeftButtonValue: 0
-  dpadLeftButtonStarted: 0
-  dpadLeftButtonPerformed: 0
-  dpadLeftButtonCancel: 0
-  dpadRightButtonValue: 0
-  dpadRightButtonStarted: 0
-  dpadRightButtonPerformed: 0
-  dpadRightButtonCancel: 0
-  dpadUpButtonValue: 0
-  dpadUpButtonStarted: 0
-  dpadUpButtonPerformed: 0
-  dpadUpButtonCancel: 0
-  dpadDownButtonValue: 0
-  dpadDownButtonStarted: 0
-  dpadDownButtonPerformed: 0
-  dpadDownButtonCancel: 0
-  startButtonValue: 0
-  startButtonStarted: 0
-  startButtonPerformed: 0
-  startButtonCancel: 0
-  selectButtonValue: 0
-  selectButtonStarted: 0
-  selectButtonPerformed: 0
-  selectButtonCancel: 0
-  leftStickButtonValue: 0
-  leftStickButtonStarted: 0
-  leftStickButtonPerformed: 0
-  leftStickButtonCancel: 0
-  rightStickButtonValue: 0
-  rightStickButtonStarted: 0
-  rightStickButtonPerformed: 0
-  rightStickButtonCancel: 0
-  leftShoulderButtonValue: 0
-  leftShoulderButtonStarted: 0
-  leftShoulderButtonPerformed: 0
-  leftShoulderButtonCancel: 0
-  rightShoulderButtonValue: 0
-  rightShoulderButtonStarted: 0
-  rightShoulderButtonPerformed: 0
-  rightShoulderButtonCancel: 0
-  leftStickAxis: {x: 0, y: 0}
-  leftAxisStarted: 0
-  leftAxisPerformed: 0
-  leftAxisCancel: 0
-  rightStickAxis: {x: 0, y: 0}
-  rightAxisStarted: 0
-  rightAxisPerformed: 0
-  rightAxisCancel: 0
-  rightTriggerValue: 0
-  rightTriggerStarted: 0
-  rightTriggerPerformed: 0
-  rightTriggerCancel: 0
-  leftTriggerValue: 0
-  leftTriggerStarted: 0
-  leftTriggerPerformed: 0
-  leftTriggerCancel: 0
+  rollSpeed: 9
+  rollDuration: 0.3
+  rollCooldown: 1.2
 --- !u!95 &8751123335236686188
 Animator:
   serializedVersion: 4
@@ -230,6 +160,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &118889164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8751123335236686197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &8751123335407264961
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +252,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 96985bdedf76b8b4d9f398b51d054547, type: 2}
+  - {fileID: 2100000, guid: 82e6cb2b628cda4478bc86d0a186a9bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
