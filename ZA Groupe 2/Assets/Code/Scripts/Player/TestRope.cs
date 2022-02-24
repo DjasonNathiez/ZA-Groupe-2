@@ -43,6 +43,14 @@ public class TestRope : MonoBehaviour
             
             m_playerManager.pinObj.transform.SetParent(m_playerManager.weaponObj.transform);
             m_playerManager.pinObj.transform.position = m_playerManager.pinPosBase.transform.position;
+
+            // if (nodes.Count != 0)
+            // {
+            //     foreach (Node n in nodes)
+            //     {
+            //         nodes.Remove(n);
+            //     }
+            // }
         }
     }
 
