@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager instance;
+    
     private InputController m_inputController;
     public Rigidbody m_rb;
     private Animator m_animator;
@@ -31,6 +33,8 @@ public class PlayerManager : MonoBehaviour
     public int attackDamage;
     public float attackSpeed;
 
+    [SerializeField] private Attack m_attack;
+    
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
@@ -53,6 +57,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        
         m_inputController = new InputController();
         m_animator = GetComponent<Animator>();
         m_rb = GetComponent<Rigidbody>();
@@ -151,6 +160,8 @@ public class PlayerManager : MonoBehaviour
         Debug.Log(m_playerInput.currentControlScheme);
 
         attackDamage = 1;
+
+        m_attack.isAttacking = true;
         
         m_animator.SetFloat(AttackSpeed, attackSpeed);
         m_animator.Play("attack_first");
@@ -159,6 +170,7 @@ public class PlayerManager : MonoBehaviour
     public void ResetState()
     {
         playerStateMachine = PlayerStateMachine.IDLE;
+        m_attack.isAttacking = false;
     }
     
 
