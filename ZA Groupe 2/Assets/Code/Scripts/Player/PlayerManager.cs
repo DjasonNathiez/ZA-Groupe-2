@@ -85,7 +85,6 @@ public class PlayerManager : MonoBehaviour
     private void Update()
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
-
         m_inputController.Player.Melee.started += _ => LoadAttack();
 
         if (objInFront)
