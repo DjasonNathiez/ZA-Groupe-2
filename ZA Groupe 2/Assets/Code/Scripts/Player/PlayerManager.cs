@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using DG.Tweening;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,7 +16,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerInput m_playerInput;
 
     private LineRenderer m_lineRenderer;
-    private Vector2 mousePos;
+    [SerializeField] private Vector2 mousePos;
     
     [Header("Player States")]
     public ControlState controlState;
@@ -28,6 +30,8 @@ public class PlayerManager : MonoBehaviour
     public float moveSpeed;
     
     private Vector3 m_moveDirection;
+    
+    public float rotationSpeed;
     
     [Header("Attack")]
     public int attackDamage;
@@ -55,6 +59,7 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject weaponObj;
 
+    
     private void Awake()
     {
         if (instance == null)
@@ -80,7 +85,6 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
         m_inputController.Player.Melee.started += _ => LoadAttack();
 
-
         if (objInFront)
         {
             m_inputController.Player.Rope.started += _ => PinToObject();
@@ -98,8 +102,16 @@ public class PlayerManager : MonoBehaviour
                 m_canRoll = true;
                 break;
         }
-        
-        NormalMove();
+
+        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
+            KeyboardMove();
+        }
+        else
+        {
+            GamepadMove();
+        }
     }
 
     IEnumerator Dash()
@@ -142,7 +154,7 @@ public class PlayerManager : MonoBehaviour
         objInFront = detectedObj;
     }
     
-    private void NormalMove()
+    private void GamepadMove()
     { 
         //le joueur se déplace dans la direction où le joystick est dirigé avec une vitesse donné
         m_rb.velocity = m_moveDirection * m_speed;
@@ -155,16 +167,35 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void KeyboardMove()
+    {
+        m_rb.velocity = m_moveDirection * m_speed;
+;
+     if (m_moveDirection != Vector3.zero && !m_attack.isAttacking)
+        {
+            Quaternion lookRot = Quaternion.LookRotation(m_moveDirection);
+            m_rb.DORotate(lookRot.eulerAngles, rotationSpeed);
+        }
+    }
+
     private void LoadAttack()
     {
-        Debug.Log(m_playerInput.currentControlScheme);
-
-        attackDamage = 1;
-
-        m_attack.isAttacking = true;
+        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Ray ray = Camera.main.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Vector3 lookDir = new Vector3(hit.point.x, 0 , hit.point.z);
+                transform.LookAt(lookDir);
+                Debug.Log(hit.point);
+            }
+        }
         
+        m_attack.isAttacking = true;
         m_animator.SetFloat(AttackSpeed, attackSpeed);
         m_animator.Play("attack_first");
+
+       
     }
 
     public void ResetState()

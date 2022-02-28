@@ -8,9 +8,14 @@ public class Attack : MonoBehaviour
    public bool isAttacking;
    private void OnTriggerEnter(Collider other)
    {
-      if (other.GetComponent<AIBrain>().canBeAttacked && isAttacking)
+      AIBrain iaBrain = other.GetComponent<AIBrain>();
+      
+      if (iaBrain)
       {
-         other.GetComponent<AIBrain>().GetHurt(PlayerManager.instance.attackDamage);
+         if (iaBrain.canBeAttacked)
+         {
+            iaBrain.GetHurt(PlayerManager.instance.attackDamage);
+         }
       }
       
    }
