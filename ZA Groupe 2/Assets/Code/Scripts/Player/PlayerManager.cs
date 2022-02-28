@@ -36,7 +36,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Attack")]
     public int attackDamage;
     public float attackSpeed;
-
     [SerializeField] private Attack m_attack;
     
     //Animations
@@ -80,9 +79,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-      
-        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+       
+
         m_inputController.Player.Melee.started += _ => LoadAttack();
 
         if (objInFront)
@@ -103,15 +101,13 @@ public class PlayerManager : MonoBehaviour
                 break;
         }
 
-        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
             m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
-            KeyboardMove();
-        }
-        else
-        {
-            GamepadMove();
-        }
+
+            m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
+            
+            Move();
+            Rotation();
     }
 
     IEnumerator Dash()
@@ -154,48 +150,60 @@ public class PlayerManager : MonoBehaviour
         objInFront = detectedObj;
     }
     
-    private void GamepadMove()
-    { 
-        //le joueur se déplace dans la direction où le joystick est dirigé avec une vitesse donné
-        m_rb.velocity = m_moveDirection * m_speed;
-
-        //le joueur regarde dans la direction où il se déplace
-        if (m_moveDirection != Vector3.zero)
-        {
-                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
-                m_rb.MoveRotation(lookRotation);
-        }
-    }
-
-    private void KeyboardMove()
+    private void Move()
     {
-        m_rb.velocity = m_moveDirection * m_speed;
-;
-     if (m_moveDirection != Vector3.zero && !m_attack.isAttacking)
+        if (!m_attack.isAttacking)
         {
-            Quaternion lookRot = Quaternion.LookRotation(m_moveDirection);
-            m_rb.DORotate(lookRot.eulerAngles, rotationSpeed);
+            m_rb.velocity = m_moveDirection * m_speed;
+        }
+        else
+        {
+            m_rb.velocity = Vector3.zero;
         }
     }
 
     private void LoadAttack()
     {
-        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
-            Ray ray = Camera.main.ScreenPointToRay(mousePos);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Vector3 lookDir = new Vector3(hit.point.x, 0 , hit.point.z);
-                transform.LookAt(lookDir);
-                Debug.Log(hit.point);
-            }
-        }
-        
+        playerStateMachine = PlayerStateMachine.ATTACK;
         m_attack.isAttacking = true;
         m_animator.SetFloat(AttackSpeed, attackSpeed);
         m_animator.Play("attack_first");
+    }
 
-       
+    private void Rotation()
+    {
+        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            switch (m_attack.isAttacking)
+            {
+                case true :
+                    if (Camera.main)
+                    {
+                        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
+                        Vector3 aimDirection = (mousePosition - transform.position).normalized;
+                
+                        Quaternion lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
+                        m_rb.DORotate(lookRot.eulerAngles, 0);
+                    }
+                    break;
+                
+                case false :
+                    if (m_moveDirection != Vector3.zero)
+                    {
+                        Quaternion lookRot = Quaternion.LookRotation(m_moveDirection);
+                        m_rb.DORotate(lookRot.eulerAngles, rotationSpeed);
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            if (m_moveDirection != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
+                m_rb.MoveRotation(lookRotation);
+            }
+        }
     }
 
     public void ResetState()
