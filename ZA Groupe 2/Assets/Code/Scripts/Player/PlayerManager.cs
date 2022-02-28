@@ -71,7 +71,12 @@ public class PlayerManager : MonoBehaviour
         m_rb = GetComponent<Rigidbody>();
         m_rope = GetComponent<TestRope>();
         m_playerInput = GetComponent<PlayerInput>();
+    }
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        
         m_playerInput.actions = m_inputController.asset;
         m_canRoll = true;
         m_speed = moveSpeed;
@@ -79,7 +84,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-       
+        Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
 
         m_inputController.Player.Melee.started += _ => LoadAttack();
 
