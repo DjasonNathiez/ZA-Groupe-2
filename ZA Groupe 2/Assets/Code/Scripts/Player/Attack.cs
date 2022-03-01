@@ -12,10 +12,7 @@ public class Attack : MonoBehaviour
       
       if (iaBrain)
       {
-         if (iaBrain.canBeAttacked)
-         {
-            iaBrain.GetHurt(PlayerManager.instance.attackDamage);
-         }
+          iaBrain.GetHurt(PlayerManager.instance.attackDamage);
       }
       
    }
