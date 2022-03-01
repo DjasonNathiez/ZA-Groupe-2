@@ -60,11 +60,16 @@ public class LionBehaviour : MonoBehaviour
                 break;
             
             case StateMachine.ATTACK:
-                
+                AttackPlayer();
                 break;
         }
     }
 
+    private void AttackPlayer()
+    {
+        Debug.Log("Attack");
+    }
+    
     private void ChasePlayer()
     {
         m_nav.SetDestination(m_player.transform.position);
