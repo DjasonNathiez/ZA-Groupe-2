@@ -109,7 +109,7 @@ NavMeshSettings:
     agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.25
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0b585e8779abb1d448d8cb8a7db7993c, type: 2}
 --- !u!1 &69893969
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +157,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -492,7 +492,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &1104243794
 MeshCollider:
@@ -604,8 +604,8 @@ Transform:
   - {fileID: 1104243797}
   - {fileID: 1488866535}
   - {fileID: 1377848226}
-  - {fileID: 1756586163}
   - {fileID: 1792618315}
+  - {fileID: 1756586163}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
@@ -1039,6 +1039,7 @@ GameObject:
   - component: {fileID: 1405260035}
   - component: {fileID: 1405260041}
   - component: {fileID: 1405260040}
+  - component: {fileID: 1405260042}
   m_Layer: 0
   m_Name: Enemy_CAC_Lion
   m_TagString: Untagged
@@ -1140,7 +1141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1405260034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.138955, y: 1.9, z: -15.268542}
+  m_LocalPosition: {x: 9.138955, y: 0.76, z: -15.268542}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1182,6 +1183,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stateMachine: 0
+--- !u!54 &1405260042
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405260034}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
 --- !u!1 &1488866531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488866531}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.53116, y: -19.63, z: 18.415325}
+  m_LocalPosition: {x: 22.53116, y: -19.7, z: 18.415325}
   m_LocalScale: {x: 1, y: 2.64, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1460,7 +1477,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1144647758}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1756586164
 Rigidbody:
@@ -1562,7 +1579,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1792618315
 Transform:
   m_ObjectHideFlags: 0
@@ -1578,7 +1595,7 @@ Transform:
   - {fileID: 1906919720}
   - {fileID: 274439797}
   m_Father: {fileID: 1144647758}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1792618316
 Rigidbody:
