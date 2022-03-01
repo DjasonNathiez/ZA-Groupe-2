@@ -5,21 +5,65 @@ using UnityEngine;
 
 public class AIBrain : MonoBehaviour
 {
-    public bool canBeAttacked;
-
+    [SerializeField] private AIData aiData;
+    
+    //move
+    public float moveSpeed;
+    
+    //health
     public int currentHealth;
     public int maxHealth;
 
+    //attack
+    public int attackDamage;
+    public float attackRange;
+    public float attackSpeed;
+    
+    //detection
+    public float dectectionRange;
+    
+    //state
+    public bool isInvincible;
+    public bool isStun;
+
+    private void InitializationData()
+    {
+        maxHealth = aiData.health;
+        attackDamage = aiData.attackDamage;
+        attackSpeed = aiData.attackSpeed;
+        attackRange = aiData.attackRange;
+        moveSpeed = aiData.moveSpeed;
+        dectectionRange = aiData.detectionRange;
+        currentHealth = maxHealth;
+    }
+    
     private void Awake()
     {
-        currentHealth = maxHealth;
+        InitializationData();
     }
 
     public void GetHurt(int damage)
     {
-        if (currentHealth > 0)
+
+        if (!isInvincible)
         {
-            currentHealth -= damage;
+
+            switch (currentHealth)
+            {
+                case > 0:
+                    currentHealth -= damage;
+                    break;
+                
+                case <= 0:
+                    Death();
+                    break;
+            }
+
         }
+    }
+
+    private void Death()
+    {
+        
     }
 }
