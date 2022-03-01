@@ -49,23 +49,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: IgnoreRaycast BehingWall
+  m_Name: Opaque Ignore Raycast Normal
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: RenderObjects
+    passTag: Opaque Ignore Raycast Normal
     Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 4
       PassNames: []
     overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
-    overrideDepthState: 0
+    overrideDepthState: 1
     depthCompareFunction: 4
-    enableWrite: 1
+    enableWrite: 0
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
@@ -99,7 +99,9 @@ MonoBehaviour:
   - {fileID: -8869960153268445538}
   - {fileID: 2719998034625534407}
   - {fileID: -7981455345528032725}
-  m_RendererFeatureMap: 2404a1c33755a514a365efd58e377f438bf30a01309869729e9e90543c92e784c7999d23cd5fbf252bb2289ba62c3c91
+  - {fileID: 2373531317878789056}
+  - {fileID: 2394799550335100430}
+  m_RendererFeatureMap: 2404a1c33755a514a365efd58e377f438bf30a01309869729e9e90543c92e784c7999d23cd5fbf252bb2289ba62c3c91c0136e79287af0200e26fdb980093c21
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -118,10 +120,10 @@ MonoBehaviour:
   m_AssetVersion: 1
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 55
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 51
+    m_Bits: 55
   m_DefaultStencilState:
     overrideStencilState: 0
     stencilReference: 0
@@ -175,6 +177,84 @@ MonoBehaviour:
       restoreCamera: 1
       offset: {x: 0, y: 0, z: 0, w: 0}
       cameraFieldOfView: 60
+--- !u!114 &2373531317878789056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: Transparent Ignore Raycast Behind Wall
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: Transparent Ignore Raycast Behind Wall
+    Event: 500
+    filterSettings:
+      RenderQueueType: 1
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 4
+      PassNames: []
+    overrideMaterial: {fileID: 2100000, guid: b2863632061943541bb453e00c1e2752, type: 2}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 1
+    depthCompareFunction: 5
+    enableWrite: 0
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
+--- !u!114 &2394799550335100430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
+  m_Name: Transparent Ignore Raycast Normal
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    passTag: Transparent Ignore Raycast Normal
+    Event: 500
+    filterSettings:
+      RenderQueueType: 0
+      LayerMask:
+        serializedVersion: 2
+        m_Bits: 4
+      PassNames: []
+    overrideMaterial: {fileID: 0}
+    overrideMaterialPassIndex: 0
+    overrideDepthState: 1
+    depthCompareFunction: 4
+    enableWrite: 0
+    stencilSettings:
+      overrideStencilState: 0
+      stencilReference: 0
+      stencilCompareFunction: 8
+      passOperation: 0
+      failOperation: 0
+      zFailOperation: 0
+    cameraSettings:
+      overrideCamera: 0
+      restoreCamera: 1
+      offset: {x: 0, y: 0, z: 0, w: 0}
+      cameraFieldOfView: 60
 --- !u!114 &2719998034625534407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,11 +265,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: IgnoreRaycast BehingWall
+  m_Name: Opaque IgnoreRaycast BehindWall
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: IgnoreRaycast BehingWall
+    passTag: Opaque IgnoreRaycast BehindWall
     Event: 300
     filterSettings:
       RenderQueueType: 0
@@ -197,11 +277,11 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 4
       PassNames: []
-    overrideMaterial: {fileID: 0}
+    overrideMaterial: {fileID: 2100000, guid: b2863632061943541bb453e00c1e2752, type: 2}
     overrideMaterialPassIndex: 0
-    overrideDepthState: 0
-    depthCompareFunction: 4
-    enableWrite: 1
+    overrideDepthState: 1
+    depthCompareFunction: 5
+    enableWrite: 0
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0

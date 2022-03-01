@@ -41,6 +41,11 @@ public class PlayerManager : MonoBehaviour
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
+    [Header("DistanceAttack")]
+    public GameObject throwingWeapon;
+    public float throwingSpeed;
+    public Vector3 direction;
+    public string state = "StatusQuo";
 
     [Header("Roll")]
     public float rollSpeed;
@@ -54,7 +59,7 @@ public class PlayerManager : MonoBehaviour
     
     private GameObject objInFront;
 
-    private TestRope m_rope;
+    public TestRope m_rope;
 
     public GameObject weaponObj;
 
@@ -86,10 +91,19 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
         m_inputController.Player.Melee.started += _ => LoadAttack();
-
-        if (objInFront)
+        Debug.Log(state);
+        switch (state)
         {
-            m_inputController.Player.Rope.started += _ => PinToObject();
+            case "StatusQuo":
+                m_inputController.Player.Range.started += _ => Throw();
+                break;
+            case "Rope":
+                m_inputController.Player.Range.started += _ => Rewind();
+                break;
+            case "Throw":
+                throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
+                break;
+            default: return;
         }
 
         m_inputController.Player.Roll.started += _ => StartCoroutine(Dash());
@@ -134,9 +148,7 @@ public class PlayerManager : MonoBehaviour
     private void PinToObject()
     {
         m_rope.pin = pinObj;
-        
-        m_rope.isPinned = !m_rope.isPinned;
-        
+
         pinObj.transform.SetParent(objInFront.transform);
         pinObj.transform.position = objInFront.GetComponent<Pinnable>().pinPoint.transform.position;
 
@@ -163,6 +175,32 @@ public class PlayerManager : MonoBehaviour
         else
         {
             m_rb.velocity = Vector3.zero;
+        }
+    }
+    
+    private void Throw()
+    {
+        if(state == "StatusQuo")
+        {
+            Debug.Log("The Throwing at " + state + "1");
+            throwingWeapon.SetActive(true);
+            throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
+            throwingWeapon.transform.LookAt(throwingWeapon.transform.position+transform.forward);
+            direction = Vector3.forward;
+            state = "Throw";
+            m_rope.enabled = true;
+            m_rope.rope.gameObject.SetActive(true);
+            Debug.Log("The Throwing at " + state + "2");   
+        }
+    }
+    
+    public void Rewind()
+    {
+        if (state == "Rope")
+        {
+            m_rope.rewinding = true;
+            Debug.Log("The Rewinding at " + state);
+            Debug.Log(m_rope.rewinding);
         }
     }
 
