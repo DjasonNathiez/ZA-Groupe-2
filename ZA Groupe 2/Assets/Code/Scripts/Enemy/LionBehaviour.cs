@@ -8,7 +8,8 @@ public class LionBehaviour : MonoBehaviour
 {
     private NavMeshAgent m_nav;
     private GameObject m_player;
-    private AIBrain m_aiBrain;
+    //retirer le Serialize quand fini
+    [SerializeField] private AIBrain m_aiBrain;
     
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK}

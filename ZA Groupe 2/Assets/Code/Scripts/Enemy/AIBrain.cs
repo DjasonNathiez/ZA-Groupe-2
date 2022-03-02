@@ -36,7 +36,13 @@ public class AIBrain : MonoBehaviour
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
     }
-    
+
+    //retirer quand fini
+    private void OnValidate()
+    {
+        InitializationData();
+    }
+
     private void Awake()
     {
         InitializationData();

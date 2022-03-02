@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using DG.Tweening;
 using Unity.Mathematics;
 using Unity.VisualScripting;
@@ -26,7 +27,7 @@ public class PlayerManager : MonoBehaviour
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
 
     [Header("Movement")] 
-    private float m_speed;
+    [SerializeField] private float m_speed;
     public float moveSpeed;
     
     private Vector3 m_moveDirection;
@@ -54,6 +55,11 @@ public class PlayerManager : MonoBehaviour
     private float m_rollTimer;
     [SerializeField] private bool m_canRoll;
     private bool m_isRolling;
+
+    public AnimationCurve animationCurve;
+    public float lerpTime;
+    [SerializeField] private float m_acTimer;
+
     public GameObject pinObj;
     public GameObject pinPosBase;
     
@@ -85,6 +91,10 @@ public class PlayerManager : MonoBehaviour
         m_playerInput.actions = m_inputController.asset;
         m_canRoll = true;
         m_speed = moveSpeed;
+        
+        
+        animationCurve.keys[animationCurve.length -1].time = rollDuration;
+        m_acTimer = animationCurve.keys[animationCurve.length -1].time;
     }
 
     private void Update()
@@ -106,7 +116,10 @@ public class PlayerManager : MonoBehaviour
             default: return;
         }
 
-        m_inputController.Player.Roll.started += _ => StartCoroutine(Dash());
+        if (m_canRoll)
+        {
+            m_inputController.Player.Roll.started += _ => m_isRolling = true;
+        }
 
         switch (m_rollTimer)
         {
@@ -121,27 +134,35 @@ public class PlayerManager : MonoBehaviour
 
             m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
 
-            m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            if (!m_isRolling)
+            {
+                m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+            }
+            
             m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
             
             Move();
             Rotation();
+            Dash();
     }
 
-    IEnumerator Dash()
+    private void Dash()
     {
-        if (m_canRoll)
+        if (m_isRolling)
         {
-            m_isRolling = true;
-
-            m_speed = rollSpeed;
+            m_canRoll = false;
+            
+            m_acTimer -= Time.deltaTime; 
         
-            yield return new WaitForSeconds(rollDuration);
+            m_speed = animationCurve.Evaluate(m_acTimer);
         
-            m_rollTimer = rollCooldown;
-
-            m_speed = moveSpeed;
-            m_isRolling = false;
+            if (m_acTimer <= 0)
+            {
+                m_speed = moveSpeed;
+                m_isRolling = false;
+                m_rollTimer = rollCooldown;
+                m_acTimer = animationCurve.keys[animationCurve.length -1].time;
+            }
         }
     }
 
@@ -253,7 +274,6 @@ public class PlayerManager : MonoBehaviour
         playerStateMachine = PlayerStateMachine.IDLE;
         m_attack.isAttacking = false;
     }
-    
 
     private void OnEnable()
     {
