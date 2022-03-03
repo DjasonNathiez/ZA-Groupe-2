@@ -34,14 +34,16 @@ public class SpawnArea : MonoBehaviour
     public GameObject[] spawnableList;
 
     private Vector3 spawnPoint;
+    public Vector3 pathPoint;
 
     private void OnValidate()
     {
         SetArea();
     }
 
-    void Start()
+    private void Awake()
     {
+        
         SetArea();
         SpawnEnemy();
     }
@@ -76,10 +78,9 @@ public class SpawnArea : MonoBehaviour
         
     }
 
-    public Vector3 GetPositionInArea()
+    public void GeneratePositionInArea()
     {
-        spawnPoint = new Vector3(UnityEngine.Random.Range(minX, maxX), 0, UnityEngine.Random.Range(minZ, maxZ));
-        return spawnPoint;
+        pathPoint = new Vector3(UnityEngine.Random.Range(minX, maxX), 0, UnityEngine.Random.Range(minZ, maxZ));
     }
 
     void SpawnEnemy()

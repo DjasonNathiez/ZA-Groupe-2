@@ -15,6 +15,8 @@ public class LionBehaviour : MonoBehaviour
     public enum StateMachine{IDLE, CHASE, ATTACK}
 
     private float distanceToPlayer;
+
+    private Vector3 m_goToPoint;
     
     private void Awake()
     {
@@ -30,6 +32,7 @@ public class LionBehaviour : MonoBehaviour
     {
         m_nav.speed = m_aiBrain.moveSpeed;
         m_nav.stoppingDistance = m_aiBrain.attackRange;
+        
         SetNav();
     }
 
@@ -44,7 +47,7 @@ public class LionBehaviour : MonoBehaviour
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                //do nothing
+                TravelToPoint();
                 break;
             
             case StateMachine.CHASE:
@@ -62,7 +65,6 @@ public class LionBehaviour : MonoBehaviour
                 break;
             
             case StateMachine.ATTACK:
-                AttackPlayer();
                 break;
         }
     }
@@ -74,20 +76,31 @@ public class LionBehaviour : MonoBehaviour
     
     private void SetNav()
     {
-        if (m_aiBrain.spawnPoint)
+        m_aiBrain.spawnPoint.GeneratePositionInArea();
+        
+        m_goToPoint = m_aiBrain.spawnPoint.pathPoint;
+        
+        Debug.Log("New point is " + m_goToPoint);
+    }
+
+    private void TravelToPoint()
+    {
+        var distanceToPoint = Vector3.Distance(transform.position, m_goToPoint);
+
+        switch (distanceToPoint)
         {
-            Vector3 pointA; //spawn point
-            Vector3 pointB; //point to go
-
-            pointA = transform.position;
-            pointB = m_aiBrain.spawnPoint.GetPositionInArea();
-
-            m_nav.SetDestination(pointB);
+            case >= 0.5f:
+                m_nav.SetDestination(m_goToPoint);
+                break;
             
-            Debug.Log(pointB);
+            case <= 0.5f:
+                Debug.Log(this.gameObject.name + " is on point.");
+                SetNav();
+                break;
         }
     }
     
+
     private void ChasePlayer()
     {
         m_nav.SetDestination(m_player.transform.position);
