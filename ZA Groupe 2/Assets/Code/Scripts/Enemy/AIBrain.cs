@@ -6,6 +6,7 @@ using UnityEngine;
 public class AIBrain : MonoBehaviour
 {
     [SerializeField] private AIData aiData;
+    public SpawnArea spawnPoint;
     
     //move
     public float moveSpeed;
@@ -35,6 +36,11 @@ public class AIBrain : MonoBehaviour
         moveSpeed = aiData.moveSpeed;
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
+    }
+
+    public void SetSpawnPoint(SpawnArea spawnArea)
+    {
+        spawnPoint = spawnArea;
     }
 
     //retirer quand fini
@@ -70,6 +76,6 @@ public class AIBrain : MonoBehaviour
 
     private void Death()
     {
-        
+        Destroy(this.gameObject);
     }
 }

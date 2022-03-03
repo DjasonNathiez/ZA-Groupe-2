@@ -30,6 +30,7 @@ public class LionBehaviour : MonoBehaviour
     {
         m_nav.speed = m_aiBrain.moveSpeed;
         m_nav.stoppingDistance = m_aiBrain.attackRange;
+        SetNav();
     }
 
     private void Update()
@@ -69,6 +70,22 @@ public class LionBehaviour : MonoBehaviour
     private void AttackPlayer()
     {
         Debug.Log("Attack");
+    }
+    
+    private void SetNav()
+    {
+        if (m_aiBrain.spawnPoint)
+        {
+            Vector3 pointA; //spawn point
+            Vector3 pointB; //point to go
+
+            pointA = transform.position;
+            pointB = m_aiBrain.spawnPoint.GetPositionInArea();
+
+            m_nav.SetDestination(pointB);
+            
+            Debug.Log(pointB);
+        }
     }
     
     private void ChasePlayer()
