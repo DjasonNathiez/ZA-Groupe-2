@@ -101,7 +101,7 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
         m_inputController.Player.Melee.started += _ => LoadAttack();
-        Debug.Log(state);
+//        Debug.Log(state);
         switch (state)
         {
             case "StatusQuo":
