@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class LionBehaviour : MonoBehaviour
 {
+    private Animator m_animator;
     private NavMeshAgent m_nav;
     private GameObject m_player;
     //retirer le Serialize quand fini
@@ -15,10 +16,11 @@ public class LionBehaviour : MonoBehaviour
     public enum StateMachine{IDLE, CHASE, ATTACK}
 
     private float distanceToPlayer;
+    private bool isAggro;
     
     private void Awake()
     {
-        
+        m_animator = GetComponent<Animator>();
         m_aiBrain = GetComponent<AIBrain>();
         m_nav = GetComponent<NavMeshAgent>();
         m_player = FindObjectOfType<PlayerManager>().gameObject;
@@ -34,6 +36,11 @@ public class LionBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (isAggro)
+        {
+            stateMachine = distanceToPlayer > m_aiBrain.attackRange ? StateMachine.CHASE : StateMachine.ATTACK;
+        }
+        
         Detection();
         CheckState();
     }
@@ -43,32 +50,28 @@ public class LionBehaviour : MonoBehaviour
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                //do nothing
+                m_animator.Play("ennemy_lion_idle");
                 break;
             
             case StateMachine.CHASE:
                 
-                if (distanceToPlayer > m_aiBrain.attackRange)
-                {
-                    ChasePlayer();
-                    
-                }
-                else
-                {
-                    stateMachine = StateMachine.ATTACK;
-                }
+                m_animator.Play("ennemy_lion_idle");
                 
+                ChasePlayer();
                 break;
             
             case StateMachine.ATTACK:
+                
+                m_animator.Play("ennemy_lion_attack");
+                
                 AttackPlayer();
+                
                 break;
         }
     }
 
     private void AttackPlayer()
     {
-        Debug.Log("Attack");
     }
     
     private void ChasePlayer()
@@ -85,7 +88,7 @@ public class LionBehaviour : MonoBehaviour
         {
             if (col.GetComponent<PlayerManager>())
             {
-                stateMachine = StateMachine.CHASE;
+                isAggro = true;
             }
         }
         

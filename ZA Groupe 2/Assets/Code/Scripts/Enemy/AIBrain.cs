@@ -70,6 +70,6 @@ public class AIBrain : MonoBehaviour
 
     private void Death()
     {
-        
+        Destroy(gameObject);
     }
 }
