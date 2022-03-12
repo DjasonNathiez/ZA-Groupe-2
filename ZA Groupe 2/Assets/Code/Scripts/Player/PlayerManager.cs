@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.IO;
 using DG.Tweening;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +20,10 @@ public class PlayerManager : MonoBehaviour
 
     public PlayerStateMachine playerStateMachine;
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
+
+    [Header("Statistics")] 
+    public int currentLifePoint;
+    public int maxLifePoint;
 
     [Header("Movement")] 
     [SerializeField] private float m_speed;
@@ -267,6 +266,11 @@ public class PlayerManager : MonoBehaviour
                 m_rb.MoveRotation(lookRotation);
             }
         }
+    }
+
+    public void GetHurt(float damage)
+    {
+        
     }
 
     public void ResetState()

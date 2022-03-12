@@ -1,9 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using Random = System.Random;
 
 public class SpawnArea : MonoBehaviour
 {
@@ -43,7 +38,6 @@ public class SpawnArea : MonoBehaviour
 
     private void Awake()
     {
-        
         SetArea();
         SpawnEnemy();
     }
@@ -73,9 +67,6 @@ public class SpawnArea : MonoBehaviour
                 break;
             
         }
-
-       
-        
     }
 
     public void GeneratePositionInArea()

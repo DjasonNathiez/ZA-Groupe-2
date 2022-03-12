@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AIBrain : MonoBehaviour
 {
+    
     [SerializeField] private AIData aiData;
+    public SpawnArea spawnPoint;
     
     //move
     public float moveSpeed;
@@ -66,6 +65,11 @@ public class AIBrain : MonoBehaviour
             }
 
         }
+    }
+
+    public void SetSpawnPoint(SpawnArea spawnArea)
+    {
+        spawnPoint = spawnArea;
     }
 
     private void Death()

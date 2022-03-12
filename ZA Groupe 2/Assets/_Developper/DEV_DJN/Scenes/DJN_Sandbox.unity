@@ -475,6 +475,24 @@ Transform:
   m_Father: {fileID: 1488866535}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1027865181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5465113394315948366, guid: 25aa2e62cf960564db5259150cda4f8d, type: 3}
+  m_PrefabInstance: {fileID: 8520576936756423865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1027865186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027865181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d57e89c03f081048b1010ab1fd90575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAttacking: 0
 --- !u!1 &1074435151
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,17 +538,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaType: 1
-  minX: 14.538264
-  maxX: 20.938265
-  minZ: -7.631
-  maxZ: 0.36899996
-  rangeArea: 1.8
-  xAxisRange: 3.2
-  zAxisRange: 4
+  minX: -6.1617355
+  maxX: 41.638264
+  minZ: -23.131
+  maxZ: 15.8689995
+  rangeArea: 8.9
+  xAxisRange: 23.9
+  zAxisRange: 19.5
   spawnNumber: 2
   spawnableList:
-  - {fileID: 2122726531911790933, guid: 75e09ef11871c594b93da37bc45c7798, type: 3}
-  - {fileID: 822780428353426750, guid: 0e1008d5935d2c9448b3e47e9a9dfde2, type: 3}
+  - {fileID: 8520576935452097979, guid: 25aa2e62cf960564db5259150cda4f8d, type: 3}
+  pathPoint: {x: 0, y: 0, z: 0}
 --- !u!1 &1104243793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiData: {fileID: 11400000, guid: fb370fee1496a054da39ac8d824650f1, type: 2}
+  spawnPoint: {fileID: 0}
   moveSpeed: 1
   currentHealth: 10
   maxHealth: 10
@@ -2145,6 +2164,8 @@ MonoBehaviour:
   mousePos: {x: 0, y: 0}
   controlState: 0
   playerStateMachine: 0
+  currentLifePoint: 0
+  maxLifePoint: 10
   m_speed: 0
   moveSpeed: 3.75
   rotationSpeed: 0.25
