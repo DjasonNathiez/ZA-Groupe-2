@@ -44,6 +44,7 @@ public class TestRope : MonoBehaviour
                 Vector3 pos = hit.collider.ClosestPoint(hit.point) + (hit.point - hit.transform.position).normalized * borderDist;
                 nodeToCreate.nodePoint = Instantiate(nodePos, new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity, nodeToCreate.anchor.transform);
                 nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
+                
                 if(Vector3.SignedAngle(nodeToCreate.anchor.transform.position-transform.position,dir,Vector3.up) > 0)
                 {
                     nodeToCreate.positive = true;
