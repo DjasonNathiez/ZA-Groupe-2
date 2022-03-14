@@ -6,14 +6,15 @@ public class LionBehaviour : MonoBehaviour
     private Animator m_animator;
     private NavMeshAgent m_nav;
     private GameObject m_player;
-    //retirer le Serialize quand fini
-    [SerializeField] private AIBrain m_aiBrain;
     
+    private AIBrain m_aiBrain;
+    
+    [Header("State Informations")]
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK}
 
     private float distanceToPlayer;
-    private bool isAggro;
+   
 
     [Header("Attack DATA")] 
     [HideInInspector] public int m_attackDamage;
@@ -46,8 +47,7 @@ public class LionBehaviour : MonoBehaviour
     {
         m_activeAttackCD = m_attackDelay;
         m_nav.speed = m_aiBrain.moveSpeed;
-        m_nav.stoppingDistance = m_aiBrain.attackRange;
-        
+        m_nav.stoppingDistance = m_aiBrain.attackRange + 0.02f;
     }
 
     private void Update()
@@ -56,10 +56,12 @@ public class LionBehaviour : MonoBehaviour
         CheckState();
     }
 
+    #region BRAIN
+    
     private void CheckState()
     {
         //SET STATES BY CONDITIONS
-        if (isAggro)
+        if (m_aiBrain.isAggro)
         {
             stateMachine = distanceToPlayer > m_aiBrain.attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
         }
@@ -80,18 +82,37 @@ public class LionBehaviour : MonoBehaviour
                 AttackPlayer();
                 break;
         }
-
         
     }
-
-    private void AttackPlayer()
+    
+    private void Detection()
     {
-        if (!attackOnCD)
+        distanceToPlayer = Vector3.Distance(transform.position, m_player.transform.position);
+        
+        Collider[] hit = Physics.OverlapSphere(transform.position, m_aiBrain.dectectionRange);
+        
+        foreach (Collider col in hit)
         {
-            m_animator.Play("ennemy_lion_attack");
+            if (col.GetComponent<PlayerManager>())
+            {
+                m_aiBrain.isAggro = true;
+            }
+
+            if (col.GetComponent<AIBrain>())
+            {
+                var colEnemy = col.GetComponent<AIBrain>();
+
+                if (colEnemy.isAggro)
+                {
+                    m_aiBrain.isAggro = true;
+                }
+            }
         }
-        AttackCooldown();
     }
+    
+    #endregion
+    
+    #region ANIMATION EVENTS
 
     public void DoDamage()
     {
@@ -101,10 +122,34 @@ public class LionBehaviour : MonoBehaviour
             m_player.GetComponent<PlayerManager>().GetHurt(m_attackDamage);
         }
     }
-
     public void AttackOnCD()
     {
         attackOnCD = true;
+    }
+
+    #endregion
+
+    #region BEHAVIOUR
+
+    #region MOVEMENT
+
+    private void ChasePlayer()
+    {
+        m_nav.SetDestination(m_player.transform.position);
+    }
+
+    #endregion
+
+
+    #region COMBAT
+
+    private void AttackPlayer()
+    {
+        if (!attackOnCD)
+        {
+            m_animator.Play("ennemy_lion_attack");
+        }
+        AttackCooldown();
     }
     
     private void AttackCooldown()
@@ -126,29 +171,12 @@ public class LionBehaviour : MonoBehaviour
             }
         }
     }
-    
-    private void ChasePlayer()
-    {
-        m_nav.SetDestination(m_player.transform.position);
-    }
-    
-    private void Detection()
-    {
-        distanceToPlayer = Vector3.Distance(transform.position, m_player.transform.position);
-        
-        Collider[] hit = Physics.OverlapSphere(transform.position, m_aiBrain.dectectionRange);
-        
-        foreach (Collider col in hit)
-        {
-            if (col.GetComponent<PlayerManager>())
-            {
-                isAggro = true;
-            }
-        }
-        
-       
-    }
 
+    #endregion
+    
+    #endregion
+   
+    
     private void OnDrawGizmos()
     {
         if (m_aiBrain)
