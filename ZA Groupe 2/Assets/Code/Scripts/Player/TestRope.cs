@@ -262,6 +262,7 @@ public class TestRope : MonoBehaviour
                 }
                 pinnedTo = null;
             }
+            electrocuted = false;
             if (nodes.Count > 0)
             {
                 float newlenght = 50;

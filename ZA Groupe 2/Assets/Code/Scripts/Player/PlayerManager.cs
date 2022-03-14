@@ -69,6 +69,8 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject weaponObj;
 
+    public bool inputInterractPushed;
+
     
     private void Awake()
     {
@@ -101,6 +103,8 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
         m_inputController.Player.Melee.started += _ => LoadAttack();
+        m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
+        m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
 //        Debug.Log(state);
         switch (state)
         {
