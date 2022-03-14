@@ -18,18 +18,11 @@ public class Attack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
    {
       AIBrain iaBrain = other.GetComponent<AIBrain>();
-      PlayerManager player = other.GetComponent<PlayerManager>();
       
       if (iaBrain)
       {
           iaBrain.GetHurt(PlayerManager.instance.attackDamage);
       }
 
-      if (player)
-      {
-          AIBrain enemyBrain = GetComponentInParent<AIBrain>();
-          player.GetHurt(enemyBrain.attackDamage);
-      }
-      
    }
 }
