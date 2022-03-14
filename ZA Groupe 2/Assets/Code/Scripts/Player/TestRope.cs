@@ -19,6 +19,7 @@ public class TestRope : MonoBehaviour
     public float remainingLenght;
     public GameObject nodePos;
     public PlayerManager PlayerManager;
+    public GameObject pinnedTo;
 
     void Update()
     {
@@ -147,15 +148,13 @@ public class TestRope : MonoBehaviour
                 //Debug.DrawRay(rayNode.origin+Vector3.up,rayNode.direction*Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position),Color.green);
             }
         }
-
-        Debug.Log("OK");
         rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
         rope.SetPosition(0,pin.transform.position-rope.transform.position);
         foreach (Node node in nodes)
         {
             rope.SetPosition(node.index,node.nodePoint.transform.position-rope.transform.position);
         }
-        Debug.Log("LEZGO");
+      
         
         // SUPPRESSION DES NODES
         
@@ -175,6 +174,10 @@ public class TestRope : MonoBehaviour
                             rope.SetPosition(N,rope.GetPosition(N+1));
                         }
                         Destroy(nodes[i-3].nodePoint);
+                        if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
+                        {
+                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                        }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
                         {
@@ -197,6 +200,10 @@ public class TestRope : MonoBehaviour
                             rope.SetPosition(N,rope.GetPosition(N+1));
                         }
                         Destroy(nodes[i-3].nodePoint);
+                        if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
+                        {
+                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                        }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
                         {
@@ -212,7 +219,7 @@ public class TestRope : MonoBehaviour
                 }
             }
         }
-        Debug.Log("LEZGONG");
+        
         // AUTRES TRUCS DE PHYSIQUE DE TIRAGE D'OBJET
 
         float checklenght = 0;
@@ -247,15 +254,22 @@ public class TestRope : MonoBehaviour
         
         if (rewinding)
         {
+            if (pinnedTo)
+            {
+                if (pinnedTo.GetComponent<ElectrocutedProp>() && !pinnedTo.GetComponent<ElectrocutedProp>().sender)
+                {
+                    pinnedTo.GetComponent<ElectrocutedProp>().LightsOff();
+                }
+                pinnedTo = null;
+            }
             if (nodes.Count > 0)
             {
                 float newlenght = 50;
                 int check = nodes.Count;
                 for (int i = 0; i < check; i++)
                 {
-                    Debug.Log("ATTENTION , i = " + i);
-                        if (((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude <
-                            (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude)
+                    if (((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude <
+                        (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude)
                         {
                             Vector3 newPos = pin.transform.position + (nodes[0].nodePoint.transform.position - pin.transform.position).normalized* Time.deltaTime * newlenght;
                             pin.transform.position = newPos;
@@ -264,13 +278,16 @@ public class TestRope : MonoBehaviour
                         else
                         {
                             newlenght = ((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude - (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude;
-                            Debug.Log(newlenght + " et i = " + i);
                             pin.transform.position = nodes[0].nodePoint.transform.position;
                             for (int N = 1; N < rope.positionCount-1; N++)
                             {
                                 rope.SetPosition(N,rope.GetPosition(N+1));
                             }
                             Destroy(nodes[0].nodePoint);
+                            if (nodes[0].anchor.GetComponent<ElectrocutedProp>())
+                            {
+                                nodes[0].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            }
                             nodes.RemoveAt(0);
                             foreach (Node node in nodes)
                             {
@@ -296,9 +313,7 @@ public class TestRope : MonoBehaviour
                 else
                 {
                     pin.SetActive(false);
-                    Debug.Log("A la fin du Rewind mais avant, state = " + PlayerManager.state);
                     PlayerManager.state = "StatusQuo";
-                    Debug.Log("A la fin du Rewind , state = " + PlayerManager.state);
                     rope.gameObject.SetActive(false);
                     pinnedToObject = false;
                     rewinding = false;
@@ -307,9 +322,23 @@ public class TestRope : MonoBehaviour
             }
         }
     }
-    void CheckElectrocution()
+    public void CheckElectrocution()
     {
         bool checkedElectrocution = false;
+        if (pinnedTo)
+        {
+            ElectrocutedProp electrocutedPropPin = pinnedTo.GetComponent<ElectrocutedProp>();
+            
+            if (electrocutedPropPin && electrocutedPropPin.activated && electrocutedPropPin.sender)
+            {
+                checkedElectrocution = true;
+            }
+
+            if (electrocuted && electrocutedPropPin && electrocutedPropPin.activated && !electrocutedPropPin.sender)
+            {
+                electrocutedPropPin.LightsOn();
+            }
+        }
         foreach (Node node in nodes)
         {
             ElectrocutedProp electrocutedProp = node.anchor.GetComponent<ElectrocutedProp>();
@@ -321,7 +350,7 @@ public class TestRope : MonoBehaviour
                 }
                 else if (electrocuted)
                 {
-                    electrocutedProp.light.material.color = Color.yellow;
+                    electrocutedProp.LightsOn();
                 }
             }
         }
