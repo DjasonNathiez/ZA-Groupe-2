@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -270,9 +271,18 @@ public class PlayerManager : MonoBehaviour
 
     public void GetHurt(float damage)
     {
-        
+        StartCoroutine(TiltColorDebug());
     }
 
+    IEnumerator TiltColorDebug()
+    {
+        var backupColor = GetComponent<MeshRenderer>().material.color;
+        
+        GetComponent<MeshRenderer>().material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<MeshRenderer>().material.color = backupColor;
+    }
+    
     public void ResetState()
     {
         playerStateMachine = PlayerStateMachine.IDLE;
