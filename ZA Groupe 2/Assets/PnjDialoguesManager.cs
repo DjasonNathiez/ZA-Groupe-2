@@ -23,7 +23,9 @@ public class PnjDialoguesManager : MonoBehaviour
             if (m_dialogue[0].modifyCameraPosition)
             {
                 m_cameraController.playerFocused = false;
-                m_cameraController.m_cameraPos.position = m_dialogue[0].positionCamera;
+                //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                m_cameraController.m_cameraPos.localPosition = m_dialogue[0].positionCamera;
+                Debug.Log(m_dialogue[0].positionCamera);
                 m_cameraController.m_cameraPos.rotation = Quaternion.Euler(m_dialogue[0].angleCamera);
                 m_cameraController.m_cameraZoom = m_dialogue[0].zoom;   
             }

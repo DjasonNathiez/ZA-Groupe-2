@@ -22,7 +22,9 @@ public class ThrowingWeapon : MonoBehaviour
                     grip.position = other.ClosestPoint(transform.position) - transform.forward * 0.3f;   
                 }
                 grip.parent = other.transform;
-            }
+                m_PlayerManager.m_rope.pinnedTo = other.gameObject;
+                m_PlayerManager.m_rope.CheckElectrocution();
+            }   
             else if (other.CompareTag("UngrippableObject"))
             {
                 Debug.Log("HEEEEY YA");
@@ -37,6 +39,10 @@ public class ThrowingWeapon : MonoBehaviour
                 m_PlayerManager.m_rope.pinnedObjectDistance = m_PlayerManager.m_rope.lenght;
                 grip.position = transform.position;
                 grip.parent = other.transform;
+            }
+            else if (other.CompareTag("Ennemi"))
+            {
+                
             }
         }
     }
