@@ -25,11 +25,5 @@ public class Attack : MonoBehaviour
           iaBrain.GetHurt(PlayerManager.instance.attackDamage);
       }
 
-      if (player)
-      {
-          AIBrain enemyBrain = GetComponentInParent<AIBrain>();
-          player.GetHurt(enemyBrain.attackDamage);
-      }
-      
    }
 }
