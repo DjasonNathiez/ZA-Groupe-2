@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 public class AIBrain : MonoBehaviour
@@ -24,6 +27,7 @@ public class AIBrain : MonoBehaviour
     //state
     public bool isInvincible;
     public bool isStun;
+    public bool isAggro;
 
     private void InitializationData()
     {
@@ -47,24 +51,41 @@ public class AIBrain : MonoBehaviour
         InitializationData();
     }
 
+    private void Update()
+    {
+        CheckStatue();
+    }
+
+    private void CheckStatue()
+    {
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+    
     public void GetHurt(int damage)
     {
-
         if (!isInvincible)
         {
-
             switch (currentHealth)
             {
                 case > 0:
                     currentHealth -= damage;
-                    break;
-                
-                case <= 0:
-                    Death();
+                    
                     break;
             }
-
+            StartCoroutine(TiltColorDebug());
         }
+    }
+
+    IEnumerator TiltColorDebug()
+    {
+        var backupColor = GetComponent<MeshRenderer>().material.color;
+        
+        GetComponent<MeshRenderer>().material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        GetComponent<MeshRenderer>().material.color = backupColor;
     }
 
     public void SetSpawnPoint(SpawnArea spawnArea)

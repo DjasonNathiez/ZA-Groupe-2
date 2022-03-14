@@ -71,15 +71,15 @@ public class SpawnArea : MonoBehaviour
 
     public void GeneratePositionInArea()
     {
-        pathPoint = new Vector3(UnityEngine.Random.Range(minX, maxX), 0, UnityEngine.Random.Range(minZ, maxZ));
+        pathPoint = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
     }
 
     void SpawnEnemy()
     {
         for (int i = 0; i < spawnNumber; i++)
         {
-            spawnPoint = new Vector3(UnityEngine.Random.Range(minX, maxX), 0, UnityEngine.Random.Range(minZ, maxZ));
-            GameObject selectEnemy = spawnableList[UnityEngine.Random.Range(0, spawnableList.Length)];
+            spawnPoint = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
+            GameObject selectEnemy = spawnableList[Random.Range(0, spawnableList.Length)];
             GameObject newEnemy = Instantiate(selectEnemy, new Vector3(spawnPoint.x, selectEnemy.transform.hierarchyCapacity, spawnPoint.z), Quaternion.identity);
             newEnemy.GetComponent<AIBrain>().SetSpawnPoint(this);
         }
