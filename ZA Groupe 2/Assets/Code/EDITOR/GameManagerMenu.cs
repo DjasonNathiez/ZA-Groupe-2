@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManagerMenu : MonoBehaviour
 {
-    [MenuItem("GameObject/GameManager", priority = 0)]
+    [MenuItem("GameObject/Game Manager", priority = 0)]
     public static void CreateGameManager()
     {
         var gameManager = Resources.Load("GameManager");
