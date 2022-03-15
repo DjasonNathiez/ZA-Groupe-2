@@ -23,8 +23,8 @@ public class PlayerManager : MonoBehaviour
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
 
     [Header("Statistics")] 
-    public int currentLifePoint;
-    public int maxLifePoint;
+    public float currentLifePoint;
+    public float maxLifePoint;
 
     [Header("Movement")] 
     [SerializeField] private float m_speed;
@@ -70,6 +70,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject weaponObj;
 
     public bool inputInterractPushed;
+    
 
     
     private void Awake()
@@ -275,8 +276,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void GetHurt(float damage)
+    public void GetHurt(int damage)
     {
+        if (currentLifePoint > 0)
+        {
+            currentLifePoint -= damage;
+        }
+        
         StartCoroutine(TiltColorDebug());
     }
 

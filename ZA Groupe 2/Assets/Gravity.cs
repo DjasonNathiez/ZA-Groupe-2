@@ -22,7 +22,7 @@ public class Gravity : MonoBehaviour
         if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
             float distToGround = Vector3.Distance(transform.position, hit.point);
-            
+
             if (distToGround > floatRange)
             {
                 m_rb.AddForce(0, -fallSpeed * objectMass, 0, ForceMode.Acceleration);
