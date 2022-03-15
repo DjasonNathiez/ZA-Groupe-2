@@ -192,7 +192,9 @@ public class PlayerManager : MonoBehaviour
     }
     
     private void Move()
-    {
+    {  
+        //APPLY GRAVITY
+    
         if (!m_attack.isAttacking)
         {
             m_rb.velocity = m_moveDirection * m_speed;

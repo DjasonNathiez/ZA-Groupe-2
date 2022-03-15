@@ -2136,6 +2136,7 @@ MonoBehaviour:
   m_dialogueBox: {fileID: 6297007262670516}
   m_Button: {fileID: 6297007440108944}
   m_cameraController: {fileID: 6297006895600042}
+  check: 0
 --- !u!20 &6297006895600020
 Camera:
   m_ObjectHideFlags: 0
@@ -3909,6 +3910,7 @@ MonoBehaviour:
   m_dialogueBox: {fileID: 6297007262670516}
   m_Button: {fileID: 6297006941993138}
   m_cameraController: {fileID: 6297006895600042}
+  check: 0
 --- !u!135 &6297007582906775
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3978,8 +3980,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textElement: {fileID: 6297007609574038}
-  reset: 0
-  next: 0
   showedCharIndex: 0
   speedOfShowing: 0.05
   timeStamp: 0
@@ -4840,6 +4840,7 @@ GameObject:
   - component: {fileID: 6297007814587902}
   - component: {fileID: 6297007814587897}
   - component: {fileID: 8747225600241155679}
+  - component: {fileID: 8747225600241155680}
   m_Layer: 2
   m_Name: Player
   m_TagString: Player
@@ -4861,7 +4862,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &6297007814587897
 MonoBehaviour:
@@ -4907,6 +4908,7 @@ MonoBehaviour:
   pinPosBase: {fileID: 0}
   m_rope: {fileID: 0}
   weaponObj: {fileID: 6297007632236627}
+  inputInterractPushed: 0
 --- !u!33 &6297007814587898
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4923,7 +4925,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6297007814587879}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.18, y: 1.2699995, z: -36.08}
+  m_LocalPosition: {x: 18.18, y: 3.33, z: -36.08}
   m_LocalScale: {x: 1, y: 1.08, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6802,3 +6804,18 @@ MonoBehaviour:
   nodePos: {fileID: 6297007876724966}
   PlayerManager: {fileID: 6297007814587897}
   pinnedTo: {fileID: 0}
+--- !u!114 &8747225600241155680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297007814587879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21161d0452445f44c89642f6f2a0c9a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectMass: 10
+  fallSpeed: 10
+  floatRange: 1.1

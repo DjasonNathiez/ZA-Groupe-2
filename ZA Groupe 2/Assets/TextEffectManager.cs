@@ -52,7 +52,7 @@ public class TextEffectManager : MonoBehaviour
         var textInfo = textElement.textInfo;
         textElement.ForceMeshUpdate();
         
-        Debug.Log("OK C " + textInfo.characterInfo[0].scale);
+        //Debug.Log("OK C " + textInfo.characterInfo[0].scale);
 
         for (int i = 0; i < textInfo.characterCount; i++)
         {
