@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIBrain : MonoBehaviour
 {
-    
     [SerializeField] private AIData aiData;
     public SpawnArea spawnPoint;
     
@@ -29,7 +29,15 @@ public class AIBrain : MonoBehaviour
     public bool isStun;
     public bool isAggro;
 
-    private void InitializationData()
+    public GameObject m_player;
+    public NavMeshAgent m_nav;
+    public float distanceToPlayer;
+
+
+    public bool canFall;
+    public bool isFalling;
+
+    public void InitializationData()
     {
         maxHealth = aiData.health;
         attackDamage = aiData.attackDamage;
@@ -38,30 +46,35 @@ public class AIBrain : MonoBehaviour
         moveSpeed = aiData.moveSpeed;
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
+        
+        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_nav = GetComponent<NavMeshAgent>();
     }
-
-    //retirer quand fini
-    private void OnValidate()
+    
+    public void Detection()
     {
-        InitializationData();
-    }
-
-    private void Awake()
-    {
-        InitializationData();
-    }
-
-    private void Update()
-    {
-        CheckStatue();
-    }
-
-    private void CheckStatue()
-    {
-        if (currentHealth <= 0)
+        distanceToPlayer = Vector3.Distance(transform.position, m_player.transform.position);
+        
+        Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
+        
+        foreach (Collider col in hit)
         {
-            Death();
+            if (col.GetComponent<PlayerManager>())
+            {
+                 isAggro = true;
+            }
+
+            if (col.GetComponent<AIBrain>())
+            {
+                var colEnemy = col.GetComponent<AIBrain>();
+
+                if (colEnemy.isAggro)
+                {
+                    isAggro = true;
+                }
+            }
         }
+
     }
     
     public void GetHurt(int damage)
@@ -72,7 +85,6 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
-                    
                     break;
             }
             StartCoroutine(TiltColorDebug());
@@ -93,8 +105,17 @@ public class AIBrain : MonoBehaviour
         spawnPoint = spawnArea;
     }
 
-    private void Death()
+    public void Death()
     {
         Destroy(gameObject);
     }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, dectectionRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+    
 }
+

@@ -4,26 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BearBehaviour : MonoBehaviour
+public class BearBehaviour : AIBrain
 {
-    private NavMeshAgent m_nav;
-    private AIBrain m_aiBrain;
-    
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
-
-    private GameObject m_player;
-    private float distanceToPlayer;
-
-    private void OnValidate()
+    private void Awake()
     {
         InitializationData();
+    }
+
+    private void Start()
+    {
+        m_nav.speed = moveSpeed;
+        m_nav.stoppingDistance = attackRange + 0.02f;
     }
 
     private void Update()
     {
         CheckState();
         Detection();
+
+        if (isFalling)
+        {
+            FallOnTheGround();
+        }
     }
 
     void Chase()
@@ -31,18 +35,16 @@ public class BearBehaviour : MonoBehaviour
         m_nav.SetDestination(m_player.transform.position);
     }
 
-    void InitializationData()
-    {
-        m_aiBrain = GetComponent<AIBrain>();
-        m_nav = GetComponent<NavMeshAgent>();
-        m_player = GameObject.FindGameObjectWithTag("Player");
-    }
-
     void CheckState()
     {
-        if (m_aiBrain.isAggro)
+        if (currentHealth <= 0)
         {
-            stateMachine = distanceToPlayer > m_aiBrain.attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
+            Death();
+        }
+        
+        if (isAggro && stateMachine != StateMachine.ONGROUND)
+        {
+            stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
         }
         
         switch (stateMachine)
@@ -52,39 +54,19 @@ public class BearBehaviour : MonoBehaviour
                 break;
         }
     }
-    
-    void Detection()
+
+    void FallOnTheGround()
     {
-        distanceToPlayer = Vector3.Distance(transform.position, m_player.transform.position);
-        
-        Collider[] hit = Physics.OverlapSphere(transform.position, m_aiBrain.dectectionRange);
-        
-        foreach (Collider col in hit)
-        {
-            if (col.GetComponent<PlayerManager>())
-            {
-                m_aiBrain.isAggro = true;
-            }
-
-            if (col.GetComponent<AIBrain>())
-            {
-                var colEnemy = col.GetComponent<AIBrain>();
-
-                if (colEnemy.isAggro)
-                {
-                    m_aiBrain.isAggro = true;
-                }
-            }
-        }
+        stateMachine = StateMachine.ONGROUND;
     }
     
+
+
     private void OnDrawGizmos()
     {
-        if (m_aiBrain)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, m_aiBrain.dectectionRange);
-            Gizmos.DrawWireSphere(transform.position, m_aiBrain.attackRange);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, dectectionRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        
     }
 }
