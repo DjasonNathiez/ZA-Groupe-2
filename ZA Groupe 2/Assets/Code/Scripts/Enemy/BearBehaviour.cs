@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class BearBehaviour : AIBrain
 {
@@ -15,6 +11,7 @@ public class BearBehaviour : AIBrain
 
     private void Start()
     {
+        isInvincible = true;
         m_nav.speed = moveSpeed;
         m_nav.stoppingDistance = attackRange + 0.02f;
     }
@@ -46,6 +43,9 @@ public class BearBehaviour : AIBrain
         {
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
         }
+
+        //invincible while he is not onground
+        isInvincible = stateMachine != StateMachine.ONGROUND;
         
         switch (stateMachine)
         {
@@ -58,15 +58,5 @@ public class BearBehaviour : AIBrain
     void FallOnTheGround()
     {
         stateMachine = StateMachine.ONGROUND;
-    }
-    
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, dectectionRange);
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-        
     }
 }

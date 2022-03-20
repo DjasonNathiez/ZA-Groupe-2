@@ -87,6 +87,7 @@ public class AIBrain : MonoBehaviour
                     currentHealth -= damage;
                     break;
             }
+            
             StartCoroutine(TiltColorDebug());
         }
     }

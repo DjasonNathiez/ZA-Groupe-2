@@ -92,8 +92,7 @@ public class LionBehaviour : AIBrain
     }
 
     #endregion
-
-
+    
     #region COMBAT
 
     private void AttackPlayer()
