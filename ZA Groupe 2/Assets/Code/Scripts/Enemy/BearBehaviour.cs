@@ -4,6 +4,7 @@ public class BearBehaviour : AIBrain
 {
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
+    
     private void Awake()
     {
         InitializationData();
@@ -21,10 +22,7 @@ public class BearBehaviour : AIBrain
         CheckState();
         Detection();
 
-        if (isFalling)
-        {
-            FallOnTheGround();
-        }
+        
     }
 
     void Chase()
@@ -39,9 +37,14 @@ public class BearBehaviour : AIBrain
             Death();
         }
         
-        if (isAggro && stateMachine != StateMachine.ONGROUND)
+        if (isAggro && !isFalling)
         {
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
+        }
+
+        if (isFalling)
+        {
+            stateMachine = StateMachine.ONGROUND;
         }
 
         //invincible while he is not onground
@@ -52,11 +55,21 @@ public class BearBehaviour : AIBrain
             case StateMachine.CHASE:
                 Chase();
                 break;
+            
+            case StateMachine.ONGROUND:
+                FallOnTheGround();
+                break;
         }
     }
 
     void FallOnTheGround()
     {
-        stateMachine = StateMachine.ONGROUND;
+        timeOnGround += Time.deltaTime;
+
+        if (timeOnGround >= fallTime)
+        {
+            isFalling = false;
+            timeOnGround = 0;
+        }
     }
 }

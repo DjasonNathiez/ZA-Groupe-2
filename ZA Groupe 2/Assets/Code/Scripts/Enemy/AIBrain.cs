@@ -36,6 +36,8 @@ public class AIBrain : MonoBehaviour
 
     public bool canFall;
     public bool isFalling;
+    public float fallTime;
+    public float timeOnGround;
 
     public void InitializationData()
     {
@@ -46,7 +48,7 @@ public class AIBrain : MonoBehaviour
         moveSpeed = aiData.moveSpeed;
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
-        
+
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_nav = GetComponent<NavMeshAgent>();
     }

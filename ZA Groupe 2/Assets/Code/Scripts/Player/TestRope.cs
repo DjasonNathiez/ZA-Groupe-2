@@ -23,6 +23,7 @@ public class TestRope : MonoBehaviour
 
     void Update()
     {
+        //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
         CheckToFall();
         
         // CHECK DE NOUVELLES COLLISIONS AVEC LE DERNIER SEGMENT
@@ -364,10 +365,14 @@ public class TestRope : MonoBehaviour
     {
         foreach (Node node in nodes)
         {
-            if (node.anchor.GetComponent<AIBrain>().canFall)
+            AIBrain ai = node.anchor.GetComponent<AIBrain>();
+            
+            if (ai && ai.canFall)
             {
-                node.anchor.GetComponent<AIBrain>().isFalling = true;
+                ai.isFalling = true;
+                rewinding = true;
             }
+            
         }
     }
 }
