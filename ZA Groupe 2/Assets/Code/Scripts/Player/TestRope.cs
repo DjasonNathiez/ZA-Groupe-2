@@ -23,6 +23,9 @@ public class TestRope : MonoBehaviour
 
     void Update()
     {
+        //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
+        CheckToFall();
+        
         // CHECK DE NOUVELLES COLLISIONS AVEC LE DERNIER SEGMENT
         Vector3 point;
         if (nodes.Count > 0)
@@ -262,6 +265,7 @@ public class TestRope : MonoBehaviour
                 }
                 pinnedTo = null;
             }
+            electrocuted = false;
             if (nodes.Count > 0)
             {
                 float newlenght = 50;
@@ -355,6 +359,22 @@ public class TestRope : MonoBehaviour
             }
         }
         electrocuted = checkedElectrocution;
+    }
+
+    public void CheckToFall()
+    {
+        foreach (Node node in nodes)
+        {
+            AIBrain ai = node.anchor.GetComponent<AIBrain>();
+            
+            if (ai && ai.canFall)
+            {
+                ai.isFalling = true;
+                ai.DebugSetColor(Color.green);
+                rewinding = true;
+            }
+            
+        }
     }
 }
 

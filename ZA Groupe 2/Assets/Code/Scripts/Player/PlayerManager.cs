@@ -23,8 +23,8 @@ public class PlayerManager : MonoBehaviour
     public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
 
     [Header("Statistics")] 
-    public int currentLifePoint;
-    public int maxLifePoint;
+    public float currentLifePoint;
+    public float maxLifePoint;
 
     [Header("Movement")] 
     [SerializeField] private float m_speed;
@@ -69,6 +69,9 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject weaponObj;
 
+    public bool inputInterractPushed;
+    
+
     
     private void Awake()
     {
@@ -101,6 +104,8 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
         m_inputController.Player.Melee.started += _ => LoadAttack();
+        m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
+        m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
 //        Debug.Log(state);
         switch (state)
         {
@@ -188,7 +193,9 @@ public class PlayerManager : MonoBehaviour
     }
     
     private void Move()
-    {
+    {  
+        //APPLY GRAVITY
+    
         if (!m_attack.isAttacking)
         {
             m_rb.velocity = m_moveDirection * m_speed;
@@ -211,7 +218,6 @@ public class PlayerManager : MonoBehaviour
             state = "Throw";
             m_rope.enabled = true;
             m_rope.rope.gameObject.SetActive(true);
-            Debug.Log("The Throwing at " + state + "2");   
         }
     }
     
@@ -220,8 +226,6 @@ public class PlayerManager : MonoBehaviour
         if (state == "Rope")
         {
             m_rope.rewinding = true;
-            Debug.Log("The Rewinding at " + state);
-            Debug.Log(m_rope.rewinding);
         }
     }
 
@@ -269,8 +273,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void GetHurt(float damage)
+    public void GetHurt(int damage)
     {
+        if (currentLifePoint > 0)
+        {
+            currentLifePoint -= damage;
+        }
+        
         StartCoroutine(TiltColorDebug());
     }
 

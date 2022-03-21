@@ -9,13 +9,11 @@ using Random = UnityEngine.Random;
 public class TextEffectManager : MonoBehaviour
 {
     public TMP_Text textElement;
-    public bool reset;
-    public bool next;
     public int showedCharIndex = 0;
     [SerializeField] private float speedOfShowing = 0.05f;
     [SerializeField] private float timeStamp;
     [SerializeField] private float[] charBasedHeight;
-    [SerializeField] private int dialogueIndex;
+    public int dialogueIndex;
     public DialogueLine[] dialogue;
     
     public void ShowText()
@@ -33,17 +31,20 @@ public class TextEffectManager : MonoBehaviour
     }
     public void NextText()
     {
-        dialogueIndex++;
-        textElement.text = dialogue[dialogueIndex].text;
-        textElement.ForceMeshUpdate();
-        showedCharIndex = 0;
-        charBasedHeight = new float[textElement.textInfo.characterCount];
-        Debug.Log(textElement.textInfo.characterCount);
-        for (int i = 0; i < charBasedHeight.Length; i++)
+        if (dialogueIndex < dialogue.Length-1)
         {
-            charBasedHeight[i] = -1f;
+            dialogueIndex++;
+            textElement.text = dialogue[dialogueIndex].text;
+            textElement.ForceMeshUpdate();
+            showedCharIndex = 0;
+            charBasedHeight = new float[textElement.textInfo.characterCount];
+            Debug.Log(textElement.textInfo.characterCount);
+            for (int i = 0; i < charBasedHeight.Length; i++)
+            {
+                charBasedHeight[i] = -1f;
+            }
+            timeStamp = speedOfShowing;   
         }
-        timeStamp = speedOfShowing;
     }
     void Update()
     {
@@ -51,7 +52,7 @@ public class TextEffectManager : MonoBehaviour
         var textInfo = textElement.textInfo;
         textElement.ForceMeshUpdate();
         
-        Debug.Log("OK C " + textInfo.characterInfo[0].scale);
+        //Debug.Log("OK C " + textInfo.characterInfo[0].scale);
 
         for (int i = 0; i < textInfo.characterCount; i++)
         {
