@@ -23,6 +23,8 @@ public class TestRope : MonoBehaviour
 
     void Update()
     {
+        CheckToFall();
+        
         // CHECK DE NOUVELLES COLLISIONS AVEC LE DERNIER SEGMENT
         Vector3 point;
         if (nodes.Count > 0)
@@ -356,6 +358,17 @@ public class TestRope : MonoBehaviour
             }
         }
         electrocuted = checkedElectrocution;
+    }
+
+    public void CheckToFall()
+    {
+        foreach (Node node in nodes)
+        {
+            if (node.anchor.GetComponent<AIBrain>().canFall)
+            {
+                node.anchor.GetComponent<AIBrain>().isFalling = true;
+            }
+        }
     }
 }
 
