@@ -283,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e37149c006245bb4783ddeeb2011f494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hudParent: {fileID: 6363451239542027994}
   healthFill: {fileID: 966827939323135796}
 --- !u!1 &5086250464814063686
 GameObject:
@@ -1151,7 +1152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8427784550321090506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1249,7 +1250,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1521954118315254463
 Transform:
   m_ObjectHideFlags: 0
@@ -1317,6 +1318,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ddf965378f83741a4e1d56b0ad8a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 7554532051425733986}
+  camera: {fileID: 8704114524726881248}
+  ui: {fileID: 3482627436920398169}
+  gameScene: DJN_Sandbox
 --- !u!1 &8704114524726881248
 GameObject:
   m_ObjectHideFlags: 0

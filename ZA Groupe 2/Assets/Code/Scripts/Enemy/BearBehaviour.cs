@@ -5,13 +5,11 @@ public class BearBehaviour : AIBrain
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
     
-    private void Awake()
-    {
-        InitializationData();
-    }
-
+    
     private void Start()
     {
+        InitializationData();
+        
         isInvincible = true;
         m_nav.speed = moveSpeed;
         m_nav.stoppingDistance = attackRange + 0.02f;
@@ -21,15 +19,8 @@ public class BearBehaviour : AIBrain
     {
         CheckState();
         Detection();
-
-        
     }
-
-    void Chase()
-    {
-        m_nav.SetDestination(m_player.transform.position);
-    }
-
+    
     void CheckState()
     {
         if (currentHealth <= 0)
@@ -53,7 +44,11 @@ public class BearBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.CHASE:
-                Chase();
+                ChasePlayer();
+                break;
+            
+            case StateMachine.ATTACK:
+                AttackPlayer();
                 break;
             
             case StateMachine.ONGROUND:
