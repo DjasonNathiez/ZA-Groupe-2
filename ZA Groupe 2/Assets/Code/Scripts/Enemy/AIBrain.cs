@@ -39,6 +39,9 @@ public class AIBrain : MonoBehaviour
     public float fallTime;
     public float timeOnGround;
 
+    //DEBUG
+    public Color backupColor;
+
     public void InitializationData()
     {
         maxHealth = aiData.health;
@@ -48,6 +51,10 @@ public class AIBrain : MonoBehaviour
         moveSpeed = aiData.moveSpeed;
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
+        
+        backupColor = GetComponent<MeshRenderer>().material.color;
+
+
 
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_nav = GetComponent<NavMeshAgent>();
@@ -96,11 +103,9 @@ public class AIBrain : MonoBehaviour
 
     IEnumerator TiltColorDebug()
     {
-        var backupColor = GetComponent<MeshRenderer>().material.color;
-        
-        GetComponent<MeshRenderer>().material.color = Color.red;
+        DebugSetColor(Color.red);
         yield return new WaitForSeconds(0.1f);
-        GetComponent<MeshRenderer>().material.color = backupColor;
+        DebugSetColor(backupColor);
     }
 
     public void SetSpawnPoint(SpawnArea spawnArea)
@@ -111,6 +116,11 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         Destroy(gameObject);
+    }
+
+    public void DebugSetColor(Color newColor)
+    {
+        GetComponent<MeshRenderer>().material.color = newColor;
     }
     
     private void OnDrawGizmos()

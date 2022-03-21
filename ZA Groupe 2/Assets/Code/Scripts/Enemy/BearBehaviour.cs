@@ -70,6 +70,8 @@ public class BearBehaviour : AIBrain
         {
             isFalling = false;
             timeOnGround = 0;
+            
+            DebugSetColor(backupColor);
         }
     }
 }
