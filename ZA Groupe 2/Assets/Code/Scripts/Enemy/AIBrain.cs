@@ -22,7 +22,7 @@ public class AIBrain : MonoBehaviour
     public float attackSpeed;
     [HideInInspector] public float m_attackDelay;
     [HideInInspector] public float m_activeAttackCD;
-    [HideInInspector] public bool canAttack;
+    public bool canAttack;
     public bool attackOnCD;
     
     //detection
