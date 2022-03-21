@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [Header("HUD")] 
+    public GameObject hudParent;
     public Image healthFill;
 
     private void Update()

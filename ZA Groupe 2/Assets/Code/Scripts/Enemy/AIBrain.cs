@@ -20,6 +20,10 @@ public class AIBrain : MonoBehaviour
     public int attackDamage;
     public float attackRange;
     public float attackSpeed;
+    [HideInInspector] public float m_attackDelay;
+    [HideInInspector] public float m_activeAttackCD;
+    [HideInInspector] public bool canAttack;
+    public bool attackOnCD;
     
     //detection
     public float dectectionRange;
@@ -31,11 +35,19 @@ public class AIBrain : MonoBehaviour
 
     public GameObject m_player;
     public NavMeshAgent m_nav;
+    public Animator animator;
     public float distanceToPlayer;
-
 
     public bool canFall;
     public bool isFalling;
+    public float fallTime;
+    public float timeOnGround;
+    
+    //animations
+    public string attackAnimName;
+
+    //DEBUG
+    public Color backupColor;
 
     public void InitializationData()
     {
@@ -47,8 +59,17 @@ public class AIBrain : MonoBehaviour
         dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
         
+        backupColor = GetComponent<MeshRenderer>().material.color;
+
+
+        animator = GetComponent<Animator>();
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_nav = GetComponent<NavMeshAgent>();
+    }
+    
+    public void ChasePlayer()
+    {
+        m_nav.SetDestination(m_player.transform.position);
     }
     
     public void Detection()
@@ -77,6 +98,54 @@ public class AIBrain : MonoBehaviour
 
     }
     
+    public void AttackPlayer()
+    {
+        if (!attackOnCD && attackAnimName != String.Empty)
+        {
+            animator.Play(attackAnimName);
+        }
+        AttackCooldown();
+        
+        //debug console
+        if (attackAnimName == String.Empty)
+        {
+            Debug.Log("There is no anim name attach to the attack action, check this in inspector");
+        }
+    }
+    
+    private void AttackCooldown()
+    {
+        if (attackOnCD)
+        {
+            switch (m_activeAttackCD)
+            {
+                case > 0:
+                    canAttack = false;
+                    m_activeAttackCD -= Time.deltaTime;
+                    break;
+            
+                case <= 0:
+                    canAttack = true;
+                    m_activeAttackCD = m_attackDelay;
+                    attackOnCD = false;
+                    break;
+            }
+        }
+    }
+    
+    public void DoDamage()
+    {
+        if (distanceToPlayer < attackRange + 0.02)
+        {
+            Debug.Log("Player take " + attackRange + " damage in his face, bro.");
+            m_player.GetComponent<PlayerManager>().GetHurt(attackDamage);
+        }
+    }
+    public void AttackOnCD()
+    {
+        attackOnCD = true;
+    }
+    
     public void GetHurt(int damage)
     {
         if (!isInvincible)
@@ -94,11 +163,9 @@ public class AIBrain : MonoBehaviour
 
     IEnumerator TiltColorDebug()
     {
-        var backupColor = GetComponent<MeshRenderer>().material.color;
-        
-        GetComponent<MeshRenderer>().material.color = Color.red;
+        DebugSetColor(Color.red);
         yield return new WaitForSeconds(0.1f);
-        GetComponent<MeshRenderer>().material.color = backupColor;
+        DebugSetColor(backupColor);
     }
 
     public void SetSpawnPoint(SpawnArea spawnArea)
@@ -109,6 +176,11 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         Destroy(gameObject);
+    }
+
+    public void DebugSetColor(Color newColor)
+    {
+        GetComponent<MeshRenderer>().material.color = newColor;
     }
     
     private void OnDrawGizmos()

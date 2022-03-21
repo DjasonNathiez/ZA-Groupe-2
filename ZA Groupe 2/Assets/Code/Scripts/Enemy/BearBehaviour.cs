@@ -4,13 +4,12 @@ public class BearBehaviour : AIBrain
 {
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
-    private void Awake()
-    {
-        InitializationData();
-    }
-
+    
+    
     private void Start()
     {
+        InitializationData();
+        
         isInvincible = true;
         m_nav.speed = moveSpeed;
         m_nav.stoppingDistance = attackRange + 0.02f;
@@ -20,18 +19,8 @@ public class BearBehaviour : AIBrain
     {
         CheckState();
         Detection();
-
-        if (isFalling)
-        {
-            FallOnTheGround();
-        }
     }
-
-    void Chase()
-    {
-        m_nav.SetDestination(m_player.transform.position);
-    }
-
+    
     void CheckState()
     {
         if (currentHealth <= 0)
@@ -39,9 +28,14 @@ public class BearBehaviour : AIBrain
             Death();
         }
         
-        if (isAggro && stateMachine != StateMachine.ONGROUND)
+        if (isAggro && !isFalling)
         {
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
+        }
+
+        if (isFalling)
+        {
+            stateMachine = StateMachine.ONGROUND;
         }
 
         //invincible while he is not onground
@@ -50,13 +44,29 @@ public class BearBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.CHASE:
-                Chase();
+                ChasePlayer();
+                break;
+            
+            case StateMachine.ATTACK:
+                AttackPlayer();
+                break;
+            
+            case StateMachine.ONGROUND:
+                FallOnTheGround();
                 break;
         }
     }
 
     void FallOnTheGround()
     {
-        stateMachine = StateMachine.ONGROUND;
+        timeOnGround += Time.deltaTime;
+
+        if (timeOnGround >= fallTime)
+        {
+            isFalling = false;
+            timeOnGround = 0;
+            
+            DebugSetColor(backupColor);
+        }
     }
 }

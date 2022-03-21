@@ -218,7 +218,6 @@ public class PlayerManager : MonoBehaviour
             state = "Throw";
             m_rope.enabled = true;
             m_rope.rope.gameObject.SetActive(true);
-            Debug.Log("The Throwing at " + state + "2");   
         }
     }
     
@@ -227,8 +226,6 @@ public class PlayerManager : MonoBehaviour
         if (state == "Rope")
         {
             m_rope.rewinding = true;
-            Debug.Log("The Rewinding at " + state);
-            Debug.Log(m_rope.rewinding);
         }
     }
 
