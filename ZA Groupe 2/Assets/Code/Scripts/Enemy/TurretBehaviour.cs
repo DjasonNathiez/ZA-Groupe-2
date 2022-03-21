@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TurretBehaviour : AIBrain
 {
-    
+    public enum StateMachine{IDLE, ATTACK}
 }
