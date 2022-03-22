@@ -326,6 +326,15 @@ public class TestRope : MonoBehaviour
             }
         }
     }
+
+    public void ResetPin()
+    {
+        pin.SetActive(false);
+        PlayerManager.state = "StatusQuo";
+        pinnedToObject = false;
+        rewinding = false;
+        enabled = false;
+    }
     public void CheckElectrocution()
     {
         bool checkedElectrocution = false;

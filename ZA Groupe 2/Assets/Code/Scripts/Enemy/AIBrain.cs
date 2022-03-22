@@ -6,9 +6,9 @@ using UnityEngine.AI;
 
 public class AIBrain : MonoBehaviour
 {
-    [SerializeField] private AIData aiData;
     public SpawnArea spawnPoint;
-    
+
+    public Rigidbody m_rb;
     //move
     public float moveSpeed;
     
@@ -49,24 +49,22 @@ public class AIBrain : MonoBehaviour
     //DEBUG
     public Color backupColor;
 
+    private void Update()
+    {
+        
+    }
+
     public void InitializationData()
     {
-        maxHealth = aiData.health;
-        attackDamage = aiData.attackDamage;
-        attackSpeed = aiData.attackSpeed;
-        attackRange = aiData.attackRange;
-        moveSpeed = aiData.moveSpeed;
-        dectectionRange = aiData.detectionRange;
         currentHealth = maxHealth;
-        
         backupColor = GetComponent<MeshRenderer>().material.color;
 
-
+        m_rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_nav = GetComponent<NavMeshAgent>();
     }
-    
+
     public void ChasePlayer()
     {
         m_nav.SetDestination(m_player.transform.position);
@@ -105,12 +103,6 @@ public class AIBrain : MonoBehaviour
             animator.Play(attackAnimName);
         }
         AttackCooldown();
-        
-        //debug console
-        if (attackAnimName == String.Empty)
-        {
-            Debug.Log("There is no anim name attach to the attack action, check this in inspector");
-        }
     }
     
     private void AttackCooldown()
@@ -173,8 +165,9 @@ public class AIBrain : MonoBehaviour
         spawnPoint = spawnArea;
     }
 
-    public void Death()
+    public IEnumerator Death()
     {
+        yield return new WaitForSeconds(0.1f);
         Destroy(gameObject);
     }
 
