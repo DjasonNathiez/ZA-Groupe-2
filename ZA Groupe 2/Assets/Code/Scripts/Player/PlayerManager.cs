@@ -71,8 +71,8 @@ public class PlayerManager : MonoBehaviour
     public GameObject weaponObj;
 
     public bool inputInterractPushed;
-    
 
+    private Quaternion lookRot;
     
     private void Awake()
     {
@@ -215,7 +215,9 @@ public class PlayerManager : MonoBehaviour
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
             throwingWeapon.transform.LookAt(throwingWeapon.transform.position+transform.forward);
+            
             direction = Vector3.forward;
+            
             state = "Throw";
             m_rope.enabled = true;
             m_rope.rope.gameObject.SetActive(true);
@@ -250,7 +252,7 @@ public class PlayerManager : MonoBehaviour
                         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
                         Vector3 aimDirection = (mousePosition - transform.position).normalized;
                 
-                        Quaternion lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
+                        lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
                         m_rb.DORotate(lookRot.eulerAngles, 0);
                     }
                     break;
@@ -258,7 +260,7 @@ public class PlayerManager : MonoBehaviour
                 case false :
                     if (m_moveDirection != Vector3.zero)
                     {
-                        Quaternion lookRot = Quaternion.LookRotation(m_moveDirection);
+                        lookRot = Quaternion.LookRotation(m_moveDirection);
                         m_rb.DORotate(lookRot.eulerAngles, rotationSpeed);
                     }
                     break;

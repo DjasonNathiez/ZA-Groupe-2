@@ -17,8 +17,16 @@ public class LionBehaviour : AIBrain
 
     private void Update()
     {
-        CheckState();
-        Detection();
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(Death());
+        }
+        else
+        {
+            CheckState();
+            Detection();
+        }
+        
     }
 
     private void CheckState()
@@ -45,12 +53,7 @@ public class LionBehaviour : AIBrain
                 AttackPlayer();
                 break;
         }
-        
-        if (currentHealth <= 0)
-        {
-            Death();
-        }
-        
+
     }
   
     

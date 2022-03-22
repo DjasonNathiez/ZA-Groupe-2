@@ -42,8 +42,6 @@ public class CameraController : MonoBehaviour
 
     private void OnValidate()
     {
-       
-
         SetCameraBasePosDebug();
     }
 

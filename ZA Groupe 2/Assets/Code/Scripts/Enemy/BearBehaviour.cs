@@ -17,17 +17,19 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
-        CheckState();
-        Detection();
+        if (currentHealth <= 0)
+        {
+            StartCoroutine(Death());
+        }
+        else
+        {
+            CheckState();
+            Detection();
+        }
     }
     
     void CheckState()
     {
-        if (currentHealth <= 0)
-        {
-            Death();
-        }
-        
         if (isAggro && !isFalling)
         {
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
