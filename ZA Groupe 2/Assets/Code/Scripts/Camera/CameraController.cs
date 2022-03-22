@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController instance;
+    
     private GameObject m_player;
     private Camera m_camera;
     public bool playerFocused;
@@ -13,8 +15,17 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
-         m_player = GameObject.FindGameObjectWithTag("Player");
-         m_camera = GetComponent<Camera>();
+        if (!instance)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+        
+        m_player = GameObject.FindGameObjectWithTag("Player"); 
+        m_camera = GetComponent<Camera>();
     }
 
     private void FixedUpdate()
@@ -31,9 +42,16 @@ public class CameraController : MonoBehaviour
 
     private void OnValidate()
     {
+       
+
+        SetCameraBasePosDebug();
+    }
+
+    public void SetCameraBasePosDebug()
+    {
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_camera = GetComponent<Camera>();
-
+        
         transform.position = m_cameraPos.position;
         transform.rotation = m_cameraPos.rotation;
         m_camera.orthographicSize = m_cameraZoom;
