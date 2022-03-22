@@ -28,4 +28,19 @@ public class CameraController : MonoBehaviour
             m_cameraPos.position = m_player.transform.position;   
         }
     }
+
+    private void OnValidate()
+    {
+        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_camera = GetComponent<Camera>();
+
+        transform.position = m_cameraPos.position;
+        transform.rotation = m_cameraPos.rotation;
+        m_camera.orthographicSize = m_cameraZoom;
+
+        if (playerFocused)
+        {
+            m_cameraPos.position = m_player.transform.position;   
+        }
+    }
 }
