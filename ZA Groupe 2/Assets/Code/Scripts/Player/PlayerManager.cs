@@ -141,7 +141,7 @@ public class PlayerManager : MonoBehaviour
 
             if (!m_isRolling)
             {
-                m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+                m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().y, 0, -context.ReadValue<Vector2>().x);
             }
             
             m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
@@ -198,7 +198,7 @@ public class PlayerManager : MonoBehaviour
     
         if (!m_attack.isAttacking)
         {
-            m_rb.velocity = m_moveDirection * m_speed;
+            m_rb.velocity = new Vector3(m_moveDirection.x * m_speed, m_rb.velocity.y, m_moveDirection.z * m_speed ) ;
         }
         else
         {
