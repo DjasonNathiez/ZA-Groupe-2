@@ -6,7 +6,7 @@ using UnityEngine;
 public class FollowCurve : MonoBehaviour
 {
     public float speed;
-    public Vector3[] points;
+    public WayPoints[] points;
     public int currentPoint;
     public float step;
     public bool loop;
@@ -30,17 +30,19 @@ public class FollowCurve : MonoBehaviour
 
         if (currentPoint < points.Length - 2)
         {
-            transform.position = Vector3.Lerp(points[currentPoint], points[currentPoint + 1], step);
+            transform.position = Vector3.Lerp(points[currentPoint].point, points[currentPoint + 1].point, step);
             transform.rotation = Quaternion.Lerp(transform.rotation,
-                Quaternion.LookRotation((points[currentPoint + 1] - points[currentPoint]).normalized),
-                5 * Time.deltaTime);
+                Quaternion.LookRotation((points[currentPoint + 1].point - points[currentPoint].point).normalized,points[currentPoint + 1].up),
+                step);
+            speed = Mathf.Lerp(speed, points[currentPoint + 1].speed, step);
         }
         else if (loop)
         {
-            transform.position = Vector3.Lerp(points[currentPoint], points[0], step);
+            transform.position = Vector3.Lerp(points[currentPoint].point, points[0].point, step);
             transform.rotation = Quaternion.Lerp(transform.rotation,
-                Quaternion.LookRotation((points[0] - points[currentPoint]).normalized),
-                5 * Time.deltaTime);
+                Quaternion.LookRotation((points[0].point - points[currentPoint].point).normalized,points[0].up),
+                step);
+            speed = Mathf.Lerp(speed, points[0].speed, step);
         }
     }
 }

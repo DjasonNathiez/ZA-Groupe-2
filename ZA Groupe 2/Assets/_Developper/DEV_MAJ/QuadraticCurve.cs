@@ -9,7 +9,7 @@ public class QuadraticCurve : MonoBehaviour
     public float spacing = 1;
     public float resolution = 1;
     public bool looped;
-    public Vector3[] points;
+    public WayPoints[] points;
     public FollowCurve followCurve;
 
     private void Start()
@@ -23,9 +23,10 @@ public class QuadraticCurve : MonoBehaviour
     private void OnDrawGizmos()
     {
         points = EvenlySpacedPoints(spacing, resolution);
-        foreach (Vector3 pos in points)
+        foreach (WayPoints pos in points)
         {
-            Gizmos.DrawSphere(pos,0.25f);
+            Gizmos.DrawSphere(pos.point,0.25f);
+            Gizmos.DrawRay(pos.point,pos.up*2);
         }
     }
 
@@ -41,11 +42,15 @@ public class QuadraticCurve : MonoBehaviour
         return result;
     }
 
-    public Vector3[] EvenlySpacedPoints(float spacing, float resolution)
+    public WayPoints[] EvenlySpacedPoints(float spacing, float resolution)
     {
-        List<Vector3> evenlySpacedPoints = new List<Vector3>();
-        evenlySpacedPoints.Add(anchors[0].anchor.position);
-        Vector3 previousPoint = evenlySpacedPoints[0];
+        List<WayPoints> evenlySpacedPoints = new List<WayPoints>();
+        WayPoints wayPoint = new WayPoints();
+        wayPoint.point = anchors[0].anchor.position;
+        wayPoint.up = anchors[0].anchor.up;
+        wayPoint.speed = anchors[0].speed;
+        evenlySpacedPoints.Add(wayPoint);
+        Vector3 previousPoint = evenlySpacedPoints[0].point;
         float dist = 0;
 
         for (int a = 1; a < anchors.Length; a++)
@@ -68,7 +73,11 @@ public class QuadraticCurve : MonoBehaviour
                 {
                     float overShootDistance = dist - spacing;
                     Vector3 newSpacedPoint = newPoint + (previousPoint - newPoint).normalized * overShootDistance;
-                    evenlySpacedPoints.Add(newSpacedPoint);
+                    WayPoints newWayPoint = new WayPoints();
+                    newWayPoint.point = newSpacedPoint;
+                    newWayPoint.up = Vector3.Lerp(anchors[a - 1].anchor.up, anchors[a].anchor.up, t).normalized;
+                    newWayPoint.speed = Mathf.Lerp(anchors[a - 1].speed, anchors[a].speed, t);
+                    evenlySpacedPoints.Add(newWayPoint);
                     dist = overShootDistance;
                     previousPoint = newSpacedPoint;
                 }
@@ -98,7 +107,11 @@ public class QuadraticCurve : MonoBehaviour
                 {
                     float overShootDistance = dist - spacing;
                     Vector3 newSpacedPoint = newPoint + (previousPoint - newPoint).normalized * overShootDistance;
-                    evenlySpacedPoints.Add(newSpacedPoint);
+                    WayPoints newWayPoint = new WayPoints();
+                    newWayPoint.point = newSpacedPoint;
+                    newWayPoint.up = Vector3.Lerp(anchors[anchors.Length - 1].anchor.up, anchors[0].anchor.up, t).normalized;
+                    newWayPoint.speed = Mathf.Lerp(anchors[anchors.Length - 1].speed, anchors[0].speed, t);
+                    evenlySpacedPoints.Add(newWayPoint);
                     dist = overShootDistance;
                     previousPoint = newSpacedPoint;
                 }
@@ -117,4 +130,13 @@ public class Anchor
 {
     public Transform anchor;
     public Transform[] handles;
+    public float speed;
+}
+
+[Serializable]
+public class WayPoints
+{
+    public Vector3 point;
+    public Vector3 up;
+    public float speed;
 }
