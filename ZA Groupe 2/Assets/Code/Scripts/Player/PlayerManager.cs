@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Statistics")] 
     public float currentLifePoint;
     public float maxLifePoint;
+    public bool isInvincible;
 
     [Header("Movement")] 
     [SerializeField] private float m_speed;
@@ -159,13 +160,17 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case ControlState.UI:
-
+                //can't acces player controls
                 break;
         }
         
         m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
-                
         m_inputController.Player.Bugtracker.started += _ => controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
+        m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
+
+        m_inputController.Player.Pause.started += _ => GameManager.instance.OpenPlaytestPanel(!GameManager.instance.playtestMenu.activeSelf);
+        m_inputController.Player.Pause.started += _ => controlState = GameManager.instance.playtestMenu.activeSelf ? ControlState.UI : ControlState.NORMAL;
+        m_inputController.Player.Pause.started += _ => Time.timeScale = GameManager.instance.playtestMenu.activeSelf ? 0 : 1;
     }
 
     private void Dash()
@@ -294,12 +299,17 @@ public class PlayerManager : MonoBehaviour
 
     public void GetHurt(int damage)
     {
+        if (isInvincible) return;
+        
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
         }
-        
+            
+            
         StartCoroutine(TiltColorDebug());
+
+
     }
 
     IEnumerator TiltColorDebug()

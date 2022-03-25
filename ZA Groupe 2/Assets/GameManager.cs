@@ -5,14 +5,21 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
+    
+    [Header("Game")]
     public GameObject player;
+    private PlayerManager m_playerManager;
     public GameObject camera;
+    
+    [Header("UI")]
     public UIManager ui;
-
+    
+    [Header("Level")]
     public string gameScene;
 
+    [Header("Debug Menu")]
     public TrelloUI bugtracker;
+    public GameObject playtestMenu;
 
     private void Awake()
     {
@@ -24,7 +31,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        
+
+        m_playerManager = player.GetComponentInChildren<PlayerManager>();
+
         CheckScene();
     }
 
@@ -32,7 +41,11 @@ public class GameManager : MonoBehaviour
     {
         bugtracker.reportPanel.SetActive(isOpen);
     }
-    
+
+    public void OpenPlaytestPanel(bool isOpen)
+    {
+        playtestMenu.SetActive(isOpen);
+    }
 
     private void InitializeGame()
     {
@@ -53,6 +66,28 @@ public class GameManager : MonoBehaviour
             InitializeGame();
         }
     }
+
+    #region Playtest Functions
+
+    public void SetInvincibility(bool isInvincible)
+    {
+        m_playerManager.isInvincible = isInvincible;
+    }
+
+    public void SetInfiniteRope(bool ropeIsInfinite)
+    {
+        
+        if (ropeIsInfinite)
+        {
+            player.GetComponentInChildren<TestRope>().lenght = 1000;
+        }
+        else
+        {
+            player.GetComponentInChildren<TestRope>().lenght = 50;
+        }
+    }
+
+    #endregion
 
     
 }
