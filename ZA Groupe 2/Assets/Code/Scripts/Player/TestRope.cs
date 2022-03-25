@@ -18,11 +18,17 @@ public class TestRope : MonoBehaviour
     public bool rewinding;
     public float remainingLenght;
     public GameObject nodePos;
-    public PlayerManager PlayerManager;
+    public PlayerManager playerManager;
     public GameObject pinnedTo;
 
     void Update()
     {
+        Vector3[] poss = CalculateCuttingPoints(1);
+        foreach (Vector3 pos in poss)
+        {
+            Debug.DrawRay(pos,Vector3.up,Color.blue);
+        }
+        
         //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
         CheckToFall();
         
@@ -317,7 +323,7 @@ public class TestRope : MonoBehaviour
                 else
                 {
                     pin.SetActive(false);
-                    PlayerManager.state = "StatusQuo";
+                    playerManager.state = "StatusQuo";
                     rope.gameObject.SetActive(false);
                     pinnedToObject = false;
                     rewinding = false;
@@ -327,10 +333,72 @@ public class TestRope : MonoBehaviour
         }
     }
 
+    public Vector3[] CalculateCuttingPoints(float resolution)
+    {
+        List<Vector3> positions = new List<Vector3>();
+        
+        Vector3 point;
+        if (nodes.Count > 0)
+        {
+            point = nodes[nodes.Count - 1].nodePoint.transform.position;
+            
+            float dist = Vector3.Distance(point, transform.position);
+            int numberOfPoints = Mathf.RoundToInt( Mathf.FloorToInt(dist) * resolution );
+            for (int i = 1; i < numberOfPoints; i++)
+            {
+                Vector3 pos = transform.position +
+                              (point - transform.position).normalized * ((dist / numberOfPoints) * i);
+                positions.Add(pos);
+            }
+            
+            point = nodes[0].nodePoint.transform.position;
+            
+             dist = Vector3.Distance(point, pin.transform.position);
+             numberOfPoints = Mathf.RoundToInt( Mathf.FloorToInt(dist) * resolution );
+            for (int i = 1; i < numberOfPoints; i++)
+            {
+                Vector3 pos = pin.transform.position +
+                              (point - pin.transform.position).normalized * ((dist / numberOfPoints) * i);
+                positions.Add(pos);
+            }
+        }
+        else
+        {
+            point = pin.transform.position;
+            float dist = Vector3.Distance(point, transform.position);
+            int numberOfPoints = Mathf.RoundToInt( Mathf.FloorToInt(dist) * resolution );
+            for (int i = 1; i < numberOfPoints; i++)
+            {
+                Vector3 pos = transform.position +
+                              (point - transform.position).normalized * ((dist / numberOfPoints) * i);
+                positions.Add(pos);
+            }
+        }
+        
+        
+        
+        foreach (Node node in nodes)
+        {
+            if (node.index > 1 && nodes[node.index - 2].anchor != node.anchor)
+            {
+                float dist = Vector3.Distance(node.nodePoint.transform.position, nodes[node.index - 2].nodePoint.transform.position);
+                int numberOfPoints = Mathf.RoundToInt( Mathf.FloorToInt(dist) * resolution );
+                for (int i = 1; i < numberOfPoints; i++)
+                {
+                    Vector3 pos = node.nodePoint.transform.position +
+                                  (nodes[node.index - 2].nodePoint.transform.position - node.nodePoint.transform.position).normalized * ((dist / numberOfPoints) * i);
+                    positions.Add(pos);
+                }
+            }
+        }
+
+        return positions.ToArray();
+    }
+
     public void ResetPin()
     {
         pin.SetActive(false);
-        PlayerManager.state = "StatusQuo";
+        playerManager.state = "StatusQuo";
         pinnedToObject = false;
         rewinding = false;
         enabled = false;
