@@ -107,6 +107,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Bugtracker"",
+                    ""type"": ""Button"",
+                    ""id"": ""4bbfcd60-d27d-45d6-9367-061e63de1eac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -571,6 +580,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cc348780-7309-4ee1-aa35-dd9b1a9c9204"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Bugtracker"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -638,6 +658,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Map = m_Player.FindAction("Map", throwIfNotFound: true);
         m_Player_Rope = m_Player.FindAction("Rope", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_Bugtracker = m_Player.FindAction("Bugtracker", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -706,6 +727,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Map;
     private readonly InputAction m_Player_Rope;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_Bugtracker;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -719,6 +741,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Map => m_Wrapper.m_Player_Map;
         public InputAction @Rope => m_Wrapper.m_Player_Rope;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        public InputAction @Bugtracker => m_Wrapper.m_Player_Bugtracker;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -755,6 +778,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @Bugtracker.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
+                @Bugtracker.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
+                @Bugtracker.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -786,6 +812,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Bugtracker.started += instance.OnBugtracker;
+                @Bugtracker.performed += instance.OnBugtracker;
+                @Bugtracker.canceled += instance.OnBugtracker;
             }
         }
     }
@@ -837,5 +866,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnMap(InputAction.CallbackContext context);
         void OnRope(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnBugtracker(InputAction.CallbackContext context);
     }
 }

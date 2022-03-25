@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public string gameScene;
 
+    public TrelloUI bugtracker;
+
     private void Awake()
     {
         if (instance == null)
@@ -24,6 +26,11 @@ public class GameManager : MonoBehaviour
         }
         
         CheckScene();
+    }
+
+    public void OpenBugTrackerPanel(bool isOpen)
+    {
+        bugtracker.reportPanel.SetActive(isOpen);
     }
     
 
