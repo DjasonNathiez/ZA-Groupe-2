@@ -1756,7 +1756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6297006881197988}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: -29.871004, y: -14.279733, z: 5.0943413}
+  m_LocalPosition: {x: -29.877014, y: -11.456635, z: 5.405361}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2029,6 +2029,7 @@ MonoBehaviour:
   m_dialogueBox: {fileID: 6297007252455558}
   m_Button: {fileID: 6297007429370786}
   m_cameraController: {fileID: 6297006881197976}
+  check: 0
 --- !u!1 &6297006918641280
 GameObject:
   m_ObjectHideFlags: 0
@@ -3779,8 +3780,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textElement: {fileID: 6297007594613924}
-  reset: 0
-  next: 0
   showedCharIndex: 0
   speedOfShowing: 0.05
   timeStamp: 0
@@ -3954,6 +3953,7 @@ MonoBehaviour:
   m_dialogueBox: {fileID: 6297007252455558}
   m_Button: {fileID: 6297006918641280}
   m_cameraController: {fileID: 6297006881197976}
+  check: 0
 --- !u!1 &6297007622004321
 GameObject:
   m_ObjectHideFlags: 0
@@ -4089,7 +4089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6297007624571893}
   m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: -48.521004, y: -13.199733, z: 40.68434}
+  m_LocalPosition: {x: -14.989014, y: -11.086635, z: 29.354362}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4834,6 +4834,7 @@ MonoBehaviour:
   pinPosBase: {fileID: 0}
   m_rope: {fileID: 0}
   weaponObj: {fileID: 6297007622004321}
+  inputInterractPushed: 0
 --- !u!114 &8747225600264495213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4861,6 +4862,7 @@ MonoBehaviour:
   remainingLenght: 0
   nodePos: {fileID: 6297007862286036}
   PlayerManager: {fileID: 6297007791270859}
+  pinnedTo: {fileID: 0}
 --- !u!1 &6297007840867323
 GameObject:
   m_ObjectHideFlags: 0
