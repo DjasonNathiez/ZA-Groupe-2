@@ -23,11 +23,11 @@ public class TestRope : MonoBehaviour
 
     void Update()
     {
-        Vector3[] poss = CalculateCuttingPoints(1);
-        foreach (Vector3 pos in poss)
-        {
-            Debug.DrawRay(pos,Vector3.up,Color.blue);
-        }
+        // Vector3[] poss = CalculateCuttingPoints(1);
+        // foreach (Vector3 pos in poss)
+        // {
+        //     Debug.DrawRay(pos,Vector3.up,Color.blue);
+        // }
         
         //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
         CheckToFall();
