@@ -17,6 +17,7 @@ public class QuadraticCurve : MonoBehaviour
         points = EvenlySpacedPoints(spacing, resolution);
 
         followCurve.points = points;
+        followCurve.transform.position = followCurve.points[0].point;
     }
 
 
@@ -77,6 +78,9 @@ public class QuadraticCurve : MonoBehaviour
                     newWayPoint.point = newSpacedPoint;
                     newWayPoint.up = Vector3.Lerp(anchors[a - 1].anchor.up, anchors[a].anchor.up, t).normalized;
                     newWayPoint.speed = Mathf.Lerp(anchors[a - 1].speed, anchors[a].speed, t);
+                    newWayPoint.camZoom = Mathf.Lerp(anchors[a - 1].camZoom, anchors[a].camZoom, t);
+                    newWayPoint.camPos = Vector3.Lerp(anchors[a - 1].camPos, anchors[a].camPos, t);
+                    newWayPoint.camAngle = Quaternion.Lerp(Quaternion.Euler(anchors[a - 1].camAngle), Quaternion.Euler(anchors[a].camAngle), t);
                     evenlySpacedPoints.Add(newWayPoint);
                     dist = overShootDistance;
                     previousPoint = newSpacedPoint;
@@ -111,6 +115,9 @@ public class QuadraticCurve : MonoBehaviour
                     newWayPoint.point = newSpacedPoint;
                     newWayPoint.up = Vector3.Lerp(anchors[anchors.Length - 1].anchor.up, anchors[0].anchor.up, t).normalized;
                     newWayPoint.speed = Mathf.Lerp(anchors[anchors.Length - 1].speed, anchors[0].speed, t);
+                    newWayPoint.camZoom = Mathf.Lerp(anchors[anchors.Length - 1].camZoom, anchors[0].camZoom, t);
+                    newWayPoint.camPos = Vector3.Lerp(anchors[anchors.Length - 1].camPos, anchors[0].camPos, t);
+                    newWayPoint.camAngle = Quaternion.Lerp(Quaternion.Euler(anchors[anchors.Length - 1].camAngle), Quaternion.Euler(anchors[0].camAngle), t);
                     evenlySpacedPoints.Add(newWayPoint);
                     dist = overShootDistance;
                     previousPoint = newSpacedPoint;
@@ -131,6 +138,9 @@ public class Anchor
     public Transform anchor;
     public Transform[] handles;
     public float speed;
+    public Vector3 camPos;
+    public Vector3 camAngle;
+    public float camZoom;
 }
 
 [Serializable]
@@ -139,4 +149,7 @@ public class WayPoints
     public Vector3 point;
     public Vector3 up;
     public float speed;
+    public Vector3 camPos;
+    public Quaternion camAngle;
+    public float camZoom;
 }
