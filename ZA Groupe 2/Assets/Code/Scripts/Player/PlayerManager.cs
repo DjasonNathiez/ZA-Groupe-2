@@ -26,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Statistics")] 
     public float currentLifePoint;
     public float maxLifePoint;
+    public bool isInvincible;
 
     [Header("Movement")] 
     [SerializeField] private float m_speed;
@@ -102,54 +103,74 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Update()
-    {
+    {        
+        
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
-        m_inputController.Player.Melee.started += _ => LoadAttack();
-        m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
-        m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
+
+        switch (controlState)
+        {
+            case ControlState.NORMAL:
+                m_inputController.Player.Melee.started += _ => LoadAttack();
+                m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
+                m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
 //        Debug.Log(state);
-        switch (state)
-        {
-            case "StatusQuo":
-                m_inputController.Player.Range.started += _ => Throw();
-                break;
-            case "Rope":
-                m_inputController.Player.Range.started += _ => Rewind();
-                break;
-            case "Throw":
-                throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
-                break;
-            default: return;
-        }
+                switch (state)
+                {
+                    case "StatusQuo":
+                        m_inputController.Player.Range.started += _ => Throw();
+                        break;
+                    case "Rope":
+                        m_inputController.Player.Range.started += _ => Rewind();
+                        break;
+                    case "Throw":
+                        throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
+                        break;
+                    default: return;
+                }
 
-        if (m_canRoll)
-        {
-            m_inputController.Player.Roll.started += _ => m_isRolling = true;
-        }
+                if (m_canRoll)
+                {
+                    m_inputController.Player.Roll.started += _ => m_isRolling = true;
+                }
 
-        switch (m_rollTimer)
-        {
-            case > 0:
-                m_rollTimer -= Time.deltaTime;
-                m_canRoll = false;
+                switch (m_rollTimer)
+                {
+                    case > 0:
+                        m_rollTimer -= Time.deltaTime;
+                        m_canRoll = false;
+                        break;
+                    case <= 0:
+                        m_canRoll = true;
+                        break;
+                }
+
+                m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
+
+                if (!m_isRolling)
+                {
+                    m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+                }
+
+                m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
+                
+                Move();
+                Rotation();
+                Dash();
+                
                 break;
-            case <= 0:
-                m_canRoll = true;
-                break;
-        }
-
-            m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
-
-            if (!m_isRolling)
-            {
-                m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().y, 0, -context.ReadValue<Vector2>().x);
-            }
             
-            m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-            
-            Move();
-            Rotation();
-            Dash();
+            case ControlState.UI:
+                //can't acces player controls
+                break;
+        }
+        
+        m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
+        m_inputController.Player.Bugtracker.started += _ => controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
+        m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
+
+        m_inputController.Player.Pause.started += _ => GameManager.instance.OpenPlaytestPanel(!GameManager.instance.playtestMenu.activeSelf);
+        m_inputController.Player.Pause.started += _ => controlState = GameManager.instance.playtestMenu.activeSelf ? ControlState.UI : ControlState.NORMAL;
+        m_inputController.Player.Pause.started += _ => Time.timeScale = GameManager.instance.playtestMenu.activeSelf ? 0 : 1;
     }
 
     private void Dash()
@@ -278,12 +299,17 @@ public class PlayerManager : MonoBehaviour
 
     public void GetHurt(int damage)
     {
+        if (isInvincible) return;
+        
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
         }
-        
+            
+            
         StartCoroutine(TiltColorDebug());
+
+
     }
 
     IEnumerator TiltColorDebug()
