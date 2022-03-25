@@ -148,7 +148,7 @@ public class PlayerManager : MonoBehaviour
 
                 if (!m_isRolling)
                 {
-                    m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().y, 0, -context.ReadValue<Vector2>().x);
+                    m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                 }
 
                 m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
