@@ -21,13 +21,20 @@ public class TestRope : MonoBehaviour
     public PlayerManager playerManager;
     public GameObject pinnedTo;
 
+    public int ropeHealth;
+
     void Update()
     {
-        Vector3[] poss = CalculateCuttingPoints(1);
-        foreach (Vector3 pos in poss)
+        if (ropeHealth <= 0)
         {
-            Debug.DrawRay(pos,Vector3.up,Color.blue);
+            ResetPin();
         }
+        
+        // Vector3[] poss = CalculateCuttingPoints(1);
+        // foreach (Vector3 pos in poss)
+        // {
+        //     Debug.DrawRay(pos,Vector3.up,Color.blue);
+        // }
         
         //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
         CheckToFall();
