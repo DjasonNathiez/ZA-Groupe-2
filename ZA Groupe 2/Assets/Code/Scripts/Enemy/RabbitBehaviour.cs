@@ -26,6 +26,11 @@ public class RabbitBehaviour : AIBrain
 
     private void CheckState()
     {
+        if (currentHealth <= 0)
+        {
+            Death();
+        }
+        
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
         if (m_player.GetComponent<PlayerManager>().m_rope.enabled)

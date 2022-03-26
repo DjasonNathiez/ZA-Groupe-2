@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
+        
         if (instance == null)
         {
             instance = this;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
     {
         player.SetActive(true);
         ui.hudParent.SetActive(true);
+        GetComponentInChildren<CameraController>().InitializeCamera();
     }
 
     public void LoadScene(string sceneName)
@@ -65,7 +68,12 @@ public class GameManager : MonoBehaviour
         CheckScene();
     }
 
-    void CheckScene()
+    public void ApplicationQuit()
+    {
+        Application.Quit();
+    }
+    
+    public void CheckScene()
     {
         if (SceneManager.GetActiveScene().name == gameScene)
         {
@@ -76,6 +84,12 @@ public class GameManager : MonoBehaviour
     public void BackToCheckpoint()
     {
         player.transform.position = lastCheckpoint.respawnPoint.position;
+    }
+
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
     }
     
     #region Playtest Functions
