@@ -21,8 +21,15 @@ public class TestRope : MonoBehaviour
     public PlayerManager playerManager;
     public GameObject pinnedTo;
 
+    public int ropeHealth;
+
     void Update()
     {
+        if (ropeHealth <= 0)
+        {
+            ResetPin();
+        }
+        
         // Vector3[] poss = CalculateCuttingPoints(1);
         // foreach (Vector3 pos in poss)
         // {
