@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,10 @@ public class GameManager : MonoBehaviour
     
     [Header("Level")]
     public string gameScene;
-
+    public Checkpoint lastCheckpoint;
+    public string lastCheckpointName;
+    public Checkpoint[] allCheckpoint;
+    
     [Header("Debug Menu")]
     public TrelloUI bugtracker;
     public GameObject playtestMenu;
@@ -35,6 +39,8 @@ public class GameManager : MonoBehaviour
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
 
         CheckScene();
+
+        allCheckpoint = FindObjectsOfType<Checkpoint>();
     }
 
     public void OpenBugTrackerPanel(bool isOpen)
@@ -67,6 +73,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void BackToCheckpoint()
+    {
+        player.transform.position = lastCheckpoint.respawnPoint.position;
+    }
+    
     #region Playtest Functions
 
     public void SetInvincibility(bool isInvincible)

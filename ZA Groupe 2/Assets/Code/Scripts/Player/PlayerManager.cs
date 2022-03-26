@@ -33,14 +33,12 @@ public class PlayerManager : MonoBehaviour
     public float moveSpeed;
     
     private Vector3 m_moveDirection;
-    
     public float rotationSpeed;
     
     [Header("Attack")]
     public int attackDamage;
     public float attackSpeed;
     [SerializeField] private Attack m_attack;
-    
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
@@ -49,7 +47,7 @@ public class PlayerManager : MonoBehaviour
     public float throwingSpeed;
     public Vector3 direction;
     public string state = "StatusQuo";
-
+    
     [Header("Roll")]
     public float rollSpeed;
     [Range(0,1)] public float rollDuration;
@@ -57,18 +55,14 @@ public class PlayerManager : MonoBehaviour
     private float m_rollTimer;
     [SerializeField] private bool m_canRoll;
     private bool m_isRolling;
-
     public AnimationCurve animationCurve;
     public float lerpTime;
     [SerializeField] private float m_acTimer;
-
     public GameObject pinObj;
     public GameObject pinPosBase;
-    
     private GameObject objInFront;
 
     public TestRope m_rope;
-
     public GameObject weaponObj;
 
     public bool inputInterractPushed;
@@ -305,11 +299,15 @@ public class PlayerManager : MonoBehaviour
         {
             currentLifePoint -= damage;
         }
-            
-            
         StartCoroutine(TiltColorDebug());
+        
+    }
 
-
+    public void RespawnPlayer()
+    {
+        GameManager.instance.BackToCheckpoint();
+        ResetState();
+        currentLifePoint = maxLifePoint;
     }
 
     IEnumerator TiltColorDebug()
