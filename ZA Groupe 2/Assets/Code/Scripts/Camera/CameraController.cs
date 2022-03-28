@@ -24,6 +24,11 @@ public class CameraController : MonoBehaviour
             Destroy(this);
         }
         
+        InitializeCamera();
+    }
+
+    public void InitializeCamera()
+    {
         m_player = GameObject.FindGameObjectWithTag("Player"); 
         m_camera = GetComponent<Camera>();
     }
@@ -34,13 +39,13 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation,m_cameraPos.rotation,0.05f);
         m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, m_cameraZoom, 0.05f);
 
-        if (playerFocused)
+        if (playerFocused && m_player)
         {
             m_cameraPos.position = m_player.transform.position;   
         }
     }
 
-    private void OnValidate()
+    /*private void OnValidate()
     {
         SetCameraBasePosDebug();
     }
@@ -58,5 +63,5 @@ public class CameraController : MonoBehaviour
         {
             m_cameraPos.position = m_player.transform.position;   
         }
-    }
+    }*/
 }
