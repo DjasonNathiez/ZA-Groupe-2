@@ -185,5 +185,9 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region SETTINGS MENU
+
     
+
+    #endregion
 }
