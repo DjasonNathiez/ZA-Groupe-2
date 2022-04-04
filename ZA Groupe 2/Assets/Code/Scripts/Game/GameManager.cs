@@ -22,13 +22,6 @@ public class GameManager : MonoBehaviour
     public GameObject characterPanel;
     public GameObject settingsPanel;
 
-    [Serializable] public enum Panels
-    {
-        Collection = 0,
-        Character = 1,
-        Settings = 2
-    }
-    
     [Header("Level")]
     public string gameScene;
     public Checkpoint lastCheckpoint;
