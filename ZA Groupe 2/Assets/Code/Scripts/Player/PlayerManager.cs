@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -162,9 +163,25 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Bugtracker.started += _ => controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
 
-        m_inputController.Player.Pause.started += _ => GameManager.instance.OpenPlaytestPanel(!GameManager.instance.playtestMenu.activeSelf);
-        m_inputController.Player.Pause.started += _ => controlState = GameManager.instance.playtestMenu.activeSelf ? ControlState.UI : ControlState.NORMAL;
-        m_inputController.Player.Pause.started += _ => Time.timeScale = GameManager.instance.playtestMenu.activeSelf ? 0 : 1;
+        //SET PAUSE
+        
+        m_inputController.Player.Pause.started += PauseOnstarted;
+    }
+
+    private void PauseOnstarted(InputAction.CallbackContext obj)
+    {
+        if (!obj.started) return;
+
+        if (!GameManager.instance.inPause)
+        {
+            GameManager.instance.Pause();
+            GameManager.instance.inPause = true;
+        }
+        else
+        {
+            GameManager.instance.Resume();
+            GameManager.instance.inPause = false;
+        }
     }
 
     private void Dash()
