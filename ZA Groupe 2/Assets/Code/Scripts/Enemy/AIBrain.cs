@@ -57,8 +57,7 @@ public class AIBrain : MonoBehaviour
     public void InitializationData()
     {
         currentHealth = maxHealth;
-        backupColor = GetComponent<MeshRenderer>().material.color;
-
+        
         m_rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         m_player = GameObject.FindGameObjectWithTag("Player");
