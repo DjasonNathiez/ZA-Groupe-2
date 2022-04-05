@@ -1,9 +1,12 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
     private BoxCollider collider;
     public bool isAttacking;
+
+    public GameObject popcornVFX;
 
     private void Awake()
     {
@@ -16,8 +19,8 @@ public class Attack : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-   {
-      AIBrain iaBrain = other.GetComponent<AIBrain>();
+    {
+        AIBrain iaBrain = other.GetComponent<AIBrain>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
 
       if (iaBrain)
@@ -31,6 +34,14 @@ public class Attack : MonoBehaviour
           dir = new Vector3(dir.x, knockableObject.yforce, dir.z).normalized * knockableObject.force;
           knockableObject.rb.AddForce(dir,ForceMode.Impulse);
           knockableObject.rb.isKinematic = false;
+      }
+
+      
+      if (knockableObject && knockableObject.isHit == true)
+      {
+          Instantiate(popcornVFX, transform.position, quaternion.identity);
+          Destroy(knockableObject.popcornInterior);
+          knockableObject.isHit = false; 
       }
 
    }
