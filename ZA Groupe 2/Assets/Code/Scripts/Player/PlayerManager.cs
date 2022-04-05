@@ -101,6 +101,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {        
+        CheckForAnimation();
         
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
 
@@ -147,10 +148,17 @@ public class PlayerManager : MonoBehaviour
                 {
                     m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                     m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+
+                    m_inputController.Player.Move.performed += _ => playerStateMachine = PlayerStateMachine.MOVE;
                 }
 
                 m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-                
+
+                if (!m_attack.isAttacking || !m_isRolling)
+                {
+                    m_inputController.Player.Move.canceled += _ => playerStateMachine = PlayerStateMachine.IDLE;
+                }
+
                 Move();
                 Rotation();
                 Dash();
@@ -169,6 +177,28 @@ public class PlayerManager : MonoBehaviour
         //SET PAUSE
         
         m_inputController.Player.Pause.started += PauseOnstarted;
+    }
+
+    private void CheckForAnimation()
+    {
+
+        switch (playerStateMachine)
+        {
+            case PlayerStateMachine.IDLE:
+                m_animator.Play("Idle");
+                break;
+            
+            case PlayerStateMachine.MOVE:
+                m_animator.Play("Move");
+                break;
+            case PlayerStateMachine.ATTACK:
+                m_animator.Play("Attack");
+                break;
+            case PlayerStateMachine.ROLLING:
+                m_animator.Play("Roll");
+                break;
+        }
+        
     }
 
     private void PauseOnstarted(InputAction.CallbackContext obj)
@@ -191,14 +221,16 @@ public class PlayerManager : MonoBehaviour
     {
         if (m_isRolling)
         {
+            playerStateMachine = PlayerStateMachine.ROLLING;
             m_canRoll = false;
             
             m_acTimer -= Time.deltaTime; 
         
             m_speed = animationCurve.Evaluate(m_acTimer);
-        
+            
             if (m_acTimer <= 0)
             {
+                playerStateMachine = PlayerStateMachine.IDLE;
                 m_speed = moveSpeed;
                 m_isRolling = false;
                 m_rollTimer = rollCooldown;
