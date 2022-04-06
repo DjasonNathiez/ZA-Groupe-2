@@ -53,13 +53,16 @@ public class RabbitBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.IDLE:
+                animator.Play("R_Idle");
                 break;
             
             case StateMachine.CHASE:
+                animator.Play("R_Chase");
                 MoveToRope();
                 break;
             
             case StateMachine.ATTACK:
+                animator.Play(attackAnimName);
                 m_player.GetComponent<PlayerManager>().m_rope.rewinding = true;
                 break;
         }
