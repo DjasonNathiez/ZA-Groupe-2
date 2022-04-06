@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private BoxCollider collider;
+    private new BoxCollider collider;
     public bool isAttacking;
 
     public GameObject popcornVFX;
@@ -19,7 +19,7 @@ public class Attack : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    { 
         AIBrain iaBrain = other.GetComponent<AIBrain>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
 
@@ -36,7 +36,6 @@ public class Attack : MonoBehaviour
           knockableObject.rb.isKinematic = false;
       }
 
-      
       if (knockableObject && knockableObject.isHit == true)
       {
           Instantiate(popcornVFX, transform.position, quaternion.identity);
