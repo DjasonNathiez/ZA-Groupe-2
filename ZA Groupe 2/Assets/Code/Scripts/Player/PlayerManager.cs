@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     public enum ControlState {NORMAL, MOUNT, UI }
 
     public PlayerStateMachine playerStateMachine;
-    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING };
+    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING, THROW };
 
     [Header("Statistics")] 
     public float currentLifePoint;
@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
     
     private Vector3 m_moveDirection;
     public float rotationSpeed;
+    public bool moving;
     
     [Header("Attack")]
     public int attackDamage;
@@ -101,13 +102,18 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {        
+        CheckForAnimation();
         
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
 
         switch (controlState)
         {
             case ControlState.NORMAL:
-                m_inputController.Player.Melee.started += _ => LoadAttack();
+                if (playerStateMachine != PlayerStateMachine.THROW)
+                {
+                    m_inputController.Player.Melee.started += _ => LoadAttack();
+                }
+                
                 m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
                 m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
 //        Debug.Log(state);
@@ -147,10 +153,19 @@ public class PlayerManager : MonoBehaviour
                 {
                     m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                     m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+
+                    m_inputController.Player.Move.performed += _ => playerStateMachine = PlayerStateMachine.MOVE;
+                    m_inputController.Player.Move.performed += _ => moving = true;
                 }
 
                 m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-                
+                m_inputController.Player.Move.canceled += _ => moving = false;
+
+                if (!m_attack.isAttacking || !m_isRolling)
+                {
+                    m_inputController.Player.Move.canceled += _ => playerStateMachine = PlayerStateMachine.IDLE;
+                }
+
                 Move();
                 Rotation();
                 Dash();
@@ -169,6 +184,37 @@ public class PlayerManager : MonoBehaviour
         //SET PAUSE
         
         m_inputController.Player.Pause.started += PauseOnstarted;
+    }
+
+    private void CheckForAnimation()
+    {
+        m_animator.SetBool("Moving", moving);
+        switch (playerStateMachine)
+        {
+            case PlayerStateMachine.IDLE:
+                m_animator.Play("Idle");
+                break;
+            
+            case PlayerStateMachine.MOVE:
+
+                if (!m_isRolling || !m_attack.isAttacking || state != "Throw")
+                {
+                    m_animator.Play("Move");
+                }
+                
+                break;
+            case PlayerStateMachine.ATTACK:
+                m_animator.Play("Attack");
+                break;
+            case PlayerStateMachine.ROLLING:
+                m_animator.Play("Roll");
+                break;
+            
+            case PlayerStateMachine.THROW:
+                m_animator.Play("Throw");
+                break;
+        }
+        
     }
 
     private void PauseOnstarted(InputAction.CallbackContext obj)
@@ -191,18 +237,21 @@ public class PlayerManager : MonoBehaviour
     {
         if (m_isRolling)
         {
+            playerStateMachine = PlayerStateMachine.ROLLING;
             m_canRoll = false;
             
             m_acTimer -= Time.deltaTime; 
         
             m_speed = animationCurve.Evaluate(m_acTimer);
-        
+            
             if (m_acTimer <= 0)
             {
                 m_speed = moveSpeed;
                 m_isRolling = false;
                 m_rollTimer = rollCooldown;
                 m_acTimer = animationCurve.keys[animationCurve.length -1].time;
+                
+                playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
             }
         }
     }
@@ -231,7 +280,7 @@ public class PlayerManager : MonoBehaviour
     private void Move()
     {  
         //APPLY GRAVITY
-    
+
         if (!m_attack.isAttacking)
         {
             m_rb.velocity = new Vector3(m_moveDirection.x * m_speed, m_rb.velocity.y, m_moveDirection.z * m_speed ) ;
@@ -246,6 +295,7 @@ public class PlayerManager : MonoBehaviour
     {
         if(state == "StatusQuo")
         {
+            m_animator.Play("Throw");
             Debug.Log("The Throwing at " + state + "1");
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
@@ -341,7 +391,7 @@ public class PlayerManager : MonoBehaviour
     
     public void ResetState()
     {
-        playerStateMachine = PlayerStateMachine.IDLE;
+        playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
         m_attack.isAttacking = false;
     }
 
