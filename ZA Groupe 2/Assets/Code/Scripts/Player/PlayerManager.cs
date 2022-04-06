@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.DemiLib;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance;
-    
+
     private InputController m_inputController;
     public Rigidbody m_rb;
     private Animator m_animator;
@@ -16,43 +17,54 @@ public class PlayerManager : MonoBehaviour
 
     private LineRenderer m_lineRenderer;
     [SerializeField] private Vector2 mousePos;
-    
-    [Header("Player States")]
-    public ControlState controlState;
-    public enum ControlState {NORMAL, MOUNT, UI }
+
+    [Header("Player States")] public ControlState controlState;
+
+    public enum ControlState
+    {
+        NORMAL,
+        MOUNT,
+        UI
+    }
 
     public PlayerStateMachine playerStateMachine;
-    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING, THROW };
 
-    [Header("Statistics")] 
-    public float currentLifePoint;
+    public enum PlayerStateMachine
+    {
+        IDLE,
+        MOVE,
+        ATTACK,
+        ROLLING,
+        THROW,
+        DEAD
+    };
+
+    [Header("Statistics")] public float currentLifePoint;
     public float maxLifePoint;
     public bool isInvincible;
 
-    [Header("Movement")] 
-    [SerializeField] private float m_speed;
+    [Header("Movement")] [SerializeField] private float m_speed;
     public float moveSpeed;
-    
+
     private Vector3 m_moveDirection;
     public float rotationSpeed;
     public bool moving;
-    
-    [Header("Attack")]
-    public int attackDamage;
+
+    [Header("Attack")] public int attackDamage;
     public float attackSpeed;
+
     [SerializeField] private Attack m_attack;
+
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
-    [Header("DistanceAttack")]
-    public GameObject throwingWeapon;
+    [Header("DistanceAttack")] public GameObject throwingWeapon;
     public float throwingSpeed;
     public Vector3 direction;
     public string state = "StatusQuo";
-    
-    [Header("Roll")]
-    public float rollSpeed;
-    [Range(0,1)] public float rollDuration;
+
+    [Header("Roll")] public float rollSpeed;
+    [Range(0, 1)] public float rollDuration;
     public float rollCooldown;
     private float m_rollTimer;
     [SerializeField] private bool m_canRoll;
@@ -72,6 +84,7 @@ public class PlayerManager : MonoBehaviour
     public Vector3 move;
 
     private Quaternion lookRot;
+
     
     private void Awake()
     {
@@ -85,6 +98,7 @@ public class PlayerManager : MonoBehaviour
         m_rb = GetComponent<Rigidbody>();
         m_rope = GetComponent<TestRope>();
         m_playerInput = GetComponent<PlayerInput>();
+
     }
 
     private void Start()
@@ -101,7 +115,17 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Update()
-    {        
+    {
+        if (playerStateMachine != PlayerStateMachine.ATTACK)
+        {
+            m_attack.isAttacking = false;
+        }
+        
+        if (currentLifePoint <= 0)
+        {
+            playerStateMachine = PlayerStateMachine.DEAD;
+        }
+        
         CheckForAnimation();
         
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
@@ -109,7 +133,8 @@ public class PlayerManager : MonoBehaviour
         switch (controlState)
         {
             case ControlState.NORMAL:
-                if (playerStateMachine != PlayerStateMachine.THROW)
+                
+                if (!m_attack.isAttacking)
                 {
                     m_inputController.Player.Melee.started += _ => LoadAttack();
                 }
@@ -149,7 +174,7 @@ public class PlayerManager : MonoBehaviour
 
                 m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
 
-                if (!m_isRolling)
+                if (!m_attack.isAttacking && !m_isRolling)
                 {
                     m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                     m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
@@ -183,7 +208,8 @@ public class PlayerManager : MonoBehaviour
 
         //SET PAUSE
         
-        m_inputController.Player.Pause.started += PauseOnstarted;
+        m_inputController.Player.Pause.started += PauseOnstarted;  
+        
     }
 
     private void CheckForAnimation()
@@ -201,11 +227,8 @@ public class PlayerManager : MonoBehaviour
                 {
                     m_animator.Play("Move");
                 }
-                
                 break;
-            case PlayerStateMachine.ATTACK:
-                m_animator.Play("Attack");
-                break;
+            
             case PlayerStateMachine.ROLLING:
                 m_animator.Play("Roll");
                 break;
@@ -213,6 +236,11 @@ public class PlayerManager : MonoBehaviour
             case PlayerStateMachine.THROW:
                 m_animator.Play("Throw");
                 break;
+            
+            case PlayerStateMachine.DEAD:
+                m_animator.Play("Death");
+                break;
+            
         }
         
     }
@@ -322,7 +350,9 @@ public class PlayerManager : MonoBehaviour
         playerStateMachine = PlayerStateMachine.ATTACK;
         m_attack.isAttacking = true;
         m_animator.SetFloat(AttackSpeed, attackSpeed);
-        m_animator.Play("attack_first");
+        m_animator.Play("Attack");
+
+      
     }
 
     private void Rotation()
@@ -368,8 +398,8 @@ public class PlayerManager : MonoBehaviour
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
+            m_animator.Play("Hurt");
         }
-        StartCoroutine(TiltColorDebug());
         
     }
 
@@ -380,19 +410,11 @@ public class PlayerManager : MonoBehaviour
         currentLifePoint = maxLifePoint;
     }
 
-    IEnumerator TiltColorDebug()
-    {
-        var backupColor = GetComponent<MeshRenderer>().material.color;
-        
-        GetComponent<MeshRenderer>().material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        GetComponent<MeshRenderer>().material.color = backupColor;
-    }
-    
     public void ResetState()
     {
-        playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
         m_attack.isAttacking = false;
+        Debug.Log("Reset State");
+        playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }
 
     private void OnEnable()

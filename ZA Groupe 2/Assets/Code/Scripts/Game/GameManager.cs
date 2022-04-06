@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Game")]
     public GameObject player;
     private PlayerManager m_playerManager;
-    public GameObject camera;
+    public new GameObject camera;
     
     [Header("UI")]
     public UIManager ui;
