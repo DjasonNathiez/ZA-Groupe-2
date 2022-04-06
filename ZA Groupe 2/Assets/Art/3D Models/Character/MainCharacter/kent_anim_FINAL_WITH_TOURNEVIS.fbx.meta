@@ -1,44 +1,44 @@
 fileFormatVersion: 2
-guid: deb02bd54b977b84598941db6e08572b
+guid: aa8de4637d1ee9a4e9fe58f80ff642e4
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: -623603649343465320
-    second: K_Idle
+    second: Idle
   - first:
-      74: -1609281748187839663
-    second: K_Move
+      74: -2341027594253812581
+    second: Roll
   - first:
-      74: -229869884343661810
-    second: K_Attack
+      74: -167276532410963834
+    second: TalkBegin
   - first:
-      74: -633471030734247093
-    second: K_Roll
+      74: -8703035399731986702
+    second: Talking
   - first:
-      74: -4645305579148176952
-    second: K_TalkBegin
+      74: 1358262452650834379
+    second: Move
   - first:
-      74: 8762564193078550785
-    second: K_Talking
+      74: -4346097589131990702
+    second: Fail
   - first:
-      74: -3776212133682494018
-    second: K_Throw
+      74: 8017390324079358001
+    second: Hurt
   - first:
-      74: -7844379778774671703
-    second: K_Fail
+      74: 4348485665485846014
+    second: Death
   - first:
-      74: -3971031151035331239
-    second: K_Hurt
+      74: -4643733622885840568
+    second: Electrocut
   - first:
-      74: 1696765005800452032
-    second: K_Collect
+      74: -4014322488295996518
+    second: Collect
   - first:
-      74: 4325506687500287380
-    second: K_Electrocut
+      74: -6185155371445809522
+    second: Throw
   - first:
-      74: 3757166344281860182
-    second: K_Death
+      74: 6720303635017113406
+    second: Attack
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -69,7 +69,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: K_Idle
+      name: Idle
       takeName: Scene
       internalID: 0
       firstFrame: 0
@@ -98,65 +98,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Move
-      takeName: Scene
-      internalID: 0
-      firstFrame: 324
-      lastFrame: 335
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: K_Attack
-      takeName: Scene
-      internalID: 0
-      firstFrame: 350
-      lastFrame: 365
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: K_Roll
+      name: Roll
       takeName: Scene
       internalID: 0
       firstFrame: 200
@@ -185,7 +127,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_TalkBegin
+      name: TalkBegin
       takeName: Scene
       internalID: 0
       firstFrame: 240
@@ -214,7 +156,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Talking
+      name: Talking
       takeName: Scene
       internalID: 0
       firstFrame: 255
@@ -243,11 +185,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Throw
+      name: Move
       takeName: Scene
       internalID: 0
-      firstFrame: 445
-      lastFrame: 460
+      firstFrame: 324
+      lastFrame: 335
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -272,7 +214,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Fail
+      name: Fail
       takeName: Scene
       internalID: 0
       firstFrame: 370
@@ -301,7 +243,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Hurt
+      name: Hurt
       takeName: Scene
       internalID: 0
       firstFrame: 400
@@ -330,11 +272,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Collect
+      name: Death
       takeName: Scene
       internalID: 0
-      firstFrame: 410
-      lastFrame: 436
+      firstFrame: 465
+      lastFrame: 570
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -359,7 +301,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Electrocut
+      name: Electrocut
       takeName: Scene
       internalID: 0
       firstFrame: 440
@@ -388,11 +330,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: K_Death
+      name: Collect
       takeName: Scene
       internalID: 0
-      firstFrame: 465
-      lastFrame: 570
+      firstFrame: 410
+      lastFrame: 436
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Throw
+      takeName: Scene
+      internalID: 0
+      firstFrame: 445
+      lastFrame: 460
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack
+      takeName: Scene
+      internalID: 0
+      firstFrame: 350
+      lastFrame: 365
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

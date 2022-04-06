@@ -43,6 +43,5 @@ public class Attack : MonoBehaviour
           Destroy(knockableObject.popcornInterior);
           knockableObject.isHit = false; 
       }
-
-   }
+    }
 }
