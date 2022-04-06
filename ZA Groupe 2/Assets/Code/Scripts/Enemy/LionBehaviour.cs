@@ -41,11 +41,11 @@ public class LionBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                animator.Play("ennemy_lion_idle");
+                animator.Play("L_Idle");
                 break;
             
             case StateMachine.CHASE:
-                animator.Play("ennemy_lion_idle");
+                animator.Play("L_Chase");
                 ChasePlayer();
                 break;
             
