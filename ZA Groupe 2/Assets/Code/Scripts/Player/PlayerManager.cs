@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
     public enum ControlState {NORMAL, MOUNT, UI }
 
     public PlayerStateMachine playerStateMachine;
-    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING, THROW };
+    public enum PlayerStateMachine { IDLE, MOVE, ATTACK, ROLLING, THROW, DEAD };
 
     [Header("Statistics")] 
     public float currentLifePoint;
@@ -101,7 +101,13 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Update()
-    {        
+    {
+
+        if (currentLifePoint <= 0)
+        {
+            playerStateMachine = PlayerStateMachine.DEAD;
+        }
+        
         CheckForAnimation();
         
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
@@ -213,6 +219,11 @@ public class PlayerManager : MonoBehaviour
             case PlayerStateMachine.THROW:
                 m_animator.Play("Throw");
                 break;
+            
+            case PlayerStateMachine.DEAD:
+                m_animator.Play("Death");
+                break;
+            
         }
         
     }
@@ -368,8 +379,8 @@ public class PlayerManager : MonoBehaviour
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
+            m_animator.Play("Hurt");
         }
-        StartCoroutine(TiltColorDebug());
         
     }
 
@@ -380,15 +391,6 @@ public class PlayerManager : MonoBehaviour
         currentLifePoint = maxLifePoint;
     }
 
-    IEnumerator TiltColorDebug()
-    {
-        var backupColor = GetComponent<MeshRenderer>().material.color;
-        
-        GetComponent<MeshRenderer>().material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        GetComponent<MeshRenderer>().material.color = backupColor;
-    }
-    
     public void ResetState()
     {
         playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;

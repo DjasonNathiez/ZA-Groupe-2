@@ -19,9 +19,9 @@ public class AIBrain : MonoBehaviour
     //attack
     public int attackDamage;
     public float attackRange;
-    public float attackSpeed;
-    [HideInInspector] public float m_attackDelay;
-    [HideInInspector] public float m_activeAttackCD;
+    public float attackSpeed; 
+    public float m_attackDelay;
+    public float m_activeAttackCD;
     public bool canAttack;
     public bool attackOnCD;
     
@@ -45,7 +45,8 @@ public class AIBrain : MonoBehaviour
     
     //animations
     public string attackAnimName;
-
+    public string idleAnimName;
+    
     //DEBUG
     public Color backupColor;
 
@@ -97,18 +98,25 @@ public class AIBrain : MonoBehaviour
     
     public void AttackPlayer()
     {
-        if (!attackOnCD && attackAnimName != String.Empty)
+        if (attackOnCD)
+        {
+            AttackCooldown();
+        }
+        
+        if (!attackOnCD)
         {
             animator.Play(attackAnimName);
         }
-        AttackCooldown();
+        else
+        {
+            animator.Play(idleAnimName);
+        }
+        
     }
     
     private void AttackCooldown()
     {
-        if (attackOnCD)
-        {
-            switch (m_activeAttackCD)
+        switch (m_activeAttackCD)
             {
                 case > 0:
                     canAttack = false;
@@ -121,7 +129,7 @@ public class AIBrain : MonoBehaviour
                     attackOnCD = false;
                     break;
             }
-        }
+        
     }
     
     public void DoDamage()
@@ -134,6 +142,7 @@ public class AIBrain : MonoBehaviour
     }
     public void AttackOnCD()
     {
+        m_activeAttackCD = m_attackDelay;
         attackOnCD = true;
     }
     
@@ -148,15 +157,7 @@ public class AIBrain : MonoBehaviour
                     break;
             }
             
-            StartCoroutine(TiltColorDebug());
         }
-    }
-
-    IEnumerator TiltColorDebug()
-    {
-        DebugSetColor(Color.red);
-        yield return new WaitForSeconds(0.1f);
-        DebugSetColor(backupColor);
     }
 
     public void SetSpawnPoint(SpawnArea spawnArea)
