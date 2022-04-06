@@ -26,11 +26,12 @@ public class ArcadeEntry : MonoBehaviour
         if (other.CompareTag("Player") && PlayerManager.instance.inputInterractPushed && !check)
         {
             check = true;
-            m_arcadeController.control = true;
+            m_arcadeController.onArcade = true;
             m_cam.playerFocused = false;
             m_cam.m_cameraPos.position  += Vector3.up;
             m_cam.m_cameraPos.rotation = Quaternion.Euler(rotation);
             m_cam.m_cameraZoom = zoom;
+            PlayerManager.instance.moveSpeed = 0;
 
         }
 
