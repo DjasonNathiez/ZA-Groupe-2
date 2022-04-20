@@ -7,21 +7,33 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_SE_Eye
-  m_Shader: {fileID: -6465566751694194690, guid: 01cbabcc256963e4db3e700750f1f3e1, type: 3}
+  m_Name: Environnement_Uber_shader_SG_Enviro
+  m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Tex_Pupil:
-        m_Texture: {fileID: 2800000, guid: 79e7364b853d2634cae7bb0f78f97b89, type: 3}
+    - _AmbiantOcclusionMap_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap_Tex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -39,31 +51,44 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _AmbiantOcclusionMap: 0
+    - _AmbiantOcclusion_Intensity: 1
+    - _AmbiantOcclusion_Smoothstep_Max: 1
+    - _AmbiantOcclusion_Smoothstep_Min: 0
     - _Blend: 0
     - _CastShadows: 1
+    - _Color_Intensity: 1
     - _Cull: 2
     - _DstBlend: 0
-    - _Ecarte_Eye: 0.15
-    - _EyePosition_X: 0
-    - _EyePosition_Y: 0
-    - _Eye_Interior_X: 0.2
-    - _Eye_Interior_Y: 0.2
-    - _Eye_Size_X: 0.5
-    - _Eye_Size_Y: 0.5
-    - _Modify_Y: 0
+    - _EmissionMap: 0
+    - _Emission_Smoothstep_Max: 1
+    - _Emission_Smoothstep_Min: -0.11
+    - _HSV: 0
+    - _HSV_Saturation: 2.57
+    - _HSV_Shift: 2.57
+    - _HSV_Value: 2.57
+    - _MetallicMap: 0
+    - _Metallic_Intensity: 0
+    - _Metallic_Smoothstep_Max: 0
+    - _Metallic_Smoothstep_Min: 0
+    - _Modify_Color: 0
+    - _Modify_Intensity: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SepareteEye: 0
+    - _RGB_Shift: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.1
     - _SrcBlend: 1
     - _Surface: 0
-    - _UseTexture: 1
+    - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _PosTexture: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _SmoothStep_X_Y: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &1874068461904207830
+--- !u!114 &5204398325911328987
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
