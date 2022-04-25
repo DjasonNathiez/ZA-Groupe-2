@@ -454,7 +454,6 @@ public class TestRope : MonoBehaviour
             if (ai && ai.canFall)
             {
                 ai.isFalling = true;
-                ai.DebugSetColor(Color.green);
                 rewinding = true;
             }
             
