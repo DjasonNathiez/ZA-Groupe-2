@@ -15,7 +15,6 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && isOn)
         {
             isOn = false;
-            light.material.color = Color.black;
             door.keysValid--;   
         }
     }
@@ -25,7 +24,6 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && !isOn)
         {
             isOn = true;
-            light.material.color = Color.yellow;
             door.keysValid++;
         }
     }
