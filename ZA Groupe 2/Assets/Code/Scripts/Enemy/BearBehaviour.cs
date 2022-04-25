@@ -4,7 +4,13 @@ public class BearBehaviour : AIBrain
 {
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
-    
+
+    public float attackZoneRange;
+    public float stunDuration;
+
+    public float attackRangeDeadZone;
+
+    public bool isAttacking;
     
     private void Start()
     {
@@ -30,9 +36,9 @@ public class BearBehaviour : AIBrain
     
     void CheckState()
     {
-        if (isAggro && !isFalling)
+        if (isAggro && !isFalling && !isAttacking)
         {
-            stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
+            stateMachine = distanceToPlayer > attackRange + attackRangeDeadZone ? StateMachine.CHASE : StateMachine.ATTACK;
         }
 
         if (isFalling)
@@ -46,11 +52,13 @@ public class BearBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.CHASE:
+                animator.Play("B_Chase");
                 ChasePlayer();
                 break;
             
             case StateMachine.ATTACK:
                 AttackPlayer();
+                isAttacking = true;
                 break;
             
             case StateMachine.ONGROUND:
@@ -59,15 +67,39 @@ public class BearBehaviour : AIBrain
         }
     }
 
+    void BearZoneAttack()
+    {
+        Collider[] hit = Physics.OverlapSphere(transform.position, attackZoneRange);
+
+        foreach (Collider col in hit)
+        {
+            if (col.GetComponent<PlayerManager>())
+            {
+                Debug.Log("Player hit !");
+                PlayerManager.instance.isStun = true;
+                PlayerManager.instance.GetHurt(attackDamage);
+                StartCoroutine(PlayerManager.instance.StunCooldown(stunDuration));
+            }
+        }
+
+    }
+
+    void AttackReset()
+    {
+        isAttacking = false;
+    }
+
     void FallOnTheGround()
     {
+        animator.Play("B_Fall");
         timeOnGround += Time.deltaTime;
 
         if (timeOnGround >= fallTime)
         {
             isFalling = false;
             timeOnGround = 0;
-            
+
+            animator.Play("B_StandUp");
             DebugSetColor(backupColor);
         }
     }
