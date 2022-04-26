@@ -23,7 +23,7 @@ public class PlayerManager : MonoBehaviour
     public enum ControlState
     {
         NORMAL,
-        MOUNT,
+        GRAPPIN,
         UI
     }
 
@@ -85,6 +85,8 @@ public class PlayerManager : MonoBehaviour
     public Vector3 move;
 
     private Quaternion lookRot;
+
+    public float grabSpeed;
 
     
     private void Awake()
@@ -432,6 +434,16 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("Reset State");
         playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<Grappin>() && inputInterractPushed)
+        {
+            transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grabSpeed);
+        }
+    }
+
+ 
 
     private void OnEnable()
     {
