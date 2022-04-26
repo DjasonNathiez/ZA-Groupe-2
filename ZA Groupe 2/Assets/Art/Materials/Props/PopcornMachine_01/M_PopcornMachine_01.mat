@@ -11,7 +11,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap:
@@ -72,6 +72,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OcclusionMap__Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,6 +98,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 0
     - _AlphaClip: 0
     - _AmbiantOcclusionMap: 0
     - _AmbiantOcclusion_Intensity: 1
@@ -107,6 +112,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Color_Intensity: 1
     - _Cull: 2
+    - _CutOff: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
@@ -129,7 +135,11 @@ Material:
     - _Metallic_Smoothstep_Min: 0
     - _Modify_Color: 1
     - _Modify_Intensity: 0
+    - _OcclusionMap: 0
+    - _OcclusionMap_Smoothstep_Max: 1
+    - _OcclusionMap_Smoothstep_Min: 0
     - _OcclusionStrength: 1
+    - _Opacity_Intensity: 0
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
