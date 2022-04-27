@@ -155,6 +155,7 @@ public class BossBehaviour : MonoBehaviour
     
     public IEnumerator ReturnToIddle(float delay)
     {
+        material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
         material.color = Color.white;
         state = 1;
