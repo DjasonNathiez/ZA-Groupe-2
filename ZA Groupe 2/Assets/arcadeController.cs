@@ -5,9 +5,10 @@ using System.Data.SqlTypes;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class arcadeController : MonoBehaviour
+public class ArcadeController : MonoBehaviour
 {
     public Rigidbody2D rb;
     public GameObject title;
@@ -17,7 +18,7 @@ public class arcadeController : MonoBehaviour
     public bool control;
     public int life;
     public float speed = 3;
-    [SerializeField] private SpriteRenderer m_spriteRenderer;
+    [FormerlySerializedAs("m_spriteRenderer")] [SerializeField] private SpriteRenderer spriteRenderer;
     public float delay = 2;
     public float spawnTime = 2;
     public float spawnDelay;
@@ -59,11 +60,11 @@ public class arcadeController : MonoBehaviour
             rb.velocity = dir.normalized * speed;
             if (dir.x > 0)
             {
-                m_spriteRenderer.flipX = false;
+                spriteRenderer.flipX = false;
             }
             else if (dir.x < 0)
             {
-                m_spriteRenderer.flipX = true;
+                spriteRenderer.flipX = true;
             }
             
             

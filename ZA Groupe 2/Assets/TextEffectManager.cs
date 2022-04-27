@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class TextEffectManager : MonoBehaviour
@@ -67,21 +68,21 @@ public class TextEffectManager : MonoBehaviour
 
             if (dialogue.Length > 0)
             {
-                for (int e = 0; e < dialogue[dialogueIndex].m_textEffects.Length; e++)
+                for (int e = 0; e < dialogue[dialogueIndex].textEffects.Length; e++)
                 {
-                    if (i >= dialogue[dialogueIndex].m_textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].m_textEffects[e].lastCharIndex)
+                    if (i >= dialogue[dialogueIndex].textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].textEffects[e].lastCharIndex)
                     {
                         Vector3 center = (verts[charInfo.vertexIndex + 0] + verts[charInfo.vertexIndex + 2])/2;
                         for (int v = 0; v < 4; v++)
                         {
                             var original = verts[charInfo.vertexIndex + v];
-                            verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].m_textEffects[e].effectType,center,dialogue[dialogueIndex].m_textEffects[e].speed,dialogue[dialogueIndex].m_textEffects[e].width);
+                            verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width);
                             colors[charInfo.vertexIndex + v] = ApplyColorEffectToVertex(
-                                dialogue[dialogueIndex].m_textEffects[e].colorEffectType,
-                                dialogue[dialogueIndex].m_textEffects[e].firstColor,
-                                dialogue[dialogueIndex].m_textEffects[e].secondColor,
-                                dialogue[dialogueIndex].m_textEffects[e].colorSpeed,
-                                dialogue[dialogueIndex].m_textEffects[e].colorWidth,original);
+                                dialogue[dialogueIndex].textEffects[e].colorEffectType,
+                                dialogue[dialogueIndex].textEffects[e].firstColor,
+                                dialogue[dialogueIndex].textEffects[e].secondColor,
+                                dialogue[dialogueIndex].textEffects[e].colorSpeed,
+                                dialogue[dialogueIndex].textEffects[e].colorWidth,original);
                         }
                         break;
                     }   
@@ -115,52 +116,52 @@ public class TextEffectManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetVertex(Vector3 original,int CharIndex)
+    public Vector3 GetVertex(Vector3 original,int charIndex)
     {
-        Vector3 product = new Vector3(original.x, original.y + charBasedHeight[CharIndex], original.z);
-        if (CharIndex < showedCharIndex)
+        Vector3 product = new Vector3(original.x, original.y + charBasedHeight[charIndex], original.z);
+        if (charIndex < showedCharIndex)
         {
-            charBasedHeight[CharIndex] = Mathf.Lerp(charBasedHeight[CharIndex], 0, 0.02f);
+            charBasedHeight[charIndex] = Mathf.Lerp(charBasedHeight[charIndex], 0, 0.02f);
         }
         return product;
     }
     
-    public Vector3 ApplyEffectToVertex(Vector3 original,effectTypeEnum effect,Vector3 center,float speed,float width)
+    public Vector3 ApplyEffectToVertex(Vector3 original,EffectTypeEnum effect,Vector3 center,float speed,float width)
     {
         Vector3 product = original;
         switch (effect)
         {
-            case effectTypeEnum.WAVE:
+            case EffectTypeEnum.WAVE:
                 product = original + new Vector3(0, Mathf.Sin(Time.time * speed + original.x * width) * 0.15f, 0);
                 break;
-            case effectTypeEnum.RANDOM:
+            case EffectTypeEnum.RANDOM:
                 product = original + new Vector3(Random.Range(-width,width),Random.Range(-width,width),0);
                 break;
-            case effectTypeEnum.ZOOM:
+            case EffectTypeEnum.ZOOM:
                 product = (center + (product - center) * Mathf.Sin(Time.time * speed + center.x * width)* 0.2f)+ (product - center)*1.1f;
                 break;
-            case effectTypeEnum.NONE:
+            case EffectTypeEnum.NONE:
                 product = original;
                 break;
         }
         return product;
     }
     
-    public Color32 ApplyColorEffectToVertex(colorEffectTypeEnum effect,Color32 first,Color32 second,float speed,float width,Vector3 original)
+    public Color32 ApplyColorEffectToVertex(ColorEffectTypeEnum effect,Color32 first,Color32 second,float speed,float width,Vector3 original)
     {
         Color32 product = first;
         switch (effect)
         {
-            case colorEffectTypeEnum.HORIZONTALGRADIANT:
+            case ColorEffectTypeEnum.HORIZONTALGRADIANT:
                 product = Color32.Lerp(first, second, Mathf.Sin(Time.time * speed + original.x * width) * 0.5f + 0.5f);
                 break;
-            case colorEffectTypeEnum.VERTICALGRADIANT:
+            case ColorEffectTypeEnum.VERTICALGRADIANT:
                 product = Color32.Lerp(first, second, Mathf.Sin(Time.time * speed + original.y * width) * 0.5f + 0.5f);
                 break;
-            case colorEffectTypeEnum.RAINBOW:
+            case ColorEffectTypeEnum.RAINBOW:
                 product = Color.HSVToRGB(Mathf.Lerp(0, 1, Time.time * speed % 1), 1, 1);
                 break;
-            case colorEffectTypeEnum.NONE:
+            case ColorEffectTypeEnum.NONE:
                 product = first;
                 break;
         }
@@ -170,10 +171,10 @@ public class TextEffectManager : MonoBehaviour
 
 [Serializable] public class TextEffect
 {
-    public effectTypeEnum effectType;
+    public EffectTypeEnum effectType;
     public float speed = 1;
     public float width = 1;
-    public colorEffectTypeEnum colorEffectType;
+    public ColorEffectTypeEnum colorEffectType;
     public float colorSpeed = 1;
     public float colorWidth = 1;
     public Color32 firstColor = Color.white;
@@ -186,7 +187,7 @@ public class TextEffectManager : MonoBehaviour
 [Serializable] public class DialogueLine
 {
     [TextArea] public string text;
-    public TextEffect[] m_textEffects;
+    [FormerlySerializedAs("m_textEffects")] public TextEffect[] textEffects;
     public bool modifyCameraPosition;
     public Vector3 positionCamera;
     public Vector3 angleCamera;
@@ -194,7 +195,7 @@ public class TextEffectManager : MonoBehaviour
 }
 
 [Serializable]
-public enum effectTypeEnum
+public enum EffectTypeEnum
 {
     WAVE,
     RANDOM,
@@ -203,7 +204,7 @@ public enum effectTypeEnum
 }
 
 [Serializable]
-public enum colorEffectTypeEnum
+public enum ColorEffectTypeEnum
 {
     NONE,
     HORIZONTALGRADIANT,

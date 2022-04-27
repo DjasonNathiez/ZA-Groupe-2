@@ -6,21 +6,21 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    private PlayerManager player;
+    private PlayerManager m_player;
     [Header("HUD")]
     public GameObject hudParent;
     public Image healthFill;
 
     private void Awake()
     {
-        player = FindObjectOfType<PlayerManager>();
+        m_player = FindObjectOfType<PlayerManager>();
     }
 
     private void Update()
     {
-        if (player)
+        if (m_player)
         {
-            healthFill.fillAmount = player.currentLifePoint / player.maxLifePoint;
+            healthFill.fillAmount = m_player.currentLifePoint / m_player.maxLifePoint;
         }
     }
 }

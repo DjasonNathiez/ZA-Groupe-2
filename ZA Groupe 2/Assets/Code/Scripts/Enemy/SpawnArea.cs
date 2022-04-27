@@ -11,7 +11,7 @@ public class SpawnArea : MonoBehaviour
     public float minZ;
     public float maxZ;
     
-    private Collider[] area;
+    private Collider[] m_area;
     
     //for a circle
     [Header("Circle")]
@@ -28,7 +28,7 @@ public class SpawnArea : MonoBehaviour
     public int spawnNumber;
     public GameObject[] spawnableList;
 
-    private Vector3 spawnPoint;
+    private Vector3 m_spawnPoint;
     public Vector3 pathPoint;
 
     private void OnValidate()
@@ -48,7 +48,7 @@ public class SpawnArea : MonoBehaviour
         switch (areaType)
         {
             case AreaType.CIRCLE:
-                area = Physics.OverlapSphere(transform.position, rangeArea);
+                m_area = Physics.OverlapSphere(transform.position, rangeArea);
                 
                 minX = transform.position.x - rangeArea;
                 minZ = transform.position.z - rangeArea;
@@ -58,7 +58,7 @@ public class SpawnArea : MonoBehaviour
             
             case AreaType.SQUARE:
                 Vector3 square = new Vector3(xAxisRange, 0, zAxisRange);
-                area = Physics.OverlapBox(transform.position, square);
+                m_area = Physics.OverlapBox(transform.position, square);
 
                 minX = transform.position.x - xAxisRange;
                 minZ = transform.position.z - zAxisRange;
@@ -78,9 +78,9 @@ public class SpawnArea : MonoBehaviour
     {
         for (int i = 0; i < spawnNumber; i++)
         {
-            spawnPoint = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
+            m_spawnPoint = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
             GameObject selectEnemy = spawnableList[Random.Range(0, spawnableList.Length)];
-            GameObject newEnemy = Instantiate(selectEnemy, new Vector3(spawnPoint.x, selectEnemy.transform.hierarchyCapacity, spawnPoint.z), Quaternion.identity);
+            GameObject newEnemy = Instantiate(selectEnemy, new Vector3(m_spawnPoint.x, selectEnemy.transform.hierarchyCapacity, m_spawnPoint.z), Quaternion.identity);
             newEnemy.GetComponent<AIBrain>().SetSpawnPoint(this);
         }
     }

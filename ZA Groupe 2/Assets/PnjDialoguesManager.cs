@@ -2,54 +2,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PnjDialoguesManager : MonoBehaviour
 {
     public bool isDialoguing;
-    [SerializeField] private TextEffectManager m_textEffectManager;
-    [SerializeField] private DialogueLine[] m_dialogue;
-    [SerializeField] private GameObject m_dialogueBox;
-    [SerializeField] private GameObject m_Button;
-    [SerializeField] private CameraController m_cameraController;
+    [FormerlySerializedAs("m_textEffectManager")] [SerializeField] private TextEffectManager textEffectManager;
+    [FormerlySerializedAs("m_dialogue")] [SerializeField] private DialogueLine[] dialogue;
+    [FormerlySerializedAs("m_dialogueBox")] [SerializeField] private GameObject dialogueBox;
+    [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
+    [FormerlySerializedAs("m_cameraController")] [SerializeField] private CameraController cameraController;
     [SerializeField] private bool check;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            m_Button.SetActive(true);
+            button.SetActive(true);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && PlayerManager.instance.inputInterractPushed && !check)
+        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
         {
             check = true;
-            if (m_dialogueBox.activeSelf)
+            if (dialogueBox.activeSelf)
             {
-                m_textEffectManager.NextText();
+                textEffectManager.NextText();
             }
             else
             {
-                m_dialogueBox.SetActive(true);
+                dialogueBox.SetActive(true);
                 isDialoguing = true;
-                m_textEffectManager.dialogueIndex = 0;
-                m_textEffectManager.dialogue = m_dialogue;
-                m_textEffectManager.ShowText();
-                if (m_dialogue[0].modifyCameraPosition)
+                textEffectManager.dialogueIndex = 0;
+                textEffectManager.dialogue = dialogue;
+                textEffectManager.ShowText();
+                if (dialogue[0].modifyCameraPosition)
                 {
-                    m_cameraController.playerFocused = false;
+                    cameraController.playerFocused = false;
                     //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
-                    m_cameraController.m_cameraPos.localPosition = m_dialogue[0].positionCamera;
-                    Debug.Log(m_dialogue[0].positionCamera);
-                    m_cameraController.m_cameraPos.rotation = Quaternion.Euler(m_dialogue[0].angleCamera);
-                    m_cameraController.m_cameraZoom = m_dialogue[0].zoom;   
+                    cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
+                    Debug.Log(dialogue[0].positionCamera);
+                    cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
+                    cameraController.cameraZoom = dialogue[0].zoom;   
                 }   
             }
         }
 
-        if (other.CompareTag("Player") && !PlayerManager.instance.inputInterractPushed && check)
+        if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
         {
             check = false;
         }
@@ -58,12 +59,12 @@ public class PnjDialoguesManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            m_dialogueBox.SetActive(false);
-            m_Button.SetActive(false);
+            dialogueBox.SetActive(false);
+            button.SetActive(false);
             isDialoguing = false;
-            m_cameraController.playerFocused = true;
-            m_cameraController.m_cameraPos.rotation = Quaternion.Euler(45,0,0);
-            m_cameraController.m_cameraZoom = 8;
+            cameraController.playerFocused = true;
+            cameraController.cameraPos.rotation = Quaternion.Euler(45,0,0);
+            cameraController.cameraZoom = 8;
         }
     }
 

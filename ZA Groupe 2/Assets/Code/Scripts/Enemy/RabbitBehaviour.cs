@@ -33,7 +33,7 @@ public class RabbitBehaviour : AIBrain
         
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
-        if (m_player.GetComponent<PlayerManager>().m_rope.enabled)
+        if (player.GetComponent<PlayerManager>().rope.enabled)
         {
             if (dectectionRange > distanceToNearestPoint)
             {
@@ -63,7 +63,7 @@ public class RabbitBehaviour : AIBrain
             
             case StateMachine.ATTACK:
                 animator.Play(attackAnimName);
-                m_player.GetComponent<PlayerManager>().m_rope.rewinding = true;
+                player.GetComponent<PlayerManager>().rope.rewinding = true;
                 break;
         }
 
@@ -72,14 +72,14 @@ public class RabbitBehaviour : AIBrain
 
     private void MoveToRope()
     {
-        m_nav.SetDestination(nearestPoint);
+        nav.SetDestination(nearestPoint);
     }
 
     private void RopePointDetection()
     {
-        if (m_player.GetComponent<PlayerManager>().m_rope.enabled)
+        if (player.GetComponent<PlayerManager>().rope.enabled)
         {
-            detectedPoints = m_player.GetComponent<TestRope>().CalculateCuttingPoints(1);
+            detectedPoints = player.GetComponent<TestRope>().CalculateCuttingPoints(1);
 
             if (detectedPoints.Length > distanceToPoints.Count)
             {

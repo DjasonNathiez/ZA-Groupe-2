@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
         CheckScene();
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();
+        
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void OpenPanel(string panelValue) //maybe a smoother way to do that ?

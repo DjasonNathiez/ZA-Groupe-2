@@ -3,12 +3,13 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class AIBrain : MonoBehaviour
 {
     public SpawnArea spawnPoint;
 
-    public Rigidbody m_rb;
+    [FormerlySerializedAs("m_rb")] public Rigidbody rb;
     //move
     public float moveSpeed;
     
@@ -20,10 +21,10 @@ public class AIBrain : MonoBehaviour
     public int attackDamage;
     public float attackRange;
     public float attackSpeed; 
-    public float m_attackDelay;
-    public float m_activeAttackCD;
+    [FormerlySerializedAs("m_attackDelay")] public float attackDelay;
+    [FormerlySerializedAs("m_activeAttackCD")] public float activeAttackCd;
     public bool canAttack;
-    public bool attackOnCD;
+    [FormerlySerializedAs("attackOnCD")] public bool attackOnCd;
     public float knockbackForce;
     
     //detection
@@ -34,8 +35,8 @@ public class AIBrain : MonoBehaviour
     public bool isStun;
     public bool isAggro;
 
-    public GameObject m_player;
-    public NavMeshAgent m_nav;
+    [FormerlySerializedAs("m_player")] public GameObject player;
+    [FormerlySerializedAs("m_nav")] public NavMeshAgent nav;
     public Animator animator;
     public float distanceToPlayer;
 
@@ -60,20 +61,20 @@ public class AIBrain : MonoBehaviour
     {
         currentHealth = maxHealth;
         
-        m_rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        m_player = GameObject.FindGameObjectWithTag("Player");
-        m_nav = GetComponent<NavMeshAgent>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        nav = GetComponent<NavMeshAgent>();
     }
 
     public void ChasePlayer()
     {
-        m_nav.SetDestination(m_player.transform.position);
+        nav.SetDestination(player.transform.position);
     }
     
     public void Detection()
     {
-        distanceToPlayer = Vector3.Distance(transform.position, m_player.transform.position);
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         
         Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
         
@@ -99,12 +100,12 @@ public class AIBrain : MonoBehaviour
     
     public void AttackPlayer()
     {
-        if (attackOnCD)
+        if (attackOnCd)
         {
             AttackCooldown();
         }
         
-        if (!attackOnCD)
+        if (!attackOnCd)
         {
             animator.Play(attackAnimName);
         }
@@ -117,17 +118,17 @@ public class AIBrain : MonoBehaviour
     
     private void AttackCooldown()
     {
-        switch (m_activeAttackCD)
+        switch (activeAttackCd)
             {
                 case > 0:
                     canAttack = false;
-                    m_activeAttackCD -= Time.deltaTime;
+                    activeAttackCd -= Time.deltaTime;
                     break;
             
                 case <= 0:
                     canAttack = true;
-                    m_activeAttackCD = m_attackDelay;
-                    attackOnCD = false;
+                    activeAttackCd = attackDelay;
+                    attackOnCd = false;
                     break;
             }
         
@@ -138,17 +139,17 @@ public class AIBrain : MonoBehaviour
         if (distanceToPlayer < attackRange + 0.02)
         {
             Debug.Log("Player take " + attackRange + " damage in his face, bro.");
-            m_player.GetComponent<PlayerManager>().GetHurt(attackDamage);
+            player.GetComponent<PlayerManager>().GetHurt(attackDamage);
 
-            Vector3 dir = m_player.transform.position - transform.position;
+            Vector3 dir = player.transform.position - transform.position;
             dir = new Vector3(dir.x, 0, dir.z).normalized * knockbackForce;
-            m_player.GetComponent<PlayerManager>().m_rb.AddForce(dir, ForceMode.Impulse);
+            player.GetComponent<PlayerManager>().rb.AddForce(dir, ForceMode.Impulse);
         }
     }
     public void AttackOnCD()
     {
-        m_activeAttackCD = m_attackDelay;
-        attackOnCD = true;
+        activeAttackCd = attackDelay;
+        attackOnCd = true;
     }
     
     public void GetHurt(int damage)

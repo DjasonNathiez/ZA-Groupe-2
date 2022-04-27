@@ -2538,11 +2538,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDialoguing: 0
-  m_textEffectManager: {fileID: 6297007609574033}
-  m_dialogue:
+  textEffectManager: {fileID: 6297007609574033}
+  dialogue:
   - text: "Salut ! Moi c'est Phil\xE9mon Bleu , et j'ai un haut parleur ! <size=130%>
       REGARDE COMME JE GUEULE FORT !!!"
-    m_textEffects:
+    textEffects:
     - effectType: 3
       speed: 0
       width: 0
@@ -2575,9 +2575,9 @@ MonoBehaviour:
     positionCamera: {x: 31.51, y: -1.08, z: -3.88}
     angleCamera: {x: 20, y: 23.899994, z: 0}
     zoom: 2
-  m_dialogueBox: {fileID: 6297007262670516}
-  m_Button: {fileID: 6297007440108944}
-  m_cameraController: {fileID: 0}
+  dialogueBox: {fileID: 6297007262670516}
+  button: {fileID: 6297007440108944}
+  cameraController: {fileID: 0}
   check: 0
 --- !u!54 &6297006937046144
 Rigidbody:
@@ -3855,11 +3855,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDialoguing: 0
-  m_textEffectManager: {fileID: 6297007609574033}
-  m_dialogue:
+  textEffectManager: {fileID: 6297007609574033}
+  dialogue:
   - text: Salut les amis, moi c'est Baptiste Orange ! Je suis une capsule oraaange
       !!! C'EST DINGUE !!!!!
-    m_textEffects:
+    textEffects:
     - effectType: 3
       speed: 0
       width: 0
@@ -3892,9 +3892,9 @@ MonoBehaviour:
     positionCamera: {x: 0, y: 0, z: 0}
     angleCamera: {x: 0, y: 0, z: 0}
     zoom: 0
-  m_dialogueBox: {fileID: 6297007262670516}
-  m_Button: {fileID: 0}
-  m_cameraController: {fileID: 1103288595}
+  dialogueBox: {fileID: 6297007262670516}
+  button: {fileID: 0}
+  cameraController: {fileID: 1103288595}
   check: 0
 --- !u!135 &6297007582906775
 SphereCollider:
@@ -5721,6 +5721,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[2].time
+      value: 0.9984131
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[2].value
+      value: 3.8375854
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[1].inSlope
+      value: -8.949143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[2].inSlope
+      value: -17.865845
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[1].outSlope
+      value: -8.949143
+      objectReference: {fileID: 0}
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollAnimationCurve.m_Curve.Array.data[2].outSlope
+      value: -17.865845
+      objectReference: {fileID: 0}
     - target: {fileID: 5391714930685114185, guid: 1292f91fe460741418fce1591644f390, type: 3}
       propertyPath: m_RootOrder
       value: 3

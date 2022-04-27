@@ -827,77 +827,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7eae4262be4bd4469ada03431eff8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rb: {fileID: 0}
-  controlState: 0
-  playerStateMachine: 0
-  maxLifePoint: 3
+  rb: {fileID: 0}
+  rope: {fileID: 0}
+  m_playerStateMachine: 0
+  baseLifePoint: 10
   currentLifePoint: 10
+  maxLifePoint: 3
   isInvincible: 0
   isStun: 0
   moveSpeed: 5.2
   rotationSpeed: 0.25
-  moving: 0
-  attackDamage: 42
-  attackSpeed: 1
-  m_attack: {fileID: 4690297731740508664}
-  throwingWeapon: {fileID: 2719977749006521894}
-  throwingSpeed: 20
-  direction: {x: 0, y: 0, z: 0}
-  state: StatusQuo
-  rollDuration: 0.25
-  rollSpeed: 10.5
   rollCooldown: 1.2
-  animationCurve:
+  rollAnimationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.0016441345
-      value: 7.039978
-      inSlope: 3.9329767
-      outSlope: 3.9329767
+      time: -0.0016450719
+      value: 7
+      inSlope: -0.03244276
+      outSlope: -0.03244276
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5
-      value: 9
-      inSlope: -9.892414
-      outSlope: -9.892414
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.673218
-      value: 4.891649
-      inSlope: -14.370744
-      outSlope: -14.370744
+      time: 0.8229014
+      value: 6.9732494
+      inSlope: -16.880417
+      outSlope: -16.880417
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 3.25
-      inSlope: -5.023682
-      outSlope: -5.023682
+      value: 1
+      inSlope: -33.72839
+      outSlope: -33.72839
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lerpTime: 0
-  pinObj: {fileID: 0}
-  pinPosBase: {fileID: 0}
-  m_rope: {fileID: 0}
-  weaponObj: {fileID: 0}
-  inputInterractPushed: 0
-  isMoving: 0
+  grappleFlySpeed: 0
+  attackDamage: 42
+  attackSpeed: 1
+  throwingWeapon: {fileID: 2719977749006521894}
+  throwingSpeed: 20
+  direction: {x: 0, y: 0, z: 0}
+  state: StatusQuo
+  rollAnimClip: {fileID: 7400000, guid: f5d16c3c8d7d91943823abccc4cae4b8, type: 2}
+  inputInteractPushed: 0
   move: {x: 0, y: 0, z: 0}
-  grabSpeed: 1.5
+  m_speed: 0
+  m_acTimer: 0
 --- !u!114 &838435004051609742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1623,7 +1608,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2248179232323192193}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.402, y: -0.216, z: 0.488}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.08, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1752,7 +1737,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2398439510395993865}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1.08, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1848,14 +1833,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2719977749006521894}
-  m_LocalRotation: {x: -0.044405162, y: 0.010150251, z: 0.0005092172, w: 0.9989619}
-  m_LocalPosition: {x: 0.3697281, y: -0.2856617, z: -0.2594614}
-  m_LocalScale: {x: 1, y: 0.9992986, z: 1.0007019}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 0.9998816, z: 1.000072}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4681133771871837695}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1073619759029896615
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1881,7 +1866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566bb32ddd2bbc1439609fc6f8b5dd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PlayerManager: {fileID: 3826961568351911270}
+  playerManager: {fileID: 3826961568351911270}
   grip: {fileID: 314339269750385347}
 --- !u!1 &2772818121157641577
 GameObject:
@@ -3500,7 +3485,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4323992582964080130}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.393, y: -0.205, z: 0.479}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4380,8 +4365,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerFocused: 1
-  m_cameraPos: {fileID: 1811212737272087312}
-  m_cameraZoom: 8.22
+  cameraPos: {fileID: 1811212737272087312}
+  cameraZoom: 8.22
 --- !u!20 &5086250466506110472
 Camera:
   m_ObjectHideFlags: 0

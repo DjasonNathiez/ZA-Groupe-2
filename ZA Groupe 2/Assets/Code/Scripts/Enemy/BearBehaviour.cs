@@ -17,8 +17,8 @@ public class BearBehaviour : AIBrain
         InitializationData();
         
         isInvincible = true;
-        m_nav.speed = moveSpeed;
-        m_nav.stoppingDistance = attackRange + 0.02f;
+        nav.speed = moveSpeed;
+        nav.stoppingDistance = attackRange + 0.02f;
     }
 
     private void Update()
@@ -76,9 +76,8 @@ public class BearBehaviour : AIBrain
             if (col.GetComponent<PlayerManager>())
             {
                 Debug.Log("Player hit !");
-                PlayerManager.instance.isStun = true;
                 PlayerManager.instance.GetHurt(attackDamage);
-                StartCoroutine(PlayerManager.instance.StunCooldown(stunDuration));
+                StartCoroutine(PlayerManager.instance.StartStun(stunDuration));
             }
         }
 

@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private new BoxCollider collider;
+    private new BoxCollider m_collider;
     public bool isAttacking;
 
     public GameObject popcornVFX;
 
     private void Awake()
     {
-        collider = GetComponent<BoxCollider>();
+        m_collider = GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-        collider.enabled = isAttacking;
+        m_collider.enabled = isAttacking;
     }
 
     private void OnTriggerEnter(Collider other)

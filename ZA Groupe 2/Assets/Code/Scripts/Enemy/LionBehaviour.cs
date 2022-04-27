@@ -10,9 +10,9 @@ public class LionBehaviour : AIBrain
     private void Start()
     {
         InitializationData();
-        m_activeAttackCD = m_attackDelay;
-        m_nav.speed = moveSpeed;
-        m_nav.stoppingDistance = attackRange + 0.02f;
+        activeAttackCd = attackDelay;
+        nav.speed = moveSpeed;
+        nav.stoppingDistance = attackRange + 0.02f;
     }
 
     private void Update()

@@ -9,7 +9,7 @@ public class RopeBox : MonoBehaviour
 
       if (playerManager)
       {
-         playerManager.m_rope.maximumLenght += additionValue;
+         playerManager.rope.maximumLenght += additionValue;
          Debug.Log("add rope lenght");
          
          Destroy(gameObject);
