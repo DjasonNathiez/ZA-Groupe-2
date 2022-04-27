@@ -1,9 +1,10 @@
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
+[SuppressMessage("ReSharper", "CheckNamespace")]
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance; //Singleton
@@ -17,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     private PlayerInput m_playerInput;
     private Vector2 m_mousePos;
 
-    //Personnal scripts componenets
+    //Personal scripts components
     private Attack m_attack;
     [HideInInspector] public TestRope rope;
 
@@ -93,13 +94,13 @@ public class PlayerManager : MonoBehaviour
     private Quaternion m_lookRot;
     
     //Roll
-    private float m_rollTimer;
     private bool m_canRoll;
     private bool m_isRolling;
     private float m_acTimer; //animated curve current timer
     
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+    private static readonly int Moving = Animator.StringToHash("Moving");
 
     #endregion
     
@@ -176,7 +177,7 @@ public class PlayerManager : MonoBehaviour
                                 m_inputController.Player.Range.started += _ => Rewind();
                                 break;
                             case "Throw":
-                                throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
+                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
                                 break;
                             default: return;
                         }
@@ -217,7 +218,7 @@ public class PlayerManager : MonoBehaviour
                                 m_inputController.Player.Range.started += _ => Rewind();
                                 break;
                             case "Throw":
-                                throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
+                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
                                 break;
                             default: return;
                         }
@@ -268,22 +269,20 @@ public class PlayerManager : MonoBehaviour
             
             case ControlState.UI:
                 
-                //can't acces player base controls
+                //can't access player base controls
                 break;
         }
         
         m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
         m_inputController.Player.Bugtracker.started += _ => m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
-
-        //SET PAUSE
-        m_inputController.Player.Pause.started += PauseOnStarted;  
         
+        m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
     private void CheckForAnimation()
     {
-        m_animator.SetBool("Moving", m_moving);
+        m_animator.SetBool(Moving, m_moving);
         
         switch (m_playerStateMachine)
         {
@@ -341,17 +340,8 @@ public class PlayerManager : MonoBehaviour
     
     
     private void Move()
-    {  
-        //APPLY GRAVITY
-
-        if (!m_attack.isAttacking)
-        {
-            rb.velocity = new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) ;
-        }
-        else
-        {
-            rb.velocity = Vector3.zero;
-        }
+    {
+        rb.velocity = !m_attack.isAttacking ? new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
     }
     
     private void Rotation()
@@ -405,7 +395,6 @@ public class PlayerManager : MonoBehaviour
         
             m_speed = moveSpeed;
             m_isRolling = false;
-            m_rollTimer = rollCooldown;
             m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
                 
             m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
@@ -427,6 +416,7 @@ public class PlayerManager : MonoBehaviour
         m_animator.Play("Attack");
     }
     
+    [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     private void Throw()
     {
         if(state == "StatusQuo")
@@ -477,7 +467,8 @@ public class PlayerManager : MonoBehaviour
         ResetState();
         currentLifePoint = maxLifePoint;
     }
-
+    
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
         m_attack.isAttacking = false;
