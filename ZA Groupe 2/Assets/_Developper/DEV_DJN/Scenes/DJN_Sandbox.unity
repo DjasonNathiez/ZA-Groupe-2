@@ -5721,22 +5721,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
-      propertyPath: grabSpeed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5391714930685114185, guid: 1292f91fe460741418fce1591644f390, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -5896,6 +5880,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4628978081873778456}
   - component: {fileID: 5437744323432517027}
+  - component: {fileID: 5437744323432517028}
   m_Layer: 0
   m_Name: DestructibleBox
   m_TagString: Untagged
@@ -5917,6 +5902,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDestroy: 1
   isLoot: 1
+--- !u!65 &5437744323432517028
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5437744323432517026}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.065301, y: 4.575785, z: 10.94695}
+  m_Center: {x: -0.2158749, y: 0.09048509, z: 4.9734826}
 --- !u!1001 &5852864638319393459
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -20,8 +20,19 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     { 
-        AIBrain iaBrain = other.GetComponent<AIBrain>();
+      AIBrain iaBrain = other.GetComponent<AIBrain>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
+      PropsInstructions props = other.GetComponent<PropsInstructions>();
+
+      if (props)
+      {
+          if (props.isLoot && PlayerManager.instance.currentLifePoint < PlayerManager.instance.maxLifePoint)
+          {
+              PlayerManager.instance.currentLifePoint += PlayerManager.instance.currentLifePoint * 0.1f;
+          }
+          
+          Destroy(props.gameObject);
+      }
 
       if (iaBrain)
       {

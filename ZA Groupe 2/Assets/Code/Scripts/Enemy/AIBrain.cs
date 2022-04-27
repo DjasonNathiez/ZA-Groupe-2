@@ -24,6 +24,7 @@ public class AIBrain : MonoBehaviour
     public float m_activeAttackCD;
     public bool canAttack;
     public bool attackOnCD;
+    public float knockbackForce;
     
     //detection
     public float dectectionRange;
@@ -138,6 +139,10 @@ public class AIBrain : MonoBehaviour
         {
             Debug.Log("Player take " + attackRange + " damage in his face, bro.");
             m_player.GetComponent<PlayerManager>().GetHurt(attackDamage);
+
+            Vector3 dir = m_player.transform.position - transform.position;
+            dir = new Vector3(dir.x, 0, dir.z).normalized * knockbackForce;
+            m_player.GetComponent<PlayerManager>().m_rb.AddForce(dir, ForceMode.Impulse);
         }
     }
     public void AttackOnCD()

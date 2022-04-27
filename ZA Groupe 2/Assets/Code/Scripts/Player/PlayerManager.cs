@@ -11,14 +11,16 @@ public class PlayerManager : MonoBehaviour
     public static PlayerManager instance;
 
     private InputController m_inputController;
-    public Rigidbody m_rb;
+    [HideInInspector] public Rigidbody m_rb;
     private Animator m_animator;
     private PlayerInput m_playerInput;
 
     private LineRenderer m_lineRenderer;
-    [SerializeField] private Vector2 mousePos;
+    private Vector2 mousePos;
 
-    [Header("Player States")] public ControlState controlState;
+    [Header("Player States")] 
+    
+    [HideInInspector] public ControlState controlState;
 
     public enum ControlState
     {
@@ -27,7 +29,7 @@ public class PlayerManager : MonoBehaviour
         UI
     }
 
-    public PlayerStateMachine playerStateMachine;
+    [HideInInspector] public PlayerStateMachine playerStateMachine;
 
     public enum PlayerStateMachine
     {
@@ -39,19 +41,22 @@ public class PlayerManager : MonoBehaviour
         DEAD
     };
 
-    [Header("Statistics")] public float currentLifePoint;
+    [Header("Statistics")] 
     public float maxLifePoint;
-    public bool isInvincible;
-    public bool isStun;
+    [HideInInspector] public float currentLifePoint;
+    [HideInInspector] public bool isInvincible;
+    [HideInInspector] public bool isStun;
 
-    [Header("Movement")] [SerializeField] private float m_speed;
+    [Header("Movement")] 
+    private float m_speed;
     public float moveSpeed;
 
     private Vector3 m_moveDirection;
     public float rotationSpeed;
-    public bool moving;
+    [HideInInspector] public bool moving;
 
-    [Header("Attack")] public int attackDamage;
+    [Header("Attack")]
+    public int attackDamage;
     public float attackSpeed;
 
     [SerializeField] private Attack m_attack;
@@ -59,33 +64,36 @@ public class PlayerManager : MonoBehaviour
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
 
-    [Header("DistanceAttack")] public GameObject throwingWeapon;
+    [Header("DistanceAttack")] 
+    public GameObject throwingWeapon;
     public float throwingSpeed;
-    public Vector3 direction;
-    public string state = "StatusQuo";
+    [HideInInspector] public Vector3 direction;
+    [HideInInspector] public string state = "StatusQuo";
 
-    [Header("Roll")] public float rollSpeed;
+    [Header("Roll")] 
     [Range(0, 1)] public float rollDuration;
+    [HideInInspector] public float rollSpeed;
     public float rollCooldown;
     private float m_rollTimer;
-    [SerializeField] private bool m_canRoll;
+    private bool m_canRoll;
     private bool m_isRolling;
     public AnimationCurve animationCurve;
-    public float lerpTime;
-    [SerializeField] private float m_acTimer;
-    public GameObject pinObj;
-    public GameObject pinPosBase;
+    [HideInInspector] public float lerpTime;
+    private float m_acTimer;
+    [HideInInspector] public GameObject pinObj;
+    [HideInInspector] public GameObject pinPosBase;
     private GameObject objInFront;
 
-    public TestRope m_rope;
-    public GameObject weaponObj;
+    [HideInInspector] public TestRope m_rope;
+    [HideInInspector] public GameObject weaponObj;
 
-    public bool inputInterractPushed;
-    public bool isMoving;
-    public Vector3 move;
+    [HideInInspector] public bool inputInterractPushed;
+    [HideInInspector] public bool isMoving;
+    [HideInInspector] public Vector3 move;
 
     private Quaternion lookRot;
 
+    [Header("Grappin")]
     public float grabSpeed;
 
     
