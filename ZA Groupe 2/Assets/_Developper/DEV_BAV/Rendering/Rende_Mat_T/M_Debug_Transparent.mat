@@ -7,28 +7,21 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_PopcornMachine_01
-  m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_Name: M_Debug_Transparent
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _SURFACE_TYPE_TRANSPARENT
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 3000
   stringTagMap:
-    RenderType: Opaque
+    RenderType: Transparent
   disabledShaderPasses:
+  - DepthOnly
   - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AmbiantOcclusionMap_Tex:
-        m_Texture: {fileID: 2800000, guid: 373a6e48705fd70478b28c5e5d228037, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BaseColor_Tex:
-        m_Texture: {fileID: 2800000, guid: 8e363b9f8ee26d249a3b11bf94194a0b, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -53,20 +46,12 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _EmissionMap_Tex:
-        m_Texture: {fileID: 2800000, guid: 5656fc451b85e7949b5885eefa322b6a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicMap_Tex:
-        m_Texture: {fileID: 2800000, guid: f58a9e5fe9cd6c249a4a499761d22996, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -96,64 +81,38 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _AmbiantOcclusionMap: 0
-    - _AmbiantOcclusion_Intensity: 1
-    - _AmbiantOcclusion_Smoothstep_Max: 1
-    - _AmbiantOcclusion_Smoothstep_Min: 0
-    - _BaseColor_UV: 1
     - _Blend: 0
     - _BumpScale: 1
-    - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Color_Intensity: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _EmissionMap: 1
-    - _Emission_Smoothstep_Max: 1
-    - _Emission_Smoothstep_Min: 0
+    - _DstBlend: 10
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HSV: 0
-    - _HSV_Saturation: 1
-    - _HSV_Shift: 1
-    - _HSV_Value: 1
     - _Metallic: 0
-    - _MetallicMap: 0
-    - _Metallic_Intensity: 0
-    - _Metallic_Smoothstep_Max: 0
-    - _Metallic_Smoothstep_Min: 0
-    - _Modify_Color: 1
-    - _Modify_Intensity: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueControl: 0
     - _QueueOffset: 0
-    - _RGB_Shift: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _WorkflowMode: 1
-    - _ZTest: 4
-    - _ZWrite: 1
-    - _ZWriteControl: 0
+    - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0.47843137}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.47843137}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
-    - _SmoothStep_X_Y: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &4871133814825880556
+--- !u!114 &9034899872087346617
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

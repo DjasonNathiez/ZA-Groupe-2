@@ -7,11 +7,13 @@ using UnityEngine.Serialization;
 
 public class BossBehaviour : MonoBehaviour
 {
-    [FormerlySerializedAs("m_state")] [SerializeField] private int state;
+    [FormerlySerializedAs("m_state")] [SerializeField]
+    public int state;
     [FormerlySerializedAs("m_phase")] [SerializeField] private int phase;
     [SerializeField] private float walkingSpeed;
     [SerializeField] private float dashingSpeed;
-    [FormerlySerializedAs("m_rb")] [SerializeField] private Rigidbody rb;
+    [FormerlySerializedAs("m_rb")] [SerializeField]
+    public Rigidbody rb;
     [SerializeField] private Vector3[] spawnPosPillars;
     [SerializeField] private Vector3[] spawnPosRabbits;
     [SerializeField] private GameObject pillarGameObject;
@@ -23,14 +25,19 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float shockWaveSpeed = 1;
     [SerializeField] private float shockWaveDuration;
     [SerializeField] private Vector3 dashDirection;
-    [SerializeField] private List<GameObject> pillars;
-    [SerializeField] private float cableFirstAngle;
-    [SerializeField] private float cableLastAngle;
+    [SerializeField] public List<GameObject> pillars;
+    [SerializeField] private List<GameObject> cableNodes;
+    [SerializeField] private float cableRotation;
+    [SerializeField] private bossDetector bossDetector;
+    [SerializeField] private Material material;
+    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         timeStamp = timeBetweenAttacks;
+        material = new Material(material);
+        GetComponent<MeshRenderer>().material = material;
     }
 
     void Update()
@@ -44,10 +51,18 @@ public class BossBehaviour : MonoBehaviour
                 timeStamp -= Time.deltaTime;
                 forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
                 rb.velocity = forward;
-                transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*5);
+                bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*5);
+                if (cableRotation >= 360 || cableRotation <= -360)
+                {
+                    PlayerManager.instance.rope.rewinding = true;
+                    state = 0;
+                    StartCoroutine(Fall(1));
+                    Debug.Log("Falls");
+                }
                 break;
             case 2:
                 rb.velocity = dashDirection * dashingSpeed;
+                bossDetector.transform.rotation = Quaternion.LookRotation(dashDirection);
                 break;
         }
 
@@ -58,7 +73,6 @@ public class BossBehaviour : MonoBehaviour
             {
                 state = 0;
                 StartCoroutine(SpawnRabbits(1));
-                Debug.Log("Rabbits");
             }
             else
             {
@@ -66,93 +80,97 @@ public class BossBehaviour : MonoBehaviour
                 {
                     state = 0;
                     StartCoroutine(ShockWave(1));
-                    Debug.Log("ShockWave");
                 }
                 else
                 {
                     state = 0;
                     StartCoroutine(Dash(1));
-                    Debug.Log("Dash");
                 }
             }
-        }
-
-        if (cableLastAngle > cableFirstAngle + 360 || cableLastAngle < cableFirstAngle - 360)
-        {
-            state = 0;
-            StartCoroutine(Fall(1));
-            Debug.Log("Falls");
         }
 
         if (shockWaveGameObject.activeSelf)
         {
             shockWaveGameObject.transform.localScale += new Vector3((Time.deltaTime * shockWaveSpeed),0,(Time.deltaTime * shockWaveSpeed));
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (state == 2)
+        if (transform.childCount > 1 + cableNodes.Count || transform.childCount < 1 + cableNodes.Count)
         {
-            if (other.gameObject.CompareTag("UngrippableObject"))
+            List<GameObject> nodes = new List<GameObject>(0);
+            foreach (Node node in PlayerManager.instance.rope.nodes)
             {
-                state = 0;
-                rb.velocity = Vector3.zero;
-                StartCoroutine(ReturnToIddle(1));
+                if (node.anchor == gameObject)
+                {
+                    nodes.Add(node.nodePoint);
+                }
             }
-            else if (pillars.Contains(other.gameObject))
-            {
-                state = 0;
-                pillars.Remove(other.gameObject);
-                Destroy(other.gameObject);
-                rb.velocity = Vector3.zero;
-                StartCoroutine(ReturnToIddle(1));
-            }
-            else if (other.gameObject.CompareTag("Player"))
-            {
-                state = 0;
-                rb.velocity = Vector3.zero;
-                
-                // Faire perdre 1 point de vie au joueur ------------------------
-                
-                StartCoroutine(ReturnToIddle(1));
-            }
+            cableNodes = nodes;
+            cableRotation = CalculateCableRotation();
         }
     }
 
     public IEnumerator SpawnRabbits(float delay)
     {
+        material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
         foreach (Vector3 pos in spawnPosPillars)
         {
             GameObject pillar = Instantiate(pillarGameObject, pos, quaternion.identity);
             pillars.Add(pillar);
         }
+        foreach (Vector3 pos in spawnPosRabbits)
+        {
+            Instantiate(rabbitGameObject, pos, quaternion.identity);
+        }
+        material.color = Color.white;
         state = 1;
+    }
+
+    public float CalculateCableRotation()
+    {
+        float cableRot = 0;
+        if (cableNodes.Count > 1)
+        {
+            Debug.Log("okBienOUej");
+            for (int i = 1; i < cableNodes.Count; i++)
+            {
+                Vector3 pos = cableNodes[i - 1].transform.position;
+                Vector3 nextpos = cableNodes[i].transform.position;
+                cableRot += Vector3.SignedAngle(new Vector3(pos.x,transform.position.y,pos.z) - transform.position, new Vector3(nextpos.x,transform.position.y,nextpos.z) - transform.position, Vector3.up);
+            }   
+        }
+        return cableRot;
     }
     
     public IEnumerator Dash(float delay)
     {
+        material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
         dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
         transform.rotation = Quaternion.LookRotation(dashDirection);
+        material.color = Color.blue;
         state = 2;
     }
     
     public IEnumerator ReturnToIddle(float delay)
     {
+        material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
+        material.color = Color.white;
         state = 1;
     }
     
     public IEnumerator ShockWave(float delay)
     {
+        material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
         shockWaveGameObject.SetActive(true);
         shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0);
         shockWaveGameObject.transform.localScale = new Vector3(2, 0.2f, 2);
+        material.color = Color.blue;
         yield return new WaitForSeconds(shockWaveDuration);
+        material.color = Color.white;
         shockWaveGameObject.SetActive(false);
         state = 1;
     }
@@ -160,7 +178,9 @@ public class BossBehaviour : MonoBehaviour
     public IEnumerator Fall(float delay)
     {
         state = 0;
+        material.color = Color.yellow;
         yield return new WaitForSeconds(delay);
+        material.color = Color.red;
         state = 3;
     }
     
