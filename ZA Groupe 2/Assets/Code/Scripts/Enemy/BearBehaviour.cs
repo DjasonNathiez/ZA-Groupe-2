@@ -11,6 +11,8 @@ public class BearBehaviour : AIBrain
     public float attackRangeDeadZone;
 
     public bool isAttacking;
+
+    public GameObject FeedbackWarningAttack;
     
     private void Start()
     {
@@ -31,6 +33,11 @@ public class BearBehaviour : AIBrain
         {
             CheckState();
             Detection();
+        }
+        if (isAttacking == true)
+        {
+            Instantiate(FeedbackWarningAttack, transform.position, Quaternion.identity);
+
         }
     }
     
