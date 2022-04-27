@@ -3,29 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EnemyDebugUI : MonoBehaviour
 {
 
     [Header("Enemy Information")] 
-    private bool canAttack;
-    private float attackCD;
+    private bool m_canAttack;
+    private float m_attackCd;
 
     public EnemyList[] enemyLists;
 
-    private bool isActive;
+    private bool m_isActive;
     
     void Start()
     {
         foreach (var e in enemyLists)
         {
-            e._panelDebugUI = e.panel.GetComponentInChildren<EnemyPanelDebugUI>();
+            e.panelDebugUI = e.panel.GetComponentInChildren<EnemyPanelDebugUI>();
             e.enemyBrain = e.enemyBrain.GetComponent<AIBrain>();
 
             if (e.enemyObject.GetComponent<LionBehaviour>())
             {
-                e.enemyType = EnemyList.EnemyType.Lion;
+                e.enemyType = EnemyList.EnemyType.LION;
             }
             else
             {   
@@ -39,16 +40,16 @@ public class EnemyDebugUI : MonoBehaviour
         {
             switch (e.enemyType)
             {
-                case EnemyList.EnemyType.Bear:
+                case EnemyList.EnemyType.BEAR:
                     Debug.Log("Bear script doesn't exist");
                     break;
                 
                 
-                case EnemyList.EnemyType.Lion:
+                case EnemyList.EnemyType.LION:
 
                     var behaviour = e.enemyObject.GetComponent<LionBehaviour>();
-                    e._panelDebugUI.canAttackToggle.isOn = behaviour.canAttack;
-                    e._panelDebugUI.attackCDText.text = behaviour.m_activeAttackCD.ToString();
+                    e.panelDebugUI.canAttackToggle.isOn = behaviour.canAttack;
+                    e.panelDebugUI.attackCdText.text = behaviour.activeAttackCd.ToString();
                     break;
             }
         }
@@ -56,19 +57,19 @@ public class EnemyDebugUI : MonoBehaviour
 
     public void SetPanel(GameObject panelToTarget)
     {
-        panelToTarget.SetActive(!isActive);
+        panelToTarget.SetActive(!m_isActive);
     }
 
     [Serializable]
     public class EnemyList
     {
         public GameObject panel;
-        [HideInInspector] public EnemyPanelDebugUI _panelDebugUI;
+        [FormerlySerializedAs("_panelDebugUI")] [HideInInspector] public EnemyPanelDebugUI panelDebugUI;
         
         public GameObject enemyObject;
         [HideInInspector] public AIBrain enemyBrain;
         [HideInInspector] public EnemyType enemyType;
-        public enum EnemyType{Lion, Bear}
+        public enum EnemyType{LION, BEAR}
         
         
     }

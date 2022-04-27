@@ -13,6 +13,13 @@ public class MenuItemPersonnal : MonoBehaviour
             Debug.Log(gameManager.name);
             Debug.Log("Add a Game Manager To The Scene");
         }
+        
+        [MenuItem("GameObject/Grappin Spot", priority = 0)]
+                public static void GrappinSpot()
+                {
+                    Object grappinSpot = Resources.Load("GrappinSpot");
+                    Instantiate(grappinSpot);
+                }
 
         
         [MenuItem("GameObject/Enemy/New Empty AI", priority = 0)]
@@ -37,4 +44,17 @@ public class MenuItemPersonnal : MonoBehaviour
             Instantiate(newBear);
         }
         
+        [MenuItem("GameObject/Enemy/Rabbit", priority = 1)]
+        public static void CreateRabbit()
+        {
+            Object newRabbit = Resources.Load("E_Rabbit");
+            Instantiate(newRabbit);
+        }
+        
+        [MenuItem("GameObject/Enemy/Turret", priority = 1)]
+        public static void CreateTurret()
+        {
+            Object newTurret = Resources.Load("E_Turret");
+            Instantiate(newTurret);
+        }
 }

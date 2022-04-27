@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BossBehaviour : MonoBehaviour
 {
-    [SerializeField] private int m_state;
-    [SerializeField] private int m_phase;
+    [FormerlySerializedAs("m_state")] [SerializeField] private int state;
+    [FormerlySerializedAs("m_phase")] [SerializeField] private int phase;
     [SerializeField] private float walkingSpeed;
     [SerializeField] private float dashingSpeed;
-    [SerializeField] private Rigidbody m_rb;
+    [FormerlySerializedAs("m_rb")] [SerializeField] private Rigidbody rb;
     [SerializeField] private Vector3[] spawnPosPillars;
     [SerializeField] private Vector3[] spawnPosRabbits;
     [SerializeField] private GameObject pillarGameObject;
@@ -28,13 +29,13 @@ public class BossBehaviour : MonoBehaviour
 
     private void Start()
     {
-        m_rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         timeStamp = timeBetweenAttacks;
     }
 
     void Update()
     {
-        switch (m_state)
+        switch (state)
         {
             case 0:
                 break;
@@ -42,11 +43,11 @@ public class BossBehaviour : MonoBehaviour
                 Vector3 forward = (PlayerManager.instance.transform.position - transform.position);
                 timeStamp -= Time.deltaTime;
                 forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
-                m_rb.velocity = forward;
+                rb.velocity = forward;
                 transform.rotation = Quaternion.Lerp(transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*5);
                 break;
             case 2:
-                m_rb.velocity = dashDirection * dashingSpeed;
+                rb.velocity = dashDirection * dashingSpeed;
                 break;
         }
 
@@ -55,7 +56,7 @@ public class BossBehaviour : MonoBehaviour
             timeStamp = timeBetweenAttacks;
             if (pillars.Count == 0)
             {
-                m_state = 0;
+                state = 0;
                 StartCoroutine(SpawnRabbits(1));
                 Debug.Log("Rabbits");
             }
@@ -63,13 +64,13 @@ public class BossBehaviour : MonoBehaviour
             {
                 if (Vector3.SqrMagnitude(PlayerManager.instance.transform.position - transform.position) < detectionDist * detectionDist)
                 {
-                    m_state = 0;
+                    state = 0;
                     StartCoroutine(ShockWave(1));
                     Debug.Log("ShockWave");
                 }
                 else
                 {
-                    m_state = 0;
+                    state = 0;
                     StartCoroutine(Dash(1));
                     Debug.Log("Dash");
                 }
@@ -78,7 +79,7 @@ public class BossBehaviour : MonoBehaviour
 
         if (cableLastAngle > cableFirstAngle + 360 || cableLastAngle < cableFirstAngle - 360)
         {
-            m_state = 0;
+            state = 0;
             StartCoroutine(Fall(1));
             Debug.Log("Falls");
         }
@@ -91,26 +92,26 @@ public class BossBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (m_state == 2)
+        if (state == 2)
         {
             if (other.gameObject.CompareTag("UngrippableObject"))
             {
-                m_state = 0;
-                m_rb.velocity = Vector3.zero;
+                state = 0;
+                rb.velocity = Vector3.zero;
                 StartCoroutine(ReturnToIddle(1));
             }
             else if (pillars.Contains(other.gameObject))
             {
-                m_state = 0;
+                state = 0;
                 pillars.Remove(other.gameObject);
                 Destroy(other.gameObject);
-                m_rb.velocity = Vector3.zero;
+                rb.velocity = Vector3.zero;
                 StartCoroutine(ReturnToIddle(1));
             }
             else if (other.gameObject.CompareTag("Player"))
             {
-                m_state = 0;
-                m_rb.velocity = Vector3.zero;
+                state = 0;
+                rb.velocity = Vector3.zero;
                 
                 // Faire perdre 1 point de vie au joueur ------------------------
                 
@@ -127,7 +128,7 @@ public class BossBehaviour : MonoBehaviour
             GameObject pillar = Instantiate(pillarGameObject, pos, quaternion.identity);
             pillars.Add(pillar);
         }
-        m_state = 1;
+        state = 1;
     }
     
     public IEnumerator Dash(float delay)
@@ -136,13 +137,13 @@ public class BossBehaviour : MonoBehaviour
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
         dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
         transform.rotation = Quaternion.LookRotation(dashDirection);
-        m_state = 2;
+        state = 2;
     }
     
     public IEnumerator ReturnToIddle(float delay)
     {
         yield return new WaitForSeconds(delay);
-        m_state = 1;
+        state = 1;
     }
     
     public IEnumerator ShockWave(float delay)
@@ -153,14 +154,14 @@ public class BossBehaviour : MonoBehaviour
         shockWaveGameObject.transform.localScale = new Vector3(2, 0.2f, 2);
         yield return new WaitForSeconds(shockWaveDuration);
         shockWaveGameObject.SetActive(false);
-        m_state = 1;
+        state = 1;
     }
 
     public IEnumerator Fall(float delay)
     {
-        m_state = 0;
+        state = 0;
         yield return new WaitForSeconds(delay);
-        m_state = 3;
+        state = 3;
     }
     
     

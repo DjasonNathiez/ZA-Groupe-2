@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ThrowingWeapon : MonoBehaviour
 {
-    [SerializeField] private PlayerManager m_PlayerManager;
+    [FormerlySerializedAs("m_PlayerManager")] [SerializeField] private PlayerManager playerManager;
     public Transform grip;
     private void OnTriggerEnter(Collider other)
     {
@@ -13,37 +14,37 @@ public class ThrowingWeapon : MonoBehaviour
             other.GetComponent<TurretBehaviour>().isPin = true;
         }
         
-        if (m_PlayerManager.state == "Throw")
+        if (playerManager.state == "Throw")
         {
             if (other.CompareTag("GrippableObject"))
             {
-                m_PlayerManager.state = "Rope";
+                playerManager.state = "Rope";
                 if (other.ClosestPoint(transform.position) == transform.position)
                 {
-                    grip.position = other.ClosestPoint(m_PlayerManager.transform.position) - transform.forward * 0.3f;
+                    grip.position = other.ClosestPoint(playerManager.transform.position) - transform.forward * 0.3f;
                 }
                 else
                 {
                     grip.position = other.ClosestPoint(transform.position) - transform.forward * 0.3f;   
                 }
                 grip.parent = other.transform;
-                m_PlayerManager.m_rope.pinnedTo = other.gameObject;
-                m_PlayerManager.m_rope.CheckElectrocution();
+                playerManager.rope.pinnedTo = other.gameObject;
+                playerManager.rope.CheckElectrocution();
                 
                 
             }   
             else if (other.CompareTag("UngrippableObject"))
             {
                 Debug.Log("HEEEEY YA");
-                m_PlayerManager.state = "Rope";
-                m_PlayerManager.Rewind();
+                playerManager.state = "Rope";
+                playerManager.Rewind();
             }
             else if (other.CompareTag("TractableObject"))
             {
-                m_PlayerManager.state = "Rope";
-                m_PlayerManager.m_rope.pinnedToObject = true;
-                m_PlayerManager.m_rope.pinnedRb = other.attachedRigidbody;
-                m_PlayerManager.m_rope.pinnedObjectDistance = m_PlayerManager.m_rope.lenght;
+                playerManager.state = "Rope";
+                playerManager.rope.pinnedToObject = true;
+                playerManager.rope.pinnedRb = other.attachedRigidbody;
+                playerManager.rope.pinnedObjectDistance = playerManager.rope.lenght;
                 grip.position = transform.position;
                 grip.parent = other.transform;
             }
@@ -52,14 +53,14 @@ public class ThrowingWeapon : MonoBehaviour
     
     private void Update()
     {
-        if (m_PlayerManager.state == "Rope" && !m_PlayerManager.m_rope.rewinding)
+        if (playerManager.state == "Rope" && !playerManager.rope.rewinding)
         {
             transform.position = grip.position;
         }
         
-        if (m_PlayerManager.state == "Throw" && m_PlayerManager.m_rope.lenght >= m_PlayerManager.m_rope.maximumLenght)
+        if (playerManager.state == "Throw" && playerManager.rope.lenght >= playerManager.rope.maximumLenght)
         {
-            m_PlayerManager.m_rope.rewinding = true;
+            playerManager.rope.rewinding = true;
         }
     }
 }

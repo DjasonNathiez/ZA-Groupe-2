@@ -15,13 +15,13 @@ public class TurretBehaviour : AIBrain
     public bool isPin;
 
     [Range(0.5f, 20)] public float distanceToDestroy;
-    private float distanceToOrigin;
+    private float m_distanceToOrigin;
     
-    private Vector3 originPos;
+    private Vector3 m_originPos;
 
     private void Start()
     {
-        originPos = transform.position;
+        m_originPos = transform.position;
         InitializationData();
     }
 
@@ -47,12 +47,12 @@ public class TurretBehaviour : AIBrain
 
         if (isPin)
         {
-            distanceToOrigin = Vector3.Distance(transform.position, originPos);
+            m_distanceToOrigin = Vector3.Distance(transform.position, m_originPos);
 
-            if (distanceToOrigin > distanceToDestroy)
+            if (m_distanceToOrigin > distanceToDestroy)
             {
-                m_player.GetComponent<PlayerManager>().m_rope.rewinding = true;
-                m_player.GetComponent<PlayerManager>().m_rope.ResetPin();
+                player.GetComponent<PlayerManager>().rope.rewinding = true;
+                player.GetComponent<PlayerManager>().rope.ResetPin();
                 currentHealth = 0;
                 StartCoroutine(Death());
                 Debug.Log("Turret Destroy");
@@ -69,7 +69,7 @@ public class TurretBehaviour : AIBrain
             case StateMachine.ATTACK:
                 canAttack = true;
                 AttackPlayer();
-                transform.LookAt(m_player.transform.position);
+                transform.LookAt(player.transform.position);
                 break;
         }
     }

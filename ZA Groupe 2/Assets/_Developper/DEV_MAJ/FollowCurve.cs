@@ -47,9 +47,9 @@ public class FollowCurve : MonoBehaviour
                     Quaternion.LookRotation((points[currentPoint + 1].point - points[currentPoint].point).normalized,points[currentPoint + 1].up),
                     step);
                 speed = Mathf.Lerp(speed, points[currentPoint + 1].speed, 5 * Time.deltaTime);
-                cam.m_cameraPos.position = transform.position + Vector3.Lerp(points[currentPoint].camPos, points[currentPoint + 1].camPos, step);
-                cam.m_cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[currentPoint + 1].camAngle, step);
-                cam.m_cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[currentPoint + 1].camZoom, step);
+                cam.cameraPos.position = transform.position + Vector3.Lerp(points[currentPoint].camPos, points[currentPoint + 1].camPos, step);
+                cam.cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[currentPoint + 1].camAngle, step);
+                cam.cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[currentPoint + 1].camZoom, step);
             }
             else if (loop)
             {
@@ -58,9 +58,9 @@ public class FollowCurve : MonoBehaviour
                     Quaternion.LookRotation((points[0].point - points[currentPoint].point).normalized,points[0].up),
                     step);
                 speed = Mathf.Lerp(speed, points[0].speed, 5 * Time.deltaTime);
-                cam.m_cameraPos.position = transform.position + Vector3.Lerp(points[currentPoint].camPos, points[0].camPos, step);
-                cam.m_cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[0].camAngle, step);
-                cam.m_cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[0].camZoom, step);
+                cam.cameraPos.position = transform.position + Vector3.Lerp(points[currentPoint].camPos, points[0].camPos, step);
+                cam.cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[0].camAngle, step);
+                cam.cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[0].camZoom, step);
             }   
         }
     }
