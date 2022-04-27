@@ -308,7 +308,6 @@ public class PlayerManager : MonoBehaviour
             case PlayerStateMachine.DEAD:
                 m_animator.Play("Death");
                 break;
-            
         }
         
     }
@@ -336,8 +335,6 @@ public class PlayerManager : MonoBehaviour
             GameManager.instance.inPause = false;
         }
     }
-
-    
     
     private void Move()
     {
@@ -483,9 +480,7 @@ public class PlayerManager : MonoBehaviour
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
     }
-
- 
-
+    
     private void OnEnable()
     {
         m_inputController.Enable();
