@@ -2,14 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ArcadeEntry : MonoBehaviour
 {
-    [SerializeField] private arcadeController m_arcadeController;
-    [SerializeField] private CameraController m_cam;
+    [FormerlySerializedAs("m_arcadeController")] [SerializeField] private ArcadeController arcadeController;
+    [FormerlySerializedAs("m_cam")] [SerializeField] private CameraController cam;
     [SerializeField] private Vector3 pos;
     [SerializeField] private Vector3 rotation;
-    [SerializeField] private GameObject m_Button;
+    [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
     [SerializeField] private bool check;
     [SerializeField] private float zoom;
     [SerializeField] private float nearPlane;
@@ -27,28 +28,28 @@ public class ArcadeEntry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            m_Button.SetActive(true);
+            button.SetActive(true);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && PlayerManager.instance.inputInterractPushed && !check)
+        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
         {
             check = true;
-            m_arcadeController.onArcade = true;
-            m_cam.playerFocused = false;
-            m_cam.m_cameraPos.position  = transform.position + pos;
-            m_cam.m_cameraPos.rotation = Quaternion.Euler(rotation);
-            m_cam.m_cameraZoom = zoom;
+            arcadeController.onArcade = true;
+            cam.playerFocused = false;
+            cam.cameraPos.position  = transform.position + pos;
+            cam.cameraPos.rotation = Quaternion.Euler(rotation);
+            cam.cameraZoom = zoom;
             PlayerManager.instance.moveSpeed = 0;
-            m_arcadeController.bg.sprite = background;
-            m_arcadeController.title.GetComponent<SpriteRenderer>().sprite = title;
-            m_arcadeController.screen = screen;
-            m_arcadeController.game = game;
+            arcadeController.bg.sprite = background;
+            arcadeController.title.GetComponent<SpriteRenderer>().sprite = title;
+            arcadeController.screen = screen;
+            arcadeController.game = game;
         }
 
-        if (other.CompareTag("Player") && !PlayerManager.instance.inputInterractPushed && check)
+        if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
         {
             check = false;
         }
@@ -57,7 +58,7 @@ public class ArcadeEntry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            m_Button.SetActive(false);
+            button.SetActive(false);
         }
     }
 }

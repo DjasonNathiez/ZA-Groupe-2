@@ -2,35 +2,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RollerCoasterEntry : MonoBehaviour
 {
     public bool isDialoguing;
-    [SerializeField] private FollowCurve m_rollerCoaster;
-    [SerializeField] private CameraController m_cam;
-    [SerializeField] private GameObject m_Button;
+    [FormerlySerializedAs("m_rollerCoaster")] [SerializeField] private FollowCurve rollerCoaster;
+    [FormerlySerializedAs("m_cam")] [SerializeField] private CameraController cam;
+    [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
     [SerializeField] private bool check;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            m_Button.SetActive(true);
+            button.SetActive(true);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && PlayerManager.instance.inputInterractPushed && !check)
+        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
         {
             check = true;
-            m_rollerCoaster.moving = true;
-            m_rollerCoaster.cam = m_cam;
-            m_cam.playerFocused = false;
+            rollerCoaster.moving = true;
+            rollerCoaster.cam = cam;
+            cam.playerFocused = false;
 
         }
 
-        if (other.CompareTag("Player") && !PlayerManager.instance.inputInterractPushed && check)
+        if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
         {
             check = false;
         }
@@ -39,7 +40,7 @@ public class RollerCoasterEntry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            m_Button.SetActive(false);
+            button.SetActive(false);
         }
     }
     

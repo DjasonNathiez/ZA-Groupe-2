@@ -1,239 +1,290 @@
-using System;
 using System.Collections;
-using DG.DemiLib;
+using System.Diagnostics.CodeAnalysis;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[SuppressMessage("ReSharper", "CheckNamespace")]
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager instance;
+    public static PlayerManager instance; //Singleton
 
+    #region Components
+
+    //Unity components 
     private InputController m_inputController;
-    public Rigidbody m_rb;
+    [HideInInspector] public Rigidbody rb;
     private Animator m_animator;
     private PlayerInput m_playerInput;
+    private Vector2 m_mousePos;
 
-    private LineRenderer m_lineRenderer;
-    [SerializeField] private Vector2 mousePos;
+    //Personal scripts components
+    private Attack m_attack;
+    [HideInInspector] public TestRope rope;
 
-    [Header("Player States")] public ControlState controlState;
+    #endregion
 
-    public enum ControlState
+    #region Player States
+
+    private ControlState m_controlState;
+
+    private enum ControlState
     {
         NORMAL,
-        GRAPPIN,
         UI
     }
 
-    public PlayerStateMachine playerStateMachine;
+    private PlayerStateMachine m_playerStateMachine;
 
-    public enum PlayerStateMachine
+    private enum PlayerStateMachine
     {
         IDLE,
         MOVE,
         ATTACK,
         ROLLING,
         THROW,
+        STUN,
         DEAD
     };
 
-    [Header("Statistics")] public float currentLifePoint;
-    public float maxLifePoint;
-    public bool isInvincible;
-    public bool isStun;
+    #endregion
 
-    [Header("Movement")] [SerializeField] private float m_speed;
+    #region Public variables
+
+    [Header("States Stats")] 
+    public float baseLifePoint;
+    [HideInInspector] public float currentLifePoint;
+    [HideInInspector] public float maxLifePoint;
+    [HideInInspector] public bool isInvincible;
+    [HideInInspector] public bool isStun;
+
+    [Header("Movements Stats")]
     public float moveSpeed;
-
-    private Vector3 m_moveDirection;
     public float rotationSpeed;
-    public bool moving;
+    public float rollCooldown;
+    public AnimationCurve rollAnimationCurve;
+    public float grappleFlySpeed;
+    
+    [Header("Attack Stats")]
 
-    [Header("Attack")] public int attackDamage;
+    // Melee Attack
+    public int attackDamage;
     public float attackSpeed;
+    
+    // Distance Attack
+    public GameObject throwingWeapon;
+    public float throwingSpeed;
+    [HideInInspector] public Vector3 direction;
+    [HideInInspector] public string state = "StatusQuo";
+    
+    //Others
+    [Header("Others")] 
+    public AnimationClip rollAnimClip;
+    [HideInInspector] public bool inputInteractPushed;
+    [HideInInspector] public Vector3 move; //For Arcade Easter Egg
 
-    [SerializeField] private Attack m_attack;
+    #endregion
+    
+    #region Private variables
 
+    //Movement
+    private float m_speed;
+    private Vector3 m_moveDirection;
+    private bool m_moving;
+    private Quaternion m_lookRot;
+    
+    //Roll
+    private bool m_canRoll;
+    private bool m_isRolling;
+    private float m_acTimer; //animated curve current timer
+    
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+    private static readonly int Moving = Animator.StringToHash("Moving");
 
-    [Header("DistanceAttack")] public GameObject throwingWeapon;
-    public float throwingSpeed;
-    public Vector3 direction;
-    public string state = "StatusQuo";
-
-    [Header("Roll")] public float rollSpeed;
-    [Range(0, 1)] public float rollDuration;
-    public float rollCooldown;
-    private float m_rollTimer;
-    [SerializeField] private bool m_canRoll;
-    private bool m_isRolling;
-    public AnimationCurve animationCurve;
-    public float lerpTime;
-    [SerializeField] private float m_acTimer;
-    public GameObject pinObj;
-    public GameObject pinPosBase;
-    private GameObject objInFront;
-
-    public TestRope m_rope;
-    public GameObject weaponObj;
-
-    public bool inputInterractPushed;
-    public bool isMoving;
-    public Vector3 move;
-
-    private Quaternion lookRot;
-
-    public float grabSpeed;
-
+    #endregion
     
     private void Awake()
     {
+        #region Singleton
+
         if (instance == null)
         {
             instance = this;
         }
+        else
+        {
+            Destroy(this);
+        }
+
+        #endregion
         
         m_inputController = new InputController();
+        
         m_animator = GetComponent<Animator>();
-        m_rb = GetComponent<Rigidbody>();
-        m_rope = GetComponent<TestRope>();
+        rb = GetComponent<Rigidbody>();
+        rope = GetComponent<TestRope>();
         m_playerInput = GetComponent<PlayerInput>();
-
+        m_attack = GetComponentInChildren<Attack>();
     }
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
-        
         m_playerInput.actions = m_inputController.asset;
-        m_canRoll = true;
+        
+        //Stats Variables Setup
+        currentLifePoint = maxLifePoint = baseLifePoint;
         m_speed = moveSpeed;
-        
-        
-        animationCurve.keys[animationCurve.length -1].time = rollDuration;
-        m_acTimer = animationCurve.keys[animationCurve.length -1].time;
-    }
+        m_canRoll = true;
+        m_isRolling = false;
 
-    public IEnumerator StunCooldown(float stunDuration)
-    {
-        yield return new WaitForSeconds(stunDuration);
-        isStun = false;
-        Debug.Log("Stun is over");
+        //Roll Animation Curve Setup
+        rollAnimationCurve.keys[rollAnimationCurve.length -1].time = rollAnimClip.length;
+        m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
     }
     
     private void Update()
     {
-        if (isStun)
-        {
-            
-        }
-        
-        if (playerStateMachine != PlayerStateMachine.ATTACK)
-        {
-            m_attack.isAttacking = false;
-        }
-        
-        if (currentLifePoint <= 0)
-        {
-            playerStateMachine = PlayerStateMachine.DEAD;
-        }
+        Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
         
         CheckForAnimation();
-        
-        Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse";
 
-        switch (controlState)
+        if (m_playerStateMachine is not (PlayerStateMachine.DEAD or PlayerStateMachine.STUN))
+        {
+            m_playerStateMachine = m_moveDirection != Vector3.zero ? PlayerStateMachine.MOVE : PlayerStateMachine.IDLE;
+        }
+        
+        //Read Input
+        switch (m_controlState)
         {
             case ControlState.NORMAL:
 
-                if (!isStun)
+                switch (m_playerStateMachine)
                 {
-                    if (!m_attack.isAttacking)
-                    {
+                    case PlayerStateMachine.IDLE:
+                        
                         m_inputController.Player.Melee.started += _ => LoadAttack();
-                    }
-                
-                    m_inputController.Player.Interact.started += _ => inputInterractPushed = true;
-                    m_inputController.Player.Interact.canceled += _ => inputInterractPushed = false;
-//        Debug.Log(state);
-                    switch (state)
-                    {
-                        case "StatusQuo":
-                            m_inputController.Player.Range.started += _ => Throw();
-                            break;
-                        case "Rope":
-                            m_inputController.Player.Range.started += _ => Rewind();
-                            break;
-                        case "Throw":
-                            throwingWeapon.transform.Translate(direction*Time.deltaTime*throwingSpeed);
-                            break;
-                        default: return;
-                    }
-
-                    if (m_canRoll)
-                    {
-                        m_inputController.Player.Roll.started += _ => m_isRolling = true;
-                    }
-
-                    switch (m_rollTimer)
-                    {
-                        case > 0:
-                            m_rollTimer -= Time.deltaTime;
-                            m_canRoll = false;
-                            break;
-                        case <= 0:
-                            m_canRoll = true;
-                            break;
-                    }
-
-                    m_inputController.Player.MousePosition.performed += context => mousePos = context.ReadValue<Vector2>();
-
-                    if (!m_attack.isAttacking && !m_isRolling)
-                    {
+                        
+                        m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
+                        m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
+                        
+                        switch (state)
+                        {
+                            case "StatusQuo":
+                                m_inputController.Player.Range.started += _ => Throw();
+                                break;
+                            case "Rope":
+                                m_inputController.Player.Range.started += _ => Rewind();
+                                break;
+                            case "Throw":
+                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+                                break;
+                            default: return;
+                        }
+                        
+                        if (m_canRoll)
+                        {
+                            m_inputController.Player.Roll.started += _ => m_isRolling = true;
+                            m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
+                        }
+                        
                         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                         m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
-                        m_inputController.Player.Move.performed += _ => playerStateMachine = PlayerStateMachine.MOVE;
-                        m_inputController.Player.Move.performed += _ => moving = true;
-                    }
+                        m_inputController.Player.Move.performed += _ => m_moving = true;
+                        
+                        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
+                        m_inputController.Player.Move.canceled += _ => m_moving = false;
+                        
+                        
+                        Move();
+                        Rotation(); 
+                        
+                        break;
+                    
+                    case PlayerStateMachine.MOVE:
+                        
+                        m_inputController.Player.Melee.started += _ => LoadAttack();
+                        
+                        m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
+                        m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
+                        
+                        switch (state)
+                        {
+                            case "StatusQuo":
+                                m_inputController.Player.Range.started += _ => Throw();
+                                break;
+                            case "Rope":
+                                m_inputController.Player.Range.started += _ => Rewind();
+                                break;
+                            case "Throw":
+                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+                                break;
+                            default: return;
+                        }
+                        
+                        if (m_canRoll)
+                        {
+                            m_inputController.Player.Roll.started += _ => m_isRolling = true;
+                            m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
+                        }
+                        
+                        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
+                        m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
-                    m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-                    m_inputController.Player.Move.canceled += _ => moving = false;
+                        m_inputController.Player.Move.performed += _ => m_moving = true;
+                        
+                        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
+                        m_inputController.Player.Move.canceled += _ => m_moving = false;
+                        
+                        
+                        Move();
+                        Rotation();
+                        
+                        break;
 
-                    if (!m_attack.isAttacking || !m_isRolling)
-                    {
-                        m_inputController.Player.Move.canceled += _ => playerStateMachine = PlayerStateMachine.IDLE;
-                    }
+                    case PlayerStateMachine.STUN:
+                        m_moving = false;
+                        move = Vector3.zero;
+                        m_moveDirection = Vector3.zero;
+                        rb.velocity = Vector3.zero;
+                        break;
+                    
+                    case PlayerStateMachine.DEAD:
+                        m_moving = false;
+                        m_moveDirection = Vector3.zero;
+                        move = Vector3.zero;
+                        rb.velocity = Vector3.zero;
+                        break;
+                }
 
-                    Move();
-                    Rotation();
-                    Dash();
+                m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
+ 
+                if (m_isRolling)
+                {
+                    StartCoroutine(StartRoll());
                 }
                 
                 break;
             
             case ControlState.UI:
-                //can't acces player controls
+                
+                //can't access player base controls
                 break;
         }
         
         m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
-        m_inputController.Player.Bugtracker.started += _ => controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
+        m_inputController.Player.Bugtracker.started += _ => m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
-
-        //SET PAUSE
         
-        m_inputController.Player.Pause.started += PauseOnstarted;  
-        
+        m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
     private void CheckForAnimation()
     {
-        m_animator.SetBool("Moving", moving);
-        switch (playerStateMachine)
+        m_animator.SetBool(Moving, m_moving);
+        
+        switch (m_playerStateMachine)
         {
             case PlayerStateMachine.IDLE:
                 m_animator.Play("Idle");
@@ -241,14 +292,13 @@ public class PlayerManager : MonoBehaviour
             
             case PlayerStateMachine.MOVE:
 
-                if (!m_isRolling || !m_attack.isAttacking || state != "Throw")
+                if (!m_attack.isAttacking)
                 {
                     m_animator.Play("Move");
                 }
                 break;
             
             case PlayerStateMachine.ROLLING:
-                m_animator.Play("Roll");
                 break;
             
             case PlayerStateMachine.THROW:
@@ -258,12 +308,19 @@ public class PlayerManager : MonoBehaviour
             case PlayerStateMachine.DEAD:
                 m_animator.Play("Death");
                 break;
-            
         }
         
     }
-
-    private void PauseOnstarted(InputAction.CallbackContext obj)
+    
+    public IEnumerator StartStun(float stunDuration)
+    {
+        m_animator.Play("Electrocut");
+        m_playerStateMachine = PlayerStateMachine.STUN;
+        yield return new WaitForSeconds(stunDuration);
+        m_playerStateMachine = PlayerStateMachine.IDLE;
+    }
+    
+    private void PauseOnStarted(InputAction.CallbackContext obj)
     {
         if (!obj.started) return;
 
@@ -278,65 +335,85 @@ public class PlayerManager : MonoBehaviour
             GameManager.instance.inPause = false;
         }
     }
-
-    private void Dash()
-    {
-        if (m_isRolling)
-        {
-            playerStateMachine = PlayerStateMachine.ROLLING;
-            m_canRoll = false;
-            
-            m_acTimer -= Time.deltaTime; 
-        
-            m_speed = animationCurve.Evaluate(m_acTimer);
-            
-            if (m_acTimer <= 0)
-            {
-                m_speed = moveSpeed;
-                m_isRolling = false;
-                m_rollTimer = rollCooldown;
-                m_acTimer = animationCurve.keys[animationCurve.length -1].time;
-                
-                playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
-            }
-        }
-    }
-
-    private void PinToObject()
-    {
-        m_rope.pin = pinObj;
-
-        pinObj.transform.SetParent(objInFront.transform);
-        pinObj.transform.position = objInFront.GetComponent<Pinnable>().pinPoint.transform.position;
-
-        if (objInFront.GetComponent<Pinnable>().canBeGrab)
-        {
-            m_rope.pinnedToObject = true;
-            m_rope.pinnedRb = objInFront.GetComponent<Rigidbody>();
-            m_rope.pinnedObjectDistance = Vector3.Distance(transform.position, pinObj.transform.position);
-        }
-        m_lineRenderer.enabled = true;
-    }
-
-    public void SetFrontObject(GameObject detectedObj)
-    {
-        objInFront = detectedObj;
-    }
     
     private void Move()
-    {  
-        //APPLY GRAVITY
-
-        if (!m_attack.isAttacking)
+    {
+        rb.velocity = !m_attack.isAttacking ? new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+    }
+    
+    private void Rotation()
+    {
+        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
         {
-            m_rb.velocity = new Vector3(m_moveDirection.x * m_speed, m_rb.velocity.y, m_moveDirection.z * m_speed ) ;
+            switch (m_attack.isAttacking)
+            {
+                case true :
+                    if (Camera.main)
+                    {
+                        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(m_mousePos);
+                        Vector3 aimDirection = (mousePosition - transform.position).normalized;
+                
+                        m_lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
+                        rb.DORotate(m_lookRot.eulerAngles, 0);
+                    }
+                    break;
+                
+                case false :
+                    if (m_moveDirection != Vector3.zero)
+                    {
+                        m_lookRot = Quaternion.LookRotation(m_moveDirection);
+                        rb.DORotate(m_lookRot.eulerAngles, rotationSpeed);
+                    }
+                    break;
+            }
         }
         else
         {
-            m_rb.velocity = Vector3.zero;
+            if (m_moveDirection != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
+                rb.MoveRotation(lookRotation);
+            }
         }
     }
     
+    IEnumerator StartRoll()
+    {
+        while (true)
+        {
+            m_canRoll = false;
+        
+            m_playerStateMachine = PlayerStateMachine.ROLLING;
+        
+            m_acTimer -= Time.deltaTime;
+            m_speed = rollAnimationCurve.Evaluate(m_acTimer);
+
+            yield return new WaitUntil(() => m_acTimer <= 0);
+        
+            m_speed = moveSpeed;
+            m_isRolling = false;
+            m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
+                
+            m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
+            
+            yield return new WaitForSeconds(rollCooldown);
+        
+            m_canRoll = true;
+            break;
+        }
+
+    }
+    
+    private void LoadAttack()
+    {
+        m_playerStateMachine = PlayerStateMachine.ATTACK;
+        m_attack.isAttacking = true;
+        
+        m_animator.SetFloat(AttackSpeed, attackSpeed);
+        m_animator.Play("Attack");
+    }
+    
+    [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     private void Throw()
     {
         if(state == "StatusQuo")
@@ -350,8 +427,8 @@ public class PlayerManager : MonoBehaviour
             direction = Vector3.forward;
             
             state = "Throw";
-            m_rope.enabled = true;
-            m_rope.rope.gameObject.SetActive(true);
+            rope.enabled = true;
+            rope.rope.gameObject.SetActive(true);
         }
     }
     
@@ -359,53 +436,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (state == "Rope")
         {
-            m_rope.rewinding = true;
-        }
-    }
-
-    private void LoadAttack()
-    {
-        playerStateMachine = PlayerStateMachine.ATTACK;
-        m_attack.isAttacking = true;
-        m_animator.SetFloat(AttackSpeed, attackSpeed);
-        m_animator.Play("Attack");
-
-      
-    }
-
-    private void Rotation()
-    {
-        if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
-        {
-            switch (m_attack.isAttacking)
-            {
-                case true :
-                    if (Camera.main)
-                    {
-                        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(mousePos);
-                        Vector3 aimDirection = (mousePosition - transform.position).normalized;
-                
-                        lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
-                        m_rb.DORotate(lookRot.eulerAngles, 0);
-                    }
-                    break;
-                
-                case false :
-                    if (m_moveDirection != Vector3.zero)
-                    {
-                        lookRot = Quaternion.LookRotation(m_moveDirection);
-                        m_rb.DORotate(lookRot.eulerAngles, rotationSpeed);
-                    }
-                    break;
-            }
-        }
-        else
-        {
-            if (m_moveDirection != Vector3.zero)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
-                m_rb.MoveRotation(lookRotation);
-            }
+            rope.rewinding = true;
         }
     }
 
@@ -417,6 +448,12 @@ public class PlayerManager : MonoBehaviour
         {
             currentLifePoint -= damage;
             m_animator.Play("Hurt");
+
+            if (currentLifePoint <= 0)
+            {
+                m_animator.Play("Death");
+                m_playerStateMachine = PlayerStateMachine.DEAD;
+            }
         }
         
     }
@@ -427,24 +464,23 @@ public class PlayerManager : MonoBehaviour
         ResetState();
         currentLifePoint = maxLifePoint;
     }
-
+    
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
         m_attack.isAttacking = false;
         Debug.Log("Reset State");
-        playerStateMachine = !moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
+        m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<Grappin>() && inputInterractPushed)
+        if (other.GetComponent<Grappin>() && inputInteractPushed)
         {
-            transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grabSpeed);
+            transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
     }
-
- 
-
+    
     private void OnEnable()
     {
         m_inputController.Enable();

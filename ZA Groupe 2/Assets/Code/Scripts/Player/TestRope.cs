@@ -260,7 +260,7 @@ public class TestRope : MonoBehaviour
         {
             if (pinnedToObject)
             {
-                pinnedRb.AddForceAtPosition((rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f*GetComponent<PlayerManager>().m_rb.velocity.magnitude,pin.transform.position,ForceMode.VelocityChange);
+                pinnedRb.AddForceAtPosition((rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f*GetComponent<PlayerManager>().rb.velocity.magnitude,pin.transform.position,ForceMode.VelocityChange);
             }
             Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);

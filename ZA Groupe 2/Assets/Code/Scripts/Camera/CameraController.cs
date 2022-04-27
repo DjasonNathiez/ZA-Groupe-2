@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class CameraController : MonoBehaviour
     private GameObject m_player;
     private Camera m_camera;
     public bool playerFocused;
-    public Transform m_cameraPos;
-    public float m_cameraZoom;
+    [FormerlySerializedAs("m_cameraPos")] public Transform cameraPos;
+    [FormerlySerializedAs("m_cameraZoom")] public float cameraZoom;
 
     private void Awake()
     {
@@ -35,13 +36,13 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position,m_cameraPos.position, 0.05f);
-        transform.rotation = Quaternion.Lerp(transform.rotation,m_cameraPos.rotation,0.05f);
-        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, m_cameraZoom, 0.05f);
+        transform.position = Vector3.Lerp(transform.position,cameraPos.position, 0.05f);
+        transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,0.05f);
+        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, cameraZoom, 0.05f);
 
         if (playerFocused && m_player)
         {
-            m_cameraPos.position = m_player.transform.position;   
+            cameraPos.position = m_player.transform.position;   
         }
     }
 

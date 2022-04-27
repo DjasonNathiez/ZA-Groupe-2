@@ -3,25 +3,36 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private new BoxCollider collider;
+    private new BoxCollider m_collider;
     public bool isAttacking;
 
     public GameObject popcornVFX;
 
     private void Awake()
     {
-        collider = GetComponent<BoxCollider>();
+        m_collider = GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-        collider.enabled = isAttacking;
+        m_collider.enabled = isAttacking;
     }
 
     private void OnTriggerEnter(Collider other)
     { 
-        AIBrain iaBrain = other.GetComponent<AIBrain>();
+      AIBrain iaBrain = other.GetComponent<AIBrain>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
+      PropsInstructions props = other.GetComponent<PropsInstructions>();
+
+      if (props)
+      {
+          if (props.isLoot && PlayerManager.instance.currentLifePoint < PlayerManager.instance.maxLifePoint)
+          {
+              PlayerManager.instance.currentLifePoint += PlayerManager.instance.currentLifePoint * 0.1f;
+          }
+          
+          Destroy(props.gameObject);
+      }
 
       if (iaBrain)
       {
