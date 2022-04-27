@@ -20,8 +20,8 @@ public class RabbitBehaviour : AIBrain
     // Update is called once per frame
     void Update()
     {
-        RopePointDetection();
         CheckState();
+        Detection();
     }
 
     private void CheckState()
@@ -33,9 +33,11 @@ public class RabbitBehaviour : AIBrain
         
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
-        if (player.GetComponent<PlayerManager>().rope.enabled)
+        if (player.GetComponent<PlayerManager>().rope.enabled && distanceToPlayer <= dectectionRange)
         {
-            if (dectectionRange > distanceToNearestPoint)
+            RopePointDetection();
+            
+            if (dectectionRange < distanceToNearestPoint)
             {
                 stateMachine = StateMachine.CHASE;
                 

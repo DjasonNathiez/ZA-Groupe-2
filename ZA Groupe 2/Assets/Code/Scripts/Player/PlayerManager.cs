@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public float currentLifePoint;
     [HideInInspector] public float maxLifePoint;
     [HideInInspector] public bool isInvincible;
-    [HideInInspector] public bool isStun;
+    [HideInInspector] public bool haveGloves;
 
     [Header("Movements Stats")]
     public float moveSpeed;
@@ -419,7 +419,6 @@ public class PlayerManager : MonoBehaviour
         if(state == "StatusQuo")
         {
             m_animator.Play("Throw");
-            Debug.Log("The Throwing at " + state + "1");
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
             throwingWeapon.transform.LookAt(throwingWeapon.transform.position+transform.forward);
@@ -469,13 +468,12 @@ public class PlayerManager : MonoBehaviour
     public void ResetState()
     {
         m_attack.isAttacking = false;
-        Debug.Log("Reset State");
         m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<Grappin>() && inputInteractPushed)
+        if (other.GetComponent<Grappin>() && inputInteractPushed && rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
         {
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
