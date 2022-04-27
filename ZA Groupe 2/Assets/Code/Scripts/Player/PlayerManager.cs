@@ -149,7 +149,7 @@ public class PlayerManager : MonoBehaviour
         
         CheckForAnimation();
 
-        if (m_playerStateMachine is not (PlayerStateMachine.DEAD or PlayerStateMachine.STUN))
+        if (!m_attack.isAttacking && m_playerStateMachine is not (PlayerStateMachine.DEAD or PlayerStateMachine.STUN))
         {
             m_playerStateMachine = m_moveDirection != Vector3.zero ? PlayerStateMachine.MOVE : PlayerStateMachine.IDLE;
         }
