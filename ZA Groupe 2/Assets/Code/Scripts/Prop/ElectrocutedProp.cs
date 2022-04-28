@@ -6,9 +6,8 @@ public class ElectrocutedProp : MonoBehaviour
 {
     public bool activated;
     public bool sender;
-    public MeshRenderer light;
     public bool isOn;
-    public Door door;
+    public Door[] door;
 
     [Header("Eye Pillar ?")]
     public bool isEyePillar;
@@ -36,7 +35,10 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && isOn)
         {
             isOn = false;
-            door.keysValid--;   
+            foreach (Door door in door)
+            {
+                door.keysValid--;      
+            }
         }
     }
 
@@ -45,7 +47,10 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && !isOn)
         {
             isOn = true;
-            door.keysValid++;
+            foreach (Door door in door)
+            {
+                door.keysValid++;      
+            }
         }
     }
 }
