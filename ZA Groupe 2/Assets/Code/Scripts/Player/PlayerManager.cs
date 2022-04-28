@@ -348,7 +348,7 @@ public class PlayerManager : MonoBehaviour
     private void Move()
     {
         rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
-        Instantiate(Poufpouf, transform.position, Quaternion.identity);
+        //Instantiate(Poufpouf, transform.position, Quaternion.identity);
     }
     
     private void Rotation()
@@ -381,7 +381,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (m_moveDirection != Vector3.zero)
             {
-                Quaternion lookRotation = Quaternion.AngleAxis(-27.5f, m_moveDirection);
+                Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
                 rb.MoveRotation(lookRotation);
             }
         }
