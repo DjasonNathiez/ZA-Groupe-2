@@ -68,8 +68,6 @@ public class RabbitBehaviour : AIBrain
                 player.GetComponent<PlayerManager>().rope.rewinding = true;
                 break;
         }
-
-        isInvincible = !isAggro;
     }
 
     private void MoveToRope()
