@@ -19,7 +19,7 @@ public class PropsInstructions : MonoBehaviour
                GameManager.instance.DropItem(lootName, transform);
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.001f);
             
             Destroy(gameObject);
 

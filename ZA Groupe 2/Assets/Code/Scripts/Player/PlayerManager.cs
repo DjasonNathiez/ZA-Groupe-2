@@ -171,8 +171,11 @@ public class PlayerManager : MonoBehaviour
                 switch (m_playerStateMachine)
                 {
                     case PlayerStateMachine.IDLE:
-                        
-                        m_inputController.Player.Melee.started += _ => LoadAttack();
+
+                        if (!m_isRolling)
+                        {
+                            m_inputController.Player.Melee.started += _ => LoadAttack();
+                        }
                         
                         m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
                         m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
@@ -212,8 +215,11 @@ public class PlayerManager : MonoBehaviour
                         break;
                     
                     case PlayerStateMachine.MOVE:
-                        
-                        m_inputController.Player.Melee.started += _ => LoadAttack();
+
+                        if (!m_isRolling)
+                        {
+                            m_inputController.Player.Melee.started += _ => LoadAttack();
+                        }
                         
                         m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
                         m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
@@ -416,6 +422,7 @@ public class PlayerManager : MonoBehaviour
     
     private void LoadAttack()
     {
+        m_canRoll = false;
         m_playerStateMachine = PlayerStateMachine.ATTACK;
         m_attack.isAttacking = true;
         
@@ -456,12 +463,17 @@ public class PlayerManager : MonoBehaviour
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
-            m_animator.Play("Hurt");
+            
+            if (!m_attack.isAttacking)
+            {
+                m_animator.Play("Hurt");
+            }
 
             if (currentLifePoint <= 0)
             {
                 m_animator.Play("Death");
                 m_playerStateMachine = PlayerStateMachine.DEAD;
+                
             }
         }
         
@@ -477,6 +489,7 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
+        m_canRoll = true;
         m_attack.isAttacking = false;
         m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }

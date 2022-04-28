@@ -27,9 +27,15 @@ public class ThrowingWeapon : MonoBehaviour
                 {
                     grip.position = other.ClosestPoint(transform.position) - transform.forward * 0.3f;   
                 }
+                
                 grip.parent = other.transform;
                 playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.CheckElectrocution();
+                
+                if (other.GetComponent<PuzzleBoutton>())
+                {
+                    other.GetComponent<PuzzleBoutton>().isGripped = true;
+                }
                 
                 
             }   
