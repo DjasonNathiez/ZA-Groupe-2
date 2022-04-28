@@ -21566,6 +21566,7 @@ MonoBehaviour:
   allCheckpoint: []
   bugtracker: {fileID: 1326945413616229879}
   playtestMenu: {fileID: 4639107707600581523}
+  items: []
 --- !u!1001 &493144248
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65054,8 +65055,9 @@ MonoBehaviour:
   sender: 0
   light: {fileID: 0}
   isOn: 0
-  door:
-  - {fileID: 1676970326}
+  door: {fileID: 0}
+  isEyePillar: 0
+  eyePillar: {fileID: 0}
 --- !u!54 &1356668801
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -74143,7 +74145,9 @@ MonoBehaviour:
   sender: 1
   light: {fileID: 0}
   isOn: 1
-  door: []
+  door: {fileID: 0}
+  isEyePillar: 0
+  eyePillar: {fileID: 0}
 --- !u!54 &1515266931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -75859,6 +75863,66 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0053659417, y: -0.060524784, z: 0.016239397}
     m_Extent: {x: 0.043743625, y: 0.040099703, z: 0.036341425}
   m_DirtyAABB: 0
+--- !u!1 &1551316160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1551316163}
+  - component: {fileID: 1551316162}
+  - component: {fileID: 1551316161}
+  m_Layer: 0
+  m_Name: Manoir
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1551316161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551316160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb027b438f9749d46b27eef99f7a86fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scene: LD_HauntedHouse
+  position: {x: 27.85, y: 2.7, z: -99.83}
+--- !u!65 &1551316162
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551316160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.6473236, y: 3.3778305, z: 1}
+  m_Center: {x: 1.3236618, y: 1.1889153, z: 0}
+--- !u!4 &1551316163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551316160}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -135.64, y: 12.79, z: -0.23}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552148417
 GameObject:
   m_ObjectHideFlags: 0
@@ -87623,6 +87687,7 @@ MonoBehaviour:
   stunDuration: 0.6
   attackRangeDeadZone: 0.1
   isAttacking: 0
+  FeedbackWarningAttack: {fileID: 0}
 --- !u!195 &1782655113
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -95377,8 +95442,9 @@ MonoBehaviour:
   sender: 0
   light: {fileID: 0}
   isOn: 0
-  door:
-  - {fileID: 1264995213}
+  door: {fileID: 0}
+  isEyePillar: 0
+  eyePillar: {fileID: 0}
 --- !u!1 &1891469787
 GameObject:
   m_ObjectHideFlags: 0
@@ -116477,6 +116543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7eae4262be4bd4469ada03431eff8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Poufpouf: {fileID: 0}
   rb: {fileID: 0}
   rope: {fileID: 0}
   baseLifePoint: 10
@@ -117398,7 +117465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4107956555340089502}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -42.34, y: -28.598, z: -3.72}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -118101,7 +118168,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8700598526687430870}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -73.3, y: 41.4, z: 53.9}
+  m_LocalPosition: {x: -134.34, y: 13.59, z: -2.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
