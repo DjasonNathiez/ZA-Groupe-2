@@ -29,13 +29,7 @@ public class Rope : MonoBehaviour
         {
             ResetPin();
         }
-        
-        // Vector3[] poss = CalculateCuttingPoints(1);
-        // foreach (Vector3 pos in poss)
-        // {
-        //     Debug.DrawRay(pos,Vector3.up,Color.blue);
-        // }
-        
+
         //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
         CheckToFall();
         
@@ -87,7 +81,7 @@ public class Rope : MonoBehaviour
             {
                 if (!hit.collider.isTrigger)
                 {
-
+                    
                     Vector3 pos = hit.collider.ClosestPoint(hit.point) +
                                   (hit.point - hit.transform.position).normalized * borderDist;
                     if (Vector3.Distance(pos, pin.transform.position) > checkDistance &&
@@ -185,14 +179,8 @@ public class Rope : MonoBehaviour
                 //Debug.DrawRay(rayNode.origin+Vector3.up,rayNode.direction*Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position),Color.green);
             }
         }
-        rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
-        rope.SetPosition(0,pin.transform.position-rope.transform.position);
-        foreach (Node node in nodes)
-        {
-            rope.SetPosition(node.index,node.nodePoint.transform.position-rope.transform.position);
-        }
-      
-        
+
+
         // SUPPRESSION DES NODES
         
         if (nodes.Count > 0)
@@ -265,6 +253,12 @@ public class Rope : MonoBehaviour
                     }
                 }
             }
+        }
+        rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
+        rope.SetPosition(0,pin.transform.position-rope.transform.position);
+        foreach (Node node in nodes)
+        {
+            rope.SetPosition(node.index,node.nodePoint.transform.position-rope.transform.position);
         }
         
         // AUTRES TRUCS DE PHYSIQUE DE TIRAGE D'OBJET
@@ -483,7 +477,7 @@ public class Rope : MonoBehaviour
                 }
             }
 
-            if (electrocutedProp.isEyePillar)
+            if (electrocutedProp && electrocutedProp.isEyePillar)
             {
                 electrocutedProp.AddToEyePillar();
             }
