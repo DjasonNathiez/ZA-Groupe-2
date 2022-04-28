@@ -350,23 +350,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
-  m_rb: {fileID: 0}
+  rb: {fileID: 0}
   moveSpeed: 1.2
   currentHealth: 0
   maxHealth: 5
   attackDamage: 1
   attackRange: 1.2
   attackSpeed: 2
-  m_attackDelay: 0
-  m_activeAttackCD: 0
+  attackDelay: 0
+  activeAttackCd: 0
   canAttack: 0
-  attackOnCD: 0
+  attackOnCd: 0
+  knockbackForce: 0
   dectectionRange: 4.98
   isInvincible: 0
   isStun: 0
   isAggro: 0
-  m_player: {fileID: 0}
-  m_nav: {fileID: 0}
+  player: {fileID: 0}
+  nav: {fileID: 0}
   animator: {fileID: 0}
   distanceToPlayer: 0
   canFall: 1
@@ -374,8 +375,14 @@ MonoBehaviour:
   fallTime: 3
   timeOnGround: 0
   attackAnimName: 
+  idleAnimName: 
   backupColor: {r: 0, g: 0, b: 0, a: 0}
   stateMachine: 0
+  attackZoneRange: 0
+  stunDuration: 0
+  attackRangeDeadZone: 0
+  isAttacking: 0
+  FeedbackWarningAttack: {fileID: 0}
 --- !u!195 &609094412
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -813,6 +820,116 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eec9a24f9758cf14988e2f5f5f160266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1343885860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1343885863}
+  - component: {fileID: 1343885862}
+  - component: {fileID: 1343885861}
+  m_Layer: 0
+  m_Name: test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!73398921 &1343885861
+VFXRenderer:
+  serializedVersion: 1
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343885860}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!2083052967 &1343885862
+VisualEffect:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343885860}
+  m_Enabled: 1
+  m_Asset: {fileID: 8926484042661614526, guid: 2ca1612383e9c854dbe250f32f66f933, type: 3}
+  m_InitialEventName: OnPlay
+  m_InitialEventNameOverriden: 0
+  m_StartSeed: 0
+  m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
+  m_PropertySheet:
+    m_Float:
+      m_Array: []
+    m_Vector2f:
+      m_Array: []
+    m_Vector3f:
+      m_Array: []
+    m_Vector4f:
+      m_Array: []
+    m_Uint:
+      m_Array: []
+    m_Int:
+      m_Array: []
+    m_Matrix4x4f:
+      m_Array: []
+    m_AnimationCurve:
+      m_Array: []
+    m_Gradient:
+      m_Array: []
+    m_NamedObject:
+      m_Array: []
+    m_Bool:
+      m_Array: []
+--- !u!4 &1343885863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343885860}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 66.5, y: 22.75, z: -7.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583704136
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,11 +2992,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDialoguing: 0
-  m_textEffectManager: {fileID: 6297007609574033}
-  m_dialogue:
+  textEffectManager: {fileID: 6297007609574033}
+  dialogue:
   - text: "Salut ! Moi c'est Phil\xE9mon Bleu , et j'ai un haut parleur ! <size=130%>
       REGARDE COMME JE GUEULE FORT !!!"
-    m_textEffects:
+    textEffects:
     - effectType: 3
       speed: 0
       width: 0
@@ -2912,9 +3029,9 @@ MonoBehaviour:
     positionCamera: {x: 31.51, y: -1.08, z: -3.88}
     angleCamera: {x: 20, y: 23.899994, z: 0}
     zoom: 2
-  m_dialogueBox: {fileID: 6297007262670516}
-  m_Button: {fileID: 6297007440108944}
-  m_cameraController: {fileID: 0}
+  dialogueBox: {fileID: 6297007262670516}
+  button: {fileID: 6297007440108944}
+  cameraController: {fileID: 0}
   check: 0
 --- !u!54 &6297006937046144
 Rigidbody:
@@ -4390,11 +4507,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDialoguing: 0
-  m_textEffectManager: {fileID: 6297007609574033}
-  m_dialogue:
+  textEffectManager: {fileID: 6297007609574033}
+  dialogue:
   - text: Salut les amis, moi c'est Baptiste Orange ! Je suis une capsule oraaange
       !!! C'EST DINGUE !!!!!
-    m_textEffects:
+    textEffects:
     - effectType: 3
       speed: 0
       width: 0
@@ -4427,9 +4544,9 @@ MonoBehaviour:
     positionCamera: {x: 0, y: 0, z: 0}
     angleCamera: {x: 0, y: 0, z: 0}
     zoom: 0
-  m_dialogueBox: {fileID: 6297007262670516}
-  m_Button: {fileID: 6297006941993138}
-  m_cameraController: {fileID: 1103288595}
+  dialogueBox: {fileID: 6297007262670516}
+  button: {fileID: 6297006941993138}
+  cameraController: {fileID: 1103288595}
   check: 0
 --- !u!135 &6297007582906775
 SphereCollider:
@@ -6777,23 +6894,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
-  m_rb: {fileID: 0}
+  rb: {fileID: 0}
   moveSpeed: 2.75
   currentHealth: 2
   maxHealth: 2
   attackDamage: 1
   attackRange: 2
   attackSpeed: 1.6
-  m_attackDelay: 0
-  m_activeAttackCD: 0
+  attackDelay: 0
+  activeAttackCd: 0
   canAttack: 0
-  attackOnCD: 0
+  attackOnCd: 0
+  knockbackForce: 0
   dectectionRange: 4
   isInvincible: 0
   isStun: 0
   isAggro: 0
-  m_player: {fileID: 0}
-  m_nav: {fileID: 0}
+  player: {fileID: 0}
+  nav: {fileID: 0}
   animator: {fileID: 0}
   distanceToPlayer: 0
   canFall: 0
@@ -6801,6 +6919,7 @@ MonoBehaviour:
   fallTime: 0
   timeOnGround: 0
   attackAnimName: ennemy_liion_attack
+  idleAnimName: 
   backupColor: {r: 0, g: 0, b: 0, a: 0}
   stateMachine: 0
 --- !u!195 &8514464716698622943

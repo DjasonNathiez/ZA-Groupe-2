@@ -12,6 +12,9 @@ using Vector3 = UnityEngine.Vector3;
 [SuppressMessage("ReSharper", "CheckNamespace")]
 public class PlayerManager : MonoBehaviour
 {
+
+    public GameObject Poufpouf;
+
     public static PlayerManager instance; //Singleton
 
     #region Components
@@ -346,6 +349,7 @@ public class PlayerManager : MonoBehaviour
         
         
         rb.velocity = !m_attack.isAttacking ? new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+        Instantiate(Poufpouf, transform.position, Quaternion.identity);
     }
     
     private void Rotation()
