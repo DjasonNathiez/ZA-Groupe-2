@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestRope : MonoBehaviour
+public class Rope : MonoBehaviour
 {
     public GameObject pin;
     public bool pinnedToObject;
@@ -53,7 +53,8 @@ public class TestRope : MonoBehaviour
         Ray ray = new Ray(transform.position, dir);
         if (Physics.Raycast(ray, out RaycastHit hit, Vector3.Distance(transform.position, point)))
         {
-            
+            if (!hit.collider.isTrigger)
+            {
                 rope.positionCount += 1;
                 Node nodeToCreate = new Node();
                 nodeToCreate.index = rope.positionCount - 2;
@@ -71,8 +72,8 @@ public class TestRope : MonoBehaviour
                     nodeToCreate.positive = false;   
                 }
                 nodes.Add(nodeToCreate);
-                CheckElectrocution();
-            
+                CheckElectrocution();   
+            }
         }
         //Debug.DrawRay(ray.origin + Vector3.up,ray.direction * Vector3.Distance(transform.position, point),Color.red);
 
@@ -84,34 +85,43 @@ public class TestRope : MonoBehaviour
             ray = new Ray((nodes[0].nodePoint.transform.position)+dir.normalized*checkDistance, dir);
             if (Physics.Raycast(ray, out hit, dir.magnitude-checkDistance))
             {
-                Vector3 pos = hit.collider.ClosestPoint(hit.point) + (hit.point - hit.transform.position).normalized * borderDist;
-                if (Vector3.Distance(pos, pin.transform.position) > checkDistance &&
-                    Vector3.Distance(pos, ray.origin) > checkDistance)
+                if (!hit.collider.isTrigger)
                 {
-                    rope.positionCount += 1;
-                    Node nodeToCreate = new Node();
-                    nodeToCreate.index = 1;
-                    nodeToCreate.anchor = hit.transform.gameObject;
-                    nodeToCreate.nodePoint = Instantiate(nodePos, new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity, nodeToCreate.anchor.transform);
-                    nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
-                    float signedAngle = Vector3.SignedAngle(
-                        nodeToCreate.anchor.transform.position+rope.transform.position - (nodes[0].nodePoint.transform.position + rope.transform.position),
-                        dir, Vector3.up);
-                    if( signedAngle > 0)
+
+                    Vector3 pos = hit.collider.ClosestPoint(hit.point) +
+                                  (hit.point - hit.transform.position).normalized * borderDist;
+                    if (Vector3.Distance(pos, pin.transform.position) > checkDistance &&
+                        Vector3.Distance(pos, ray.origin) > checkDistance)
                     {
-                        nodeToCreate.positive = true;
+                        rope.positionCount += 1;
+                        Node nodeToCreate = new Node();
+                        nodeToCreate.index = 1;
+                        nodeToCreate.anchor = hit.transform.gameObject;
+                        nodeToCreate.nodePoint = Instantiate(nodePos, new Vector3(pos.x, transform.position.y, pos.z),
+                            Quaternion.identity, nodeToCreate.anchor.transform);
+                        nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
+                        float signedAngle = Vector3.SignedAngle(
+                            nodeToCreate.anchor.transform.position + rope.transform.position -
+                            (nodes[0].nodePoint.transform.position + rope.transform.position),
+                            dir, Vector3.up);
+                        if (signedAngle > 0)
+                        {
+                            nodeToCreate.positive = true;
+                        }
+                        else
+                        {
+                            nodeToCreate.positive = false;
+                        }
+
+                        foreach (Node nodeToFix in nodes)
+                        {
+                            nodeToFix.index += 1;
+                            rope.SetPosition(nodeToFix.index, nodeToFix.nodePoint.transform.position);
+                        }
+
+                        nodes.Insert(0, nodeToCreate);
+                        CheckElectrocution();
                     }
-                    else
-                    {
-                        nodeToCreate.positive = false;   
-                    }
-                    foreach (Node nodeToFix in nodes)
-                    {
-                        nodeToFix.index += 1;
-                        rope.SetPosition(nodeToFix.index,nodeToFix.nodePoint.transform.position);
-                    }
-                    nodes.Insert(0,nodeToCreate);
-                    CheckElectrocution();
                 }
             }  
             //Debug.DrawRay(ray.origin + Vector3.up,ray.direction * (dir.magnitude-checkDistance),Color.blue);
@@ -127,38 +137,49 @@ public class TestRope : MonoBehaviour
                 Ray rayNode = new Ray((node.nodePoint.transform.position)+dirNode.normalized*checkDistance, dirNode);
                 if (Physics.Raycast(rayNode, out RaycastHit hitNode, Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position)))
                 {
-                    Vector3 pos = hitNode.collider.ClosestPoint(hitNode.point) + (hitNode.point - hitNode.transform.position).normalized * borderDist;
-                    if (Vector3.Distance(pos,node.nodePoint.transform.position) > checkDistance && Vector3.Distance(pos,nodes[node.index - 2].nodePoint.transform.position) > checkDistance)
+                    if (!hitNode.collider.isTrigger)
                     {
-                        rope.positionCount += 1;
+                        Vector3 pos = hitNode.collider.ClosestPoint(hitNode.point) +
+                                      (hitNode.point - hitNode.transform.position).normalized * borderDist;
+                        if (Vector3.Distance(pos, node.nodePoint.transform.position) > checkDistance &&
+                            Vector3.Distance(pos, nodes[node.index - 2].nodePoint.transform.position) > checkDistance)
+                        {
+                            rope.positionCount += 1;
 
-                        Node nodeToCreate = new Node();
-                        nodeToCreate.index = node.index;
-                        nodeToCreate.anchor = hitNode.transform.gameObject;
-                        nodeToCreate.nodePoint = Instantiate(nodePos, new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity, nodeToCreate.anchor.transform);
-                        nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
-                        float signedAngle = Vector3.SignedAngle(
-                            nodeToCreate.anchor.transform.position - (nodes[node.index - 1].nodePoint.transform.position),
-                            dirNode, Vector3.up);
-                        if( signedAngle > 0)
-                        {
-                            nodeToCreate.positive = true;
-                        }
-                        else
-                        {
-                            nodeToCreate.positive = false;   
-                        }
-                        foreach (Node nodeToFix in nodes)
-                        {
-                            if (nodeToFix.index >= node.index)
+                            Node nodeToCreate = new Node();
+                            nodeToCreate.index = node.index;
+                            nodeToCreate.anchor = hitNode.transform.gameObject;
+                            nodeToCreate.nodePoint = Instantiate(nodePos,
+                                new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity,
+                                nodeToCreate.anchor.transform);
+                            nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
+                            float signedAngle = Vector3.SignedAngle(
+                                nodeToCreate.anchor.transform.position -
+                                (nodes[node.index - 1].nodePoint.transform.position),
+                                dirNode, Vector3.up);
+                            if (signedAngle > 0)
                             {
-                                nodeToFix.index += 1;
+                                nodeToCreate.positive = true;
                             }
-                            rope.SetPosition(nodeToFix.index,nodeToFix.nodePoint.transform.position);
+                            else
+                            {
+                                nodeToCreate.positive = false;
+                            }
+
+                            foreach (Node nodeToFix in nodes)
+                            {
+                                if (nodeToFix.index >= node.index)
+                                {
+                                    nodeToFix.index += 1;
+                                }
+
+                                rope.SetPosition(nodeToFix.index, nodeToFix.nodePoint.transform.position);
+                            }
+
+                            nodes.Insert(node.index - 2, nodeToCreate);
+                            CheckElectrocution();
+                            break;
                         }
-                        nodes.Insert(node.index-2,nodeToCreate);
-                        CheckElectrocution();
-                        break;   
                     }
                 }
                 //Debug.DrawRay(rayNode.origin+Vector3.up,rayNode.direction*Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position),Color.green);
@@ -193,6 +214,11 @@ public class TestRope : MonoBehaviour
                         if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
                         {
                             nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            
+                            if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                            {
+                                nodes[i-3].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                            }
                         }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
@@ -218,7 +244,12 @@ public class TestRope : MonoBehaviour
                         Destroy(nodes[i-3].nodePoint);
                         if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
                         {
-                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();
+
+                            if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                            {
+                                nodes[i-3].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                            }
                         }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
@@ -275,6 +306,11 @@ public class TestRope : MonoBehaviour
                 if (pinnedTo.GetComponent<ElectrocutedProp>() && !pinnedTo.GetComponent<ElectrocutedProp>().sender)
                 {
                     pinnedTo.GetComponent<ElectrocutedProp>().LightsOff();
+                    
+                    if (pinnedTo.GetComponent<ElectrocutedProp>().isEyePillar)
+                    {
+                        pinnedTo.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                    }
                 }
                 pinnedTo = null;
             }
@@ -304,6 +340,11 @@ public class TestRope : MonoBehaviour
                             if (nodes[0].anchor.GetComponent<ElectrocutedProp>())
                             {
                                 nodes[0].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                                
+                                if (nodes[0].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                                {
+                                    nodes[0].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                                }
                             }
                             nodes.RemoveAt(0);
                             foreach (Node node in nodes)
@@ -440,6 +481,11 @@ public class TestRope : MonoBehaviour
                 {
                     electrocutedProp.LightsOn();
                 }
+            }
+
+            if (electrocutedProp.isEyePillar)
+            {
+                electrocutedProp.AddToEyePillar();
             }
         }
         electrocuted = checkedElectrocution;

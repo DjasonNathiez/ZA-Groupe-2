@@ -10,6 +10,27 @@ public class ElectrocutedProp : MonoBehaviour
     public bool isOn;
     public Door door;
 
+    [Header("Eye Pillar ?")]
+    public bool isEyePillar;
+    public PuzzleEyePillar eyePillar;
+
+    public void AddToEyePillar()
+    {
+        if (!eyePillar.currentPillarTouched.Contains(gameObject))
+        {
+            eyePillar.currentPillarTouched.Add(gameObject);
+            eyePillar.CheckPillars();
+        }
+    }
+
+    public void RemoveToEyePillar()
+    {
+        if (eyePillar.currentPillarTouched.Contains(gameObject))
+        {
+            eyePillar.currentPillarTouched.Remove(gameObject);
+        }
+    }
+    
     public void LightsOff()
     {
         if (!sender && isOn)

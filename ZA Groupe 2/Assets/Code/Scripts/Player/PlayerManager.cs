@@ -1,12 +1,20 @@
+using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 [SuppressMessage("ReSharper", "CheckNamespace")]
 public class PlayerManager : MonoBehaviour
 {
+
+    public GameObject Poufpouf;
+
     public static PlayerManager instance; //Singleton
 
     #region Components
@@ -20,7 +28,7 @@ public class PlayerManager : MonoBehaviour
 
     //Personal scripts components
     private Attack m_attack;
-    [HideInInspector] public TestRope rope;
+    [HideInInspector] public Rope rope;
 
     #endregion
 
@@ -123,7 +131,7 @@ public class PlayerManager : MonoBehaviour
         
         m_animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        rope = GetComponent<TestRope>();
+        rope = GetComponent<Rope>();
         m_playerInput = GetComponent<PlayerInput>();
         m_attack = GetComponentInChildren<Attack>();
     }
@@ -338,7 +346,10 @@ public class PlayerManager : MonoBehaviour
     
     private void Move()
     {
+        
+        
         rb.velocity = !m_attack.isAttacking ? new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+        Instantiate(Poufpouf, transform.position, Quaternion.identity);
     }
     
     private void Rotation()
@@ -371,7 +382,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (m_moveDirection != Vector3.zero)
             {
-                Quaternion lookRotation = Quaternion.LookRotation(m_moveDirection);
+                Quaternion lookRotation = Quaternion.AngleAxis(-27.5f, m_moveDirection);
                 rb.MoveRotation(lookRotation);
             }
         }
@@ -469,6 +480,26 @@ public class PlayerManager : MonoBehaviour
     {
         m_attack.isAttacking = false;
         m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Item item = other.GetComponent<Item>();
+        
+        if (item)
+        {
+            switch (item.affectedValue)
+                {
+                    case "Health":
+                        currentLifePoint +=  item.valuePercentage;
+                        Debug.Log("Got healed");
+                        break;
+                
+                    case "Rope":
+                        rope.maximumLenght += item.valuePercentage;
+                        break;
+                }
+        }
     }
 
     private void OnTriggerStay(Collider other)

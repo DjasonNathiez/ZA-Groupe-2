@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Transparent Normal
+  m_Name: Transparent Normal Behind Wall
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Transparent Normal
+    passTag: Transparent Normal Behind Wall
     Event: 500
     filterSettings:
       RenderQueueType: 1
@@ -22,7 +22,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 2147483648
       PassNames: []
-    overrideMaterial: {fileID: 2100000, guid: 64407f7c640688843af08c75c3445c46, type: 2}
+    overrideMaterial: {fileID: 0}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 4
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Opaque Ignore Raycast Normal
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Opaque Ignore Raycast Normal
     Event: 300
@@ -148,17 +148,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: OpaqueBehindWall
+  m_Name: Opaque BehindWall
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: OpaqueBehindWall
+    passTag: Opaque BehindWall
     Event: 300
     filterSettings:
       RenderQueueType: 0
       LayerMask:
         serializedVersion: 2
-        m_Bits: 0
+        m_Bits: 2147483648
       PassNames: []
     overrideMaterial: {fileID: 2100000, guid: b2863632061943541bb453e00c1e2752, type: 2}
     overrideMaterialPassIndex: 0
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Transparent Ignore Raycast Behind Wall
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Transparent Ignore Raycast Behind Wall
     Event: 500
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Transparent Ignore Raycast Normal
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Transparent Ignore Raycast Normal
     Event: 500
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
   m_Name: Opaque IgnoreRaycast BehindWall
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   settings:
     passTag: Opaque IgnoreRaycast BehindWall
     Event: 300
@@ -304,11 +304,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6b3d386ba5cd94485973aee1479b272e, type: 3}
-  m_Name: Opaque Normal
+  m_Name: Opaque Normal BehindWall
   m_EditorClassIdentifier: 
   m_Active: 1
   settings:
-    passTag: Opaque Normal
+    passTag: Opaque Normal BehindWall
     Event: 300
     filterSettings:
       RenderQueueType: 0
@@ -320,7 +320,7 @@ MonoBehaviour:
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 4
-    enableWrite: 0
+    enableWrite: 1
     stencilSettings:
       overrideStencilState: 0
       stencilReference: 0
@@ -355,7 +355,7 @@ MonoBehaviour:
         serializedVersion: 2
         m_Bits: 2147483648
       PassNames: []
-    overrideMaterial: {fileID: 0}
+    overrideMaterial: {fileID: 2100000, guid: b2863632061943541bb453e00c1e2752, type: 2}
     overrideMaterialPassIndex: 0
     overrideDepthState: 1
     depthCompareFunction: 5
