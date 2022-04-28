@@ -14,8 +14,8 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float dashingSpeed;
     [FormerlySerializedAs("m_rb")] [SerializeField]
     public Rigidbody rb;
-    [SerializeField] private Vector3[] spawnPosPillars;
-    [SerializeField] private Vector3[] spawnPosRabbits;
+    [SerializeField] private Transform[] spawnPosPillars;
+    [SerializeField] private Transform[] spawnPosRabbits;
     [SerializeField] private GameObject pillarGameObject;
     [SerializeField] private GameObject shockWaveGameObject;
     [SerializeField] private GameObject rabbitGameObject;
@@ -113,14 +113,14 @@ public class BossBehaviour : MonoBehaviour
     {
         material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
-        foreach (Vector3 pos in spawnPosPillars)
+        foreach (Transform pos in spawnPosPillars)
         {
-            GameObject pillar = Instantiate(pillarGameObject, pos, quaternion.identity);
+            GameObject pillar = Instantiate(pillarGameObject, pos.position, quaternion.identity);
             pillars.Add(pillar);
         }
-        foreach (Vector3 pos in spawnPosRabbits)
+        foreach (Transform pos in spawnPosRabbits)
         {
-            Instantiate(rabbitGameObject, pos, quaternion.identity);
+            Instantiate(rabbitGameObject, pos.position, quaternion.identity);
         }
         material.color = Color.white;
         state = 1;
