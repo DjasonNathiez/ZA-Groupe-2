@@ -90,6 +90,7 @@ public class PlayerManager : MonoBehaviour
     public AnimationClip rollAnimClip;
     [HideInInspector] public bool inputInteractPushed;
     [HideInInspector] public Vector3 move; //For Arcade Easter Egg
+    [SerializeField] private Transform moveDirection;
 
     #endregion
     
@@ -346,9 +347,7 @@ public class PlayerManager : MonoBehaviour
     
     private void Move()
     {
-        
-        
-        rb.velocity = !m_attack.isAttacking ? new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+        rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
         Instantiate(Poufpouf, transform.position, Quaternion.identity);
     }
     
