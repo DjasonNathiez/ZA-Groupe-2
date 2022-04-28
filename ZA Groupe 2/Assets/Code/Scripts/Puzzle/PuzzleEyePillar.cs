@@ -12,6 +12,11 @@ public class PuzzleEyePillar : MonoBehaviour
     {
         for (int i = 0; i < currentPillarTouched.Count; i++)
         {
+            if (currentPillarTouched.Count != pillarOrder.Count)
+            {
+                Debug.Log("There is missing pillars. You must have "  + currentPillarTouched.Count + " on " + pillarOrder.Count);
+            }
+            
             if (currentPillarTouched.Count == pillarOrder.Count)
             {
                 if (currentPillarTouched[i] == pillarOrder[i])
