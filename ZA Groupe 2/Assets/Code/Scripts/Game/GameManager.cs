@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,9 +33,30 @@ public class GameManager : MonoBehaviour
     public TrelloUI bugtracker;
     public GameObject playtestMenu;
 
+    [Header("Loot Table")] 
+    public ItemData[] items;
+
+    
+        [Serializable]
+        public struct ItemData
+        {
+            public GameObject prefab;
+            
+            public string itemName;
+            [Range(0, 1)] public float valuePercentage;
+            public AffectedValue affectedValue;
+            public enum AffectedValue
+            {
+                HEALTH,
+                ROPE
+            }
+        }
+        
+    
+
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
         
         if (instance == null)
         {
@@ -42,7 +64,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
@@ -52,6 +74,33 @@ public class GameManager : MonoBehaviour
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         
         Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void DropItem(string item, Transform dropPosition)
+    {
+        foreach (ItemData i in items)
+        {
+            if (i.itemName == item)
+            {
+               GameObject newItem = Instantiate(i.prefab , dropPosition.position, Quaternion.identity);
+               newItem.AddComponent<Item>();
+               
+               var newItemProps = newItem.GetComponent<Item>();
+               
+               newItemProps.itemName = i.itemName;
+               newItemProps.valuePercentage = i.valuePercentage;
+               switch (i.affectedValue)
+               {
+                   case ItemData.AffectedValue.ROPE:
+                       newItemProps.affectedValue = "Rope";
+                       break;
+                   
+                   case ItemData.AffectedValue.HEALTH:
+                       newItemProps.affectedValue = "Health";
+                       break;
+               }
+            }
+        }
     }
 
     public void OpenPanel(string panelValue) //maybe a smoother way to do that ?
@@ -170,11 +219,11 @@ public class GameManager : MonoBehaviour
         
         if (ropeIsInfinite)
         {
-            player.GetComponentInChildren<TestRope>().lenght = 1000;
+            player.GetComponentInChildren<Rope>().lenght = 1000;
         }
         else
         {
-            player.GetComponentInChildren<TestRope>().lenght = 50;
+            player.GetComponentInChildren<Rope>().lenght = 50;
         }
     }
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestRope : MonoBehaviour
+public class Rope : MonoBehaviour
 {
     public GameObject pin;
     public bool pinnedToObject;
@@ -214,6 +214,11 @@ public class TestRope : MonoBehaviour
                         if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
                         {
                             nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            
+                            if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                            {
+                                nodes[i-3].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                            }
                         }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
@@ -239,7 +244,12 @@ public class TestRope : MonoBehaviour
                         Destroy(nodes[i-3].nodePoint);
                         if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>())
                         {
-                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            nodes[i-3].anchor.GetComponent<ElectrocutedProp>().LightsOff();
+
+                            if (nodes[i - 3].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                            {
+                                nodes[i-3].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                            }
                         }
                         nodes.RemoveAt(i-3);
                         foreach (Node node in nodes)
@@ -296,6 +306,11 @@ public class TestRope : MonoBehaviour
                 if (pinnedTo.GetComponent<ElectrocutedProp>() && !pinnedTo.GetComponent<ElectrocutedProp>().sender)
                 {
                     pinnedTo.GetComponent<ElectrocutedProp>().LightsOff();
+                    
+                    if (pinnedTo.GetComponent<ElectrocutedProp>().isEyePillar)
+                    {
+                        pinnedTo.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                    }
                 }
                 pinnedTo = null;
             }
@@ -325,6 +340,11 @@ public class TestRope : MonoBehaviour
                             if (nodes[0].anchor.GetComponent<ElectrocutedProp>())
                             {
                                 nodes[0].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                                
+                                if (nodes[0].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+                                {
+                                    nodes[0].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+                                }
                             }
                             nodes.RemoveAt(0);
                             foreach (Node node in nodes)
@@ -461,6 +481,11 @@ public class TestRope : MonoBehaviour
                 {
                     electrocutedProp.LightsOn();
                 }
+            }
+
+            if (electrocutedProp.isEyePillar)
+            {
+                electrocutedProp.AddToEyePillar();
             }
         }
         electrocuted = checkedElectrocution;
