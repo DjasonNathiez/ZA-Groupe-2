@@ -251,6 +251,42 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 221213727}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &313591880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 313591881}
+  m_Layer: 0
+  m_Name: Orientation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &313591881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313591880}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 400707582}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+--- !u!4 &400707582 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+  m_PrefabInstance: {fileID: 1326945414629611613}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &579550308
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +356,7 @@ GameObject:
   - component: {fileID: 604668510}
   - component: {fileID: 604668509}
   - component: {fileID: 604668508}
+  - component: {fileID: 604668512}
   m_Layer: 0
   m_Name: Pillier C
   m_TagString: GrippableObject
@@ -421,6 +458,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604668506}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &604668512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604668506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883f72fd2dc3f6449963dc595567468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  sender: 0
+  light: {fileID: 0}
+  isOn: 0
+  door: {fileID: 0}
+  isEyePillar: 1
+  eyePillar: {fileID: 579550310}
 --- !u!1 &971965182
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,6 +666,7 @@ GameObject:
   - component: {fileID: 1099126705}
   - component: {fileID: 1099126704}
   - component: {fileID: 1099126703}
+  - component: {fileID: 1099126707}
   m_Layer: 0
   m_Name: Pillier B
   m_TagString: GrippableObject
@@ -711,6 +768,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1099126701}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1099126707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099126701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883f72fd2dc3f6449963dc595567468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  sender: 0
+  light: {fileID: 0}
+  isOn: 0
+  door: {fileID: 0}
+  isEyePillar: 1
+  eyePillar: {fileID: 579550310}
 --- !u!114 &1103288595 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5086250466506110518, guid: 1292f91fe460741418fce1591644f390, type: 3}
@@ -882,6 +958,7 @@ GameObject:
   - component: {fileID: 1420203510}
   - component: {fileID: 1420203509}
   - component: {fileID: 1420203508}
+  - component: {fileID: 1420203513}
   m_Layer: 0
   m_Name: Pillier D
   m_TagString: GrippableObject
@@ -983,6 +1060,25 @@ Transform:
   m_Father: {fileID: 579550309}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1420203513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420203507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883f72fd2dc3f6449963dc595567468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  sender: 0
+  light: {fileID: 0}
+  isOn: 0
+  door: {fileID: 0}
+  isEyePillar: 1
+  eyePillar: {fileID: 579550310}
 --- !u!1 &1583704136
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,6 +1327,7 @@ GameObject:
   - component: {fileID: 1961031947}
   - component: {fileID: 1961031946}
   - component: {fileID: 1961031945}
+  - component: {fileID: 1961031949}
   m_Layer: 0
   m_Name: Pillier A
   m_TagString: GrippableObject
@@ -1332,6 +1429,25 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1961031943}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1961031949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961031943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 883f72fd2dc3f6449963dc595567468e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activated: 0
+  sender: 0
+  light: {fileID: 0}
+  isOn: 0
+  door: {fileID: 0}
+  isEyePillar: 1
+  eyePillar: {fileID: 579550310}
 --- !u!1001 &2013647045
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6618,6 +6734,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5391714930685114185, guid: 1292f91fe460741418fce1591644f390, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -6798,7 +6938,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDestroy: 1
-  isLoot: 1
+  isLoot: 0
+  lootName: Popcorn
 --- !u!65 &5437744323432517028
 BoxCollider:
   m_ObjectHideFlags: 0

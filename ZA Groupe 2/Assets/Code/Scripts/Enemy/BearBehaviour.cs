@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class BearBehaviour : AIBrain
@@ -11,6 +12,10 @@ public class BearBehaviour : AIBrain
     public float attackRangeDeadZone;
 
     public bool isAttacking;
+
+    public GameObject FeedbackWarningAttack;
+
+    private bool canSpawn;
     
     private void Start()
     {
@@ -54,10 +59,11 @@ public class BearBehaviour : AIBrain
             case StateMachine.CHASE:
                 animator.Play("B_Chase");
                 ChasePlayer();
+                canSpawn = true;
                 break;
             
             case StateMachine.ATTACK:
-                AttackPlayer();
+                SpecialBearAttack();
                 isAttacking = true;
                 break;
             
@@ -101,5 +107,13 @@ public class BearBehaviour : AIBrain
             animator.Play("B_StandUp");
             DebugSetColor(backupColor);
         }
+    }
+
+    private void SpecialBearAttack()
+    {
+        AttackPlayer();
+        if (!canSpawn) return;
+        Instantiate(FeedbackWarningAttack, transform.position, quaternion.identity);
+        canSpawn = false;
     }
 }

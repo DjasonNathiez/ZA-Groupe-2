@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 4193815152866299270}
   m_Layer: 0
   m_Name: E_Rabbit
-  m_TagString: Untagged
+  m_TagString: Ennemi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -605,23 +605,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
-  m_rb: {fileID: 0}
+  rb: {fileID: 0}
   moveSpeed: 4
   currentHealth: 1
   maxHealth: 1
   attackDamage: 1
   attackRange: 1.24
   attackSpeed: 1.3
-  m_attackDelay: 0
-  m_activeAttackCD: 0
+  attackDelay: 0
+  activeAttackCd: 0
   canAttack: 0
-  attackOnCD: 0
+  attackOnCd: 0
+  knockbackForce: 0
   dectectionRange: 8.5
   isInvincible: 0
   isStun: 0
   isAggro: 0
-  m_player: {fileID: 0}
-  m_nav: {fileID: 0}
+  player: {fileID: 0}
+  nav: {fileID: 0}
   animator: {fileID: 0}
   distanceToPlayer: 0
   canFall: 0

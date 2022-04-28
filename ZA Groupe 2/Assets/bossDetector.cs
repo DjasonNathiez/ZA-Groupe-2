@@ -32,6 +32,13 @@ public class bossDetector : MonoBehaviour
                 
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
             }
+            else if (other.gameObject.CompareTag("Ennemi"))
+            {
+                m_bossBehaviour.state = 0;
+                Destroy(other.gameObject);
+                m_bossBehaviour.rb.velocity = Vector3.zero;
+                StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
+            }
         }
     }
 }

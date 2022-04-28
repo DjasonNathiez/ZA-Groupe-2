@@ -26,12 +26,7 @@ public class Attack : MonoBehaviour
 
       if (props)
       {
-          if (props.isLoot && PlayerManager.instance.currentLifePoint < PlayerManager.instance.maxLifePoint)
-          {
-              PlayerManager.instance.currentLifePoint += PlayerManager.instance.currentLifePoint * 0.1f;
-          }
-          
-          Destroy(props.gameObject);
+          StartCoroutine(props.DestroyThis());
       }
 
       if (iaBrain)

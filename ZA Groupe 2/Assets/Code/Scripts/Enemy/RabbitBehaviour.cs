@@ -81,7 +81,7 @@ public class RabbitBehaviour : AIBrain
     {
         if (player.GetComponent<PlayerManager>().rope.enabled)
         {
-            detectedPoints = player.GetComponent<TestRope>().CalculateCuttingPoints(1);
+            detectedPoints = player.GetComponent<Rope>().CalculateCuttingPoints(1);
 
             if (detectedPoints.Length > distanceToPoints.Count)
             {

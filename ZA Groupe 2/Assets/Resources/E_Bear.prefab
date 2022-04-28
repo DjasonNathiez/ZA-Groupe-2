@@ -814,23 +814,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
-  m_rb: {fileID: 0}
+  rb: {fileID: 0}
   moveSpeed: 3
   currentHealth: 0
   maxHealth: 3
   attackDamage: 1
   attackRange: 1.2
   attackSpeed: 1.2
-  m_attackDelay: 0
-  m_activeAttackCD: 0
+  attackDelay: 0
+  activeAttackCd: 0
   canAttack: 0
-  attackOnCD: 0
+  attackOnCd: 0
+  knockbackForce: 0
   dectectionRange: 3.85
   isInvincible: 0
   isStun: 0
   isAggro: 0
-  m_player: {fileID: 0}
-  m_nav: {fileID: 0}
+  player: {fileID: 0}
+  nav: {fileID: 0}
   animator: {fileID: 0}
   distanceToPlayer: 0
   canFall: 1
@@ -845,6 +846,7 @@ MonoBehaviour:
   stunDuration: 0.6
   attackRangeDeadZone: 0.1
   isAttacking: 0
+  FeedbackWarningAttack: {fileID: 1909120503186805312, guid: 973b3d44c52bc1448b98712995458971, type: 3}
 --- !u!54 &7535309206435652061
 Rigidbody:
   m_ObjectHideFlags: 0
