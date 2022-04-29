@@ -47,8 +47,10 @@ public class Rope : MonoBehaviour
         Ray ray = new Ray(transform.position, dir);
         if (Physics.Raycast(ray, out RaycastHit hit, Vector3.Distance(transform.position, point)))
         {
+            Debug.Log("hitté ");
             if (!hit.collider.isTrigger)
             {
+                Debug.Log("pasTrigger ");
                 rope.positionCount += 1;
                 Node nodeToCreate = new Node();
                 nodeToCreate.index = rope.positionCount - 2;
@@ -69,7 +71,7 @@ public class Rope : MonoBehaviour
                 CheckElectrocution();   
             }
         }
-        //Debug.DrawRay(ray.origin + Vector3.up,ray.direction * Vector3.Distance(transform.position, point),Color.red);
+        Debug.DrawRay(ray.origin + Vector3.up,ray.direction * Vector3.Distance(transform.position, point),Color.red);
 
         // CHECK DE NOUVELLES COLLISIONS AVEC LE PREMIER SEGMENT
         
@@ -118,7 +120,7 @@ public class Rope : MonoBehaviour
                     }
                 }
             }  
-            //Debug.DrawRay(ray.origin + Vector3.up,ray.direction * (dir.magnitude-checkDistance),Color.blue);
+            Debug.DrawRay(ray.origin + Vector3.up,ray.direction * (dir.magnitude-checkDistance),Color.blue);
         }
 
         // CHECK DE COLLISIONS AVEC TOUS LES AUTRES NODES
@@ -176,10 +178,15 @@ public class Rope : MonoBehaviour
                         }
                     }
                 }
-                //Debug.DrawRay(rayNode.origin+Vector3.up,rayNode.direction*Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position),Color.green);
+                Debug.DrawRay(rayNode.origin+Vector3.up,rayNode.direction*Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position, node.nodePoint.transform.position),Color.green);
             }
         }
-
+        rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
+        rope.SetPosition(0,pin.transform.position-rope.transform.position);
+        foreach (Node node in nodes)
+        {
+            rope.SetPosition(node.index,node.nodePoint.transform.position-rope.transform.position);
+        }
 
         // SUPPRESSION DES NODES
         
@@ -254,13 +261,7 @@ public class Rope : MonoBehaviour
                 }
             }
         }
-        rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
-        rope.SetPosition(0,pin.transform.position-rope.transform.position);
-        foreach (Node node in nodes)
-        {
-            rope.SetPosition(node.index,node.nodePoint.transform.position-rope.transform.position);
-        }
-        
+
         // AUTRES TRUCS DE PHYSIQUE DE TIRAGE D'OBJET
 
         float checklenght = 0;
@@ -276,8 +277,9 @@ public class Rope : MonoBehaviour
         {
             if (lenght > pinnedObjectDistance)
             {
-                Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f* (lenght - pinnedObjectDistance);
-                pinnedRb.AddForceAtPosition(force,pin.transform.position,ForceMode.VelocityChange);
+                Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized * PlayerManager.instance.rb.velocity.magnitude;
+                pinnedRb.AddForceAtPosition(force *3 ,pin.transform.position,ForceMode.Acceleration);
+                
             }
         }
         
