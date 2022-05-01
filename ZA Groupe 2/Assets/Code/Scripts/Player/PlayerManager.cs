@@ -194,6 +194,7 @@ public class PlayerManager : MonoBehaviour
                                 break;
                             default: return;
                         }
+                        
 
                         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                         m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
@@ -270,7 +271,6 @@ public class PlayerManager : MonoBehaviour
                 {
                     m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
                     m_inputController.Player.Roll.started += _ => m_isRolling = true;
-                    m_inputController.Player.Roll.started += _ => m_canRoll = false;
                 }
                 
                 if (m_isRolling)

@@ -6,6 +6,9 @@ using UnityEngine;
 public class FloorRender : MonoBehaviour
 {
     public GameObject floor;
+    public GameObject boxToFall;
+
+    public GameObject floor1;
 
     private void Update()
     {
@@ -16,6 +19,11 @@ public class FloorRender : MonoBehaviour
         else
         {
             floor.SetActive(false);
+        }
+
+        if (boxToFall.transform.position.y < transform.position.y)
+        {
+            boxToFall.transform.SetParent(floor1.transform);
         }
     }
 }
