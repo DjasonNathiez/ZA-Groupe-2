@@ -18,7 +18,6 @@ public class ElectrocutedProp : MonoBehaviour
         if (!eyePillar.currentPillarTouched.Contains(gameObject))
         {
             eyePillar.currentPillarTouched.Add(gameObject);
-            eyePillar.CheckPillars();
         }
     }
 
