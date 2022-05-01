@@ -10,11 +10,23 @@ public class EyeFollow_Advanced : MonoBehaviour
     //public List<Material> materialZChange;
     [SerializeField] private float adjustFollow;
     [SerializeField] private Transform objectToFollow;
-    [SerializeField]private List<GameObject> objectOnXWall;
+
     //private List<GameObject> objectOnZWall;
     
-    public List<Material> matObjectX;
+    
+    //X WALL
+    [SerializeField]private List<GameObject> objectOnXWall;
     public List<Vector3> objectTransformX;
+    public List<Material> matObjectX;
+
+    
+    //Z WALL
+    [SerializeField]private List<GameObject> objectOnZWall;
+    public List<Vector3> objectTransformZ;
+    public List<Material> matObjectZ;
+
+    
+    
     public Vector3 roomSize;
     private Vector3 positionObjectToFollow;
     
@@ -27,6 +39,12 @@ public class EyeFollow_Advanced : MonoBehaviour
             objectTransformX.Add(obj.transform.localPosition);
             matObjectX.Add(obj.GetComponent<MeshRenderer>().material);
         }
+        
+        foreach (GameObject obj in objectOnZWall)
+        {
+            objectTransformZ.Add(obj.transform.localPosition);
+            matObjectZ.Add(obj.GetComponent<MeshRenderer>().material);
+        }
     }
 
     private void Update()
@@ -38,27 +56,29 @@ public class EyeFollow_Advanced : MonoBehaviour
     void UpdateEyeFollowX()
     {
         float eyeMaxOffset = 0.5f;
-        
-        /*
-        for (int m = 0; m < objectOnXWall.Count; m++)
-        {
-            for (int i = 0; i < matObjectX.Count; i++)
-            {
-                positionObjectToFollow.x *= objectOnXWall[i].transform.position.x;
-                positionObjectToFollow.x = Mathf.Clamp(positionObjectToFollow.x,-eyeMaxOffset, eyeMaxOffset);
-                
-            }
-            Debug.Log(positionObjectToFollow.x);
-
-        }
-        */
-
+        Vector3 position = objectToFollow.transform.position;
         for (int i = 0; i < matObjectX.Count; i++)
         {
-            matObjectX[i].SetVector("_EyePosition", new Vector4(Mathf.Clamp((objectToFollow.transform.position.z - objectTransformX[i].z*adjustFollow),
+            matObjectX[i].SetVector("_Pupil_Position", new Vector4(
+                Mathf.Clamp((position.x - objectTransformX[i].x),
                 -0.5f * adjustFollow, 
-                0.5f* adjustFollow), 0, 0, 1));
+                0.5f * adjustFollow), 
+                Mathf.Clamp((position.y - objectTransformX[i].y) * -1,
+                    -0.25f, 
+                    0.25f),
+                0, 1));
+        }
         
+        for (int i = 0; i < matObjectZ.Count; i++)
+        {
+            matObjectZ[i].SetVector("_Pupil_Position", new Vector4(
+                Mathf.Clamp((position.z - objectTransformZ[i].z),
+                    -0.5f * adjustFollow, 
+                    0.5f * adjustFollow), 
+                Mathf.Clamp((position.y - objectTransformZ[i].y) * -1,
+                    -0.25f, 
+                    0.25f),
+                0, 1));
         }
     }
 
