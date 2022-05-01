@@ -18,6 +18,7 @@ public class ElectrocutedProp : MonoBehaviour
         if (!eyePillar.currentPillarTouched.Contains(gameObject))
         {
             eyePillar.currentPillarTouched.Add(gameObject);
+            eyePillar.pillarTouchedNumber++;
         }
     }
 
@@ -26,6 +27,7 @@ public class ElectrocutedProp : MonoBehaviour
         if (eyePillar.currentPillarTouched.Contains(gameObject))
         {
             eyePillar.currentPillarTouched.Remove(gameObject);
+            eyePillar.pillarTouchedNumber--;
         }
     }
     
