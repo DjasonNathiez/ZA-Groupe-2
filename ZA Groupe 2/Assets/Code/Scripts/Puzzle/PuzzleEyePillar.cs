@@ -10,14 +10,26 @@ public class PuzzleEyePillar : MonoBehaviour
     public int pillarOk;
     public bool isActivate;
 
-    private void ResetPillar(GameObject pillar)
+    private EyeFollow_Advanced eyeFollow;
+
+    private void Start()
     {
-        pillar.GetComponent<MeshRenderer>().material.color = Color.grey;
+        eyeFollow = FindObjectOfType<EyeFollow_Advanced>();
+        
+        eyeFollow.SwitchFollowedPillar(pillarOrder[0].transform);
     }
 
     private void Update()
     {
-       
+        if (!isActivate)
+        {
+            CheckPillars();
+        }
+    }
+
+    private void ResetPillar(GameObject pillar)
+    {
+        pillar.GetComponent<MeshRenderer>().material.color = Color.grey;
     }
 
     public void CheckPillars()
@@ -25,22 +37,27 @@ public class PuzzleEyePillar : MonoBehaviour
         for (int i = 0; i < currentPillarTouched.Count; i++)
         {
             
-                if (currentPillarTouched[i] == pillarOrder[i])
-                {
-                    currentPillarTouched[i].GetComponent<MeshRenderer>().material.color = Color.green;
-                    gameObject.GetComponent<MeshRenderer>().material.color = Color.yellow;
-                }
-                else
-                { 
-                    currentPillarTouched[i].GetComponent<MeshRenderer>().material.color = Color.red;
-                }
-
-
                 if (currentPillarTouched.Count == pillarOrder.Count && !isActivate)
                 {
                     if (currentPillarTouched[i] == pillarOrder[i])
                     {
                         pillarOk++;
+                    }
+                }
+                else
+                {
+                    if (currentPillarTouched[i] == pillarOrder[i])
+                    {
+                        currentPillarTouched[i].GetComponent<MeshRenderer>().material.color = Color.green;
+                        
+                        if (eyeFollow)
+                        {
+                            eyeFollow.SwitchFollowedPillar(pillarOrder[i+1].transform);
+                        }
+                    }
+                    else
+                    { 
+                        currentPillarTouched[i].GetComponent<MeshRenderer>().material.color = Color.red;
                     }
                 }
         }
