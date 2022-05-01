@@ -7,18 +7,39 @@ using UnityEngine.Serialization;
 public class PnjDialoguesManager : MonoBehaviour
 {
     public bool isDialoguing;
-    [FormerlySerializedAs("m_textEffectManager")] [SerializeField] private TextEffectManager textEffectManager;
-    [FormerlySerializedAs("m_dialogue")] [SerializeField] private DialogueLine[] dialogue;
-    [FormerlySerializedAs("m_dialogueBox")] [SerializeField] private GameObject dialogueBox;
-    [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
-    [FormerlySerializedAs("m_cameraController")] [SerializeField] private CameraController cameraController;
+    [SerializeField] private TextEffectManager textEffectManager;
+    [SerializeField] private DialogueLine[] dialogue;
+    [SerializeField] private GameObject dialogueBox;
+    [SerializeField] private GameObject button;
+    [SerializeField] private CameraController cameraController;
     [SerializeField] private bool check;
+    [SerializeField] private bool automatic;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            button.SetActive(true);
+            if (!automatic)
+            {
+                button.SetActive(true);   
+            }
+            else
+            {
+                dialogueBox.SetActive(true);
+                isDialoguing = true;
+                textEffectManager.dialogueIndex = 0;
+                textEffectManager.dialogue = dialogue;
+                textEffectManager.ShowText();
+                if (dialogue[0].modifyCameraPosition)
+                {
+                    cameraController.playerFocused = false;
+                    //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                    cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
+                    Debug.Log(dialogue[0].positionCamera);
+                    cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
+                    cameraController.cameraZoom = dialogue[0].zoom;   
+                }
+            }
         }
     }
 
@@ -30,6 +51,15 @@ public class PnjDialoguesManager : MonoBehaviour
             if (dialogueBox.activeSelf)
             {
                 textEffectManager.NextText();
+                if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
+                {
+                    cameraController.playerFocused = false;
+                    //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                    cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
+                    Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
+                    cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
+                    cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;   
+                }
             }
             else
             {
@@ -63,7 +93,7 @@ public class PnjDialoguesManager : MonoBehaviour
             button.SetActive(false);
             isDialoguing = false;
             cameraController.playerFocused = true;
-            cameraController.cameraPos.rotation = Quaternion.Euler(45,0,0);
+            cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
             cameraController.cameraZoom = 8;
         }
     }
