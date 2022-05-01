@@ -39,7 +39,8 @@ public class PlayerManager : MonoBehaviour
     private enum ControlState
     {
         NORMAL,
-        UI
+        UI,
+        DIALOGUE
     }
 
     private PlayerStateMachine m_playerStateMachine;
@@ -283,6 +284,11 @@ public class PlayerManager : MonoBehaviour
                 break;
             
             case ControlState.UI:
+                
+                //can't access player base controls
+                break;
+            
+            case ControlState.DIALOGUE:
                 
                 //can't access player base controls
                 break;
@@ -530,5 +536,15 @@ public class PlayerManager : MonoBehaviour
     private void OnDisable()
     {
         m_inputController.Disable();
+    }
+
+    public void EnterDialogue()
+    {
+        m_controlState = ControlState.DIALOGUE;
+    }
+    
+    public void ExitDialogue()
+    {
+        m_controlState = ControlState.NORMAL;
     }
 }

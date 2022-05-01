@@ -14,6 +14,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private bool check;
     [SerializeField] private bool automatic;
+    [SerializeField] private bool oneTimeDialogue;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -39,6 +40,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
                     cameraController.cameraZoom = dialogue[0].zoom;   
                 }
+                PlayerManager.instance.EnterDialogue();
             }
         }
     }
@@ -50,21 +52,39 @@ public class PnjDialoguesManager : MonoBehaviour
             check = true;
             if (dialogueBox.activeSelf)
             {
-                textEffectManager.NextText();
-                if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
+                if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                 {
-                    cameraController.playerFocused = false;
-                    //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
-                    cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
-                    Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
-                    cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
-                    cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;   
+                    dialogueBox.SetActive(false);
+                    isDialoguing = false;
+                    cameraController.playerFocused = true;
+                    cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
+                    cameraController.cameraZoom = 8.22f;
+                    PlayerManager.instance.ExitDialogue();
+                    if (oneTimeDialogue)
+                    {
+                        Destroy(gameObject);
+                        enabled = false;
+                    }
+                }
+                else
+                {
+                    textEffectManager.NextText();
+                    if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
+                    {
+                        cameraController.playerFocused = false;
+                        //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                        cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
+                        Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
+                        cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
+                        cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;   
+                    }   
                 }
             }
             else
             {
                 dialogueBox.SetActive(true);
                 isDialoguing = true;
+                button.SetActive(false);   
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
                 textEffectManager.ShowText();
@@ -77,6 +97,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
                     cameraController.cameraZoom = dialogue[0].zoom;   
                 }   
+                PlayerManager.instance.EnterDialogue();
             }
         }
 
@@ -94,7 +115,7 @@ public class PnjDialoguesManager : MonoBehaviour
             isDialoguing = false;
             cameraController.playerFocused = true;
             cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
-            cameraController.cameraZoom = 8;
+            cameraController.cameraZoom = 8.22f;
         }
     }
 
