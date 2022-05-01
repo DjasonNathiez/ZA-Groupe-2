@@ -194,13 +194,7 @@ public class PlayerManager : MonoBehaviour
                                 break;
                             default: return;
                         }
-                        
-                        if (m_canRoll)
-                        {
-                            m_inputController.Player.Roll.started += _ => m_isRolling = true;
-                            m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
-                        }
-                        
+
                         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                         m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
 
@@ -239,11 +233,6 @@ public class PlayerManager : MonoBehaviour
                             default: return;
                         }
                         
-                        if (m_canRoll)
-                        {
-                            m_inputController.Player.Roll.started += _ => m_isRolling = true;
-                            m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
-                        }
                         
                         m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
                         m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
@@ -275,11 +264,20 @@ public class PlayerManager : MonoBehaviour
                 }
 
                 m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
- 
+
+
+                if (m_canRoll)
+                {
+                    m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
+                    m_inputController.Player.Roll.started += _ => m_isRolling = true;
+                    m_inputController.Player.Roll.started += _ => m_canRoll = false;
+                }
+                
                 if (m_isRolling)
                 {
                     StartCoroutine(StartRoll());
                 }
+
                 
                 break;
             
@@ -405,8 +403,6 @@ public class PlayerManager : MonoBehaviour
         {
             m_canRoll = false;
         
-            m_playerStateMachine = PlayerStateMachine.ROLLING;
-        
             m_acTimer -= Time.deltaTime;
             m_speed = rollAnimationCurve.Evaluate(m_acTimer);
 
@@ -495,7 +491,7 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
-        m_canRoll = true;
+        m_isRolling = true;
         m_attack.isAttacking = false;
         m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
     }
