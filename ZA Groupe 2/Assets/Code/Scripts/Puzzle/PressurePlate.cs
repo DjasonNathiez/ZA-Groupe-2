@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
+    public int numberofCurrent;
     public bool isActivate;
     public Door[] doors;
     private void OnTriggerEnter(Collider other)
     {
         
-        if (other.GetComponent<Rigidbody>() &&!isActivate)
+        if (other.GetComponent<Rigidbody>())
         {
             foreach (Door door in doors)
             {
                 door.keysValid++;   
             }
             isActivate = true;
+            numberofCurrent++;
         }
     }
 
@@ -24,10 +26,14 @@ public class PressurePlate : MonoBehaviour
     {
         if (other.GetComponent<Rigidbody>() && isActivate)
         {
-            isActivate = false;
-            foreach (Door door in doors)
+            numberofCurrent--;
+            if (numberofCurrent <= 0)
             {
-                door.keysValid--;   
+                isActivate = false;
+                foreach (Door door in doors)
+                {
+                    door.keysValid--;   
+                }   
             }
         }
     }

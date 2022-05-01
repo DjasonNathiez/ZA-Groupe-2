@@ -7,6 +7,8 @@ public class rotatingProp : MonoBehaviour
 {
     public float myrotation;
     public float previousrotation;
+    public Door door;
+    public float rotationKey;
     void Update()
     {
         if ((transform.rotation.eulerAngles.y - previousrotation) > 180)
@@ -22,5 +24,10 @@ public class rotatingProp : MonoBehaviour
             myrotation += (transform.rotation.eulerAngles.y - previousrotation);   
         }
         previousrotation = transform.rotation.eulerAngles.y;
+
+        if (door && (myrotation > rotationKey || myrotation < -rotationKey))
+        {
+            door.keysValid++;
+        }
     }
 }
