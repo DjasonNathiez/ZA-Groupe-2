@@ -6,13 +6,16 @@ using UnityEngine;
 public class PressurePlate : MonoBehaviour
 {
     public bool isActivate;
-    public Door door;
+    public Door[] doors;
     private void OnTriggerEnter(Collider other)
     {
         
         if (other.GetComponent<Rigidbody>() &&!isActivate)
         {
-            door.keysValid++;
+            foreach (Door door in doors)
+            {
+                door.keysValid++;   
+            }
             isActivate = true;
         }
     }
@@ -22,7 +25,10 @@ public class PressurePlate : MonoBehaviour
         if (other.GetComponent<Rigidbody>() && isActivate)
         {
             isActivate = false;
-            door.keysValid--;
+            foreach (Door door in doors)
+            {
+                door.keysValid--;   
+            }
         }
     }
 }

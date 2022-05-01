@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -10,21 +12,38 @@ public class Door : MonoBehaviour
     public MeshRenderer MeshRenderer;
     public bool close;
     public bool persistent;
+    public string type;
+    public Vector3 rotationClosed;
+    public Vector3 rotationOpen;
     void Update()
     {
         if (keysValid >= keyNeeded)
         {
-            Collider.enabled = close;
-            MeshRenderer.enabled = close;
-            if (persistent)
+            if (type == "Disabling")
             {
-                enabled = false;
+                Collider.enabled = close;
+                MeshRenderer.enabled = close;
+                if (persistent)
+                {
+                    enabled = false;
+                }   
+            }
+            else if (type == "Rotating")
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationOpen), Time.deltaTime * 5);
             }
         }
         else
         {
-            Collider.enabled = !close;
-            MeshRenderer.enabled = !close;
+            if (type == "Disabling")
+            {
+                Collider.enabled = !close;
+                MeshRenderer.enabled = !close; 
+            }
+            else if (type == "Rotating")
+            {
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationClosed), Time.deltaTime * 5);
+            }
         }
     }
 }
