@@ -36,21 +36,26 @@ public class EyeFollow_Advanced : MonoBehaviour
     {
         foreach (GameObject obj in objectOnXWall)
         {
-            objectTransformX.Add(obj.transform.localPosition);
+            objectTransformX.Add(obj.transform.position);
             matObjectX.Add(obj.GetComponent<MeshRenderer>().material);
         }
         
         foreach (GameObject obj in objectOnZWall)
         {
-            objectTransformZ.Add(obj.transform.localPosition);
+            objectTransformZ.Add(obj.transform.position);
             matObjectZ.Add(obj.GetComponent<MeshRenderer>().material);
         }
     }
 
     private void Update()
     {
-        positionObjectToFollow = transform.localPosition;
+        positionObjectToFollow = transform.position;
         UpdateEyeFollowX();
+    }
+
+    public void SwitchFollowedPillar(Transform pillar)
+    {
+        objectToFollow = pillar;
     }
 
     void UpdateEyeFollowX()
@@ -60,7 +65,7 @@ public class EyeFollow_Advanced : MonoBehaviour
         for (int i = 0; i < matObjectX.Count; i++)
         {
             matObjectX[i].SetVector("_Pupil_Position", new Vector4(
-                Mathf.Clamp((position.x - objectTransformX[i].x),
+                Mathf.Clamp((objectTransformX[i].x - position.x),
                 -0.5f * adjustFollow, 
                 0.5f * adjustFollow), 
                 Mathf.Clamp((position.y - objectTransformX[i].y) * -1,
@@ -72,7 +77,7 @@ public class EyeFollow_Advanced : MonoBehaviour
         for (int i = 0; i < matObjectZ.Count; i++)
         {
             matObjectZ[i].SetVector("_Pupil_Position", new Vector4(
-                Mathf.Clamp((position.z - objectTransformZ[i].z),
+                Mathf.Clamp((objectTransformZ[i].z - position.z),
                     -0.5f * adjustFollow, 
                     0.5f * adjustFollow), 
                 Mathf.Clamp((position.y - objectTransformZ[i].y) * -1,
