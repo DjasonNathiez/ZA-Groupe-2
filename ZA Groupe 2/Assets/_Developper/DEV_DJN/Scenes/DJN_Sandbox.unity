@@ -4148,6 +4148,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   check: 0
   automatic: 0
+  oneTimeDialogue: 0
 --- !u!54 &6297006937046144
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5466,6 +5467,7 @@ MonoBehaviour:
   cameraController: {fileID: 1103288595}
   check: 0
   automatic: 0
+  oneTimeDialogue: 0
 --- !u!135 &6297007582906775
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -7292,6 +7294,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3826961568351911270, guid: 1292f91fe460741418fce1591644f390, type: 3}
+      propertyPath: rollCooldown
+      value: 4.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4681133771871837695, guid: 1292f91fe460741418fce1591644f390, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
