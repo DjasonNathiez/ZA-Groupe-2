@@ -83,12 +83,19 @@ public class GameManager : MonoBehaviour
             if (i.itemName == item)
             {
                GameObject newItem = Instantiate(i.prefab , dropPosition.position, Quaternion.identity);
+
+               newItem.transform.position = new Vector3(newItem.transform.position.x, newItem.transform.position.y + 1f, newItem.transform.position.z);
+               
                newItem.AddComponent<Item>();
+               
+               //newItem.AddComponent<Rigidbody>();
+               //newItem.GetComponent<Rigidbody>().AddForce(newItem.transform.position * 2f, ForceMode.Impulse);
                
                var newItemProps = newItem.GetComponent<Item>();
                
                newItemProps.itemName = i.itemName;
                newItemProps.valuePercentage = i.valuePercentage;
+               
                switch (i.affectedValue)
                {
                    case ItemData.AffectedValue.ROPE:

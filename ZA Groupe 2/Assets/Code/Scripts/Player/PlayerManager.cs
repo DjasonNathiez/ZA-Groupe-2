@@ -504,13 +504,15 @@ public class PlayerManager : MonoBehaviour
                 {
                     case "Health":
                         currentLifePoint +=  item.valuePercentage;
-                        Debug.Log("Got healed");
+                        Debug.Log("Got healed by " + item.valuePercentage);
                         break;
                 
                     case "Rope":
                         rope.maximumLenght += item.valuePercentage;
                         break;
                 }
+            
+            Destroy(item.gameObject);
         }
     }
 
