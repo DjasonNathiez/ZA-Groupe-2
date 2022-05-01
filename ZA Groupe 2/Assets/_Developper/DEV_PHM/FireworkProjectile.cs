@@ -21,15 +21,15 @@ public class FireworkProjectile : MonoBehaviour
     private void StartTheFirework()
     {
         LaunchFirework();
-        StartCoroutine(GiveRandomDirection());
+        //StartCoroutine(GiveRandomDirection());
         StartCoroutine(DestroyFirework());
         canActivate = false;
     }
 
     private void LaunchFirework()
     {
-        Rigidbody rb_firework = GetComponent<Rigidbody>();
-        rb_firework.AddForce(transform.forward * moveSpeed, ForceMode.Impulse); 
+        Rigidbody rbFirework = GetComponent<Rigidbody>();
+        rbFirework.AddForce(transform.forward * moveSpeed, ForceMode.Impulse); 
     }
 
     IEnumerator GiveRandomDirection()
@@ -41,15 +41,16 @@ public class FireworkProjectile : MonoBehaviour
             int rand = Random.Range(1, 4);
             for (int i = 0; i < rand; i++)
             {
-                Rigidbody rb_firework = GetComponent<Rigidbody>();
+                Rigidbody rbFirework = GetComponent<Rigidbody>();
+                
                 var forward = transform.forward;
                 Vector3 randomVector = Random.insideUnitCircle.normalized;
             
                 Vector3 direction = new Vector3(forward.x, randomVector.y, forward.z);
 
                 yield return new WaitForSeconds(Random.Range(0.1f, 0.5f));
-                rb_firework.AddForce(direction * moveSpeed, ForceMode.Impulse);
-                rb_firework.velocity = Vector3.ClampMagnitude(rb_firework.velocity, moveSpeed);
+                rbFirework.AddForce(direction * moveSpeed, ForceMode.Impulse);
+                rbFirework.velocity = Vector3.ClampMagnitude(rbFirework.velocity, moveSpeed);
             }
             break;
         }
