@@ -174,6 +174,7 @@ public class AIBrain : MonoBehaviour
     public IEnumerator Death()
     {
         yield return new WaitForSeconds(0.1f);
+        GameManager.instance.DropItem("Popcorn", transform);
         Destroy(gameObject);
     }
 
