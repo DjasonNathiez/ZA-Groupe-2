@@ -90,6 +90,7 @@ public class PlayerManager : MonoBehaviour
     //Others
     [Header("Others")] 
     public AnimationClip rollAnimClip;
+    public AnimationClip attackAnimClip;
     [HideInInspector] public bool inputInteractPushed;
     [HideInInspector] public Vector3 move; //For Arcade Easter Egg
     [SerializeField] private Transform moveDirection;
@@ -117,6 +118,8 @@ public class PlayerManager : MonoBehaviour
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
     private static readonly int Moving = Animator.StringToHash("Moving");
+    private float attackCD;
+    private float currentAttackCD;
 
     #endregion
     
@@ -153,6 +156,8 @@ public class PlayerManager : MonoBehaviour
         m_speed = moveSpeed;
         m_canRoll = true;
         m_isRolling = false;
+
+        attackCD = attackAnimClip.length;
 
         //Roll Animation Curve Setup
         rollAnimationCurve.keys[rollAnimationCurve.length -1].time = rollAnimClip.length;
@@ -235,6 +240,16 @@ public class PlayerManager : MonoBehaviour
         
             //Attack Melee
             m_inputController.Player.Melee.started += Attack;
+
+            if (currentAttackCD > 0)
+            {
+                currentAttackCD -= Time.deltaTime;
+                Debug.Log(currentAttackCD);
+            }
+            else if (currentAttackCD <= 0)
+            {
+                ResetState();
+            }
         
             //Distance
 
@@ -269,6 +284,11 @@ public class PlayerManager : MonoBehaviour
        // m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
+    void SetAttackCD()
+    {
+        currentAttackCD = attackCD;
+    }
+
     private void Attack(InputAction.CallbackContext attack)
     {
         if (attack.started)
@@ -277,7 +297,10 @@ public class PlayerManager : MonoBehaviour
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
+                m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
+                
+                SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
 
@@ -473,8 +496,9 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
-        m_isRolling = false;
         m_attack.isAttacking = false;
+        m_isRolling = false;
+        m_attack.m_collider.enabled = false;
 
         m_animator.Play(m_moving ? "Move" : "Idle");
     }

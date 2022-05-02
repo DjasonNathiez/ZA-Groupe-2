@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public new BoxCollider m_collider;
+    public BoxCollider m_collider;
     public bool isAttacking;
     public bool canHurt;
 
@@ -14,11 +14,6 @@ public class Attack : MonoBehaviour
     private void Awake()
     {
         m_collider = GetComponent<BoxCollider>();
-    }
-
-    private void Update()
-    {
-        m_collider.enabled = isAttacking;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,18 +29,16 @@ public class Attack : MonoBehaviour
 
       if (iaBrain)
       {
-          
           if (canHurt)
           {
-              canHurt = false;
               iaBrain.GetHurt(PlayerManager.instance.attackDamage);
-              Debug.Log("Damaged enemy by " + PlayerManager.instance.attackDamage);
-          
-              iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
 
               Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
               dir.y = 0.1f;
               iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
+              
+              iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+              canHurt = false;
           }
 
       }
@@ -56,13 +49,14 @@ public class Attack : MonoBehaviour
           dir = new Vector3(dir.x, knockableObject.yforce, dir.z).normalized * knockableObject.force;
           knockableObject.rb.AddForce(dir,ForceMode.Impulse);
           knockableObject.rb.isKinematic = false;
+
+          if (knockableObject.isHit)
+          {
+              Instantiate(popcornVFX, transform.position, quaternion.identity);
+              Destroy(knockableObject.popcornInterior);
+              knockableObject.isHit = false; 
+          }
       }
 
-      if (knockableObject && knockableObject.isHit)
-      {
-          Instantiate(popcornVFX, transform.position, quaternion.identity);
-          Destroy(knockableObject.popcornInterior);
-          knockableObject.isHit = false; 
-      }
     }
 }
