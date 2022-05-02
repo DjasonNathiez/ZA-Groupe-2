@@ -11,6 +11,7 @@ public class RollerCoasterEntry : MonoBehaviour
     [FormerlySerializedAs("m_cam")] [SerializeField] private CameraController cam;
     [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
     [SerializeField] private bool check;
+    [SerializeField] private Transform SpawnPointEnd;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -41,6 +42,8 @@ public class RollerCoasterEntry : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             button.SetActive(false);
+            cam.playerFocused = true;
+            PlayerManager.instance.transform.position = SpawnPointEnd.position;
         }
     }
     
