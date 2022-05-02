@@ -166,7 +166,7 @@ public class PlayerManager : MonoBehaviour
         //Read Input
         
         //Interact
-        if (!isDead)
+        if (!isDead && m_controlState != ControlState.DIALOGUE) 
         {
             m_inputController.Player.Interact.started += Interact;
             m_inputController.Player.Interact.canceled += Interact;
@@ -226,14 +226,17 @@ public class PlayerManager : MonoBehaviour
             m_inputController.Player.Move.started += Move;
             m_inputController.Player.Move.performed += Move;
             m_inputController.Player.Move.canceled += Move;
-            if (m_moving && !m_attack.isAttacking) rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+
+            if (!m_attack.isAttacking)
+            {
+                rb.velocity = Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed );
+            }
 
         
             //Attack Melee
             m_inputController.Player.Melee.started += Attack;
         
             //Distance
-            m_inputController.Player.Range.started += Range;
 
 
             if (!m_attack.isAttacking)
@@ -263,12 +266,7 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Bugtracker.started += _ => m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
         
-        m_inputController.Player.Pause.started += PauseOnStarted;
-    }
-
-    private void Range(InputAction.CallbackContext range)
-    {
-
+       // m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
     private void Attack(InputAction.CallbackContext attack)
@@ -361,7 +359,9 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator StartStun(float stunDuration)
     {
-        m_animator.Play("Electrocut");
+        if(!m_attack.isAttacking) m_animator.Play("Electrocut");
+        
+        
         m_playerStateMachine = PlayerStateMachine.STUN;
         yield return new WaitForSeconds(stunDuration);
         m_playerStateMachine = PlayerStateMachine.IDLE;
@@ -409,7 +409,11 @@ public class PlayerManager : MonoBehaviour
     {
         if(state == "StatusQuo")
         {
-            m_animator.Play("Throw");
+            if (!m_attack.isAttacking)
+            {
+                m_animator.Play("Throw");
+            }
+            
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
             throwingWeapon.transform.LookAt(throwingWeapon.transform.position+transform.forward);
@@ -445,7 +449,11 @@ public class PlayerManager : MonoBehaviour
 
             if (currentLifePoint <= 0)
             {
-                m_animator.Play("Death");
+                if (!m_attack.isAttacking)
+                {
+                    m_animator.Play("Death");
+                }
+                
                 isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
                 
@@ -468,14 +476,7 @@ public class PlayerManager : MonoBehaviour
         m_isRolling = false;
         m_attack.isAttacking = false;
 
-        if (m_moving)
-        {
-            m_animator.Play("Move");
-        }
-        else
-        {
-            m_animator.Play("Idle");
-        }
+        m_animator.Play(m_moving ? "Move" : "Idle");
     }
 
     private void OnTriggerEnter(Collider other)
