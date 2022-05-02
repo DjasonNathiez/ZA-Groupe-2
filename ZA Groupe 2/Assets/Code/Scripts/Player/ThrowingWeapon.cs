@@ -68,5 +68,10 @@ public class ThrowingWeapon : MonoBehaviour
         {
             playerManager.rope.rewinding = true;
         }
+        
+        if (playerManager.rope.rewinding)
+        {
+            grip.parent = transform;
+        }
     }
 }

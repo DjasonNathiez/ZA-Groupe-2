@@ -36,9 +36,9 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position,cameraPos.position, 0.01f);
-        transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,0.01f);
-        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, cameraZoom, 0.01f);
+        transform.position = Vector3.Lerp(transform.position,cameraPos.position, 0.1f);
+        transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,0.1f);
+        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, cameraZoom, 0.1f);
 
         if (playerFocused && m_player)
         {
