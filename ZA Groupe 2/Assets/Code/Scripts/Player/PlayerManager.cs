@@ -432,10 +432,9 @@ public class PlayerManager : MonoBehaviour
     {
         if(state == "StatusQuo")
         {
-            if (!m_attack.isAttacking)
-            {
-                m_animator.Play("Throw");
-            }
+          
+            m_animator.Play("Throw");
+            
             
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
@@ -472,11 +471,8 @@ public class PlayerManager : MonoBehaviour
 
             if (currentLifePoint <= 0)
             {
-                if (!m_attack.isAttacking)
-                {
-                    m_animator.Play("Death");
-                }
-                
+                m_animator.Play("Death");
+
                 isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
                 
