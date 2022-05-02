@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Clamp",
+                    "type": "Button",
+                    "id": "dffc391f-9ba9-4044-9691-8e795f266f9c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -567,6 +576,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Bugtracker",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32c29d24-77da-4feb-b697-4e0c20e867be",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Xbox Controller",
+                    "action": "Clamp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

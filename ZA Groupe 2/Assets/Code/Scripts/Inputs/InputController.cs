@@ -116,6 +116,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Clamp"",
+                    ""type"": ""Button"",
+                    ""id"": ""dffc391f-9ba9-4044-9691-8e795f266f9c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -591,6 +600,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""Bugtracker"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32c29d24-77da-4feb-b697-4e0c20e867be"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""Clamp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -659,6 +679,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Rope = m_Player.FindAction("Rope", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_Bugtracker = m_Player.FindAction("Bugtracker", throwIfNotFound: true);
+        m_Player_Clamp = m_Player.FindAction("Clamp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -728,6 +749,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rope;
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_Bugtracker;
+    private readonly InputAction m_Player_Clamp;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -742,6 +764,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Rope => m_Wrapper.m_Player_Rope;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputAction @Bugtracker => m_Wrapper.m_Player_Bugtracker;
+        public InputAction @Clamp => m_Wrapper.m_Player_Clamp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -781,6 +804,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Bugtracker.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
                 @Bugtracker.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
                 @Bugtracker.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBugtracker;
+                @Clamp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
+                @Clamp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
+                @Clamp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -815,6 +841,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Bugtracker.started += instance.OnBugtracker;
                 @Bugtracker.performed += instance.OnBugtracker;
                 @Bugtracker.canceled += instance.OnBugtracker;
+                @Clamp.started += instance.OnClamp;
+                @Clamp.performed += instance.OnClamp;
+                @Clamp.canceled += instance.OnClamp;
             }
         }
     }
@@ -867,5 +896,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnRope(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnBugtracker(InputAction.CallbackContext context);
+        void OnClamp(InputAction.CallbackContext context);
     }
 }
