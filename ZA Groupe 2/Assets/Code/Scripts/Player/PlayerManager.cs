@@ -231,10 +231,16 @@ public class PlayerManager : MonoBehaviour
             m_inputController.Player.Move.started += Move;
             m_inputController.Player.Move.performed += Move;
             m_inputController.Player.Move.canceled += Move;
-
+            
+            
+            
             if (!m_attack.isAttacking)
             {
                 rb.velocity = Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed );
+            }
+            else
+            {
+                rb.velocity = Vector3.zero;
             }
 
         
@@ -248,18 +254,17 @@ public class PlayerManager : MonoBehaviour
             }
             else if (currentAttackCD <= 0)
             {
-                ResetState();
+                m_attack.isAttacking = false;
             }
         
             //Distance
-
-
-            if (!m_attack.isAttacking)
-            {
-                switch (state)
+            switch (state)
                 {
                     case "StatusQuo":
-                        m_inputController.Player.Range.started += _ => Throw();
+                        if (!m_attack.isAttacking)
+                        {
+                            m_inputController.Player.Range.started += _ => Throw();
+                        }
                         break;
                     case "Rope":
                         m_inputController.Player.Range.started += _ => Rewind();
@@ -269,7 +274,7 @@ public class PlayerManager : MonoBehaviour
                         break;
                     default: return;
                 } 
-            }
+            
             
             
         }
@@ -317,13 +322,11 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            
-                if (!m_isRolling && !m_attack.isAttacking)
-                {
-                    m_animator.Play("Move");
-                }
-            
-                m_moving = true;
+            if (!m_isRolling && !m_attack.isAttacking)
+            {
+                m_animator.Play("Move");
+            }
+            m_moving = true;
 
                 //Rotation
             Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
@@ -360,7 +363,6 @@ public class PlayerManager : MonoBehaviour
                 {
                     m_animator.Play("Roll");
                     m_isRolling = true;
-
                 }
 
             }
