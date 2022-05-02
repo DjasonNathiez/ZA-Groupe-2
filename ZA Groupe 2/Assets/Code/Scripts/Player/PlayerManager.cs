@@ -232,20 +232,26 @@ public class PlayerManager : MonoBehaviour
         
             //Distance
             m_inputController.Player.Range.started += Range;
-        
-            switch (state)
+
+
+            if (!m_attack.isAttacking)
             {
-                case "StatusQuo":
-                    m_inputController.Player.Range.started += _ => Throw();
-                    break;
-                case "Rope":
-                    m_inputController.Player.Range.started += _ => Rewind();
-                    break;
-                case "Throw":
-                    throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-                    break;
-                default: return;
+                switch (state)
+                {
+                    case "StatusQuo":
+                        m_inputController.Player.Range.started += _ => Throw();
+                        break;
+                    case "Rope":
+                        m_inputController.Player.Range.started += _ => Rewind();
+                        break;
+                    case "Throw":
+                        throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+                        break;
+                    default: return;
+                } 
             }
+            
+            
         }
 
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
