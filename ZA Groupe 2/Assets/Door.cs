@@ -31,6 +31,10 @@ public class Door : MonoBehaviour
             else if (type == "Rotating")
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationOpen), Time.deltaTime * 5);
+                if (persistent)
+                {
+                    keysValid = keyNeeded + 1;
+                }   
             }
         }
         else

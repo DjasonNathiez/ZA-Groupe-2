@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
             public GameObject prefab;
             
             public string itemName;
-            [Range(0, 1)] public float valuePercentage;
+            public float valuePercentage;
             public AffectedValue affectedValue;
             public enum AffectedValue
             {
