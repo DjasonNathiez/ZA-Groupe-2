@@ -272,14 +272,8 @@ public class Rope : MonoBehaviour
         
         remainingLenght = maximumLenght - (checklenght - Vector3.Distance(rope.GetPosition(rope.positionCount-2), rope.GetPosition(rope.positionCount-1)));;
 
-        if (isClamped)
-        {
-            remainingLenght = lenght;
-        }
-        else
-        {
-            lenght = checklenght;
-        }
+        lenght = checklenght;
+        
         
         if (pinnedToObject)
         {
@@ -297,11 +291,9 @@ public class Rope : MonoBehaviour
                 pinnedRb.AddForceAtPosition((rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f*GetComponent<PlayerManager>().rb.velocity.magnitude,pin.transform.position,ForceMode.VelocityChange);
             }
            
-            if (!isClamped)
-            {
-                Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
-                transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
-            }
+            Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
+            transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
+            
         }
 
         // REWINDING DU CABLE

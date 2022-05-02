@@ -507,7 +507,12 @@ public class PlayerManager : MonoBehaviour
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
     }
-    
+
+    public void OnRespawn()
+    {
+        transform.position = GameManager.instance.lastCheckpoint.respawnPoint.position;
+    }
+
     private void OnEnable()
     {
         m_inputController.Enable();

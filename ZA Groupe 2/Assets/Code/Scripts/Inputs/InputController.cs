@@ -125,6 +125,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Respawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef8d4ea9-5503-4554-8f25-277b89cf6d9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -611,6 +620,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""Clamp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7901ad0-be51-4fb1-a7ac-dd2a5bd5bf20"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Respawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -680,6 +700,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
         m_Player_Bugtracker = m_Player.FindAction("Bugtracker", throwIfNotFound: true);
         m_Player_Clamp = m_Player.FindAction("Clamp", throwIfNotFound: true);
+        m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -750,6 +771,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MousePosition;
     private readonly InputAction m_Player_Bugtracker;
     private readonly InputAction m_Player_Clamp;
+    private readonly InputAction m_Player_Respawn;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -765,6 +787,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputAction @Bugtracker => m_Wrapper.m_Player_Bugtracker;
         public InputAction @Clamp => m_Wrapper.m_Player_Clamp;
+        public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -807,6 +830,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Clamp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
                 @Clamp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
                 @Clamp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClamp;
+                @Respawn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @Respawn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @Respawn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -844,6 +870,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Clamp.started += instance.OnClamp;
                 @Clamp.performed += instance.OnClamp;
                 @Clamp.canceled += instance.OnClamp;
+                @Respawn.started += instance.OnRespawn;
+                @Respawn.performed += instance.OnRespawn;
+                @Respawn.canceled += instance.OnRespawn;
             }
         }
     }
@@ -897,5 +926,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnMousePosition(InputAction.CallbackContext context);
         void OnBugtracker(InputAction.CallbackContext context);
         void OnClamp(InputAction.CallbackContext context);
+        void OnRespawn(InputAction.CallbackContext context);
     }
 }
