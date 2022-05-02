@@ -8,6 +8,8 @@ public class Attack : MonoBehaviour
 
     public GameObject popcornVFX;
 
+    public float knockbackForce;
+
     private void Awake()
     {
         m_collider = GetComponent<BoxCollider>();
@@ -32,6 +34,10 @@ public class Attack : MonoBehaviour
       if (iaBrain)
       {
           iaBrain.GetHurt(PlayerManager.instance.attackDamage);
+          
+          Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
+          dir = new Vector3(dir.x, 0, dir.z).normalized * knockbackForce;
+          iaBrain.GetComponent<AIBrain>().rb.AddForce(dir, ForceMode.Impulse);
       }
       
       if (knockableObject)
@@ -42,7 +48,7 @@ public class Attack : MonoBehaviour
           knockableObject.rb.isKinematic = false;
       }
 
-      if (knockableObject && knockableObject.isHit == true)
+      if (knockableObject && knockableObject.isHit)
       {
           Instantiate(popcornVFX, transform.position, quaternion.identity);
           Destroy(knockableObject.popcornInterior);
