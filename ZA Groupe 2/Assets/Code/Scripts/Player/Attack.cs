@@ -44,7 +44,7 @@ public class Attack : MonoBehaviour
               iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
 
               Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
-              dir.y = 0;
+              dir.y = 0.05f;
               iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
           }
 

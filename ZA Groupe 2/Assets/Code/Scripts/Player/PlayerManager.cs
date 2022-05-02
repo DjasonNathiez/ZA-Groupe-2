@@ -226,6 +226,8 @@ public class PlayerManager : MonoBehaviour
             m_inputController.Player.Move.started += Move;
             m_inputController.Player.Move.performed += Move;
             m_inputController.Player.Move.canceled += Move;
+            if (m_moving && !m_attack.isAttacking) rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+
         
             //Attack Melee
             m_inputController.Player.Melee.started += Attack;
@@ -301,10 +303,8 @@ public class PlayerManager : MonoBehaviour
                 }
             
                 m_moving = true;
-                rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
-            
 
-            //Rotation
+                //Rotation
             Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
             rb.MoveRotation(lookRotation);
             
