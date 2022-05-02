@@ -8,6 +8,8 @@ public class ElectrocutedProp : MonoBehaviour
     public bool sender;
     public bool isOn;
     public Door[] door;
+    public CinematicEnvent CinematicEnvent;
+    public bool enablecinematic;
 
     [Header("Eye Pillar ?")]
     public bool isEyePillar;
@@ -51,6 +53,11 @@ public class ElectrocutedProp : MonoBehaviour
             foreach (Door door in door)
             {
                 door.keysValid++;      
+            }
+
+            if (enablecinematic)
+            {
+                CinematicEnvent.EnableEvent();
             }
         }
     }
