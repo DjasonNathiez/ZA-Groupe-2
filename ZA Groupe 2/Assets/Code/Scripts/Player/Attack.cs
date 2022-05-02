@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private new BoxCollider m_collider;
+    public new BoxCollider m_collider;
     public bool isAttacking;
+    public bool canHurt;
 
     public GameObject popcornVFX;
 
@@ -33,11 +34,20 @@ public class Attack : MonoBehaviour
 
       if (iaBrain)
       {
-          iaBrain.GetHurt(PlayerManager.instance.attackDamage);
           
-          Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
-          dir = new Vector3(dir.x, 0, dir.z).normalized * knockbackForce;
-          iaBrain.GetComponent<AIBrain>().rb.AddForce(dir, ForceMode.Impulse);
+          if (canHurt)
+          {
+              canHurt = false;
+              iaBrain.GetHurt(PlayerManager.instance.attackDamage);
+              Debug.Log("Damaged enemy by " + PlayerManager.instance.attackDamage);
+          
+              iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+
+              Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
+              dir.y = 0;
+              iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
+          }
+
       }
       
       if (knockableObject)

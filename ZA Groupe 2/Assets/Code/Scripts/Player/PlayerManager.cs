@@ -111,6 +111,8 @@ public class PlayerManager : MonoBehaviour
     private bool RollCdStarted;
     private float m_cdRoll;
 
+    private bool isDead;
+
 
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -164,83 +166,86 @@ public class PlayerManager : MonoBehaviour
         //Read Input
         
         //Interact
-        m_inputController.Player.Interact.started += Interact;
-        m_inputController.Player.Interact.canceled += Interact;
+        if (!isDead)
+        {
+            m_inputController.Player.Interact.started += Interact;
+            m_inputController.Player.Interact.canceled += Interact;
         
-        //Clamp Rope
-        m_inputController.Player.Clamp.started += _ => rope.isClamped = !rope.isClamped;
+            //Clamp Rope
+            m_inputController.Player.Clamp.started += _ => rope.isClamped = !rope.isClamped;
         
-        //Roll
-        m_inputController.Player.Roll.started += Roll;
+            //Roll
+            m_inputController.Player.Roll.started += Roll;
 
-        if (m_isRolling)
-        {
-            m_canRoll = false;
+            if (m_isRolling)
+            {
+                m_canRoll = false;
 
-            m_acTimer -= Time.deltaTime;
+                m_acTimer -= Time.deltaTime;
             
-            m_speed = rollAnimationCurve.Evaluate(m_acTimer);
+                m_speed = rollAnimationCurve.Evaluate(m_acTimer);
             
-            Debug.Log(m_speed);
+                Debug.Log(m_speed);
             
-            if (m_acTimer <= 0)
-            {
-                m_isRolling = false;
-            }
+                if (m_acTimer <= 0)
+                {
+                    m_isRolling = false;
+                }
             
-        }
-        else
-        {
-            m_speed = moveSpeed;
-            m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
-        }
-        
-        if (!m_canRoll)
-        {
-            if (!RollCdStarted)
-            {
-                RollCdStarted = true;
-                m_cdRoll = rollCooldown;
             }
             else
             {
-                m_cdRoll -= Time.deltaTime;
-                
-                if (m_cdRoll <= 0)
-                {
-                    m_canRoll = true;
-                }
+                m_speed = moveSpeed;
+                m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
             }
+        
+            if (!m_canRoll)
+            {
+                if (!RollCdStarted)
+                {
+                    RollCdStarted = true;
+                    m_cdRoll = rollCooldown;
+                }
+                else
+                {
+                    m_cdRoll -= Time.deltaTime;
+                
+                    if (m_cdRoll <= 0)
+                    {
+                        m_canRoll = true;
+                    }
+                }
             
-        }
-        else
-        {
-            RollCdStarted = false;
-        }
+            }
+            else
+            {
+                RollCdStarted = false;
+            }
         
-        //Move
-        m_inputController.Player.Move.started += Move;
-        m_inputController.Player.Move.performed += Move;
-        m_inputController.Player.Move.canceled += Move;
+            //Move
+            m_inputController.Player.Move.started += Move;
+            m_inputController.Player.Move.performed += Move;
+            m_inputController.Player.Move.canceled += Move;
         
-        //Attack Melee
-        m_inputController.Player.Melee.started += Attack;
+            //Attack Melee
+            m_inputController.Player.Melee.started += Attack;
         
-        //Distance
-        m_inputController.Player.Range.started += Range;
+            //Distance
+            m_inputController.Player.Range.started += Range;
         
-        switch (state)
-        {
-            case "StatusQuo":
-                m_inputController.Player.Range.started += _ => Throw();
-                break;
-            case "Rope":
-                m_inputController.Player.Range.started += _ => Rewind();
-                break;
-            case "Throw":
-                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-                break;
-            default: return;
+            switch (state)
+            {
+                case "StatusQuo":
+                    m_inputController.Player.Range.started += _ => Throw();
+                    break;
+                case "Rope":
+                    m_inputController.Player.Range.started += _ => Rewind();
+                    break;
+                case "Throw":
+                    throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+                    break;
+                default: return;
+            }
         }
 
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
@@ -262,10 +267,11 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling)
+            if (!m_isRolling && !m_attack.isAttacking)
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
+                m_attack.canHurt = true;
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
 
@@ -282,16 +288,15 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            if (!m_attack.isAttacking)
-            {
-                if (!m_isRolling)
+            
+                if (!m_isRolling && !m_attack.isAttacking)
                 {
                     m_animator.Play("Move");
                 }
             
                 m_moving = true;
                 rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
-            }
+            
 
             //Rotation
             Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
@@ -435,6 +440,7 @@ public class PlayerManager : MonoBehaviour
             if (currentLifePoint <= 0)
             {
                 m_animator.Play("Death");
+                isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
                 
             }
@@ -446,6 +452,7 @@ public class PlayerManager : MonoBehaviour
     {
         GameManager.instance.BackToCheckpoint();
         ResetState();
+        isDead = false;
         currentLifePoint = maxLifePoint;
     }
     
