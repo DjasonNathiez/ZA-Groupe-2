@@ -20,7 +20,7 @@ public class Rope : MonoBehaviour
     public GameObject nodePos;
     public PlayerManager playerManager;
     public GameObject pinnedTo;
-
+    public bool isClamped;
     public int ropeHealth;
 
     void Update()
@@ -269,17 +269,24 @@ public class Rope : MonoBehaviour
         {
             checklenght += Vector3.Distance(rope.GetPosition(i), rope.GetPosition(i - 1));
         }
-        lenght = checklenght;
         
         remainingLenght = maximumLenght - (checklenght - Vector3.Distance(rope.GetPosition(rope.positionCount-2), rope.GetPosition(rope.positionCount-1)));;
 
+        if (isClamped)
+        {
+            remainingLenght = lenght;
+        }
+        else
+        {
+            lenght = checklenght;
+        }
+        
         if (pinnedToObject)
         {
             if (lenght > pinnedObjectDistance)
             {
                 Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized * PlayerManager.instance.rb.velocity.magnitude;
                 pinnedRb.AddForceAtPosition(force *3 ,pin.transform.position,ForceMode.Acceleration);
-                
             }
         }
         
@@ -289,8 +296,12 @@ public class Rope : MonoBehaviour
             {
                 pinnedRb.AddForceAtPosition((rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f*GetComponent<PlayerManager>().rb.velocity.magnitude,pin.transform.position,ForceMode.VelocityChange);
             }
-            Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
-            transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
+           
+            if (!isClamped)
+            {
+                Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
+                transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
+            }
         }
 
         // REWINDING DU CABLE
