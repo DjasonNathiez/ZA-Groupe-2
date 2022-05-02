@@ -37,7 +37,10 @@ public class PuzzleEyePillar : MonoBehaviour
 
     public void CheckPillars()
     {
-        eyeFollow.SwitchFollowedPillar(pillarOrder[pillarTouchedNumber].transform);
+        if (pillarTouchedNumber <= pillarOrder.Count)
+        {
+            eyeFollow.SwitchFollowedPillar(pillarOrder[pillarTouchedNumber].transform);
+        }
         
         if (currentPillarTouched.Count != 0)
         {

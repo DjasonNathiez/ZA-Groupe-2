@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
@@ -107,7 +108,10 @@ public class PlayerManager : MonoBehaviour
     private bool m_canRoll;
     private bool m_isRolling;
     private float m_acTimer; //animated curve current timer
-    
+    private bool RollCdStarted;
+    private float m_cdRoll;
+
+
     //Animations
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
     private static readonly int Moving = Animator.StringToHash("Moving");
@@ -157,140 +161,87 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
         
-        CheckForAnimation();
+        //Read Input
+        
+        //Interact
+        m_inputController.Player.Interact.started += Interact;
+        m_inputController.Player.Interact.canceled += Interact;
+        
+        //Roll
+        m_inputController.Player.Roll.started += Roll;
 
-        if (!m_attack.isAttacking && m_playerStateMachine is not (PlayerStateMachine.DEAD or PlayerStateMachine.STUN))
+        if (m_isRolling)
         {
-            m_playerStateMachine = m_moveDirection != Vector3.zero ? PlayerStateMachine.MOVE : PlayerStateMachine.IDLE;
+            m_canRoll = false;
+
+            m_acTimer -= Time.deltaTime;
+            
+            m_speed = rollAnimationCurve.Evaluate(m_acTimer);
+            
+            Debug.Log(m_speed);
+            
+            if (m_acTimer <= 0)
+            {
+                m_isRolling = false;
+            }
+            
+        }
+        else
+        {
+            m_speed = moveSpeed;
+            m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
         }
         
-        //Read Input
-        switch (m_controlState)
+        if (!m_canRoll)
         {
-            case ControlState.NORMAL:
-
-                switch (m_playerStateMachine)
-                {
-                    case PlayerStateMachine.IDLE:
-
-                        if (!m_isRolling)
-                        {
-                            m_inputController.Player.Melee.started += _ => LoadAttack();
-                        }
-                        
-                        m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
-                        m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
-                        
-                        switch (state)
-                        {
-                            case "StatusQuo":
-                                m_inputController.Player.Range.started += _ => Throw();
-                                break;
-                            case "Rope":
-                                m_inputController.Player.Range.started += _ => Rewind();
-                                break;
-                            case "Throw":
-                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-                                break;
-                            default: return;
-                        }
-                        
-
-                        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-                        m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-
-                        m_inputController.Player.Move.performed += _ => m_moving = true;
-                        
-                        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-                        m_inputController.Player.Move.canceled += _ => m_moving = false;
-                        
-                        
-                        Move();
-                        Rotation(); 
-                        
-                        break;
-                    
-                    case PlayerStateMachine.MOVE:
-
-                        if (!m_isRolling)
-                        {
-                            m_inputController.Player.Melee.started += _ => LoadAttack();
-                        }
-                        
-                        m_inputController.Player.Interact.started += _ => inputInteractPushed = true;
-                        m_inputController.Player.Interact.canceled += _ => inputInteractPushed = false;
-                        
-                        switch (state)
-                        {
-                            case "StatusQuo":
-                                m_inputController.Player.Range.started += _ => Throw();
-                                break;
-                            case "Rope":
-                                m_inputController.Player.Range.started += _ => Rewind();
-                                break;
-                            case "Throw":
-                                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-                                break;
-                            default: return;
-                        }
-                        
-                        
-                        m_inputController.Player.Move.performed += context => m_moveDirection = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-                        m_inputController.Player.Move.performed += context => move = new Vector3(context.ReadValue<Vector2>().x, 0, context.ReadValue<Vector2>().y);
-
-                        m_inputController.Player.Move.performed += _ => m_moving = true;
-                        
-                        m_inputController.Player.Move.canceled += _ => m_moveDirection = Vector3.zero;
-                        m_inputController.Player.Move.canceled += _ => m_moving = false;
-                        
-                        
-                        Move();
-                        Rotation();
-                        
-                        break;
-
-                    case PlayerStateMachine.STUN:
-                        m_moving = false;
-                        move = Vector3.zero;
-                        m_moveDirection = Vector3.zero;
-                        rb.velocity = Vector3.zero;
-                        break;
-                    
-                    case PlayerStateMachine.DEAD:
-                        m_moving = false;
-                        m_moveDirection = Vector3.zero;
-                        move = Vector3.zero;
-                        rb.velocity = Vector3.zero;
-                        break;
-                }
-
-                m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
-
-
-                if (m_canRoll)
-                {
-                    m_inputController.Player.Roll.started += _ => m_animator.Play("Roll");
-                    m_inputController.Player.Roll.started += _ => m_isRolling = true;
-                }
+            if (!RollCdStarted)
+            {
+                RollCdStarted = true;
+                m_cdRoll = rollCooldown;
+            }
+            else
+            {
+                m_cdRoll -= Time.deltaTime;
                 
-                if (m_isRolling)
+                if (m_cdRoll <= 0)
                 {
-                    StartCoroutine(StartRoll());
+                    m_canRoll = true;
                 }
-
-                
-                break;
+            }
             
-            case ControlState.UI:
-                
-                //can't access player base controls
-                break;
-            
-            case ControlState.DIALOGUE:
-                
-                //can't access player base controls
-                break;
         }
+        else
+        {
+            RollCdStarted = false;
+        }
+        
+        //Move
+        m_inputController.Player.Move.started += Move;
+        m_inputController.Player.Move.performed += Move;
+        m_inputController.Player.Move.canceled += Move;
+        
+        //Attack Melee
+        m_inputController.Player.Melee.started += Attack;
+        
+        //Distance
+        m_inputController.Player.Range.started += Range;
+        
+        switch (state)
+        {
+            case "StatusQuo":
+                m_inputController.Player.Range.started += _ => Throw();
+                break;
+            case "Rope":
+                m_inputController.Player.Range.started += _ => Rewind();
+                break;
+            case "Throw":
+                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+                break;
+            default: return;
+        }
+
+        m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
+                
         
         m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
         m_inputController.Player.Bugtracker.started += _ => m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
@@ -299,38 +250,101 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
-    private void CheckForAnimation()
+    private void Range(InputAction.CallbackContext range)
     {
-        m_animator.SetBool(Moving, m_moving);
-        
-        switch (m_playerStateMachine)
-        {
-            case PlayerStateMachine.IDLE:
-                m_animator.Play("Idle");
-                break;
-            
-            case PlayerStateMachine.MOVE:
 
-                if (!m_attack.isAttacking)
+    }
+
+    private void Attack(InputAction.CallbackContext attack)
+    {
+        if (attack.started)
+        {
+            if (!m_isRolling)
+            {
+                m_canRoll = false;
+                m_attack.isAttacking = true;
+
+                m_animator.SetFloat(AttackSpeed, attackSpeed);
+
+                m_animator.Play("Attack");
+            }
+            
+        }
+    }
+
+    private void Move(InputAction.CallbackContext moveInput)
+    {
+        m_moveDirection = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
+        move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
+
+        if (moveInput.performed)
+        {
+            if (!m_attack.isAttacking)
+            {
+                if (!m_isRolling)
                 {
                     m_animator.Play("Move");
                 }
-                break;
             
-            case PlayerStateMachine.ROLLING:
-                break;
+                m_moving = true;
+                rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
+            }
+
+            //Rotation
+            Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
+            rb.MoveRotation(lookRotation);
             
-            case PlayerStateMachine.THROW:
-                m_animator.Play("Throw");
-                break;
             
-            case PlayerStateMachine.DEAD:
-                m_animator.Play("Death");
-                break;
+            // m_lookRot = Quaternion.LookRotation(m_moveDirection);
+            // rb.DORotate(m_lookRot.eulerAngles, rotationSpeed);
+            
+            //FX
+            
+            //Instantiate(Poufpouf, transform.position, Quaternion.identity);
         }
-        
+
+        if (moveInput.canceled)
+        {
+            if (!m_attack.isAttacking && !m_isRolling)
+            {
+                m_animator.Play("Idle");
+                
+                m_moving = false;
+                rb.velocity = Vector3.zero;
+            }
+        }
+    }
+
+    private void Roll(InputAction.CallbackContext roll)
+    {
+        if (roll.started)
+        {
+            if (!m_attack.isAttacking)
+            {
+                if (m_canRoll)
+                {
+                    m_animator.Play("Roll");
+                    m_isRolling = true;
+
+                }
+
+            }
+        }
     }
     
+    private void Interact(InputAction.CallbackContext interact)
+    {
+        if (interact.started)
+        {
+            inputInteractPushed = true;
+        }
+
+        if (interact.canceled)
+        {
+            inputInteractPushed = false;
+        }
+    }
+
     public IEnumerator StartStun(float stunDuration)
     {
         m_animator.Play("Electrocut");
@@ -354,13 +368,7 @@ public class PlayerManager : MonoBehaviour
             GameManager.instance.inPause = false;
         }
     }
-    
-    private void Move()
-    {
-        rb.velocity = !m_attack.isAttacking ? Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed ) : Vector3.zero;
-        //Instantiate(Poufpouf, transform.position, Quaternion.identity);
-    }
-    
+
     private void Rotation()
     {
         if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
@@ -377,61 +385,11 @@ public class PlayerManager : MonoBehaviour
                         rb.DORotate(m_lookRot.eulerAngles, 0);
                     }
                     break;
-                
-                case false :
-                    if (m_moveDirection != Vector3.zero)
-                    {
-                        m_lookRot = Quaternion.LookRotation(m_moveDirection);
-                        rb.DORotate(m_lookRot.eulerAngles, rotationSpeed);
-                    }
-                    break;
-            }
-        }
-        else
-        {
-            if (m_moveDirection != Vector3.zero)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
-                rb.MoveRotation(lookRotation);
             }
         }
     }
-    
-    IEnumerator StartRoll()
-    {
-        while (true)
-        {
-            m_canRoll = false;
-        
-            m_acTimer -= Time.deltaTime;
-            m_speed = rollAnimationCurve.Evaluate(m_acTimer);
 
-            yield return new WaitUntil(() => m_acTimer <= 0);
-        
-            m_speed = moveSpeed;
-            m_isRolling = false;
-            m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
-                
-            m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
-            
-            yield return new WaitForSeconds(rollCooldown);
-        
-            m_canRoll = true;
-            break;
-        }
 
-    }
-    
-    private void LoadAttack()
-    {
-        m_canRoll = false;
-        m_playerStateMachine = PlayerStateMachine.ATTACK;
-        m_attack.isAttacking = true;
-        
-        m_animator.SetFloat(AttackSpeed, attackSpeed);
-        m_animator.Play("Attack");
-    }
-    
     [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     private void Throw()
     {
@@ -491,9 +449,17 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
-        m_isRolling = true;
+        m_isRolling = false;
         m_attack.isAttacking = false;
-        m_playerStateMachine = !m_moving ? PlayerStateMachine.IDLE : PlayerStateMachine.MOVE;
+
+        if (m_moving)
+        {
+            m_animator.Play("Move");
+        }
+        else
+        {
+            m_animator.Play("Idle");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
