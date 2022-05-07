@@ -7,6 +7,8 @@ public class LionBehaviour : AIBrain
     [Header("State Informations")]
     public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK}
+
+    public float timerToResetCounterState;
     
     private void Start()
     {
@@ -38,6 +40,17 @@ public class LionBehaviour : AIBrain
         if (isAggro)
         {
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
+        }
+
+        if (!isInvincible)
+        {
+            StartCoroutine(ResetInvincibility());
+
+            IEnumerator ResetInvincibility()
+            {
+                yield return new WaitForSeconds(timerToResetCounterState);
+                isInvincible = true;
+            }
         }
         
         //APPLY STATES ACTION

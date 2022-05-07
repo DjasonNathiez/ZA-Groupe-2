@@ -43,6 +43,11 @@ public class ThrowingWeapon : MonoBehaviour
             {
                 playerManager.state = "Rope";
                 playerManager.Rewind();
+
+                if (other.GetComponent<LionBehaviour>())
+                {
+                    other.GetComponent<LionBehaviour>().StopCounterState();
+                }
             }
             else if (other.CompareTag("TractableObject"))
             {
