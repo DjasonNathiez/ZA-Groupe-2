@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 public class ThrowingWeapon : MonoBehaviour
 {
-    [FormerlySerializedAs("m_PlayerManager")] [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private PlayerManager playerManager;
     public Transform grip;
     private void OnTriggerEnter(Collider other)
     {
@@ -41,7 +41,6 @@ public class ThrowingWeapon : MonoBehaviour
             }   
             else if (other.CompareTag("UngrippableObject"))
             {
-                Debug.Log("HEEEEY YA");
                 playerManager.state = "Rope";
                 playerManager.Rewind();
             }

@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject throwingWeapon;
     public float throwingSpeed;
     [HideInInspector] public Vector3 direction;
-    [HideInInspector] public string state = "StatusQuo";
+    public string state = "StatusQuo";
     
     //Others
     [Header("Others")] 
@@ -120,6 +120,9 @@ public class PlayerManager : MonoBehaviour
     private static readonly int Moving = Animator.StringToHash("Moving");
     private float attackCD;
     private float currentAttackCD;
+    
+    //Attacks
+    [SerializeField] private GameObject visuthrow;
 
     #endregion
     
@@ -236,7 +239,7 @@ public class PlayerManager : MonoBehaviour
             
             if (!m_attack.isAttacking)
             {
-                rb.velocity = Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed );
+                if(state != "Aiming" && state != "Throw") rb.velocity = Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed );
             }
             else
             {
@@ -258,24 +261,8 @@ public class PlayerManager : MonoBehaviour
             }
         
             //Distance
-            switch (state)
-                {
-                    case "StatusQuo":
-                        if (!m_attack.isAttacking)
-                        {
-                            m_inputController.Player.Range.started += _ => Throw();
-                        }
-                        break;
-                    case "Rope":
-                        m_inputController.Player.Range.started += _ => Rewind();
-                        break;
-                    case "Throw":
-                        throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-                        break;
-                    default: return;
-                } 
             
-            
+            if(state == "Throw") throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
             
         }
 
@@ -313,6 +300,28 @@ public class PlayerManager : MonoBehaviour
             }
             
         }
+    }
+
+    public void OnRange()
+    {
+        switch (state)
+        {
+            case "StatusQuo":
+                if (!m_attack.isAttacking && !m_isRolling)
+                {
+                    state = "Aiming";
+                    visuthrow.SetActive(true);
+                }
+                break;
+            case "Aiming":
+                Throw();
+                visuthrow.SetActive(false);
+                break;
+            case "Rope":
+                Rewind();
+                break;
+            default: return;
+        } 
     }
 
     private void Move(InputAction.CallbackContext moveInput)
@@ -432,7 +441,7 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     private void Throw()
     {
-        if(state == "StatusQuo")
+        if(state == "Aiming")
         {
           
             m_animator.Play("Throw");
