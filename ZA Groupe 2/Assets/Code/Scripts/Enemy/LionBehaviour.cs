@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +10,8 @@ public class LionBehaviour : AIBrain
     
     private void Start()
     {
+        isInvincible = true;
+        
         InitializationData();
         activeAttackCd = attackDelay;
         nav.speed = moveSpeed;
@@ -50,10 +53,23 @@ public class LionBehaviour : AIBrain
                 break;
             
             case StateMachine.ATTACK:
-                AttackPlayer();
+                StartCoroutine(LoadAttack());
+                
+                IEnumerator LoadAttack()
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    AttackPlayer();
+                }
                 break;
         }
 
+    }
+
+    public void StopCounterState()
+    {
+        isInvincible = false;
+        //Play Anim Break;
+        //Play VFX Break;
     }
   
     
