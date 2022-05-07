@@ -164,6 +164,11 @@ public class AIBrain : MonoBehaviour
             }
             
         }
+        else
+        {
+            //Play Anim Counter
+            //Play VFX Counter
+        }
     }
 
     public void SetSpawnPoint(SpawnArea spawnArea)

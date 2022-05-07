@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,16 +9,31 @@ public class RabbitBehaviour : AIBrain
     public Vector3[] detectedPoints;
     public List<float> distanceToPoints;
     public Vector3 nearestPoint;
+
+    public float areaToMove;
+    private Vector3 pointToGo;
+    public float avoidFront;
+    private Vector3 originPoint;
     
     // Start is called before the first frame update
     void Start()
     {
+        originPoint = transform.position;
+        
+        float minX = transform.position.x - areaToMove;
+        float minZ = transform.position.z - areaToMove;
+        float maxX = transform.position.x + areaToMove;
+        float maxZ = transform.position.z + areaToMove;
+
+        pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        
         InitializationData();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         CheckState();
         Detection();
     }
@@ -56,6 +70,29 @@ public class RabbitBehaviour : AIBrain
         {
             case StateMachine.IDLE:
                 animator.Play("R_Idle");
+                
+                nav.SetDestination(pointToGo);
+
+                Vector3 pointToGoMin = new Vector3(pointToGo.x - 3, transform.position.y, pointToGo.z - 3);
+                Vector3 pointToGoMax = new Vector3(pointToGo.x + 3, transform.position.y, pointToGo.z + 3);
+
+                if (transform.position.x >= pointToGoMin.x && transform.position.z >= pointToGoMin.z &&
+                    transform.position.x <= pointToGoMax.x && transform.position.z <= pointToGoMax.z)
+                {
+                    SetNavPoint();
+                }
+
+                RaycastHit hit; 
+                if(Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+                {
+                    float distToFrontHit = Vector3.Distance(transform.forward, hit.point);
+                            
+                    if (distToFrontHit <= avoidFront)
+                    {
+                        SetNavPoint();
+                    }
+                }
+                
                 break;
             
             case StateMachine.CHASE:
@@ -68,6 +105,19 @@ public class RabbitBehaviour : AIBrain
                 player.GetComponent<PlayerManager>().rope.rewinding = true;
                 break;
         }
+    }
+
+    private void SetNavPoint()
+    {
+      
+        float minX = originPoint.x - areaToMove;
+        float minZ = originPoint.z - areaToMove;
+        float maxX = originPoint.x + areaToMove;
+        float maxZ = originPoint.z + areaToMove;
+
+        pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        Debug.Log(pointToGo);
+        
     }
 
     private void MoveToRope()
