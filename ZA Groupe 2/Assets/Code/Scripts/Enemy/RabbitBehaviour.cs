@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class RabbitBehaviour : AIBrain
     private Vector3 pointToGo;
     public float avoidFront;
     private Vector3 originPoint;
+    public float timeToGoNextPoint;
     
     // Start is called before the first frame update
     void Start()
@@ -72,7 +74,8 @@ public class RabbitBehaviour : AIBrain
                 animator.Play("R_Idle");
                 
                 nav.SetDestination(pointToGo);
-
+                
+                
                 Vector3 pointToGoMin = new Vector3(pointToGo.x - 3, transform.position.y, pointToGo.z - 3);
                 Vector3 pointToGoMax = new Vector3(pointToGo.x + 3, transform.position.y, pointToGo.z + 3);
 

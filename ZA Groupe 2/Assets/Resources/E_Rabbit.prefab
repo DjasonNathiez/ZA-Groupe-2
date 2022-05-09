@@ -619,8 +619,10 @@ MonoBehaviour:
   knockbackForce: 0
   dectectionRange: 8.5
   isInvincible: 0
+  haveCounterState: 0
   isStun: 0
   isAggro: 0
+  canMove: 0
   player: {fileID: 0}
   nav: {fileID: 0}
   animator: {fileID: 0}
@@ -636,6 +638,9 @@ MonoBehaviour:
   detectedPoints: []
   distanceToPoints: []
   nearestPoint: {x: 0, y: 0, z: 0}
+  areaToMove: 10.21
+  avoidFront: 2
+  timeToGoNextPoint: 1
 --- !u!136 &9143046397679579548
 CapsuleCollider:
   m_ObjectHideFlags: 0
