@@ -143,6 +143,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OutRange"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d89096f-fced-4117-98a8-c7a35f2cc980"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -381,7 +390,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""d3e23b36-970b-4a39-9cec-6f083f50b936"",
                     ""path"": ""<XInputController>/buttonEast"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Xbox Controller"",
                     ""action"": ""Range"",
@@ -392,7 +401,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3f1bb8e3-4ce6-4e55-884f-0db98095722b"",
                     ""path"": ""<DualShockGamepad>/buttonEast"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Playstation Controller"",
                     ""action"": ""Range"",
@@ -403,7 +412,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""10131208-dc10-4625-931a-5b11a0c36e92"",
                     ""path"": ""<SwitchProControllerHID>/buttonEast"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Switch Pro Controller"",
                     ""action"": ""Range"",
@@ -651,6 +660,50 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""Unclamp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffe1404e-6216-4781-abf2-f33c84f502c2"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""OutRange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""328529c0-0eda-4ea1-913d-8113b5b2ac0e"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Switch Pro Controller"",
+                    ""action"": ""OutRange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5a5daa8-9250-4b08-af91-717fdf9454b0"",
+                    ""path"": ""<DualShockGamepad>/buttonEast"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Playstation Controller"",
+                    ""action"": ""OutRange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8f7646f-84e4-408b-aeee-6df3ee8bac83"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Xbox Controller"",
+                    ""action"": ""OutRange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -722,6 +775,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Clamp = m_Player.FindAction("Clamp", throwIfNotFound: true);
         m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
         m_Player_Unclamp = m_Player.FindAction("Unclamp", throwIfNotFound: true);
+        m_Player_OutRange = m_Player.FindAction("OutRange", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -794,6 +848,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Clamp;
     private readonly InputAction m_Player_Respawn;
     private readonly InputAction m_Player_Unclamp;
+    private readonly InputAction m_Player_OutRange;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -811,6 +866,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Clamp => m_Wrapper.m_Player_Clamp;
         public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
         public InputAction @Unclamp => m_Wrapper.m_Player_Unclamp;
+        public InputAction @OutRange => m_Wrapper.m_Player_OutRange;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -859,6 +915,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Unclamp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
                 @Unclamp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
                 @Unclamp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
+                @OutRange.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
+                @OutRange.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
+                @OutRange.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -902,6 +961,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Unclamp.started += instance.OnUnclamp;
                 @Unclamp.performed += instance.OnUnclamp;
                 @Unclamp.canceled += instance.OnUnclamp;
+                @OutRange.started += instance.OnOutRange;
+                @OutRange.performed += instance.OnOutRange;
+                @OutRange.canceled += instance.OnOutRange;
             }
         }
     }
@@ -957,5 +1019,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnClamp(InputAction.CallbackContext context);
         void OnRespawn(InputAction.CallbackContext context);
         void OnUnclamp(InputAction.CallbackContext context);
+        void OnOutRange(InputAction.CallbackContext context);
     }
 }

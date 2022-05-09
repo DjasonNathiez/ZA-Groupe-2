@@ -310,15 +310,23 @@ public class PlayerManager : MonoBehaviour
                     visuthrow.SetActive(true);
                 }
                 break;
-            case "Aiming":
-                Throw();
-                visuthrow.SetActive(false);
-                break;
             case "Rope":
                 Rewind();
                 break;
             default: return;
         } 
+    }
+
+    public void OnOutRange()
+    {
+        switch (state)
+        {
+            case "Aiming":
+                Throw();
+                visuthrow.SetActive(false);
+                break;
+            default: return;
+        }
     }
 
     private void Move(InputAction.CallbackContext moveInput)
