@@ -35,9 +35,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Loot Table")] 
     public ItemData[] items;
+    public FishData[] fishList;
 
-    
-        [Serializable]
+    [Serializable]
         public struct ItemData
         {
             public GameObject prefab;
