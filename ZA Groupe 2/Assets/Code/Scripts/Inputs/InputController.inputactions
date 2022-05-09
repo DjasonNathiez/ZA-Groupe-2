@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Unclamp",
+                    "type": "Button",
+                    "id": "55671e63-47ce-4ec6-a74b-042b95f4a52a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -592,7 +601,7 @@
                     "name": "",
                     "id": "32c29d24-77da-4feb-b697-4e0c20e867be",
                     "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Xbox Controller",
                     "action": "Clamp",
@@ -607,6 +616,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Respawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac8bfc59-f331-40ab-a1f8-e7596cbbf9e9",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Unclamp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

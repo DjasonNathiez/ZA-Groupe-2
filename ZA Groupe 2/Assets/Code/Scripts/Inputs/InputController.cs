@@ -134,6 +134,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Unclamp"",
+                    ""type"": ""Button"",
+                    ""id"": ""55671e63-47ce-4ec6-a74b-042b95f4a52a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -614,7 +623,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""32c29d24-77da-4feb-b697-4e0c20e867be"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Xbox Controller"",
                     ""action"": ""Clamp"",
@@ -629,6 +638,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Respawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac8bfc59-f331-40ab-a1f8-e7596cbbf9e9"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Unclamp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -701,6 +721,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Bugtracker = m_Player.FindAction("Bugtracker", throwIfNotFound: true);
         m_Player_Clamp = m_Player.FindAction("Clamp", throwIfNotFound: true);
         m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
+        m_Player_Unclamp = m_Player.FindAction("Unclamp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -772,6 +793,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Bugtracker;
     private readonly InputAction m_Player_Clamp;
     private readonly InputAction m_Player_Respawn;
+    private readonly InputAction m_Player_Unclamp;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -788,6 +810,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Bugtracker => m_Wrapper.m_Player_Bugtracker;
         public InputAction @Clamp => m_Wrapper.m_Player_Clamp;
         public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
+        public InputAction @Unclamp => m_Wrapper.m_Player_Unclamp;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -833,6 +856,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Respawn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
                 @Respawn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
                 @Respawn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRespawn;
+                @Unclamp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
+                @Unclamp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
+                @Unclamp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUnclamp;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -873,6 +899,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Respawn.started += instance.OnRespawn;
                 @Respawn.performed += instance.OnRespawn;
                 @Respawn.canceled += instance.OnRespawn;
+                @Unclamp.started += instance.OnUnclamp;
+                @Unclamp.performed += instance.OnUnclamp;
+                @Unclamp.canceled += instance.OnUnclamp;
             }
         }
     }
@@ -927,5 +956,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnBugtracker(InputAction.CallbackContext context);
         void OnClamp(InputAction.CallbackContext context);
         void OnRespawn(InputAction.CallbackContext context);
+        void OnUnclamp(InputAction.CallbackContext context);
     }
 }

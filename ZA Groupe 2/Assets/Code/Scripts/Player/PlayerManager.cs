@@ -178,10 +178,7 @@ public class PlayerManager : MonoBehaviour
         {
             m_inputController.Player.Interact.started += Interact;
             m_inputController.Player.Interact.canceled += Interact;
-        
-            //Clamp Rope
-            m_inputController.Player.Clamp.started += _ => rope.isClamped = !rope.isClamped;
-        
+
             //Roll
             m_inputController.Player.Roll.started += Roll;
 

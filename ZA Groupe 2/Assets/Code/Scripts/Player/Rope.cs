@@ -20,8 +20,9 @@ public class Rope : MonoBehaviour
     public GameObject nodePos;
     public PlayerManager playerManager;
     public GameObject pinnedTo;
-    public bool isClamped;
     public int ropeHealth;
+    public float lenghtToStick;
+    public bool clamped;
 
     void Update()
     {
@@ -277,20 +278,16 @@ public class Rope : MonoBehaviour
         
         if (pinnedToObject)
         {
-            if (lenght > pinnedObjectDistance)
+            if (clamped && lenght > 1.5f)
             {
-                Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized * PlayerManager.instance.rb.velocity.magnitude;
-                pinnedRb.AddForceAtPosition(force *3 ,pin.transform.position,ForceMode.Acceleration);
+                Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized;
+                pinnedRb.AddForceAtPosition(force * 30 ,pin.transform.position,ForceMode.Acceleration);
             }
         }
         
         if (Vector3.Distance(rope.GetPosition(rope.positionCount-2), rope.GetPosition(rope.positionCount-1)) > remainingLenght)
         {
-            if (pinnedToObject)
-            {
-                pinnedRb.AddForceAtPosition((rope.GetPosition(1) - rope.GetPosition(0)).normalized*0.01f*GetComponent<PlayerManager>().rb.velocity.magnitude,pin.transform.position,ForceMode.VelocityChange);
-            }
-           
+
             Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
             transform.position = new Vector3(newPos.x, transform.position.y, newPos.z);
             
@@ -378,6 +375,16 @@ public class Rope : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnClamp()
+    {
+        clamped = true;
+    }
+    
+    public void OnUnclamp()
+    {
+        clamped = false;
     }
 
     public Vector3[] CalculateCuttingPoints(float resolution)
