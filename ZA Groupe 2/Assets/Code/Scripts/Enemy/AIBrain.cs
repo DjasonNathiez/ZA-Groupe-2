@@ -3,6 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 
 public class AIBrain : MonoBehaviour
@@ -88,7 +89,12 @@ public class AIBrain : MonoBehaviour
         {
             if (col.GetComponent<PlayerManager>())
             {
-                 isAggro = true;
+                float distToPlayerY = transform.position.y - col.transform.position.y;
+
+                if (distToPlayerY < 3)
+                {
+                    isAggro = true;
+                }
             }
 
             if (col.GetComponent<AIBrain>())
@@ -166,7 +172,7 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
-                    Debug.Log("Get Hurt By " + damage);
+                    
                     // if (haveCounterState) isInvincible = true;
                     
                     break;
@@ -175,7 +181,6 @@ public class AIBrain : MonoBehaviour
         }
         else
         {
-            Debug.Log("Is Invincible");
             //Play Anim Counter
             //Play VFX Counter
         }
