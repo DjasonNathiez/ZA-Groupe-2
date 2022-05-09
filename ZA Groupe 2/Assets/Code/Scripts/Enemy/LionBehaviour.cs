@@ -50,6 +50,8 @@ public class LionBehaviour : AIBrain
             {
                 yield return new WaitForSeconds(timerToResetCounterState);
                 isInvincible = true;
+                animator.Play("L_StandUp");
+                canMove = true;
             }
         }
         
@@ -81,6 +83,8 @@ public class LionBehaviour : AIBrain
     public void StopCounterState()
     {
         isInvincible = false;
+        canMove = false;
+        animator.Play("L_Fall");
         //Play Anim Break;
         //Play VFX Break;
     }

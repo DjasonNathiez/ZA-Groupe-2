@@ -253,7 +253,7 @@ public class PlayerManager : MonoBehaviour
             if (currentAttackCD > 0)
             {
                 currentAttackCD -= Time.deltaTime;
-                Debug.Log(currentAttackCD);
+                //Debug.Log(currentAttackCD);
             }
             else if (currentAttackCD <= 0)
             {

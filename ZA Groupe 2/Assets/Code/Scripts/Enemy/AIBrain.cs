@@ -32,8 +32,10 @@ public class AIBrain : MonoBehaviour
     
     //state
     public bool isInvincible;
+    public bool haveCounterState;
     public bool isStun;
     public bool isAggro;
+    public bool canMove;
 
     [FormerlySerializedAs("m_player")] public GameObject player;
     [FormerlySerializedAs("m_nav")] public NavMeshAgent nav;
@@ -60,6 +62,7 @@ public class AIBrain : MonoBehaviour
     public void InitializationData()
     {
         currentHealth = maxHealth;
+        canMove = true;
         
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -69,7 +72,10 @@ public class AIBrain : MonoBehaviour
 
     public void ChasePlayer()
     {
-        nav.SetDestination(player.transform.position);
+        if (canMove)
+        {
+            nav.SetDestination(player.transform.position);
+        }
     }
     
     public void Detection()
@@ -160,12 +166,16 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
+                    Debug.Log("Get Hurt By " + damage);
+                    // if (haveCounterState) isInvincible = true;
+                    
                     break;
             }
             
         }
         else
         {
+            Debug.Log("Is Invincible");
             //Play Anim Counter
             //Play VFX Counter
         }
