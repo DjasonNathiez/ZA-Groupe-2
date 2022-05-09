@@ -116,7 +116,6 @@ public class RabbitBehaviour : AIBrain
         float maxZ = originPoint.z + areaToMove;
 
         pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
-        Debug.Log(pointToGo);
         
     }
 
