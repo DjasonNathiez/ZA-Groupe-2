@@ -5,7 +5,7 @@ public class LionBehaviour : AIBrain
 {
     [Header("State Informations")]
     public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK}
+    public enum StateMachine{IDLE, CHASE, ATTACK,STANDUP, FALL, DEATH, HURT}
     
     private void Start()
     {
@@ -51,6 +51,18 @@ public class LionBehaviour : AIBrain
             
             case StateMachine.ATTACK:
                 AttackPlayer();
+                break;
+            case StateMachine.STANDUP:
+                animator.Play("L_StandUp");     
+                break;
+            case StateMachine.FALL:
+                animator.Play("L_Fall");     
+                break;
+            case StateMachine.DEATH:
+                animator.Play("L_Death");     
+                break;
+            case StateMachine.HURT:
+                animator.Play("L_Hurt");     
                 break;
         }
 
