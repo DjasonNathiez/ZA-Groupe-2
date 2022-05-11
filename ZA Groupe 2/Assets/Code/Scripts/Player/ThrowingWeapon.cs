@@ -54,7 +54,6 @@ public class ThrowingWeapon : MonoBehaviour
                 playerManager.state = "Rope";
                 playerManager.rope.pinnedToObject = true;
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
-                playerManager.rope.pinnedObjectDistance = playerManager.rope.lenght;
                 grip.position = transform.position;
                 grip.parent = other.transform;
             }
