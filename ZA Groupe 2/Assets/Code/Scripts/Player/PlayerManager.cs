@@ -3,6 +3,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using DG.Tweening;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -61,7 +62,7 @@ public class PlayerManager : MonoBehaviour
     #region Public variables
 
     [Header("States Stats")] public float baseLifePoint;
-    [HideInInspector] public float currentLifePoint;
+    public float currentLifePoint;
     [HideInInspector] public float maxLifePoint;
     [HideInInspector] public bool isInvincible;
     [HideInInspector] public bool haveGloves;
@@ -124,6 +125,15 @@ public class PlayerManager : MonoBehaviour
 
     //Attacks
     [SerializeField] private GameObject visuthrow;
+
+    #endregion
+
+    #region VFX
+
+    [Header("VFX")] 
+    public ParticleSystem attackVFX;
+    public ParticleSystem hurtVFX;
+    public ParticleSystem rollVFX;
 
     #endregion
 
@@ -298,7 +308,7 @@ public class PlayerManager : MonoBehaviour
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
-
+                attackVFX.Play();
                 m_animator.Play("Attack");
             }
         }
@@ -398,6 +408,7 @@ public class PlayerManager : MonoBehaviour
                 if (m_canRoll)
                 {
                     m_animator.Play("Roll");
+                    rollVFX.Play();
                     m_isRolling = true;
                 }
             }
@@ -500,7 +511,7 @@ public class PlayerManager : MonoBehaviour
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
-
+            hurtVFX.Play();
             if (!m_attack.isAttacking)
             {
                 m_animator.Play("Hurt");
@@ -554,6 +565,11 @@ public class PlayerManager : MonoBehaviour
 
             Destroy(item.gameObject);
         }
+    }
+    
+    public void LoadVFX(ParticleSystem effect)
+    {
+        Instantiate(effect, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerStay(Collider other)
