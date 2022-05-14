@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Lion_Ground
+  m_Name: M_Lion_Impact_Wave
   m_Shader: {fileID: -6465566751694194690, guid: db39eb11ec58fd54ea6e81d8f23b8834, type: 3}
   m_ShaderKeywords: _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -35,11 +35,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Flow:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: ed33365950687994ea98a594490d4ace, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 422b86a00fff7d8419a2706fc67a5642, type: 3}
+        m_Texture: {fileID: 2800000, guid: a61221f7f6d4e4b45babfec4c3fbbda4, type: 3}
         m_Scale: {x: 4, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask:
@@ -68,7 +68,7 @@ Material:
     - _Blend: 0
     - _CastShadows: 1
     - _Cull: 0
-    - _Custom_UV1: 1
+    - _Custom_UV1: 0
     - _Custom_UV2: 0
     - _DstBlend: 10
     - _Emission: 1
@@ -82,6 +82,6 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Distortion_Speed_XY_Power_Z: {r: 0, g: 0, b: 0, a: 0}
+    - _Distortion_Speed_XY_Power_Z: {r: 0, g: 0.1, b: 0.05, a: 0}
     - _Speed_MainTex_U_V_Noise_Z_W: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
