@@ -209,6 +209,11 @@ public class AIBrain : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, dectectionRange);
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+    public void LoadVFX(ParticleSystem effect)
+    {
+        Instantiate(effect, transform.position, Quaternion.identity);
+    }
     
 }
 
