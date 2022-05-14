@@ -13,10 +13,9 @@ using Vector3 = UnityEngine.Vector3;
 [SuppressMessage("ReSharper", "CheckNamespace")]
 public class PlayerManager : MonoBehaviour
 {
-
-    public GameObject Poufpouf;
-
     public static PlayerManager instance; //Singleton
+
+    public GameObject VFXPoufpouf;
 
     #region Components
 
@@ -61,42 +60,40 @@ public class PlayerManager : MonoBehaviour
 
     #region Public variables
 
-    [Header("States Stats")] 
-    public float baseLifePoint;
+    [Header("States Stats")] public float baseLifePoint;
     [HideInInspector] public float currentLifePoint;
     [HideInInspector] public float maxLifePoint;
     [HideInInspector] public bool isInvincible;
     [HideInInspector] public bool haveGloves;
 
-    [Header("Movements Stats")]
-    public float moveSpeed;
+    [Header("Movements Stats")] public float moveSpeed;
     public float rotationSpeed;
     public float rollCooldown;
     public AnimationCurve rollAnimationCurve;
     public float grappleFlySpeed;
-    
+
     [Header("Attack Stats")]
 
     // Melee Attack
     public int attackDamage;
+
     public float attackSpeed;
-    
+
     // Distance Attack
     public GameObject throwingWeapon;
     public float throwingSpeed;
     [HideInInspector] public Vector3 direction;
     public string state = "StatusQuo";
-    
+
     //Others
-    [Header("Others")] 
-    public AnimationClip rollAnimClip;
+    [Header("Others")] public AnimationClip rollAnimClip;
     public AnimationClip attackAnimClip;
     [HideInInspector] public bool inputInteractPushed;
     [HideInInspector] public Vector3 move; //For Arcade Easter Egg
     [SerializeField] private Transform moveDirection;
 
     #endregion
-    
+
     #region Private variables
 
     //Movement
@@ -104,7 +101,11 @@ public class PlayerManager : MonoBehaviour
     private Vector3 m_moveDirection;
     private bool m_moving;
     private Quaternion m_lookRot;
-    
+
+    [SerializeField] private float poufpoufTime;
+
+    private float poufpoufTimer;
+
     //Roll
     private bool m_canRoll;
     private bool m_isRolling;
@@ -120,12 +121,12 @@ public class PlayerManager : MonoBehaviour
     private static readonly int Moving = Animator.StringToHash("Moving");
     private float attackCD;
     private float currentAttackCD;
-    
+
     //Attacks
     [SerializeField] private GameObject visuthrow;
 
     #endregion
-    
+
     private void Awake()
     {
         #region Singleton
@@ -140,9 +141,9 @@ public class PlayerManager : MonoBehaviour
         }
 
         #endregion
-        
+
         m_inputController = new InputController();
-        
+
         m_animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         rope = GetComponent<Rope>();
@@ -153,7 +154,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         m_playerInput.actions = m_inputController.asset;
-        
+        poufpoufTimer = poufpoufTime;
         //Stats Variables Setup
         currentLifePoint = maxLifePoint = baseLifePoint;
         m_speed = moveSpeed;
@@ -163,18 +164,18 @@ public class PlayerManager : MonoBehaviour
         attackCD = attackAnimClip.length;
 
         //Roll Animation Curve Setup
-        rollAnimationCurve.keys[rollAnimationCurve.length -1].time = rollAnimClip.length;
-        m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
+        rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
+        m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
     }
-    
+
     private void Update()
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
-        
+
         //Read Input
-        
+
         //Interact
-        if (!isDead && m_controlState != ControlState.DIALOGUE) 
+        if (!isDead && m_controlState != ControlState.DIALOGUE)
         {
             m_inputController.Player.Interact.started += Interact;
             m_inputController.Player.Interact.canceled += Interact;
@@ -187,23 +188,22 @@ public class PlayerManager : MonoBehaviour
                 m_canRoll = false;
 
                 m_acTimer -= Time.deltaTime;
-            
+
                 m_speed = rollAnimationCurve.Evaluate(m_acTimer);
-            
+
                 Debug.Log(m_speed);
-            
+
                 if (m_acTimer <= 0)
                 {
                     m_isRolling = false;
                 }
-            
             }
             else
             {
                 m_speed = moveSpeed;
-                m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length -1].time;
+                m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
             }
-        
+
             if (!m_canRoll)
             {
                 if (!RollCdStarted)
@@ -214,36 +214,37 @@ public class PlayerManager : MonoBehaviour
                 else
                 {
                     m_cdRoll -= Time.deltaTime;
-                
+
                     if (m_cdRoll <= 0)
                     {
                         m_canRoll = true;
                     }
                 }
-            
             }
             else
             {
                 RollCdStarted = false;
             }
-        
+
             //Move
             m_inputController.Player.Move.started += Move;
             m_inputController.Player.Move.performed += Move;
             m_inputController.Player.Move.canceled += Move;
-            
-            
-            
+
+
             if (!m_attack.isAttacking)
             {
-                if(state != "Aiming" && state != "Throw") rb.velocity = Quaternion.Euler(0,-45,0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y, m_moveDirection.z * m_speed );
+                if (state != "Aiming" && state != "Throw")
+                    rb.velocity = Quaternion.Euler(0, -45, 0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y,
+                        m_moveDirection.z * m_speed);
             }
             else
             {
+                
                 rb.velocity = Vector3.zero;
             }
 
-        
+
             //Attack Melee
             m_inputController.Player.Melee.started += Attack;
 
@@ -256,21 +257,26 @@ public class PlayerManager : MonoBehaviour
             {
                 m_attack.isAttacking = false;
             }
-        
+
             //Distance
-            
-            if(state == "Throw") throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-            
+
+            if (state == "Throw") throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
         }
 
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
-                
-        
-        m_inputController.Player.Bugtracker.started += _ => GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
-        m_inputController.Player.Bugtracker.started += _ => m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf ? ControlState.UI : ControlState.NORMAL;
-        m_inputController.Player.Bugtracker.started += _ => Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
-        
-       // m_inputController.Player.Pause.started += PauseOnStarted;
+
+
+        m_inputController.Player.Bugtracker.started += _ =>
+            GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
+        m_inputController.Player.Bugtracker.started += _ =>
+            m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf
+                ? ControlState.UI
+                : ControlState.NORMAL;
+        m_inputController.Player.Bugtracker.started += _ =>
+            Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
+
+
+        // m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
     void SetAttackCD()
@@ -288,14 +294,13 @@ public class PlayerManager : MonoBehaviour
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
-                
+
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
 
                 m_animator.Play("Attack");
             }
-            
         }
     }
 
@@ -309,12 +314,13 @@ public class PlayerManager : MonoBehaviour
                     state = "Aiming";
                     visuthrow.SetActive(true);
                 }
+
                 break;
             case "Rope":
                 Rewind();
                 break;
             default: return;
-        } 
+        }
     }
 
     public void OnOutRange()
@@ -335,23 +341,38 @@ public class PlayerManager : MonoBehaviour
         move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
 
         if (moveInput.performed)
-        {
+        {  Debug.Log("Je bouge encore");
             if (!m_isRolling && !m_attack.isAttacking)
             {
                 m_animator.Play("Move");
+                if (poufpoufTimer < poufpoufTime)
+                {
+                    poufpoufTimer += Time.deltaTime;
+                }
+                else
+                {
+                    Debug.Log(moveInput.performed);
+                    poufpoufTimer = 0;
+                  
+                    GameObject go = Instantiate(VFXPoufpouf, transform.position, Quaternion.identity);
+                    go.transform.parent = this.GameObject().transform;
+                }
             }
+         
+
+
             m_moving = true;
 
-                //Rotation
-            Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0,-45,0) * m_moveDirection);
+            //Rotation
+            Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
             rb.MoveRotation(lookRotation);
-            
-            
+
+
             // m_lookRot = Quaternion.LookRotation(m_moveDirection);
             // rb.DORotate(m_lookRot.eulerAngles, rotationSpeed);
-            
+
             //FX
-            
+
             //Instantiate(Poufpouf, transform.position, Quaternion.identity);
         }
 
@@ -360,7 +381,8 @@ public class PlayerManager : MonoBehaviour
             if (!m_attack.isAttacking && !m_isRolling)
             {
                 m_animator.Play("Idle");
-                
+
+                poufpoufTimer = poufpoufTime;
                 m_moving = false;
                 rb.velocity = Vector3.zero;
             }
@@ -378,11 +400,10 @@ public class PlayerManager : MonoBehaviour
                     m_animator.Play("Roll");
                     m_isRolling = true;
                 }
-
             }
         }
     }
-    
+
     private void Interact(InputAction.CallbackContext interact)
     {
         if (interact.started)
@@ -398,14 +419,14 @@ public class PlayerManager : MonoBehaviour
 
     public IEnumerator StartStun(float stunDuration)
     {
-        if(!m_attack.isAttacking) m_animator.Play("Electrocut");
-        
-        
+        if (!m_attack.isAttacking) m_animator.Play("Electrocut");
+
+
         m_playerStateMachine = PlayerStateMachine.STUN;
         yield return new WaitForSeconds(stunDuration);
         m_playerStateMachine = PlayerStateMachine.IDLE;
     }
-    
+
     private void PauseOnStarted(InputAction.CallbackContext obj)
     {
         if (!obj.started) return;
@@ -428,15 +449,16 @@ public class PlayerManager : MonoBehaviour
         {
             switch (m_attack.isAttacking)
             {
-                case true :
+                case true:
                     if (Camera.main)
                     {
                         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(m_mousePos);
                         Vector3 aimDirection = (mousePosition - transform.position).normalized;
-                
+
                         m_lookRot = Quaternion.LookRotation(new Vector3(aimDirection.x, 0, aimDirection.z));
                         rb.DORotate(m_lookRot.eulerAngles, 0);
                     }
+
                     break;
             }
         }
@@ -446,24 +468,23 @@ public class PlayerManager : MonoBehaviour
     [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
     private void Throw()
     {
-        if(state == "Aiming")
+        if (state == "Aiming")
         {
-          
             m_animator.Play("Throw");
-            
-            
+
+
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
-            throwingWeapon.transform.LookAt(throwingWeapon.transform.position+transform.forward);
-            
+            throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
+
             direction = Vector3.forward;
-            
+
             state = "Throw";
             rope.enabled = true;
             rope.rope.gameObject.SetActive(true);
         }
     }
-    
+
     public void Rewind()
     {
         if (state == "Rope")
@@ -475,11 +496,11 @@ public class PlayerManager : MonoBehaviour
     public void GetHurt(int damage)
     {
         if (isInvincible) return;
-        
+
         if (currentLifePoint > 0)
         {
             currentLifePoint -= damage;
-            
+
             if (!m_attack.isAttacking)
             {
                 m_animator.Play("Hurt");
@@ -491,10 +512,8 @@ public class PlayerManager : MonoBehaviour
 
                 isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
-                
             }
         }
-        
     }
 
     public void RespawnPlayer()
@@ -504,7 +523,7 @@ public class PlayerManager : MonoBehaviour
         isDead = false;
         currentLifePoint = maxLifePoint;
     }
-    
+
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public void ResetState()
     {
@@ -518,28 +537,29 @@ public class PlayerManager : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Item item = other.GetComponent<Item>();
-        
+
         if (item)
         {
             switch (item.affectedValue)
-                {
-                    case "Health":
-                        currentLifePoint +=  item.valuePercentage;
-                        Debug.Log("Got healed by " + item.valuePercentage);
-                        break;
-                
-                    case "Rope":
-                        rope.maximumLenght += item.valuePercentage;
-                        break;
-                }
-            
+            {
+                case "Health":
+                    currentLifePoint += item.valuePercentage;
+                    Debug.Log("Got healed by " + item.valuePercentage);
+                    break;
+
+                case "Rope":
+                    rope.maximumLenght += item.valuePercentage;
+                    break;
+            }
+
             Destroy(item.gameObject);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<Grappin>() && inputInteractPushed && rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
+        if (other.GetComponent<Grappin>() && inputInteractPushed &&
+            rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
         {
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
@@ -564,7 +584,7 @@ public class PlayerManager : MonoBehaviour
     {
         m_controlState = ControlState.DIALOGUE;
     }
-    
+
     public void ExitDialogue()
     {
         m_controlState = ControlState.NORMAL;
