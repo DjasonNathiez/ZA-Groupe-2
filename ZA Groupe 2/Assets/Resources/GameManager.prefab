@@ -1091,7 +1091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7eae4262be4bd4469ada03431eff8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Poufpouf: {fileID: 0}
+  VFXPoufpouf: {fileID: 5542936462249446828, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
   rb: {fileID: 0}
   rope: {fileID: 0}
   baseLifePoint: 3
@@ -1147,6 +1147,7 @@ MonoBehaviour:
   inputInteractPushed: 0
   move: {x: 0, y: 0, z: 0}
   moveDirection: {fileID: 0}
+  poufpoufTime: 0
   visuthrow: {fileID: 7403386933788227741}
 --- !u!114 &838435004051609742
 MonoBehaviour:
@@ -1163,7 +1164,8 @@ MonoBehaviour:
   pin: {fileID: 2719977749006521894}
   pinnedToObject: 0
   pinnedRb: {fileID: 0}
-  pinnedObjectDistance: 0
+  gripY: 0
+  yCheckDistance: 0
   rope: {fileID: 2715045066291362531}
   checkDistance: 0.02
   nodes: []
@@ -1176,8 +1178,9 @@ MonoBehaviour:
   nodePos: {fileID: 2398439510395993865}
   playerManager: {fileID: 3826961568351911270}
   pinnedTo: {fileID: 0}
-  isClamped: 0
   ropeHealth: 2
+  lenghtToStick: 0
+  clamped: 0
 --- !u!54 &8267530351848828145
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1186,7 +1189,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
@@ -7113,6 +7116,7 @@ MonoBehaviour:
     itemName: Popcorn
     valuePercentage: 1
     affectedValue: 0
+  fishList: []
 --- !u!1 &8704114524726881248
 GameObject:
   m_ObjectHideFlags: 0
