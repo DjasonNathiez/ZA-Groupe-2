@@ -10,9 +10,12 @@ public class LionBehaviour : AIBrain
 
     public float timerToResetCounterState;
     
+    [Header("VFX)")]
+    public ParticleSystem attackVFX;
+    
     private void Start()
     {
-        isInvincible = true;
+        //isInvincible = true;
         
         InitializationData();
         activeAttackCd = attackDelay;
@@ -24,12 +27,16 @@ public class LionBehaviour : AIBrain
     {
         if (currentHealth <= 0)
         {
-            StartCoroutine(Death());
+            Death();
+            animator.Play("L_Death");
         }
         else
         {
-            CheckState();
-            Detection();
+            if (!isDead && !isFalling)
+            {
+                CheckState();
+                Detection();
+            }
         }
         
     }
@@ -42,19 +49,6 @@ public class LionBehaviour : AIBrain
             stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
         }
 
-        if (!isInvincible)
-        {
-            StartCoroutine(ResetInvincibility());
-
-            IEnumerator ResetInvincibility()
-            {
-                yield return new WaitForSeconds(timerToResetCounterState);
-                isInvincible = true;
-                animator.Play("L_StandUp");
-                canMove = true;
-            }
-        }
-        
         //APPLY STATES ACTION
         switch (stateMachine)
         {
@@ -80,6 +74,25 @@ public class LionBehaviour : AIBrain
 
     }
 
+    public IEnumerator ResetInvincibility()
+    {
+        yield return new WaitForSeconds(timerToResetCounterState);
+        isInvincible = true;
+        animator.Play("L_StandUp");
+        canMove = true;
+        isFalling = false;
+    }
+    
+    public void LoadAttackVFX()
+    {
+        attackVFX.Play();
+    }
+    public void PlayAnim(string animName)
+    {
+        animator.Play(animName);
+    }
+
+    
     public void StopCounterState()
     {
         isInvincible = false;
