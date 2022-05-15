@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AmbiantOcclusionMapTex2D:
+        m_Texture: {fileID: 2800000, guid: 0c6dbcfd7c90f604487e6f426392c1c9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMap_Tex:
         m_Texture: {fileID: 2800000, guid: 0c6dbcfd7c90f604487e6f426392c1c9, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -52,7 +56,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _EmissionMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMapTex2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -64,7 +76,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MetallicMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MetallicMap_Tex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMapTex2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -73,6 +93,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMapTex2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -127,6 +151,8 @@ Material:
     - _HSV_Shift: 1
     - _HSV_Value: 1
     - _HSV__Int: 0
+    - _HeightMap: 1
+    - _Height_Scale: 0.1
     - _Metallic: 0
     - _MetallicMap: 1
     - _MetallicMap__Int: 0
@@ -137,6 +163,9 @@ Material:
     - _Modify_Color__Int: 0
     - _Modify_Intensity: 0
     - _Modify_Intensity__Int: 1
+    - _Modify_Normal_Intensity: 0
+    - _NormalMap: 0
+    - _Normal_Intensity: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -144,7 +173,12 @@ Material:
     - _RGB_Shift: 0
     - _ReceiveShadows: 1
     - _Rgb_Shift: 0
+    - _RoughnessMap: 1
+    - _Roughness_Intensity: 0
+    - _Roughness_Smoothstep_Max: 1
+    - _Roughness_Smoothstep_Min: 0
     - _Smoothness: 0.5
+    - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
