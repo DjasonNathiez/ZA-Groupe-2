@@ -58,6 +58,8 @@ public class AIBrain : MonoBehaviour
     public Color backupColor;
 
     public ParticleSystem hurtVFX;
+
+    public bool canKnockback;
     
 
     public void InitializationData()
@@ -150,7 +152,7 @@ public class AIBrain : MonoBehaviour
     {
         if (distanceToPlayer < attackRange + 0.02)
         {
-            Debug.Log("Player take " + attackRange + " damage in his face, bro.");
+            Debug.Log("Player take " + attackDamage + " damage in his face, bro.");
             player.GetComponent<PlayerManager>().GetHurt(attackDamage);
 
             Vector3 dir = player.transform.position - transform.position;

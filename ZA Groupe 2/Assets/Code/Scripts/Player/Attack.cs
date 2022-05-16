@@ -32,12 +32,16 @@ public class Attack : MonoBehaviour
           if (canHurt)
           {
               iaBrain.GetHurt(PlayerManager.instance.attackDamage);
-
-              Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
-              dir.y = 0.1f;
-              iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
               
-              iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+              if (iaBrain.canKnockback)
+              {
+                  Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
+                  dir.y = 0.1f;
+                  iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
+              
+                  iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+              }
+              
               canHurt = false;
           }
 

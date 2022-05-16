@@ -41,35 +41,40 @@ public class BearBehaviour : AIBrain
     
     void CheckState()
     {
-        if (isAggro && !isFalling && !isAttacking)
+        //invincible while he is not onground
+        isInvincible = !isFalling;
+
+        if (!isAggro && !isAttacking && !isFalling && canMove)
         {
-            stateMachine = distanceToPlayer > attackRange + attackRangeDeadZone ? StateMachine.CHASE : StateMachine.ATTACK;
+            animator.Play("B_Idle");
+        }
+
+        if (!isFalling)
+        {
+
+            if (distanceToPlayer > attackRange + attackRangeDeadZone)
+            {
+                if (isAggro && !isAttacking && canMove)
+                {
+                    animator.Play("B_Chase");
+                    ChasePlayer();
+                }
+            }
+            else
+            {
+                if (isAggro)
+                {
+                    SpecialBearAttack();
+                }
+            }
+           
+
         }
 
         if (isFalling)
         {
-            stateMachine = StateMachine.ONGROUND;
-        }
-
-        //invincible while he is not onground
-        isInvincible = stateMachine != StateMachine.ONGROUND;
-        
-        switch (stateMachine)
-        {
-            case StateMachine.CHASE:
-                animator.Play("B_Chase");
-                ChasePlayer();
-                canSpawn = true;
-                break;
-            
-            case StateMachine.ATTACK:
-                SpecialBearAttack();
-                isAttacking = true;
-                break;
-            
-            case StateMachine.ONGROUND:
-                FallOnTheGround();
-                break;
+            isAttacking = false;
+            FallOnTheGround();
         }
     }
 
@@ -86,7 +91,6 @@ public class BearBehaviour : AIBrain
                 StartCoroutine(PlayerManager.instance.StartStun(stunDuration));
             }
         }
-
     }
 
     void AttackReset()
@@ -94,10 +98,16 @@ public class BearBehaviour : AIBrain
         isAttacking = false;
     }
 
+    public void ResetMove()
+    {
+        canMove = true;
+    }
+
     void FallOnTheGround()
     {
         animator.Play("B_Fall");
         timeOnGround += Time.deltaTime;
+        canMove = false;
 
         if (timeOnGround >= fallTime)
         {
@@ -105,13 +115,14 @@ public class BearBehaviour : AIBrain
             timeOnGround = 0;
 
             animator.Play("B_StandUp");
-            DebugSetColor(backupColor);
         }
     }
 
     private void SpecialBearAttack()
     {
         AttackPlayer();
+        isAttacking = true;
+        
         if (!canSpawn) return;
         Instantiate(FeedbackWarningAttack, transform.position, quaternion.identity);
         canSpawn = false;
