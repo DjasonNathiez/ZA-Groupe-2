@@ -289,7 +289,7 @@ public class PlayerManager : MonoBehaviour
             Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
 
 
-        // m_inputController.Player.Pause.started += PauseOnStarted;
+        m_inputController.Player.Pause.started += PauseOnStarted;
     }
 
     void SetAttackCD()

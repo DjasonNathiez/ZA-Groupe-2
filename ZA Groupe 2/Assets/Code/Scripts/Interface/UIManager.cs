@@ -18,9 +18,6 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (m_player)
-        {
-            healthFill.fillAmount = m_player.currentLifePoint / m_player.maxLifePoint;
-        }
+        
     }
 }

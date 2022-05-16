@@ -218,7 +218,7 @@ public class GameManager : MonoBehaviour
 
     public void SetInvincibility(bool isInvincible)
     {
-        m_playerManager.isInvincible = isInvincible;
+        //m_playerManager.isInvincible = isInvincible;
     }
 
     public void SetInfiniteRope(bool ropeIsInfinite)
