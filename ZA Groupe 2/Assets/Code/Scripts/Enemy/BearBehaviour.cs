@@ -108,7 +108,7 @@ public class BearBehaviour : AIBrain
     void FallOnTheGround()
     {
         animator.Play("B_Fall");
-        hitZoneVFX.Play();
+        hitZoneVFX.gameObject.SetActive(true);
         timeOnGround += Time.deltaTime;
         canMove = false;
 
@@ -118,7 +118,7 @@ public class BearBehaviour : AIBrain
             timeOnGround = 0;
 
             animator.Play("B_StandUp");
-            hitZoneVFX.Stop();
+            hitZoneVFX.gameObject.SetActive(false);
         }
     }
 

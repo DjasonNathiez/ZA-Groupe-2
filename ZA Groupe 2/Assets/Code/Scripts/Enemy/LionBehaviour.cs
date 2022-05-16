@@ -19,6 +19,7 @@ public class LionBehaviour : AIBrain
     private void Start()
     {
         //isInvincible = true;
+        canAttack = true;
         
         InitializationData();
         activeAttackCd = attackDelay;
