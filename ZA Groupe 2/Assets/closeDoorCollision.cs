@@ -5,14 +5,20 @@ using UnityEngine;
 
 public class closeDoorCollision : MonoBehaviour
 {
-    public Door door;
+    public Animation door;
+    public float delay;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            door.keysValid--;
-            enabled = false;   
+            StartCoroutine(DelayedAnim());
         }
+    }
+
+    IEnumerator DelayedAnim()
+    {
+        yield return new WaitForSeconds(delay);
+        door.Play("portalAnim");
     }
 }
