@@ -47,17 +47,21 @@ public class AIBrain : MonoBehaviour
     public bool isFalling;
     public float fallTime;
     public float timeOnGround;
+    public bool canHurt;
 
     public bool isDead;
     
     //animations
     public string attackAnimName;
     public string idleAnimName;
+    public string hurtAnimName;
     
     //DEBUG
     public Color backupColor;
 
     public ParticleSystem hurtVFX;
+
+    public bool canKnockback;
     
 
     public void InitializationData()
@@ -120,6 +124,7 @@ public class AIBrain : MonoBehaviour
         if (!attackOnCd)
         {
             animator.Play(attackAnimName);
+            canHurt = true;
         }
         else
         {
@@ -148,9 +153,9 @@ public class AIBrain : MonoBehaviour
     
     public void DoDamage()
     {
-        if (distanceToPlayer < attackRange + 0.02)
+        if (distanceToPlayer < attackRange + 0.02 && canHurt)
         {
-            Debug.Log("Player take " + attackRange + " damage in his face, bro.");
+            Debug.Log("Player take " + attackDamage + " damage in his face, bro.");
             player.GetComponent<PlayerManager>().GetHurt(attackDamage);
 
             Vector3 dir = player.transform.position - transform.position;
@@ -172,6 +177,9 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
+
+                    animator.Play(hurtAnimName);
+                    
                     if (hurtVFX != null)
                     {
                         hurtVFX.Play();

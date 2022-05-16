@@ -301,7 +301,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead)
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
@@ -319,34 +319,41 @@ public class PlayerManager : MonoBehaviour
 
     public void OnRange()
     {
-        switch (state)
+        if (!isDead)
         {
-            case "StatusQuo":
-                if (!m_attack.isAttacking && !m_isRolling)
-                {
-                    state = "Aiming";
-                    visuthrow.SetActive(true);
-                }
+            switch (state)
+            {
+                case "StatusQuo":
+                    if (!m_attack.isAttacking && !m_isRolling)
+                    {
+                        state = "Aiming";
+                        visuthrow.SetActive(true);
+                    }
 
-                break;
-            case "Rope":
-                Rewind();
-                Debug.Log("ReasonNumberOne");
-                break;
-            default: return;
+                    break;
+                case "Rope":
+                    Rewind();
+                    Debug.Log("ReasonNumberOne");
+                    break;
+                default: return;
+            }
         }
     }
 
     public void OnOutRange()
     {
-        switch (state)
+        if (!isDead)
         {
-            case "Aiming":
-                Throw();
-                visuthrow.SetActive(false);
-                break;
-            default: return;
+            switch (state)
+            {
+                case "Aiming":
+                    Throw();
+                    visuthrow.SetActive(false);
+                    break;
+                default: return;
+            }
         }
+        
     }
 
     private void Move(InputAction.CallbackContext moveInput)
@@ -355,8 +362,9 @@ public class PlayerManager : MonoBehaviour
         move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
 
         if (moveInput.performed)
-        {  Debug.Log("Je bouge encore");
-            if (!m_isRolling && !m_attack.isAttacking)
+        { 
+            // Debug.Log("Je bouge encore");
+            if (!m_isRolling && !m_attack.isAttacking && !isDead)
             {
                 m_animator.Play("Move");
                 if (poufpoufTimer < poufpoufTime)
@@ -365,7 +373,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(moveInput.performed);
+//                    Debug.Log(moveInput.performed);
                     poufpoufTimer = 0;
                   
                     GameObject go = Instantiate(VFXPoufpouf, transform.position, Quaternion.identity);
@@ -378,8 +386,11 @@ public class PlayerManager : MonoBehaviour
             m_moving = true;
 
             //Rotation
-            Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
-            rb.MoveRotation(lookRotation);
+            if (!isDead)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
+                rb.MoveRotation(lookRotation);
+            }
 
 
             // m_lookRot = Quaternion.LookRotation(m_moveDirection);
@@ -392,7 +403,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.canceled)
         {
-            if (!m_attack.isAttacking && !m_isRolling)
+            if (!m_attack.isAttacking && !m_isRolling && !isDead)
             {
                 m_animator.Play("Idle");
 
@@ -407,7 +418,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (roll.started)
         {
-            if (!m_attack.isAttacking)
+            if (!m_attack.isAttacking && !isDead)
             {
                 if (m_canRoll)
                 {
