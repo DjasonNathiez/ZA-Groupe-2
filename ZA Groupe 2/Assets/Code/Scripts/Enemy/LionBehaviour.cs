@@ -12,15 +12,21 @@ public class LionBehaviour : AIBrain
     
     [Header("VFX)")]
     public ParticleSystem attackVFX;
+
+    private bool isAttacking;
+    private bool canAttack;
     
     private void Start()
     {
         //isInvincible = true;
+        canAttack = true;
         
         InitializationData();
         activeAttackCd = attackDelay;
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
+        
+        animator.Play("L_Idle");
     }
 
     private void Update()
@@ -39,48 +45,77 @@ public class LionBehaviour : AIBrain
             }
         }
         
+        if (isFalling)
+        {
+            isAttacking = false;
+            FallOnTheGround();
+        }
     }
 
     private void CheckState()
     {
-        //SET STATES BY CONDITIONS
-        if (isAggro)
+        if (!isDead)
         {
-            stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
-        }
-
-        //APPLY STATES ACTION
-        switch (stateMachine)
-        {
-            case StateMachine.IDLE:
-                animator.Play("L_Idle");
-                break;
-            
-            case StateMachine.CHASE:
-                animator.Play("L_Chase");
-                ChasePlayer();
-                break;
-            
-            case StateMachine.ATTACK:
-                StartCoroutine(LoadAttack());
-                
-                IEnumerator LoadAttack()
+            if (!isFalling)
+            {
+                if (distanceToPlayer > attackRange)
                 {
-                    yield return new WaitForSeconds(0.5f);
-                    AttackPlayer();
+                    if (isAggro && !isAttacking && canMove)
+                    {
+                        animator.Play("L_Chase");
+                        ChasePlayer();
+                    }
                 }
-                break;
+                else
+                {
+                    if (isAggro && canAttack)
+                    {
+                        AttackPlayer();
+                    }
+                }
+            }
         }
 
+
+        if (isFalling)
+        {
+            isAttacking = false;
+            FallOnTheGround();
+        }
     }
 
+    public void ResetMove()
+    {
+        canMove = true;
+        canAttack = true;
+    }
+
+    void FallOnTheGround()
+    {
+        animator.Play("L_Fall");
+        timeOnGround += Time.deltaTime;
+        canMove = false;
+        canAttack = false;
+
+        if (timeOnGround >= fallTime)
+        {
+            isFalling = false;
+            timeOnGround = 0;
+
+            animator.Play("L_StandUp");
+        }
+    }
     public IEnumerator ResetInvincibility()
     {
         yield return new WaitForSeconds(timerToResetCounterState);
         isInvincible = true;
         animator.Play("L_StandUp");
-        canMove = true;
         isFalling = false;
+    }
+
+    public void EnableMove()
+    {
+        canMove = true;
     }
     
     public void LoadAttackVFX()
@@ -91,13 +126,13 @@ public class LionBehaviour : AIBrain
     {
         animator.Play(animName);
     }
-
     
     public void StopCounterState()
     {
         isInvincible = false;
         canMove = false;
-        animator.Play("L_Fall");
+        isFalling = true;
+        
         //Play Anim Break;
         //Play VFX Break;
     }
