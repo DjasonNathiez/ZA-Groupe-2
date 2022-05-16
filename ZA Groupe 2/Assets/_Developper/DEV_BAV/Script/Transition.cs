@@ -31,7 +31,7 @@ public class Transition : MonoBehaviour
         {
             if (heightPlayer >= 0)
             {
-                radius = Mathf.Lerp(0, 10, heightPlayer.Remap(4, 2, 0, 1));
+                radius = Mathf.Lerp(0, 80, heightPlayer.Remap(4, 2, 0, 1));
             }
             Shader.SetGlobalFloat("_TransitionRadius", radius);
         }
