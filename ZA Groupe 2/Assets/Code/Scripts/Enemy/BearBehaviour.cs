@@ -30,7 +30,7 @@ public class BearBehaviour : AIBrain
     {
         if (currentHealth <= 0)
         {
-            StartCoroutine(Death());
+            //StartCoroutine(Death());
         }
         else
         {

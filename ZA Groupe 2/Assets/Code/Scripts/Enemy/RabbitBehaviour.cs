@@ -44,7 +44,7 @@ public class RabbitBehaviour : AIBrain
     {
         if (currentHealth <= 0)
         {
-            StartCoroutine(Death());
+           // StartCoroutine(Death());
         }
         
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);

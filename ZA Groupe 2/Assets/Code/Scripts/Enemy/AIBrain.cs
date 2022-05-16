@@ -47,6 +47,8 @@ public class AIBrain : MonoBehaviour
     public bool isFalling;
     public float fallTime;
     public float timeOnGround;
+
+    public bool isDead;
     
     //animations
     public string attackAnimName;
@@ -55,10 +57,8 @@ public class AIBrain : MonoBehaviour
     //DEBUG
     public Color backupColor;
 
-    private void Update()
-    {
-        
-    }
+    public ParticleSystem hurtVFX;
+    
 
     public void InitializationData()
     {
@@ -172,6 +172,10 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
+                    if (hurtVFX != null)
+                    {
+                        hurtVFX.Play();
+                    }
                     
                     // if (haveCounterState) isInvincible = true;
                     
@@ -191,11 +195,17 @@ public class AIBrain : MonoBehaviour
         spawnPoint = spawnArea;
     }
 
-    public IEnumerator Death()
+    public void PlayAnimation(string anim)
     {
-        yield return new WaitForSeconds(0.1f);
-        GameManager.instance.DropItem("Popcorn", transform);
-        Destroy(gameObject);
+        animator.Play(anim);
+    }
+
+    public void Death()
+    {
+        isDead = true;
+        //yield return new WaitForSeconds(0.1f);
+       // GameManager.instance.DropItem("Popcorn", transform);
+       // Destroy(gameObject);
     }
 
     public void DebugSetColor(Color newColor)

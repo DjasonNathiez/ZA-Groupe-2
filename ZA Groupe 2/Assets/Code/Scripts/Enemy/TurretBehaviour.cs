@@ -29,7 +29,7 @@ public class TurretBehaviour : AIBrain
     {
         if (currentHealth <= 0)
         {
-            StartCoroutine(Death());
+            //StartCoroutine(Death());
         }
         else
         {
@@ -54,7 +54,7 @@ public class TurretBehaviour : AIBrain
                 player.GetComponent<PlayerManager>().rope.rewinding = true;
                 player.GetComponent<PlayerManager>().rope.ResetPin();
                 currentHealth = 0;
-                StartCoroutine(Death());
+                //StartCoroutine(Death());
                 Debug.Log("Turret Destroy");
             }
         }
