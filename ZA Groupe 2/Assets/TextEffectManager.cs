@@ -192,6 +192,9 @@ public class TextEffectManager : MonoBehaviour
     public Vector3 positionCamera;
     public Vector3 angleCamera;
     public float zoom;
+    public float speedOfPan;
+    public bool cinematicAngleOnly;
+    public float durationIfAuto;
 }
 
 [Serializable]
