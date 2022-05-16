@@ -168,6 +168,18 @@ public class AIBrain : MonoBehaviour
         activeAttackCd = attackDelay;
         attackOnCd = true;
     }
+
+    public void Enable()
+    {
+        canAttack = true;
+        canMove = true;
+    }
+    
+    public void Disable()
+    {
+        canAttack = false;
+        canMove = false;
+    }
     
     public void GetHurt(int damage)
     {
@@ -177,7 +189,7 @@ public class AIBrain : MonoBehaviour
             {
                 case > 0:
                     currentHealth -= damage;
-
+                    
                     animator.Play(hurtAnimName);
                     
                     if (hurtVFX != null)
@@ -211,9 +223,10 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
+        GameManager.instance.enemyList.Remove(this);
         //yield return new WaitForSeconds(0.1f);
-       // GameManager.instance.DropItem("Popcorn", transform);
-       // Destroy(gameObject);
+        // GameManager.instance.DropItem("Popcorn", transform);
+        // Destroy(gameObject);
     }
 
     public void DebugSetColor(Color newColor)

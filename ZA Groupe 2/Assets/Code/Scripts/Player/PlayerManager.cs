@@ -204,8 +204,6 @@ public class PlayerManager : MonoBehaviour
 
                 m_speed = rollAnimationCurve.Evaluate(m_acTimer);
 
-                Debug.Log(m_speed);
-
                 if (m_acTimer <= 0)
                 {
                     m_isRolling = false;
@@ -527,6 +525,8 @@ public class PlayerManager : MonoBehaviour
         {
             currentLifePoint -= damage;
             hurtVFX.Play();
+            GameManager.instance.ui.UpdateHealth();
+            
             if (!m_attack.isAttacking)
             {
                 m_animator.Play("Hurt");

@@ -14,7 +14,6 @@ public class LionBehaviour : AIBrain
     public ParticleSystem attackVFX;
 
     private bool isAttacking;
-    private bool canAttack;
     
     private void Start()
     {

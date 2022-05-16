@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public Checkpoint lastCheckpoint;
     public string lastCheckpointName;
     public Checkpoint[] allCheckpoint;
+    public List<AIBrain> enemyList;
     
     [Header("Debug Menu")]
     public TrelloUI bugtracker;
@@ -72,8 +73,25 @@ public class GameManager : MonoBehaviour
         CheckScene();
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();
+        enemyList.AddRange(FindObjectsOfType<AIBrain>());
         
         Cursor.lockState = CursorLockMode.Confined;
+    }
+
+    public void EnableAllEnemy()
+    {
+        foreach (AIBrain a in enemyList)
+        {
+            a.Enable();
+        }
+    }
+    
+    public void DisableAllEnemy()
+    {
+        foreach (AIBrain a in enemyList)
+        {
+            a.Disable();
+        }
     }
 
     public void DropItem(string item, Transform dropPosition)

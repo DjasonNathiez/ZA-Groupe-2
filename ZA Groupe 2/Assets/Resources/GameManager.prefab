@@ -926,7 +926,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   rope: {fileID: 0}
   baseLifePoint: 3
-  currentLifePoint: 10
+  currentLifePoint: 3
   maxLifePoint: 3
   isInvincible: 0
   haveGloves: 0
@@ -9236,7 +9236,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudParent: {fileID: 6363451239542027994}
-  healthFill: {fileID: 0}
+  lifeHearth:
+  - {fileID: 366989401637758716}
+  - {fileID: 9121937835092585986}
+  - {fileID: 2251231665980892132}
+  activeHearth: {fileID: 21300000, guid: b02dc5bbf3fbde24fa07aa0764a0f3ae, type: 2}
+  emptyHearth: {fileID: 21300000, guid: 655f901cc7be17a4d89e58efdde01f68, type: 2}
 --- !u!1 &4833136342893522554
 GameObject:
   m_ObjectHideFlags: 0
@@ -9454,6 +9459,7 @@ MonoBehaviour:
   playerFocused: 1
   cameraPos: {fileID: 1811212737272087312}
   cameraZoom: 8.22
+  panSpeed: 0.5
 --- !u!20 &5086250466506110472
 Camera:
   m_ObjectHideFlags: 0
@@ -10286,7 +10292,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8427784550321090506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36427,6 +36433,7 @@ MonoBehaviour:
   allCheckpoint:
   - {fileID: 0}
   - {fileID: 0}
+  enemyList: []
   bugtracker: {fileID: 1440910733076526808}
   playtestMenu: {fileID: 4639107708161736366}
   items:
@@ -37108,7 +37115,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224420422303817868, guid: 2e54aaac82c38b14089f01c5d163786e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -3.000061
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 224420422303817868, guid: 2e54aaac82c38b14089f01c5d163786e, type: 3}
       propertyPath: m_AnchoredPosition.y
