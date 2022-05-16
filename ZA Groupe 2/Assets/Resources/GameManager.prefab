@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textElement: {fileID: 1479397794}
   showedCharIndex: 0
-  speedOfShowing: 0.05
+  speedOfShowing: 0.01
   timeStamp: 0
   charBasedHeight: []
   dialogueIndex: 0
@@ -1150,6 +1150,9 @@ MonoBehaviour:
   inputInteractPushed: 0
   move: {x: 0, y: 0, z: 0}
   moveDirection: {fileID: 0}
+  dialogueBox: {fileID: 96257914}
+  textEffectManager: {fileID: 96257918}
+  cameraController: {fileID: 5086250466506110518}
   poufpoufTime: 0
   visuthrow: {fileID: 7403386933788227741}
   attackVFX: {fileID: 6896911667257383965}
@@ -1171,7 +1174,7 @@ MonoBehaviour:
   pinnedToObject: 0
   pinnedRb: {fileID: 0}
   gripY: 0
-  yCheckDistance: 0
+  yCheckDistance: 0.5
   rope: {fileID: 2715045066291362531}
   checkDistance: 0.02
   nodes: []
@@ -7046,8 +7049,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.3, z: 0.68842125}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.3, y: 0.3, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.28}
 --- !u!114 &3571742677210799792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10415,7 +10418,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

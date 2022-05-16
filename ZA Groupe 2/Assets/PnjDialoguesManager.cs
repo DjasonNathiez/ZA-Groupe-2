@@ -15,7 +15,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private bool check;
     [SerializeField] private bool automatic;
     [SerializeField] private bool oneTimeDialogue;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -118,16 +118,10 @@ public class PnjDialoguesManager : MonoBehaviour
             cameraController.cameraZoom = 8.22f;
         }
     }
-
-    // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        textEffectManager = PlayerManager.instance.textEffectManager;
+        dialogueBox = PlayerManager.instance.dialogueBox;
+        cameraController = PlayerManager.instance.cameraController;
     }
 }

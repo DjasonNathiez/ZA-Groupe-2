@@ -92,6 +92,9 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public bool inputInteractPushed;
     [HideInInspector] public Vector3 move; //For Arcade Easter Egg
     [SerializeField] private Transform moveDirection;
+    public GameObject dialogueBox;
+    public TextEffectManager textEffectManager;
+    public CameraController cameraController;
 
     #endregion
 
@@ -328,6 +331,7 @@ public class PlayerManager : MonoBehaviour
                 break;
             case "Rope":
                 Rewind();
+                Debug.Log("ReasonNumberOne");
                 break;
             default: return;
         }

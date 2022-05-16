@@ -70,6 +70,7 @@ public class ThrowingWeapon : MonoBehaviour
         if (playerManager.state == "Throw" && playerManager.rope.lenght >= playerManager.rope.maximumLenght)
         {
             playerManager.rope.rewinding = true;
+            Debug.Log("ReasonNumberFour");
         }
         
         if (playerManager.rope.rewinding)

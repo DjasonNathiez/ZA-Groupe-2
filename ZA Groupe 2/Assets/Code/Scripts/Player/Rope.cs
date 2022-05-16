@@ -83,7 +83,7 @@ public class Rope : MonoBehaviour
             {
                 dir = pin.transform.position - (nodes[0].nodePoint.transform.position);
                 ray = new Ray((nodes[0].nodePoint.transform.position)+dir.normalized*checkDistance, dir);
-                if (Physics.Raycast(ray, out hit, dir.magnitude-checkDistance))
+                if (Physics.Raycast(ray, out hit, dir.magnitude-checkDistance*2))
                 {
                     if (!hit.collider.isTrigger)
                     {
@@ -396,6 +396,7 @@ public class Rope : MonoBehaviour
             if (transform.position.y > gripY + yCheckDistance || transform.position.y < gripY - yCheckDistance)
             {
                 rewinding = true;
+                Debug.Log("ReasonNumberTwo");
                 Debug.Log(transform.position.y + " and " + gripY);
             }
         }
@@ -532,6 +533,7 @@ public class Rope : MonoBehaviour
             {
                 ai.isFalling = true;
                 rewinding = true;
+                Debug.Log("ReasonNumberThree");
             }
             
         }
