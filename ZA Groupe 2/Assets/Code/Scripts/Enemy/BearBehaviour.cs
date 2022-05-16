@@ -16,6 +16,8 @@ public class BearBehaviour : AIBrain
     public GameObject FeedbackWarningAttack;
 
     private bool canSpawn;
+
+    public ParticleSystem hitZoneVFX;
     
     private void Start()
     {
@@ -48,7 +50,7 @@ public class BearBehaviour : AIBrain
         {
             animator.Play("B_Idle");
         }
-
+        
         if (!isFalling)
         {
 
@@ -106,6 +108,7 @@ public class BearBehaviour : AIBrain
     void FallOnTheGround()
     {
         animator.Play("B_Fall");
+        hitZoneVFX.Play();
         timeOnGround += Time.deltaTime;
         canMove = false;
 
@@ -115,6 +118,7 @@ public class BearBehaviour : AIBrain
             timeOnGround = 0;
 
             animator.Play("B_StandUp");
+            hitZoneVFX.Stop();
         }
     }
 
