@@ -61,9 +61,10 @@ public class LionBehaviour : AIBrain
             }
         }
 
-
         if (isFalling)
         {
+            nav.SetDestination(transform.position);
+            rb.velocity = Vector3.zero;
             isInvincible = false;
             isAttacking = false;
             FallOnTheGround(); 

@@ -217,6 +217,8 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
+        nav.SetDestination(transform.position);
+        rb.velocity = Vector3.zero;
         GetComponent<CapsuleCollider>().isTrigger = true;
         animator.Play(deathAnimName);
 
