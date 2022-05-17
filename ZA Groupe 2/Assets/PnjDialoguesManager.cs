@@ -26,6 +26,7 @@ public class PnjDialoguesManager : MonoBehaviour
             }
             else
             {
+                GameManager.instance.DisableAllEnemy();
                 isDialoguing = true;
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
@@ -60,7 +61,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 {
                     if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                     {
-                        Debug.Log("proutQUiPue");
+                        GameManager.instance.EnableAllEnemy();
                         dialogueBox.transform.position = new Vector3(960, -160, 0);
                         isDialoguing = false;
                         cameraController.playerFocused = true;
@@ -106,6 +107,7 @@ public class PnjDialoguesManager : MonoBehaviour
             }
             else
             {
+                GameManager.instance.DisableAllEnemy();
                 dialogueBox.SetActive(true);
                 isDialoguing = true;
                 button.SetActive(false);   
@@ -133,11 +135,10 @@ public class PnjDialoguesManager : MonoBehaviour
 
     IEnumerator DelayedDialogueLine(float time)
     {
-        Debug.Log("avant");
         yield return new WaitForSeconds(time);
-        Debug.Log("théo");
         if (textEffectManager.dialogueIndex == dialogue.Length - 1)
         {
+            GameManager.instance.EnableAllEnemy();
             dialogueBox.SetActive(false);
             isDialoguing = false;
             cameraController.playerFocused = true;
@@ -154,7 +155,6 @@ public class PnjDialoguesManager : MonoBehaviour
         else
         {
             textEffectManager.NextText();
-            Debug.Log("ThéoDort");
             if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
             {
                 cameraController.playerFocused = false;
@@ -167,12 +167,10 @@ public class PnjDialoguesManager : MonoBehaviour
             }   
             if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
             {
-                Debug.Log("proutQUiPue");
                 dialogueBox.transform.position = new Vector3(960, -160, 0);
             }
             else
             {
-                Debug.Log("proutQUiSentBon");
                 dialogueBox.transform.position = new Vector3(960, 155, 0);
             }
         }
