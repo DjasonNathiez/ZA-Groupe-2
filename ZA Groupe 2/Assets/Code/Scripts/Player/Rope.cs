@@ -396,8 +396,8 @@ public class Rope : MonoBehaviour
             if (transform.position.y > gripY + yCheckDistance || transform.position.y < gripY - yCheckDistance)
             {
                 rewinding = true;
-                Debug.Log("ReasonNumberTwo");
-                Debug.Log(transform.position.y + " and " + gripY);
+               // Debug.Log("ReasonNumberTwo");
+                //Debug.Log(transform.position.y + " and " + gripY);
             }
         }
     }
@@ -527,13 +527,13 @@ public class Rope : MonoBehaviour
     {
         foreach (Node node in nodes)
         {
-            AIBrain ai = node.anchor.GetComponent<AIBrain>();
+            BearBehaviour ai = node.anchor.GetComponent<BearBehaviour>();
             
             if (ai && ai.canFall)
             {
-                ai.isFalling = true;
+                ai.FallOnTheGround();
                 rewinding = true;
-                Debug.Log("ReasonNumberThree");
+                //Debug.Log("ReasonNumberThree");
             }
             
         }

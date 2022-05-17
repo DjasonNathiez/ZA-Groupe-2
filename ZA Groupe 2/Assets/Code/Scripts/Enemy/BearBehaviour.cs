@@ -12,7 +12,6 @@ public class BearBehaviour : AIBrain
     public GameObject feedbackWarningAttack;
     private bool m_canSpawn;
 
-    
     private void Start()
     {
         InitializationData();
@@ -20,6 +19,8 @@ public class BearBehaviour : AIBrain
         isInvincible = true;
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
+        
+        animator.Play("B_Idle");
     }
 
     private void Update()
@@ -37,11 +38,6 @@ public class BearBehaviour : AIBrain
         //invincible while he is not onground
         isInvincible = !isFalling;
 
-        if (!isAggro && !isAttacking && !isFalling && canMove)
-        {
-            animator.Play("B_Idle");
-        }
-        
         if (!isFalling)
         {
 
@@ -62,14 +58,6 @@ public class BearBehaviour : AIBrain
             }
            
 
-        }
-
-        if (isFalling)
-        {
-            Disable();
-            isInvincible = false;
-            isAttacking = false;
-            FallOnTheGround();
         }
     }
 
@@ -96,15 +84,24 @@ public class BearBehaviour : AIBrain
     public void ResetMove()
     {
         canMove = true;
+        canAttack = true;
     }
 
-    void FallOnTheGround()
+    public void FallOnTheGround()
     {
+        //Set State
+        isFalling = true;
+        isInvincible = false;
+        isAttacking = false;
+        Disable();
+        
+        //Load graphics
         animator.Play("B_Fall");
         hitZoneVFX.gameObject.SetActive(true);
+        
+        
         timeOnGround += Time.deltaTime;
-        canMove = false;
-
+        
         if (timeOnGround >= fallTime)
         {
             isFalling = false;
@@ -112,6 +109,7 @@ public class BearBehaviour : AIBrain
 
             animator.Play("B_StandUp");
             hitZoneVFX.gameObject.SetActive(false);
+            
             Enable();
         }
     }

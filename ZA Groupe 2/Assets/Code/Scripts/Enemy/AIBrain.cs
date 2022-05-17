@@ -188,8 +188,7 @@ public class AIBrain : MonoBehaviour
         if (!isDead)
         {
             if (isInvincible) return;
-
-        
+            
             currentHealth -= damage;
 
             if (hurtVFX != null)
@@ -226,7 +225,7 @@ public class AIBrain : MonoBehaviour
 
         if (deathVFX != null)
         {
-            Instantiate(deathVFX, transform.position, Quaternion.identity);
+            deathVFX.Play();
         }
         
         GameManager.instance.enemyList.Remove(this);

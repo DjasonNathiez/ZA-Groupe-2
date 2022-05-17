@@ -6,6 +6,9 @@ public class LionBehaviour : AIBrain
 {
     [Header("Lion Self Data")]
     public float timerToResetCounterState;
+
+    public ParticleSystem fallVFX;
+    public ParticleSystem standUpVFX;
     
     private void Start()
     {
@@ -69,8 +72,11 @@ public class LionBehaviour : AIBrain
 
     public void ResetMove()
     {
-        canMove = true;
-        canAttack = true;
+        if (!isDead)
+        {
+            canMove = true;
+            canAttack = true;
+        }
     }
 
     void FallOnTheGround()
@@ -88,6 +94,7 @@ public class LionBehaviour : AIBrain
                 timeOnGround = 0;
 
                 animator.Play("L_StandUp");
+                standUpVFX.Play();
             }
         }
     }
@@ -98,6 +105,7 @@ public class LionBehaviour : AIBrain
             yield return new WaitForSeconds(timerToResetCounterState);
             isInvincible = true;
             animator.Play("L_StandUp");
+            standUpVFX.Play();
             isFalling = false;
         }
     }
@@ -126,7 +134,8 @@ public class LionBehaviour : AIBrain
             isInvincible = false;
             canMove = false;
             isFalling = true;
-        
+
+            fallVFX.Play();
             //Play Anim Break;
             //Play VFX Break;
         }
