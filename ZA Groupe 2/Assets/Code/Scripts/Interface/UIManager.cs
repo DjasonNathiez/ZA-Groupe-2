@@ -9,18 +9,26 @@ public class UIManager : MonoBehaviour
     private PlayerManager m_player;
     [Header("HUD")]
     public GameObject hudParent;
-    public Image healthFill;
+    public Image[] lifeHearth;
+
+    public Sprite activeHearth;
+    public Sprite emptyHearth;
 
     private void Awake()
     {
         m_player = FindObjectOfType<PlayerManager>();
+        
+        UpdateHealth();
     }
 
-    private void Update()
+    
+
+    public void UpdateHealth()
     {
-        if (m_player)
+        for (int i = Mathf.FloorToInt(m_player.maxLifePoint); i > 0; i--)
         {
-            healthFill.fillAmount = m_player.currentLifePoint / m_player.maxLifePoint;
+            lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
         }
     }
+    
 }

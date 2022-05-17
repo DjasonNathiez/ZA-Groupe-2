@@ -1,21 +1,17 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BearBehaviour : AIBrain
 {
-    public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
-
+    [Header("Bear Self Data")]
     public float attackZoneRange;
     public float stunDuration;
-
     public float attackRangeDeadZone;
 
-    public bool isAttacking;
+    public GameObject feedbackWarningAttack;
+    private bool m_canSpawn;
 
-    public GameObject FeedbackWarningAttack;
-
-    private bool canSpawn;
     
     private void Start()
     {
@@ -28,48 +24,52 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
-        if (currentHealth <= 0)
-        {
-            //StartCoroutine(Death());
-        }
-        else
+        if (!isDead)
         {
             CheckState();
             Detection();
         }
+
     }
     
     void CheckState()
     {
-        if (isAggro && !isFalling && !isAttacking)
+        //invincible while he is not onground
+        isInvincible = !isFalling;
+
+        if (!isAggro && !isAttacking && !isFalling && canMove)
         {
-            stateMachine = distanceToPlayer > attackRange + attackRangeDeadZone ? StateMachine.CHASE : StateMachine.ATTACK;
+            animator.Play("B_Idle");
+        }
+        
+        if (!isFalling)
+        {
+
+            if (distanceToPlayer > attackRange + attackRangeDeadZone)
+            {
+                if (isAggro && !isAttacking && canMove)
+                {
+                    animator.Play("B_Chase");
+                    ChasePlayer();
+                }
+            }
+            else
+            {
+                if (isAggro)
+                {
+                    SpecialBearAttack();
+                }
+            }
+           
+
         }
 
         if (isFalling)
         {
-            stateMachine = StateMachine.ONGROUND;
-        }
-
-        //invincible while he is not onground
-        isInvincible = stateMachine != StateMachine.ONGROUND;
-        
-        switch (stateMachine)
-        {
-            case StateMachine.CHASE:
-                animator.Play("B_Chase");
-                ChasePlayer();
-                canSpawn = true;
-                break;
-            
-            case StateMachine.ATTACK:
-                SpecialBearAttack();
-                isAttacking = true;
-                break;
-            
-            case StateMachine.ONGROUND:
-                FallOnTheGround();
-                break;
+            Disable();
+            isInvincible = false;
+            isAttacking = false;
+            FallOnTheGround();
         }
     }
 
@@ -86,7 +86,6 @@ public class BearBehaviour : AIBrain
                 StartCoroutine(PlayerManager.instance.StartStun(stunDuration));
             }
         }
-
     }
 
     void AttackReset()
@@ -94,10 +93,17 @@ public class BearBehaviour : AIBrain
         isAttacking = false;
     }
 
+    public void ResetMove()
+    {
+        canMove = true;
+    }
+
     void FallOnTheGround()
     {
         animator.Play("B_Fall");
+        hitZoneVFX.gameObject.SetActive(true);
         timeOnGround += Time.deltaTime;
+        canMove = false;
 
         if (timeOnGround >= fallTime)
         {
@@ -105,15 +111,18 @@ public class BearBehaviour : AIBrain
             timeOnGround = 0;
 
             animator.Play("B_StandUp");
-            DebugSetColor(backupColor);
+            hitZoneVFX.gameObject.SetActive(false);
+            Enable();
         }
     }
 
     private void SpecialBearAttack()
     {
         AttackPlayer();
-        if (!canSpawn) return;
-        Instantiate(FeedbackWarningAttack, transform.position, quaternion.identity);
-        canSpawn = false;
+        isAttacking = true;
+        
+        if (!m_canSpawn) return;
+        Instantiate(feedbackWarningAttack, transform.position, quaternion.identity);
+        m_canSpawn = false;
     }
 }

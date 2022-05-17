@@ -4,83 +4,107 @@ using UnityEngine.AI;
 
 public class LionBehaviour : AIBrain
 {
-    [Header("State Informations")]
-    public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK}
-
+    [Header("Lion Self Data")]
     public float timerToResetCounterState;
-    
-    [Header("VFX)")]
-    public ParticleSystem attackVFX;
     
     private void Start()
     {
-        //isInvincible = true;
+        isInvincible = true;
+        canAttack = true;
         
         InitializationData();
         activeAttackCd = attackDelay;
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
+        
+        animator.Play("L_Idle");
     }
 
     private void Update()
     {
-        if (currentHealth <= 0)
-        {
-            Death();
-            animator.Play("L_Death");
-        }
-        else
-        {
-            if (!isDead && !isFalling)
-            {
-                CheckState();
-                Detection();
-            }
-        }
-        
+       if (!isDead)
+       {
+          CheckState();
+          Detection();
+       }
+       else
+       {
+           StopCoroutine(ResetInvincibility());
+       }
+
     }
 
     private void CheckState()
     {
-        //SET STATES BY CONDITIONS
-        if (isAggro)
+        if (!isDead)
         {
-            stateMachine = distanceToPlayer > attackRange +0.02 ? StateMachine.CHASE : StateMachine.ATTACK;
-        }
-
-        //APPLY STATES ACTION
-        switch (stateMachine)
-        {
-            case StateMachine.IDLE:
-                animator.Play("L_Idle");
-                break;
-            
-            case StateMachine.CHASE:
-                animator.Play("L_Chase");
-                ChasePlayer();
-                break;
-            
-            case StateMachine.ATTACK:
-                StartCoroutine(LoadAttack());
-                
-                IEnumerator LoadAttack()
+            if (!isFalling)
+            {
+                if (distanceToPlayer > attackRange)
                 {
-                    yield return new WaitForSeconds(0.5f);
-                    AttackPlayer();
+                    if (isAggro && !isAttacking && canMove)
+                    {
+                        animator.Play("L_Chase");
+                        ChasePlayer();
+                    }
                 }
-                break;
+                else
+                {
+                    if (isAggro && canAttack)
+                    {
+                        AttackPlayer();
+                    }
+                }
+            }
         }
 
+
+        if (isFalling)
+        {
+            isInvincible = false;
+            isAttacking = false;
+            FallOnTheGround(); 
+        }
     }
 
+    public void ResetMove()
+    {
+        canMove = true;
+        canAttack = true;
+    }
+
+    void FallOnTheGround()
+    {
+        if (!isDead)
+        {
+            animator.Play("L_Fall");
+            timeOnGround += Time.deltaTime;
+            canMove = false;
+            canAttack = false;
+
+            if (timeOnGround >= fallTime)
+            {
+                isFalling = false;
+                timeOnGround = 0;
+
+                animator.Play("L_StandUp");
+            }
+        }
+    }
     public IEnumerator ResetInvincibility()
     {
-        yield return new WaitForSeconds(timerToResetCounterState);
-        isInvincible = true;
-        animator.Play("L_StandUp");
+        if (!isDead)
+        {
+            yield return new WaitForSeconds(timerToResetCounterState);
+            isInvincible = true;
+            animator.Play("L_StandUp");
+            isFalling = false;
+        }
+    }
+
+    public void EnableMove()
+    {
         canMove = true;
-        isFalling = false;
     }
     
     public void LoadAttackVFX()
@@ -89,17 +113,23 @@ public class LionBehaviour : AIBrain
     }
     public void PlayAnim(string animName)
     {
-        animator.Play(animName);
+        if (!isDead)
+        {
+            animator.Play(animName);
+        }
     }
-
     
     public void StopCounterState()
     {
-        isInvincible = false;
-        canMove = false;
-        animator.Play("L_Fall");
-        //Play Anim Break;
-        //Play VFX Break;
+        if (!isDead)
+        {
+            isInvincible = false;
+            canMove = false;
+            isFalling = true;
+        
+            //Play Anim Break;
+            //Play VFX Break;
+        }
     }
   
     

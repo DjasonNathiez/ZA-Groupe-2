@@ -8,57 +8,60 @@ using UnityEngine.Serialization;
 
 public class AIBrain : MonoBehaviour
 {
-    public SpawnArea spawnPoint;
+    [HideInInspector] public SpawnArea spawnPoint;
 
-    [FormerlySerializedAs("m_rb")] public Rigidbody rb;
-    //move
-    public float moveSpeed;
-    
-    //health
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public GameObject player;
+    [HideInInspector] public NavMeshAgent nav;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public float distanceToPlayer;
+   
+    [Header("State")]
     public int currentHealth;
     public int maxHealth;
-
-    //attack
+    public bool canFall;
+    public float fallTime;
+    
+    [HideInInspector] public float timeOnGround;
+    [HideInInspector] public bool isFalling;
+    [HideInInspector] public bool isInvincible;
+    [HideInInspector] public bool haveCounterState;
+    [HideInInspector] public bool isStun;
+    [HideInInspector] public bool isAggro;
+    [HideInInspector] public bool canMove;
+    public bool canBeKnocked;
+    [HideInInspector] public bool canHurt;
+    [HideInInspector] public bool isDead;
+    [HideInInspector] public bool isAttacking;
+    
+    [Header("Movement")]
+    public float moveSpeed;
+    
+    [Header("Attack")]
     public int attackDamage;
     public float attackRange;
     public float attackSpeed; 
-    [FormerlySerializedAs("m_attackDelay")] public float attackDelay;
-    [FormerlySerializedAs("m_activeAttackCD")] public float activeAttackCd;
-    public bool canAttack;
-    [FormerlySerializedAs("attackOnCD")] public bool attackOnCd;
+    public float attackDelay;
+    [HideInInspector] public float activeAttackCd;
+    [HideInInspector] public bool canAttack;
+    [HideInInspector] public bool attackOnCd;
     public float knockbackForce;
     
     //detection
+    [Header("Detection")]
     public float dectectionRange;
     
-    //state
-    public bool isInvincible;
-    public bool haveCounterState;
-    public bool isStun;
-    public bool isAggro;
-    public bool canMove;
-
-    [FormerlySerializedAs("m_player")] public GameObject player;
-    [FormerlySerializedAs("m_nav")] public NavMeshAgent nav;
-    public Animator animator;
-    public float distanceToPlayer;
-
-    public bool canFall;
-    public bool isFalling;
-    public float fallTime;
-    public float timeOnGround;
-
-    public bool isDead;
-    
-    //animations
+    [Header("Animations")]
     public string attackAnimName;
     public string idleAnimName;
-    
-    //DEBUG
-    public Color backupColor;
+    public string hurtAnimName;
+    public string deathAnimName;
 
+    [Header("VFX")]
     public ParticleSystem hurtVFX;
-    
+    public ParticleSystem attackVFX;
+    public ParticleSystem hitZoneVFX;
+    public ParticleSystem deathVFX;
 
     public void InitializationData()
     {
@@ -120,6 +123,7 @@ public class AIBrain : MonoBehaviour
         if (!attackOnCd)
         {
             animator.Play(attackAnimName);
+            canHurt = true;
         }
         else
         {
@@ -148,9 +152,9 @@ public class AIBrain : MonoBehaviour
     
     public void DoDamage()
     {
-        if (distanceToPlayer < attackRange + 0.02)
+        if (distanceToPlayer < attackRange + 0.02 && canHurt)
         {
-            Debug.Log("Player take " + attackRange + " damage in his face, bro.");
+            Debug.Log("Player take " + attackDamage + " damage in his face, bro.");
             player.GetComponent<PlayerManager>().GetHurt(attackDamage);
 
             Vector3 dir = player.transform.position - transform.position;
@@ -163,30 +167,45 @@ public class AIBrain : MonoBehaviour
         activeAttackCd = attackDelay;
         attackOnCd = true;
     }
+
+    public void Enable()
+    {
+        canAttack = true;
+        canMove = true;
+       
+    }
+    
+    public void Disable()
+    {
+        canAttack = false;
+        canMove = false;
+        animator.Play(idleAnimName);
+        nav.SetDestination(transform.position);
+    }
     
     public void GetHurt(int damage)
     {
-        if (!isInvincible)
+        if (!isDead)
         {
-            switch (currentHealth)
+            if (isInvincible) return;
+
+        
+            currentHealth -= damage;
+
+            if (hurtVFX != null)
             {
-                case > 0:
-                    currentHealth -= damage;
-                    if (hurtVFX != null)
-                    {
-                        hurtVFX.Play();
-                    }
-                    
-                    // if (haveCounterState) isInvincible = true;
-                    
-                    break;
+                hurtVFX.Play();
             }
             
-        }
-        else
-        {
-            //Play Anim Counter
-            //Play VFX Counter
+            animator.Play(hurtAnimName);
+            
+            if (currentHealth <= 0)
+            {
+                Debug.Log("Enemy dead");
+                Disable();
+                Death();
+            }
+            
         }
     }
 
@@ -203,9 +222,14 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
-        //yield return new WaitForSeconds(0.1f);
-       // GameManager.instance.DropItem("Popcorn", transform);
-       // Destroy(gameObject);
+        animator.Play(deathAnimName);
+
+        if (deathVFX != null)
+        {
+            Instantiate(deathVFX, transform.position, Quaternion.identity);
+        }
+        
+        GameManager.instance.enemyList.Remove(this);
     }
 
     public void DebugSetColor(Color newColor)

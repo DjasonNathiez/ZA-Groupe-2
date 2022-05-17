@@ -11,8 +11,9 @@ public class CameraController : MonoBehaviour
     private GameObject m_player;
     private Camera m_camera;
     public bool playerFocused;
-    [FormerlySerializedAs("m_cameraPos")] public Transform cameraPos;
-    [FormerlySerializedAs("m_cameraZoom")] public float cameraZoom;
+    public Transform cameraPos;
+    public float cameraZoom;
+    public float panSpeed = 0.5f;
 
     private void Awake()
     {
@@ -36,9 +37,9 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position,cameraPos.position, 0.1f);
-        transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,0.1f);
-        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, cameraZoom, 0.1f);
+        transform.position = Vector3.Lerp(transform.position,cameraPos.position, Time.deltaTime*5*panSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,Time.deltaTime*5*panSpeed);
+        m_camera.orthographicSize = Mathf.Lerp(m_camera.orthographicSize, cameraZoom, Time.deltaTime*5*panSpeed);
 
         if (playerFocused && m_player)
         {
