@@ -14,12 +14,15 @@ public class poufpoufMirror : MonoBehaviour
 
     private void Update()
     {
-        Rect rect = new Rect(new Vector2(transform.position.x, transform.position.z), new Vector2(detectSize.x, detectSize.z));
+        Rect rect = new Rect(new Vector2(transform.position.x-detectSize.x/2, transform.position.z-detectSize.z/2), new Vector2(detectSize.x, detectSize.z));
+        Debug.DrawLine(new Vector3(rect.max.x,0,rect.max.y),new Vector3(rect.min.x,0,rect.min.y),Color.blue);
         if (rect.Contains(new Vector2(PlayerManager.instance.transform.position.x, PlayerManager.instance.transform.position.z)) && PlayerManager.instance.poufpoufInstantiated)
         {
+            Debug.Log("Oui");
+            PlayerManager.instance.poufpoufInstantiated = false;
             GameObject go = Instantiate(PlayerManager.instance.VFXPoufpouf, PlayerManager.instance.transform.position + PlayerManager.instance.transform.TransformVector( PlayerManager.instance.poufpoufOffset), Quaternion.identity);
             go.transform.parent = transform;
-            go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, go.transform.position.z * -1);
+            go.transform.localPosition = new Vector3(go.transform.localPosition.x, go.transform.localPosition.y, go.transform.localPosition.z * -1);
         }
     }
 }
