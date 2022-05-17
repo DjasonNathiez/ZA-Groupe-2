@@ -537,11 +537,17 @@ public class PlayerManager : MonoBehaviour
             if (currentLifePoint <= 0)
             {
                 m_animator.Play("Death");
-
+                StartCoroutine(WaitForRespawn());
                 isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
             }
         }
+    }
+
+    IEnumerator WaitForRespawn()
+    {
+        yield return new WaitForSeconds(3);
+        RespawnPlayer();
     }
 
     public void RespawnPlayer()
@@ -558,7 +564,7 @@ public class PlayerManager : MonoBehaviour
         m_attack.isAttacking = false;
         m_isRolling = false;
         m_attack.m_collider.enabled = false;
-
+        currentLifePoint = maxLifePoint = baseLifePoint;
         m_animator.Play(m_moving ? "Move" : "Idle");
     }
 
