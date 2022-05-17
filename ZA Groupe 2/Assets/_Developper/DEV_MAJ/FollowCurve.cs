@@ -64,4 +64,9 @@ public class FollowCurve : MonoBehaviour
             }   
         }
     }
+
+    private void Start()
+    {
+        cam = PlayerManager.instance.cameraController;
+    }
 }
