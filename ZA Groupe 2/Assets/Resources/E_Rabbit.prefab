@@ -606,9 +606,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
   rb: {fileID: 0}
-  moveSpeed: 4
+  player: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 0}
+  distanceToPlayer: 0
   currentHealth: 1
   maxHealth: 1
+  canFall: 0
+  fallTime: 0
+  timeOnGround: 0
+  isFalling: 0
+  isInvincible: 0
+  haveCounterState: 0
+  isStun: 0
+  isAggro: 0
+  canMove: 0
+  canBeKnocked: 0
+  canHurt: 0
+  isDead: 0
+  isAttacking: 0
+  moveSpeed: 4
   attackDamage: 1
   attackRange: 1.24
   attackSpeed: 1.3
@@ -618,34 +635,20 @@ MonoBehaviour:
   attackOnCd: 0
   knockbackForce: 0
   dectectionRange: 8.5
-  isInvincible: 0
-  haveCounterState: 0
-  isStun: 0
-  isAggro: 0
-  canMove: 0
-  player: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  distanceToPlayer: 0
-  canFall: 0
-  isFalling: 0
-  fallTime: 0
-  timeOnGround: 0
-  canHurt: 0
-  isDead: 0
   attackAnimName: R_Attack
-  idleAnimName: 
-  hurtAnimName: 
-  backupColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  idleAnimName: R_Idle
+  hurtAnimName: R_Hurt
+  deathAnimName: R_Death
   hurtVFX: {fileID: 0}
-  canKnockback: 0
+  attackVFX: {fileID: 0}
+  hitZoneVFX: {fileID: 0}
+  areaToMove: 10.21
+  avoidFront: 2
+  timeToGoNextPoint: 1
   stateMachine: 0
   detectedPoints: []
   distanceToPoints: []
   nearestPoint: {x: 0, y: 0, z: 0}
-  areaToMove: 10.21
-  avoidFront: 2
-  timeToGoNextPoint: 1
 --- !u!136 &9143046397679579548
 CapsuleCollider:
   m_ObjectHideFlags: 0

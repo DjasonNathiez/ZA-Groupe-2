@@ -60587,9 +60587,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 0}
   rb: {fileID: 0}
-  moveSpeed: 3.25
+  player: {fileID: 0}
+  nav: {fileID: 0}
+  animator: {fileID: 0}
+  distanceToPlayer: 0
   currentHealth: 8
   maxHealth: 8
+  canFall: 1
+  fallTime: 2
+  timeOnGround: 0
+  isFalling: 0
+  isInvincible: 0
+  haveCounterState: 1
+  isStun: 0
+  isAggro: 0
+  canMove: 0
+  canBeKnocked: 1
+  canHurt: 0
+  isDead: 0
+  isAttacking: 0
+  moveSpeed: 4.25
   attackDamage: 1
   attackRange: 2
   attackSpeed: 1
@@ -60597,32 +60614,16 @@ MonoBehaviour:
   activeAttackCd: 0
   canAttack: 1
   attackOnCd: 0
-  knockbackForce: 2
+  knockbackForce: 3
   dectectionRange: 4
-  isInvincible: 0
-  haveCounterState: 1
-  isStun: 0
-  isAggro: 0
-  canMove: 0
-  player: {fileID: 0}
-  nav: {fileID: 0}
-  animator: {fileID: 0}
-  distanceToPlayer: 0
-  canFall: 0
-  isFalling: 0
-  fallTime: 2
-  timeOnGround: 0
-  canHurt: 0
-  isDead: 0
   attackAnimName: L_Attack
   idleAnimName: L_Idle
   hurtAnimName: L_Hurt
-  backupColor: {r: 0, g: 0, b: 0, a: 0}
+  deathAnimName: L_Death
   hurtVFX: {fileID: 869542568800250958}
-  canKnockback: 1
-  stateMachine: 0
-  timerToResetCounterState: 2
   attackVFX: {fileID: 2286769498368705039}
+  hitZoneVFX: {fileID: 0}
+  timerToResetCounterState: 2
 --- !u!54 &6227108461447566804
 Rigidbody:
   m_ObjectHideFlags: 0

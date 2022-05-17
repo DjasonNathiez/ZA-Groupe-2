@@ -4,20 +4,12 @@ using UnityEngine.AI;
 
 public class LionBehaviour : AIBrain
 {
-    [Header("State Informations")]
-    public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK}
-
+    [Header("Lion Self Data")]
     public float timerToResetCounterState;
-    
-    [Header("VFX)")]
-    public ParticleSystem attackVFX;
-
-    private bool isAttacking;
     
     private void Start()
     {
-        //isInvincible = true;
+        isInvincible = true;
         canAttack = true;
         
         InitializationData();
@@ -30,25 +22,16 @@ public class LionBehaviour : AIBrain
 
     private void Update()
     {
-        if (currentHealth <= 0)
-        {
-            Death();
-            animator.Play("L_Death");
-        }
-        else
-        {
-            if (!isDead && !isFalling)
-            {
-                CheckState();
-                Detection();
-            }
-        }
-        
-        if (isFalling)
-        {
-            isAttacking = false;
-            FallOnTheGround();
-        }
+       if (!isDead)
+       {
+          CheckState();
+          Detection();
+       }
+       else
+       {
+           StopCoroutine(ResetInvincibility());
+       }
+
     }
 
     private void CheckState()
@@ -78,8 +61,9 @@ public class LionBehaviour : AIBrain
 
         if (isFalling)
         {
+            isInvincible = false;
             isAttacking = false;
-            FallOnTheGround();
+            FallOnTheGround(); 
         }
     }
 
@@ -91,25 +75,31 @@ public class LionBehaviour : AIBrain
 
     void FallOnTheGround()
     {
-        animator.Play("L_Fall");
-        timeOnGround += Time.deltaTime;
-        canMove = false;
-        canAttack = false;
-
-        if (timeOnGround >= fallTime)
+        if (!isDead)
         {
-            isFalling = false;
-            timeOnGround = 0;
+            animator.Play("L_Fall");
+            timeOnGround += Time.deltaTime;
+            canMove = false;
+            canAttack = false;
 
-            animator.Play("L_StandUp");
+            if (timeOnGround >= fallTime)
+            {
+                isFalling = false;
+                timeOnGround = 0;
+
+                animator.Play("L_StandUp");
+            }
         }
     }
     public IEnumerator ResetInvincibility()
     {
-        yield return new WaitForSeconds(timerToResetCounterState);
-        isInvincible = true;
-        animator.Play("L_StandUp");
-        isFalling = false;
+        if (!isDead)
+        {
+            yield return new WaitForSeconds(timerToResetCounterState);
+            isInvincible = true;
+            animator.Play("L_StandUp");
+            isFalling = false;
+        }
     }
 
     public void EnableMove()
@@ -123,17 +113,23 @@ public class LionBehaviour : AIBrain
     }
     public void PlayAnim(string animName)
     {
-        animator.Play(animName);
+        if (!isDead)
+        {
+            animator.Play(animName);
+        }
     }
     
     public void StopCounterState()
     {
-        isInvincible = false;
-        canMove = false;
-        isFalling = true;
+        if (!isDead)
+        {
+            isInvincible = false;
+            canMove = false;
+            isFalling = true;
         
-        //Play Anim Break;
-        //Play VFX Break;
+            //Play Anim Break;
+            //Play VFX Break;
+        }
     }
   
     
