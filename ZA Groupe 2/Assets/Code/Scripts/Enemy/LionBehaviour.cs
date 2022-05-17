@@ -53,7 +53,7 @@ public class LionBehaviour : AIBrain
                 }
                 else
                 {
-                    if (isAggro && canAttack)
+                    if (isAggro)
                     {
                         AttackPlayer();
                     }
@@ -76,6 +76,7 @@ public class LionBehaviour : AIBrain
         {
             canMove = true;
             canAttack = true;
+            animator.Play("L_Idle");
         }
     }
 

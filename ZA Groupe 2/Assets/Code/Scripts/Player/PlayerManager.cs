@@ -522,22 +522,26 @@ public class PlayerManager : MonoBehaviour
 
     public void GetHurt(int damage)
     {
-        if (isInvincible) return;
-
-        if (currentLifePoint > 0)
+        if (!isDead)
         {
-            currentLifePoint -= damage;
-            hurtVFX.Play();
-            GameManager.instance.ui.UpdateHealth();
-            
-            if (!m_attack.isAttacking)
-            {
-                m_animator.Play("Hurt");
-            }
+            if (isInvincible) return;
 
+            if (currentLifePoint > 0)
+            {
+                currentLifePoint -= damage;
+                hurtVFX.Play();
+                GameManager.instance.ui.UpdateHealth();
+            
+                if (!m_attack.isAttacking)
+                {
+                    m_animator.Play("Hurt");
+                }
+            }
+            
             if (currentLifePoint <= 0)
             {
                 m_animator.Play("Death");
+                GameManager.instance.DisableAllEnemy();
                 StartCoroutine(WaitForRespawn());
                 isDead = true;
                 m_playerStateMachine = PlayerStateMachine.DEAD;
@@ -553,10 +557,19 @@ public class PlayerManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        Debug.Log("RespawnPlayer");
         GameManager.instance.BackToCheckpoint();
         ResetState();
         isDead = false;
-        currentLifePoint = maxLifePoint;
+        currentLifePoint = maxLifePoint = baseLifePoint;
+        GameManager.instance.ui.UpdateHealth();
+        GameManager.instance.EnableAllEnemy();
+        
+        foreach (AIBrain a in GameManager.instance.enemyList)
+        {
+            a.isAggro = false;
+        }
+        
     }
 
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

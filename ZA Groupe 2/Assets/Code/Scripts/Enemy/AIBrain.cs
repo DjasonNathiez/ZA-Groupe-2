@@ -125,10 +125,6 @@ public class AIBrain : MonoBehaviour
             animator.Play(attackAnimName);
             canHurt = true;
         }
-        else
-        {
-            animator.Play(idleAnimName);
-        }
         
     }
     
