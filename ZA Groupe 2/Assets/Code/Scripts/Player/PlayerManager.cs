@@ -110,7 +110,8 @@ public class PlayerManager : MonoBehaviour
 
     private float poufpoufTimer;
 
-    [SerializeField] private Vector3 poufpoufOffset;
+    [SerializeField] public Vector3 poufpoufOffset;
+    public bool poufpoufInstantiated;
 
     //Roll
     private bool m_canRoll;
@@ -375,7 +376,7 @@ public class PlayerManager : MonoBehaviour
                 {
 //                    Debug.Log(moveInput.performed);
                     poufpoufTimer = 0;
-                  
+                    poufpoufInstantiated = true;
                     GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
                     go.transform.parent = this.GameObject().transform;
                 }
