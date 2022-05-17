@@ -172,12 +172,15 @@ public class AIBrain : MonoBehaviour
     {
         canAttack = true;
         canMove = true;
+       
     }
     
     public void Disable()
     {
         canAttack = false;
         canMove = false;
+        animator.Play(idleAnimName);
+        nav.SetDestination(transform.position);
     }
     
     public void GetHurt(int damage)
