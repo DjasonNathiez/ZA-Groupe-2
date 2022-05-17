@@ -20,10 +20,5 @@ public class FloorRender : MonoBehaviour
         {
             floor.SetActive(false);
         }
-
-        if (boxToFall.transform.position.y < transform.position.y)
-        {
-            boxToFall.transform.SetParent(floor1.transform);
-        }
     }
 }
