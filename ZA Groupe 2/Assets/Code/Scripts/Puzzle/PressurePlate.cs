@@ -10,15 +10,15 @@ public class PressurePlate : MonoBehaviour
     public Door[] doors;
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.GetComponent<Rigidbody>())
+        numberofCurrent++;
+        if (other.GetComponent<Rigidbody>() && !isActivate)
         {
+            
             foreach (Door door in doors)
             {
                 door.keysValid++;   
             }
             isActivate = true;
-            numberofCurrent++;
         }
     }
 
