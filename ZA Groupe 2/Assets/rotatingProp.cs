@@ -44,7 +44,7 @@ public class rotatingProp : MonoBehaviour
             Debug.Log(dialogue[0].positionCamera);
             cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
             cameraController.cameraZoom = dialogue[0].zoom;   
-            
+            GameManager.instance.DisableAllEnemy();
             PlayerManager.instance.EnterDialogue();
             StartCoroutine(DelayedDialogueLine());
             
@@ -62,6 +62,7 @@ public class rotatingProp : MonoBehaviour
         cameraController.cameraZoom = 8.22f;
         PlayerManager.instance.ExitDialogue();
         cameraController.panSpeed = 0.5f;
+        GameManager.instance.EnableAllEnemy();
     }
     
     void Start()
