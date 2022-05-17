@@ -217,6 +217,7 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
+        GetComponent<CapsuleCollider>().isTrigger = true;
         animator.Play(deathAnimName);
 
         if (deathVFX != null)
@@ -225,6 +226,14 @@ public class AIBrain : MonoBehaviour
         }
         
         GameManager.instance.enemyList.Remove(this);
+        
+        StartCoroutine(WaitForDestroy());
+    }
+
+    IEnumerator WaitForDestroy()
+    {
+        yield return new WaitForSeconds(2.5f);
+        Destroy(gameObject);
     }
 
     public void DebugSetColor(Color newColor)
