@@ -47,7 +47,6 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<LionBehaviour>())
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
-                    other.GetComponent<LionBehaviour>().animator.Play("L_Fall");
                 }
             }
             else if (other.CompareTag("TractableObject"))

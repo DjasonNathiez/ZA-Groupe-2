@@ -4,49 +4,47 @@ using UnityEngine;
 
 public class RabbitBehaviour : AIBrain
 {
-    public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK}
-
-    public Vector3[] detectedPoints;
-    public List<float> distanceToPoints;
-    public Vector3 nearestPoint;
-
+    [Header("Rabbit Self Data")]
+    
     public float areaToMove;
-    private Vector3 pointToGo;
+    private Vector3 m_pointToGo;
     public float avoidFront;
-    private Vector3 originPoint;
+    private Vector3 m_originPoint;
     public float timeToGoNextPoint;
     
-    // Start is called before the first frame update
+    [HideInInspector] public StateMachine stateMachine;
+    public enum StateMachine{IDLE, CHASE, ATTACK}
+
+    [HideInInspector] public Vector3[] detectedPoints;
+    [HideInInspector] public List<float> distanceToPoints;
+    [HideInInspector] public Vector3 nearestPoint;
+
     void Start()
     {
-        originPoint = transform.position;
+        isInvincible = false;
+        m_originPoint = transform.position;
         
         float minX = transform.position.x - areaToMove;
         float minZ = transform.position.z - areaToMove;
         float maxX = transform.position.x + areaToMove;
         float maxZ = transform.position.z + areaToMove;
 
-        pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
         
         InitializationData();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        CheckState();
-        Detection();
+        if (!isDead)
+        {
+            CheckState();
+            Detection();
+        }
     }
 
     private void CheckState()
     {
-        if (currentHealth <= 0)
-        {
-           // StartCoroutine(Death());
-        }
-        
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
         if (player.GetComponent<PlayerManager>().rope.enabled && distanceToPlayer <= dectectionRange)
@@ -73,11 +71,11 @@ public class RabbitBehaviour : AIBrain
             case StateMachine.IDLE:
                 animator.Play("R_Idle");
                 
-                nav.SetDestination(pointToGo);
+                nav.SetDestination(m_pointToGo);
                 
                 
-                Vector3 pointToGoMin = new Vector3(pointToGo.x - 3, transform.position.y, pointToGo.z - 3);
-                Vector3 pointToGoMax = new Vector3(pointToGo.x + 3, transform.position.y, pointToGo.z + 3);
+                Vector3 pointToGoMin = new Vector3(m_pointToGo.x - 3, transform.position.y, m_pointToGo.z - 3);
+                Vector3 pointToGoMax = new Vector3(m_pointToGo.x + 3, transform.position.y, m_pointToGo.z + 3);
 
                 if (transform.position.x >= pointToGoMin.x && transform.position.z >= pointToGoMin.z &&
                     transform.position.x <= pointToGoMax.x && transform.position.z <= pointToGoMax.z)
@@ -113,12 +111,12 @@ public class RabbitBehaviour : AIBrain
     private void SetNavPoint()
     {
       
-        float minX = originPoint.x - areaToMove;
-        float minZ = originPoint.z - areaToMove;
-        float maxX = originPoint.x + areaToMove;
-        float maxZ = originPoint.z + areaToMove;
+        float minX = m_originPoint.x - areaToMove;
+        float minZ = m_originPoint.z - areaToMove;
+        float maxX = m_originPoint.x + areaToMove;
+        float maxZ = m_originPoint.z + areaToMove;
 
-        pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
         
     }
 
@@ -149,16 +147,20 @@ public class RabbitBehaviour : AIBrain
             nearestPoint = Vector3.zero;
         }
 
-        if (distanceToPoints.Count > detectedPoints.Length)
+        if (distanceToPoints != null && detectedPoints != null)
         {
-            foreach (float f in distanceToPoints)
+            if (distanceToPoints.Count > detectedPoints.Length)
             {
-                for (int i = detectedPoints.Length; i < distanceToPoints.Count; i++)
+                foreach (float f in distanceToPoints)
                 {
-                    distanceToPoints.Remove(f);
+                    for (int i = detectedPoints.Length; i < distanceToPoints.Count; i++)
+                    {
+                        distanceToPoints.Remove(f);
+                    }
                 }
             }
         }
+        
 
     }
 

@@ -1,23 +1,17 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BearBehaviour : AIBrain
 {
-    public StateMachine stateMachine;
-    public enum StateMachine{IDLE, CHASE, ATTACK, ONGROUND}
-
+    [Header("Bear Self Data")]
     public float attackZoneRange;
     public float stunDuration;
-
     public float attackRangeDeadZone;
 
-    public bool isAttacking;
+    public GameObject feedbackWarningAttack;
+    private bool m_canSpawn;
 
-    public GameObject FeedbackWarningAttack;
-
-    private bool canSpawn;
-
-    public ParticleSystem hitZoneVFX;
     
     private void Start()
     {
@@ -30,15 +24,12 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
-        if (currentHealth <= 0)
-        {
-            //StartCoroutine(Death());
-        }
-        else
+        if (!isDead)
         {
             CheckState();
             Detection();
         }
+
     }
     
     void CheckState()
@@ -75,6 +66,8 @@ public class BearBehaviour : AIBrain
 
         if (isFalling)
         {
+            Disable();
+            isInvincible = false;
             isAttacking = false;
             FallOnTheGround();
         }
@@ -119,6 +112,7 @@ public class BearBehaviour : AIBrain
 
             animator.Play("B_StandUp");
             hitZoneVFX.gameObject.SetActive(false);
+            Enable();
         }
     }
 
@@ -127,8 +121,8 @@ public class BearBehaviour : AIBrain
         AttackPlayer();
         isAttacking = true;
         
-        if (!canSpawn) return;
-        Instantiate(FeedbackWarningAttack, transform.position, quaternion.identity);
-        canSpawn = false;
+        if (!m_canSpawn) return;
+        Instantiate(feedbackWarningAttack, transform.position, quaternion.identity);
+        m_canSpawn = false;
     }
 }

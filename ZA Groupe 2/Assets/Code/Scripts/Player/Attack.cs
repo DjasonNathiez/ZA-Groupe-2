@@ -33,15 +33,20 @@ public class Attack : MonoBehaviour
           {
               iaBrain.GetHurt(PlayerManager.instance.attackDamage);
               
-              if (iaBrain.canKnockback)
+              if (iaBrain.canBeKnocked)
               {
+                  iaBrain.Disable();
+                  iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+                  
                   Vector3 dir = iaBrain.gameObject.transform.position - transform.position;
                   dir.y = 0.1f;
                   iaBrain.GetComponent<AIBrain>().rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
-              
-                  iaBrain.GetComponent<AIBrain>().rb.isKinematic = false;
+
+                  iaBrain.Enable();
               }
               
+              
+              iaBrain.GetComponent<AIBrain>().rb.isKinematic = true;
               canHurt = false;
           }
 
