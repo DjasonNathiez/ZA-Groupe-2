@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,5 +40,10 @@ public class CinematicEnvent : MonoBehaviour
         cameraController.cameraZoom = 8.22f;
         
         
+    }
+
+    private void Start()
+    {
+        cameraController = PlayerManager.instance.cameraController;
     }
 }

@@ -46,5 +46,9 @@ public class RollerCoasterEntry : MonoBehaviour
             PlayerManager.instance.transform.position = SpawnPointEnd.position;
         }
     }
-    
+
+    private void Start()
+    {
+        cam = PlayerManager.instance.cameraController;
+    }
 }
