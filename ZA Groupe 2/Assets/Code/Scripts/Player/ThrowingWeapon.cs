@@ -52,6 +52,7 @@ public class ThrowingWeapon : MonoBehaviour
             else if (other.CompareTag("TractableObject"))
             {
                 playerManager.state = "Rope";
+                playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.pinnedToObject = true;
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
                 grip.position = transform.position;

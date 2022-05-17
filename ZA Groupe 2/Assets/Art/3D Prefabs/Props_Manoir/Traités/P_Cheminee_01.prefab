@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4404217739354507788}
   - component: {fileID: 1943896953505185478}
   - component: {fileID: 2096561498}
-  - component: {fileID: 2096561497}
+  - component: {fileID: 4193596209692421838}
   m_Layer: 0
   m_Name: P_Cheminee_01
   m_TagString: GrippableObject
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 142680921715007251}
   m_LocalRotation: {x: 0.7071068, y: -0.7071068, z: 0, w: 0}
   m_LocalPosition: {x: 48.80172, y: 1.5594599, z: -102.50653}
-  m_LocalScale: {x: 1.0473859, y: 1.0473859, z: 0.78310114}
+  m_LocalScale: {x: 1.0473859, y: 1.0473859, z: 0.7831012}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,8 +101,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &2096561497
-MeshCollider:
+--- !u!65 &4193596209692421838
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -800812980354720433, guid: a2eafe00ebada7749937a96c143c8eaa, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.4580114, y: 1.4148556, z: 4.6646543}
+  m_Center: {x: 0.6050973, y: -0.20892325, z: -1.8225183}
