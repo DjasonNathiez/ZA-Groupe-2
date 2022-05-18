@@ -293,7 +293,20 @@ public class Rope : MonoBehaviour
             if (clamped && lenght > 1.5f)
             {
                 Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized;
-                pinnedRb.AddForceAtPosition(force * 20 ,pin.transform.position,ForceMode.Acceleration);
+                float factor = new float();
+                WeightClass objectToPull = WeightClass.LIGHT;
+                objectToPull = pinnedRb.gameObject.GetComponent<ValueTrack>() != null ? pinnedRb.gameObject.GetComponent<ValueTrack>().weightClass : WeightClass.NULL;
+
+                factor = objectToPull switch
+                {
+                    WeightClass.NULL => 0,
+                    WeightClass.LIGHT => 20,
+                    WeightClass.MEDIUM => 10,
+                    WeightClass.HEAVY => 5,
+                    _ => factor
+                };
+
+                pinnedRb.AddForceAtPosition(force * factor ,pin.transform.position,ForceMode.Acceleration);
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
             }
         }
