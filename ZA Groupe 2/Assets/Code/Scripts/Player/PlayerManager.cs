@@ -291,6 +291,27 @@ public class PlayerManager : MonoBehaviour
 
 
         m_inputController.Player.Pause.started += PauseOnStarted;
+        
+        //Detect Back
+
+        Debug.DrawRay(transform.position, -transform.forward, Color.magenta);
+        
+        /*if (Physics.Raycast(transform.position, -transform.forward, out var hit))
+        {
+            AIBrain aiBrain = hit.collider.GetComponent<AIBrain>();
+
+            if (aiBrain != null)
+            {
+                aiBrain.playerShowBack = true;
+            }
+            else
+            {
+                foreach (AIBrain brain in GameManager.instance.enemyList)
+                {
+                    brain.playerShowBack = false;
+                }
+            }
+        }*/
     }
 
     void SetAttackCD()

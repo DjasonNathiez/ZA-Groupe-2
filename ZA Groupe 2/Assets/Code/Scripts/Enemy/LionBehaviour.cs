@@ -4,131 +4,89 @@ using UnityEngine.AI;
 
 public class LionBehaviour : AIBrain
 {
-    [Header("Lion Self Data")]
+    [Header("Lion Self Data")] 
+    public bool stayAtRange;
+    public float awayRange;
+    public Vector3 awayPoint;
+    public Vector3 target;
+    public float rushSpeed;
+    
     public float timerToResetCounterState;
 
     public ParticleSystem fallVFX;
     public ParticleSystem standUpVFX;
     
-    private void Start()
+    private void Awake()
     {
-        isInvincible = true;
-        canAttack = true;
-        
         InitializationData();
-        activeAttackCd = attackDelay;
-        nav.speed = moveSpeed;
-        nav.stoppingDistance = attackRange + 0.02f;
         
-        animator.Play("L_Idle");
     }
 
     private void Update()
     {
-       if (!isDead)
-       {
-          CheckState();
-          Detection();
-       }
-       else
-       {
-           StopCoroutine(ResetInvincibility());
-       }
+        Detection();
 
-    }
-
-    private void CheckState()
-    {
-        if (!isDead)
+        if (isEnable && !isDead)
         {
-            if (!isFalling)
+            stayAtRange = !playerShowBack;
+            
+            if (isAggro)
             {
-                if (distanceToPlayer > attackRange)
+                //transform.LookAt(player.transform);
+                
+                if (canMove && !isAttacking)
                 {
-                    if (isAggro && !isAttacking && canMove)
+                    if (stayAtRange)
                     {
-                        animator.Play("L_Chase");
-                        ChasePlayer();
+                        if (distanceToPlayer < awayRange)
+                        {
+                            awayPoint = new Vector3(player.transform.position.x - awayRange, player.transform.position.y, player.transform.position.z - awayRange);
+                        }
+                       
+                        if(distanceToPlayer >= awayRange)
+                        {
+                            awayPoint = player.transform.position;
+                        }
+
+                        nav.speed = moveSpeed;
+                        target = awayPoint;
                     }
+                    else
+                    {
+                        if (distanceToPlayer > attackRange)
+                        {
+                            nav.speed = rushSpeed;
+                            target = player.transform.position;
+                        }
+                    }
+                    
+                    MoveToPlayer(target);
                 }
-                else
+                
+                if (distanceToPlayer <= attackRange)
                 {
-                    if (isAggro)
+                    if (canAttack)
                     {
                         AttackPlayer();
                     }
+                    
+                    if(!canAttack && !isAttacking)
+                    {
+                        animator.Play(idleAnimName);
+                    }
+                    
                 }
             }
-        }
 
-        if (isFalling)
-        {
-            nav.SetDestination(transform.position);
-            rb.velocity = Vector3.zero;
-            isInvincible = false;
-            isAttacking = false;
-            FallOnTheGround(); 
-        }
-    }
-
-    public void ResetMove()
-    {
-        if (!isDead)
-        {
-            canMove = true;
-            canAttack = true;
-            animator.Play("L_Idle");
-        }
-    }
-
-    void FallOnTheGround()
-    {
-        if (!isDead)
-        {
-            animator.Play("L_Fall");
-            timeOnGround += Time.deltaTime;
-            canMove = false;
-            canAttack = false;
-
-            if (timeOnGround >= fallTime)
+            if (isFalling)
             {
-                isFalling = false;
-                timeOnGround = 0;
-
-                animator.Play("L_StandUp");
-                standUpVFX.Play();
+                canAttack = false;
+                canMove = false;
+                canFall = false;
             }
         }
     }
-    public IEnumerator ResetInvincibility()
-    {
-        if (!isDead)
-        {
-            yield return new WaitForSeconds(timerToResetCounterState);
-            isInvincible = true;
-            animator.Play("L_StandUp");
-            standUpVFX.Play();
-            isFalling = false;
-        }
-    }
 
-    public void EnableMove()
-    {
-        canMove = true;
-    }
-    
-    public void LoadAttackVFX()
-    {
-        attackVFX.Play();
-    }
-    public void PlayAnim(string animName)
-    {
-        if (!isDead)
-        {
-            animator.Play(animName);
-        }
-    }
-    
     public void StopCounterState()
     {
         if (!isDead)
@@ -136,10 +94,9 @@ public class LionBehaviour : AIBrain
             isInvincible = false;
             canMove = false;
             isFalling = true;
-
+            
+            FallOnTheGround();
             fallVFX.Play();
-            //Play Anim Break;
-            //Play VFX Break;
         }
     }
   

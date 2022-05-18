@@ -25878,8 +25878,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.033333335
-    functionName: LoadAttackVFX
+  - time: 0
+    functionName: AttackVFX
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -25887,13 +25887,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.26666668
     functionName: DoDamage
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.33333334
-    functionName: AttackOnCD
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
@@ -25907,7 +25900,14 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.56666666
-    functionName: ResetMove
+    functionName: WaitForCooldown
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6
+    functionName: AttackExit
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

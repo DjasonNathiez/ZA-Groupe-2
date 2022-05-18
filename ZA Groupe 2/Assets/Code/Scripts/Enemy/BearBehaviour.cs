@@ -15,12 +15,6 @@ public class BearBehaviour : AIBrain
     private void Start()
     {
         InitializationData();
-        
-        isInvincible = true;
-        nav.speed = moveSpeed;
-        nav.stoppingDistance = attackRange + 0.02f;
-        
-        animator.Play("B_Idle");
     }
 
     private void Update()
@@ -46,7 +40,7 @@ public class BearBehaviour : AIBrain
                 if (isAggro && !isAttacking && canMove)
                 {
                     animator.Play("B_Chase");
-                    ChasePlayer();
+                    MoveToPlayer(player.transform.position);
                 }
             }
             else
@@ -87,32 +81,7 @@ public class BearBehaviour : AIBrain
         canAttack = true;
     }
 
-    public void FallOnTheGround()
-    {
-        //Set State
-        isFalling = true;
-        isInvincible = false;
-        isAttacking = false;
-        Disable();
-        
-        //Load graphics
-        animator.Play("B_Fall");
-        hitZoneVFX.gameObject.SetActive(true);
-        
-        
-        timeOnGround += Time.deltaTime;
-        
-        if (timeOnGround >= fallTime)
-        {
-            isFalling = false;
-            timeOnGround = 0;
-
-            animator.Play("B_StandUp");
-            hitZoneVFX.gameObject.SetActive(false);
-            
-            Enable();
-        }
-    }
+   
 
     private void SpecialBearAttack()
     {

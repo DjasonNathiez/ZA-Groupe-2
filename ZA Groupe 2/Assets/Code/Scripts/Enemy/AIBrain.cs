@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 
 public class AIBrain : MonoBehaviour
 {
@@ -15,27 +16,32 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public NavMeshAgent nav;
     [HideInInspector] public Animator animator;
     [HideInInspector] public float distanceToPlayer;
-   
+
+    [HideInInspector] public bool isEnable = true;
+
     [Header("State")]
     public int currentHealth;
     public int maxHealth;
-    public bool canFall;
-    public float fallTime;
-    
-    [HideInInspector] public float timeOnGround;
-    [HideInInspector] public bool isFalling;
     [HideInInspector] public bool isInvincible;
-    [HideInInspector] public bool haveCounterState;
-    [HideInInspector] public bool isStun;
-    [HideInInspector] public bool isAggro;
-    [HideInInspector] public bool canMove;
+    
+    public float fallTime;
+    [HideInInspector] public float timeOnGround;
+   
+    public bool canFall;
+    public bool canMove = true;
+    public bool canAttack = true;
     public bool canBeKnocked;
-    [HideInInspector] public bool canHurt;
+    
+    [HideInInspector] public bool isFalling;
+    public bool isAttacking;
+    public bool isAggro;
+    [HideInInspector] public bool isKnocked;
+    public bool isMoving;
     [HideInInspector] public bool isDead;
-    [HideInInspector] public bool isAttacking;
     
     [Header("Movement")]
     public float moveSpeed;
+
     
     [Header("Attack")]
     public int attackDamage;
@@ -43,47 +49,58 @@ public class AIBrain : MonoBehaviour
     public float attackSpeed; 
     public float attackDelay;
     [HideInInspector] public float activeAttackCd;
-    [HideInInspector] public bool canAttack;
     [HideInInspector] public bool attackOnCd;
     public float knockbackForce;
     
-    //detection
     [Header("Detection")]
     public float dectectionRange;
+    public float massAggroRange;
+    [Range(0,180)] public float detectionAngle;
     
     [Header("Animations")]
     public string attackAnimName;
     public string idleAnimName;
     public string hurtAnimName;
     public string deathAnimName;
-
+    public string moveAnimName;
+    public string standUpAnimName;
+    public string fallAnimName;
+    
     [Header("VFX")]
     public ParticleSystem hurtVFX;
     public ParticleSystem attackVFX;
     public ParticleSystem hitZoneVFX;
     public ParticleSystem deathVFX;
 
+    public bool playerShowBack;
+
     public void InitializationData()
     {
         currentHealth = maxHealth;
         canMove = true;
+        Enable();
         
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameManager.instance.player;
         nav = GetComponent<NavMeshAgent>();
+        
+        nav.speed = moveSpeed;
+        nav.stoppingDistance = attackRange + 0.02f;
+        
+        animator.Play(idleAnimName);
     }
 
-    public void ChasePlayer()
+    public void MoveToPlayer(Vector3 destination)
     {
-        if (canMove)
-        {
-            nav.SetDestination(player.transform.position);
-        }
+        isMoving = true;
+        animator.Play(moveAnimName);
+        nav.SetDestination(destination);
     }
     
     public void Detection()
     {
+        //Detect the player to aggro
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         
         Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
@@ -92,65 +109,107 @@ public class AIBrain : MonoBehaviour
         {
             if (col.GetComponent<PlayerManager>())
             {
-                float distToPlayerY = transform.position.y - col.transform.position.y;
-
-                if (distToPlayerY < 3)
-                {
-                    isAggro = true;
-                }
+                isAggro = true;
             }
+        }
 
-            if (col.GetComponent<AIBrain>())
+        //Mass Aggro AI Comportement
+        if (isAggro)
+        {
+            Collider[] hitMass = Physics.OverlapSphere(transform.position, massAggroRange);
+
+            foreach (Collider c in hitMass)
             {
-                var colEnemy = col.GetComponent<AIBrain>();
-
-                if (colEnemy.isAggro)
+                AIBrain neighborAI = c.GetComponent<AIBrain>();
+                
+                if (neighborAI != null && !neighborAI.isAggro)
                 {
-                    isAggro = true;
+                    neighborAI.isAggro = true;
                 }
             }
         }
 
+        
+        float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
+
+        playerShowBack = directionAngle < detectionAngle;
+
     }
-    
+
     public void AttackPlayer()
     {
-        if (attackOnCd)
-        {
-            AttackCooldown();
-        }
+        isAttacking = true;
+        isMoving = false;
         
-        if (!attackOnCd)
-        {
-            animator.Play(attackAnimName);
-            canHurt = true;
-        }
-        
+        animator.Play(attackAnimName);
+
+        canAttack = false;
     }
     
-    private void AttackCooldown()
+    public IEnumerator WaitForCooldown()
     {
-        switch (activeAttackCd)
-            {
-                case > 0:
-                    canAttack = false;
-                    activeAttackCd -= Time.deltaTime;
-                    break;
-            
-                case <= 0:
-                    canAttack = true;
-                    activeAttackCd = attackDelay;
-                    attackOnCd = false;
-                    break;
-            }
-        
+        yield return new WaitForSeconds(attackDelay);
+        Debug.Log("attack cooldown over");
+        canAttack = true;
     }
+
+    public void AttackVFX()
+    {
+        if (attackVFX != null)
+        {
+            attackVFX.Play();
+        }
+    }
+
+    public void AttackExit()
+    {
+        isAttacking = false;
+        canMove = true;
+    }
+    
+    public void FallOnTheGround()
+    {
+        //Set State
+        isFalling = true;
+        isInvincible = false;
+        isAttacking = false;
+        canAttack = false;
+        canMove = false;
+
+        //Load graphics
+        animator.Play(fallAnimName);
+
+        if (hitZoneVFX != null)
+        {
+            hitZoneVFX.gameObject.SetActive(true);
+        }
+
+        StartCoroutine(WaitForStand());
+    }
+    
+    #region Routine
+    
+   
+    
+    public IEnumerator WaitForStand()
+    {
+        yield return new WaitForSeconds(fallTime);
+        isFalling = false;
+        
+        animator.Play(standUpAnimName);
+        
+        if (hitZoneVFX != null)
+        {
+            hitZoneVFX.gameObject.SetActive(false);  
+        }
+    }
+
+    #endregion
     
     public void DoDamage()
     {
-        if (distanceToPlayer < attackRange + 0.02 && canHurt)
+        if (distanceToPlayer < attackRange + 0.02)
         {
-            Debug.Log("Player take " + attackDamage + " damage in his face, bro.");
             player.GetComponent<PlayerManager>().GetHurt(attackDamage);
 
             Vector3 dir = player.transform.position - transform.position;
@@ -158,27 +217,8 @@ public class AIBrain : MonoBehaviour
             player.GetComponent<PlayerManager>().rb.AddForce(dir, ForceMode.Impulse);
         }
     }
-    public void AttackOnCD()
-    {
-        activeAttackCd = attackDelay;
-        attackOnCd = true;
-    }
 
-    public void Enable()
-    {
-        canAttack = true;
-        canMove = true;
-       
-    }
-    
-    public void Disable()
-    {
-        canAttack = false;
-        canMove = false;
-        animator.Play(idleAnimName);
-        nav.SetDestination(transform.position);
-    }
-    
+
     public void GetHurt(int damage)
     {
         if (!isDead)
@@ -191,16 +231,16 @@ public class AIBrain : MonoBehaviour
             {
                 hurtVFX.Play();
             }
-            
-            animator.Play(hurtAnimName);
+
+            if (!isFalling)
+            {
+                animator.Play(hurtAnimName);
+            }
             
             if (currentHealth <= 0)
             {
-                Debug.Log("Enemy dead");
-                Disable();
                 Death();
             }
-            
         }
     }
 
@@ -209,17 +249,13 @@ public class AIBrain : MonoBehaviour
         spawnPoint = spawnArea;
     }
 
-    public void PlayAnimation(string anim)
-    {
-        animator.Play(anim);
-    }
-
     public void Death()
     {
         isDead = true;
-        nav.SetDestination(transform.position);
-        rb.velocity = Vector3.zero;
+        
+        Disable();
         GetComponent<CapsuleCollider>().isTrigger = true;
+        
         animator.Play(deathAnimName);
 
         if (deathVFX != null)
@@ -238,11 +274,28 @@ public class AIBrain : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void DebugSetColor(Color newColor)
+    public void LoadVFX(ParticleSystem effect)
     {
-        GetComponent<MeshRenderer>().material.color = newColor;
+        effect.Play();
     }
     
+    public void Enable()
+    {
+        isEnable = true;
+    }
+    
+    public void Disable()
+    {
+        isEnable = false;
+
+        nav.ResetPath();
+        nav.SetDestination(transform.position);
+        rb.velocity = Vector3.zero;
+    }
+
+
+    #region INSPECTOR
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -250,10 +303,7 @@ public class AIBrain : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-    public void LoadVFX(ParticleSystem effect)
-    {
-        Instantiate(effect, transform.position, Quaternion.identity);
-    }
+    #endregion
     
 }
 
