@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 public class QuadraticCurve : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class QuadraticCurve : MonoBehaviour
     public bool looped;
     public WayPoints[] points;
     public FollowCurve followCurve;
+    public Vector3[] meshPointCoord;
+    public MeshFilter meshFilter;
+    [HideInInspector] public bool bake;
 
     private void Start()
     {
@@ -18,6 +22,7 @@ public class QuadraticCurve : MonoBehaviour
 
         followCurve.points = points;
         followCurve.transform.position = followCurve.points[0].point;
+        meshFilter.mesh = CreateMesh();
     }
 
 
@@ -130,6 +135,107 @@ public class QuadraticCurve : MonoBehaviour
 
         return evenlySpacedPoints.ToArray();
     }
+
+
+
+    public Mesh CreateMesh()
+    {
+        Debug.Log("gato");
+        List<Vector3> meshPoints = new List<Vector3>(0);
+        List<int> meshTriangles = new List<int>(0);
+        
+        int x = meshPointCoord.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            Vector3 tangent = Vector3.zero;
+            Vector3 binormal = Vector3.zero;
+            Vector3 normal = Vector3.zero;
+            if (i > 0)
+            {
+                 tangent = default;
+                 binormal = points[i].up;
+                 normal = (points[i].point - points[i - 1].point).normalized;
+                Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
+                Debug.DrawRay(points[i].point,normal,Color.red,100);
+                Debug.DrawRay(points[i].point,binormal,Color.green,100);
+                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+            }
+
+
+
+
+
+            for (int j = 0; j < x; j++)
+            {
+                Vector3 point;
+                if (i > 0) point = points[i].point + tangent * meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
+                else  point = points[i].point + meshPointCoord[j];
+                meshPoints.Add(point);
+            }
+
+            if (i > 0)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    meshTriangles.Add( (i-1)*x + ((j +1)% x));
+
+                    meshTriangles.Add( (i-1)*x + j + x);
+                    
+                    meshTriangles.Add( i*x + (j+1)%x);
+                    
+                    
+                    meshTriangles.Add( (i-1)*x + j );
+
+                    meshTriangles.Add( (i-1)*x + j + x);
+                    
+                    meshTriangles.Add( (i-1)*x + ((j +1)% x));
+                }
+            }
+        }
+        Mesh mesh = new Mesh();
+        mesh.vertices = meshPoints.ToArray();
+        mesh.triangles = meshTriangles.ToArray();
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+        meshFilter.mesh = mesh;
+        return mesh;
+    }
+    
+    
+    public Mesh CreateQuad()
+    {
+        List<Vector3> meshPoints = new List<Vector3>(0);
+        List<int> meshTriangles = new List<int>(0);
+        
+        int x = meshPointCoord.Length;
+        for (int i = 0; i < points.Length; i++)
+        {
+            for (int j = 0; j < x; j++)
+            {
+                Vector3 point = points[i].point + meshPointCoord[j];
+                meshPoints.Add(point);
+            }
+        }
+        meshTriangles.Add( 0  );
+                    
+        meshTriangles.Add( 1);
+                    
+        meshTriangles.Add( 3);
+                    
+                    
+        meshTriangles.Add( 1);
+                    
+        meshTriangles.Add( 3);
+                    
+        meshTriangles.Add( 4);
+        Mesh mesh = new Mesh();
+        mesh.vertices = meshPoints.ToArray();
+        mesh.triangles = meshTriangles.ToArray();
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+        return mesh;
+    }
+    
 }
 
 [Serializable]
