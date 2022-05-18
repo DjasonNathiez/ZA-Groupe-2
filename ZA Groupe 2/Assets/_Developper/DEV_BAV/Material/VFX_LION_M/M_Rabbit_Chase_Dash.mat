@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4392935863804268708
+--- !u!114 &-8941602576577115069
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Lion_Claw_W
-  m_Shader: {fileID: -6465566751694194690, guid: 9eb2a2318ffb5ac43937d752c4db1ca1, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _SURFACE_TYPE_TRANSPARENT
+  m_Name: M_Rabbit_Chase_Dash
+  m_Shader: {fileID: -6465566751694194690, guid: db39eb11ec58fd54ea6e81d8f23b8834, type: 3}
+  m_ShaderKeywords: _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -34,11 +34,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 50e2de64c1ba4444f91a80308e57392f, type: 3}
+    - _Flow:
+        m_Texture: {fileID: 2800000, guid: 7c2e5b7d0aa586940b863b0ae688ca2b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Mask2D:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 7e571f120b03fcf4881c7833ee9f1343, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -56,25 +64,25 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 1
+    - _AlphaClip: 0
     - _Blend: 0
     - _CastShadows: 1
-    - _Cull: 2
+    - _Cull: 0
+    - _Custom_UV1: 1
+    - _Custom_UV2: 0
     - _DstBlend: 10
-    - _Position: 0
-    - _Power: 0
+    - _Emission: 1
+    - _FlipUV: 0
+    - _InvertMask: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Repeat: 1
     - _SrcBlend: 5
     - _Surface: 1
-    - _Tiling: 1
-    - _UseMask: 0
-    - _Use_Gradient: 0
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _DissolveAmount: {r: 0, g: 0, b: 0, a: 0}
-    - _Tiling: {r: 2, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Distortion_Speed_XY_Power_Z: {r: 0, g: 0, b: 0, a: 0}
+    - _Speed_MainTex_U_V_Noise_Z_W: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
