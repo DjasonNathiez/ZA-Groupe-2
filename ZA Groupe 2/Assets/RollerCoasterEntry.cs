@@ -12,6 +12,7 @@ public class RollerCoasterEntry : MonoBehaviour
     [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
     [SerializeField] private bool check;
     [SerializeField] private Transform SpawnPointEnd;
+    public Vector3 pos;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,7 +30,7 @@ public class RollerCoasterEntry : MonoBehaviour
             rollerCoaster.moving = true;
             rollerCoaster.cam = cam;
             cam.playerFocused = false;
-
+            PlayerManager.instance.transform.position = pos;
         }
 
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)

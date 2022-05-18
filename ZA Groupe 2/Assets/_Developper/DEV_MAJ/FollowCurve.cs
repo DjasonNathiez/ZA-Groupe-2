@@ -14,6 +14,7 @@ public class FollowCurve : MonoBehaviour
     public bool moving;
     public bool canon;
     public CameraController cam;
+    public Vector3 pos;
 
     private void FixedUpdate()
     {
@@ -61,7 +62,7 @@ public class FollowCurve : MonoBehaviour
                 cam.cameraPos.position = transform.position + Vector3.Lerp(points[currentPoint].camPos, points[0].camPos, step);
                 cam.cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[0].camAngle, step);
                 cam.cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[0].camZoom, step);
-            }   
+            }
         }
     }
 
