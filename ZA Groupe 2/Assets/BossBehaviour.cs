@@ -14,6 +14,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float dashingSpeed;
     [FormerlySerializedAs("m_rb")] [SerializeField]
     public Rigidbody rb;
+    public Transform legsColider;
     [SerializeField] private Transform[] spawnPosPillars;
     [SerializeField] private Transform[] spawnPosRabbits;
     [SerializeField] private GameObject pillarGameObject;
@@ -30,6 +31,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float cableRotation;
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
+    [SerializeField] private float rotationSpeed;
     
 
     private void Start()
@@ -51,7 +53,7 @@ public class BossBehaviour : MonoBehaviour
                 timeStamp -= Time.deltaTime;
                 forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
                 rb.velocity = forward;
-                bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*5);
+                bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*rotationSpeed);
                 if (cableRotation >= 360 || cableRotation <= -360)
                 {
                     PlayerManager.instance.rope.rewinding = true;
@@ -94,12 +96,12 @@ public class BossBehaviour : MonoBehaviour
             shockWaveGameObject.transform.localScale += new Vector3((Time.deltaTime * shockWaveSpeed),0,(Time.deltaTime * shockWaveSpeed));
         }
 
-        if (transform.childCount > 1 + cableNodes.Count || transform.childCount < 1 + cableNodes.Count)
+        if (legsColider.childCount > 0 + cableNodes.Count || legsColider.childCount < 1 + cableNodes.Count)
         {
             List<GameObject> nodes = new List<GameObject>(0);
             foreach (Node node in PlayerManager.instance.rope.nodes)
             {
-                if (node.anchor == gameObject)
+                if (node.anchor == legsColider.gameObject)
                 {
                     nodes.Add(node.nodePoint);
                 }
@@ -120,7 +122,8 @@ public class BossBehaviour : MonoBehaviour
         }
         foreach (Transform pos in spawnPosRabbits)
         {
-            Instantiate(rabbitGameObject, pos.position, quaternion.identity);
+            GameObject rabbit = Instantiate(rabbitGameObject, pos.position, quaternion.identity);
+            rabbit.SetActive(true);
         }
         material.color = Color.white;
         state = 1;

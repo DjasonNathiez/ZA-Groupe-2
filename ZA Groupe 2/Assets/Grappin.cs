@@ -6,4 +6,5 @@ public class Grappin : MonoBehaviour
 {
     public Transform pointToGo;
     public int ropeSizeNecessary;
+    [SerializeField] private DialogueLine[] dialogue;
 }
