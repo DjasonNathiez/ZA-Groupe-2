@@ -526,7 +526,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &888272784
 GameObject:
@@ -923,6 +923,7 @@ MonoBehaviour:
   allCheckpoint:
   - {fileID: 0}
   - {fileID: 0}
+  enemyList: []
   bugtracker: {fileID: 1326945414340778312}
   playtestMenu: {fileID: 4639107709017224992}
   items:
@@ -1705,7 +1706,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 433985202534778177, guid: dc0eaef8de5cfcb4b99b5c3ec1db3966, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 433985202534778177, guid: dc0eaef8de5cfcb4b99b5c3ec1db3966, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8276,7 +8277,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5463354099993746806, guid: c8cd26af6976c6e45b6e9fdf2853a340, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5463354099993746806, guid: c8cd26af6976c6e45b6e9fdf2853a340, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9205,7 +9206,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hudParent: {fileID: 6363451237606965076}
-  healthFill: {fileID: 966827938063945402}
+  lifeHearth: []
+  activeHearth: {fileID: 0}
+  emptyHearth: {fileID: 0}
 --- !u!1 &3496052019015958079
 GameObject:
   m_ObjectHideFlags: 0
@@ -9607,7 +9610,12 @@ MonoBehaviour:
   inputInteractPushed: 0
   move: {x: 0, y: 0, z: 0}
   moveDirection: {fileID: 0}
+  dialogueBox: {fileID: 0}
+  textEffectManager: {fileID: 0}
+  cameraController: {fileID: 0}
   poufpoufTime: 0
+  poufpoufOffset: {x: 0, y: 0, z: 0}
+  poufpoufInstantiated: 0
   visuthrow: {fileID: 7403386935718834451}
   attackVFX: {fileID: 6896911667479795091}
   hurtVFX: {fileID: 6484041033049277072}
@@ -11047,6 +11055,7 @@ MonoBehaviour:
   playerFocused: 1
   cameraPos: {fileID: 1811212735979637406}
   cameraZoom: 8.22
+  panSpeed: 0.5
 --- !u!222 &5113989183623527849
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11251,7 +11260,7 @@ Transform:
   - {fileID: 2856747292856411736}
   - {fileID: 188523206115951302}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5404579956353216078
 BoxCollider:
@@ -32297,7 +32306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7054975941008088950, guid: 0221aab2952bec248b448ef5c391e87e, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7054975941008088950, guid: 0221aab2952bec248b448ef5c391e87e, type: 3}
       propertyPath: m_LocalPosition.x
