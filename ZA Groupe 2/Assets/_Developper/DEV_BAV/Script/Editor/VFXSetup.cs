@@ -20,7 +20,7 @@ public class VFXSetup : EditorWindow
     private string changeProjectHeader;
     private Transform[] children;
     private GameObject childVFX;
-    
+
     //Object Selected
     private Transform masterPosition;
     private GameObject objectSelected;
@@ -75,6 +75,7 @@ public class VFXSetup : EditorWindow
 
         //KeyFrame 
         GUILayout.Label("KeyFrames", EditorStyles.boldLabel);
+        Time.timeScale = EditorGUILayout.Slider(" Modify Time", Time.timeScale, 0.01f, 2f);
         EditorGUILayout.Space();
 
         //URP/HDRP/RenderPipeline
@@ -224,4 +225,10 @@ public class VFXSetup : EditorWindow
     {
         
     }
+
+    private void ModifyTime()
+    {
+        
+    }
+    
 }
