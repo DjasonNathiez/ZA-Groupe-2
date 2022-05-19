@@ -182,6 +182,20 @@ public class PlayerManager : MonoBehaviour
         //Roll Animation Curve Setup
         rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
         m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
+        StartCoroutine(RadarEventTimer());
+    }
+
+    //GameStats
+    IEnumerator RadarEventTimer()
+    {
+        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position)
+        {
+            EventName = "PlayerRadar"
+        });
+
+        yield return new WaitForSeconds(1f);
+
+        StartCoroutine(RadarEventTimer());
     }
 
     private void Update()
