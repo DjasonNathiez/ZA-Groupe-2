@@ -32,6 +32,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private Animator animator;
     
 
     private void Start()
@@ -86,7 +87,7 @@ public class BossBehaviour : MonoBehaviour
                 else
                 {
                     state = 0;
-                    StartCoroutine(Dash(1));
+                    StartCoroutine(Dash(0.2f));
                 }
             }
         }
@@ -147,6 +148,7 @@ public class BossBehaviour : MonoBehaviour
     
     public IEnumerator Dash(float delay)
     {
+        animator.Play("Dash");
         material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
@@ -162,11 +164,13 @@ public class BossBehaviour : MonoBehaviour
         yield return new WaitForSeconds(delay);
         material.color = Color.white;
         state = 1;
+        animator.Play("Marche");
     }
     
     public IEnumerator ShockWave(float delay)
     {
         material.color = Color.cyan;
+        animator.Play("Attaque");
         yield return new WaitForSeconds(delay);
         shockWaveGameObject.SetActive(true);
         shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0);
@@ -176,6 +180,7 @@ public class BossBehaviour : MonoBehaviour
         material.color = Color.white;
         shockWaveGameObject.SetActive(false);
         state = 1;
+        animator.Play("Marche");
     }
 
     public IEnumerator Fall(float delay)
