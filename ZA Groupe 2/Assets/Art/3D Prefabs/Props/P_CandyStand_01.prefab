@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 2778994608563392934}
   - component: {fileID: 1242750823619534339}
   - component: {fileID: 3952986210522786505}
+  - component: {fileID: 3211776033725762731}
+  - component: {fileID: 2081041724631556804}
+  - component: {fileID: 6078599754263066886}
   m_Layer: 0
   m_Name: P_CandyStand_01
-  m_TagString: Untagged
+  m_TagString: GrippableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +86,45 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3211776033725762731
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3304279230129752860}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.083724, y: 2.281993, z: 3.9870384}
+  m_Center: {x: -0.008080989, y: -0.003903986, z: 1.8464047}
+--- !u!54 &2081041724631556804
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3304279230129752860}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &6078599754263066886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3304279230129752860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightClass: 0

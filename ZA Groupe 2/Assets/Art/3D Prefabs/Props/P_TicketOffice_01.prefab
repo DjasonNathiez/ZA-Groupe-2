@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 4566835680733579692}
   - component: {fileID: 634852852530628105}
   - component: {fileID: 3398955512294519491}
+  - component: {fileID: 2946866976640836818}
+  - component: {fileID: 272710735955649765}
+  - component: {fileID: 1065891945312548453}
   m_Layer: 0
   m_Name: P_TicketOffice_01
-  m_TagString: Untagged
+  m_TagString: GrippableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,3 +86,45 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2946866976640836818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759230769067987734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightClass: 0
+--- !u!65 &272710735955649765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759230769067987734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.2337017, y: 4.288672, z: 4.7771573}
+  m_Center: {x: 0.45797357, y: 0.19586504, z: 2.387667}
+--- !u!54 &1065891945312548453
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759230769067987734}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

@@ -12,9 +12,12 @@ GameObject:
   - component: {fileID: 2893090300594300075}
   - component: {fileID: 1135651497952792673}
   - component: {fileID: 6959448566825251316}
+  - component: {fileID: 1364125469583482030}
+  - component: {fileID: 2182681630024216467}
+  - component: {fileID: 346810454061578934}
   m_Layer: 0
   m_Name: P_PalmTree_01
-  m_TagString: Untagged
+  m_TagString: GrippableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1886,3 +1889,45 @@ MonoBehaviour:
   m_SkinMeshRef: {fileID: 0}
   m_OriginalMeshObject: {fileID: 2907385265981030843, guid: 8d51d4333da353e4e8acef1d378de245, type: 3}
   m_Mode: 0
+--- !u!65 &1364125469583482030
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495856385465938356}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.9338894, y: 0.7964514, z: 3.340838}
+  m_Center: {x: 0.09357321, y: 0.0492723, z: 1.6370112}
+--- !u!54 &2182681630024216467
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495856385465938356}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &346810454061578934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495856385465938356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightClass: 0
