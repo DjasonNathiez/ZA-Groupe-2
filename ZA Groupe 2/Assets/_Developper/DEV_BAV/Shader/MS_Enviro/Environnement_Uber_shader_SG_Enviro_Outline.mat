@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Environnement_Uber_shader_SG_Enviro_Outline
+  m_Shader: {fileID: -6465566751694194690, guid: ec26f1ba5a16ac64b9c609afa0d7fc9a, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AmbiantOcclusionMapTex2D:
+        m_Texture: {fileID: 2800000, guid: 437ca8bb9f673d0409c5f072daf29e2c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor_Tex:
+        m_Texture: {fileID: 2800000, guid: fc884e0fad8934e4db76052f1127963d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMapTex2D:
+        m_Texture: {fileID: 2800000, guid: 4d170cce9787c5547866de66ba1a2db6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Alpha: 1
+    - _AlphaClip: 0
+    - _AmbiantOcclusionMap: 1
+    - _AmbiantOcclusion_Intensity: 1
+    - _AmbiantOcclusion_Smoothstep_Max: 1
+    - _AmbiantOcclusion_Smoothstep_Min: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Color_Intensity: 1
+    - _Cull: 2
+    - _CutOff: 0.5
+    - _Depth_Sensitivity: 0
+    - _DstBlend: 0
+    - _EmissionMap: 1
+    - _Emission_Smoothstep_Max: 1
+    - _Emission_Smoothstep_Min: 0.89
+    - _Enable: 1
+    - _Enable_Outline: 1
+    - _HSV: 0
+    - _HSV_Saturation: 2.57
+    - _HSV_Shift: 2.57
+    - _HSV_Value: 2.57
+    - _HeightMap: 1
+    - _Height_Scale: 0.1
+    - _MetallicMap: 0
+    - _Metallic_Intensity: 0
+    - _Metallic_Smoothstep_Max: 1
+    - _Metallic_Smoothstep_Min: 1
+    - _Modify_Color: 1
+    - _Modify_Intensity: 1
+    - _Modify_Normal_Intensity: 0
+    - _NormalMap: 0
+    - _Normal_Intensity: 1
+    - _Normals_Sensitivity: 0
+    - _Outline_Thickness: 8
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Rgb_Shift: 0
+    - _RoughnessMap: 0
+    - _Roughness_Intensity: 0
+    - _Roughness_Smoothstep_Max: 1
+    - _Roughness_Smoothstep_Min: 0
+    - _SmoothnessMap: 0
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZTest: 4
+    - _ZWrite: 1
+    - _ZWriteControl: 0
+    m_Colors:
+    - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _OutlineColor: {r: 4, g: 3.0745099, b: 0, a: 0}
+  m_BuildTextureStacks: []
+--- !u!114 &8714969912891915087
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
