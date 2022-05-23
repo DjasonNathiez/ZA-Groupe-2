@@ -17,6 +17,7 @@ public class Door : MonoBehaviour
     public Vector3 rotationOpen;
     public GameObject[] lightFeedback;
     public bool puzzleEnded;
+    public GameObject[] child;
     
     void Update()
     {
@@ -44,6 +45,18 @@ public class Door : MonoBehaviour
             {
                 puzzleEnded = true;
             }
+            
+            if (type == "Activator")
+            {
+                foreach (GameObject c in child)
+                {
+                    c.SetActive(true);
+                }
+                if (persistent)
+                {
+                    enabled = false;
+                } 
+            }
         }
         else
         {
@@ -55,6 +68,14 @@ public class Door : MonoBehaviour
             else if (type == "Rotating")
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationClosed), Time.deltaTime * 5);
+            }
+
+            if (type == "Activator")
+            {
+                foreach (GameObject c in child)
+                {
+                    c.SetActive(false);
+                }
             }
         }
     }
