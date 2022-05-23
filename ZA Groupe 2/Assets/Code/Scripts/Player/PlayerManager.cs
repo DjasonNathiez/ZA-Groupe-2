@@ -282,7 +282,7 @@ public class PlayerManager : MonoBehaviour
             if (currentAttackCD > 0)
             {
                 currentAttackCD -= Time.deltaTime;
-                //Debug.Log(currentAttackCD);
+              
             }
             else if (currentAttackCD <= 0)
             {
@@ -316,9 +316,7 @@ public class PlayerManager : MonoBehaviour
                 
                     Transform nearest = null;
                     float angle = aimHelpAngle;
-                    Debug.DrawRay(transform.position,new Vector3(m_inputController.Player.Move.ReadValue<Vector2>().x,0,m_inputController.Player.Move.ReadValue<Vector2>().y)*3,Color.red);
                     Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) + m_inputController.Player.Move.ReadValue<Vector2>();
-                    Debug.DrawRay(transform.position,new Vector3(test.x,0,test.y)*3,Color.green);
                     foreach (Transform obj in reachable)
                     {
                         if(Vector2.Angle(test,new Vector2(obj.transform.position.x,obj.transform.position.z) - new Vector2(transform.position.x,transform.position.z))< angle)
@@ -362,8 +360,7 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Pause.started += PauseOnStarted;
         
         //Detect Back
-
-        Debug.DrawRay(transform.position, -transform.forward, Color.magenta);
+        
         
         /*if (Physics.Raycast(transform.position, -transform.forward, out var hit))
         {
@@ -422,9 +419,11 @@ public class PlayerManager : MonoBehaviour
                     }
 
                     break;
+                case "Throw":
+                    Rewind();
+                    break;
                 case "Rope":
                     Rewind();
-                    Debug.Log("ReasonNumberOne");
                     break;
                 default: return;
             }
@@ -454,7 +453,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         { 
-            // Debug.Log("Je bouge encore");
+       
             if (!m_isRolling && !m_attack.isAttacking && !isDead)
             {
                 m_animator.Play("Move");
@@ -464,7 +463,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-//                    Debug.Log(moveInput.performed);
+
                     poufpoufTimer = 0;
                     poufpoufInstantiated = true;
                     GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
@@ -604,7 +603,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Rewind()
     {
-        if (state == "Rope")
+        if (state == "Rope" || state == "Throw")
         {
             rope.rewinding = true;
         }
@@ -647,7 +646,7 @@ public class PlayerManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        Debug.Log("RespawnPlayer");
+       
         GameManager.instance.BackToCheckpoint();
         ResetState();
         isDead = false;
@@ -682,7 +681,7 @@ public class PlayerManager : MonoBehaviour
             {
                 case "Health":
                     currentLifePoint += item.valuePercentage;
-                    Debug.Log("Got healed by " + item.valuePercentage);
+                  
                     break;
 
                 case "Rope":

@@ -345,42 +345,46 @@ public class Rope : MonoBehaviour
                 int check = nodes.Count;
                 for (int i = 0; i < check; i++)
                 {
+                    Debug.Log((nodes[0].nodePoint.transform.position - pin.transform.position).magnitude);
                     if (((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude <
-                        (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude)
+                        (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude && (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude > 0.001f)
+                    {
+                            
+                        
+                        Vector3 newPos = pin.transform.position + (nodes[0].nodePoint.transform.position - pin.transform.position).normalized* Time.deltaTime * newlenght;
+                        pin.transform.position = newPos;
+                        break;   
+                        
+                    }
+                    else
+                    {
+                        newlenght = ((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude - (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude;
+                        pin.transform.position = nodes[0].nodePoint.transform.position;
+                        for (int N = 1; N < rope.positionCount-1; N++)
                         {
-                            Vector3 newPos = pin.transform.position + (nodes[0].nodePoint.transform.position - pin.transform.position).normalized* Time.deltaTime * newlenght;
-                            pin.transform.position = newPos;
-                            break;
+                            rope.SetPosition(N,rope.GetPosition(N+1));
                         }
-                        else
+                        Destroy(nodes[0].nodePoint);
+                        if (nodes[0].anchor.GetComponent<ElectrocutedProp>())
                         {
-                            newlenght = ((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude - (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude;
-                            pin.transform.position = nodes[0].nodePoint.transform.position;
-                            for (int N = 1; N < rope.positionCount-1; N++)
-                            {
-                                rope.SetPosition(N,rope.GetPosition(N+1));
-                            }
-                            Destroy(nodes[0].nodePoint);
-                            if (nodes[0].anchor.GetComponent<ElectrocutedProp>())
-                            {
-                                nodes[0].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
+                            nodes[0].anchor.GetComponent<ElectrocutedProp>().LightsOff();   
                                 
-                                if (nodes[0].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
-                                {
-                                    nodes[0].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
-                                }
-                            }
-                            nodes.RemoveAt(0);
-                            foreach (Node node in nodes)
+                            if (nodes[0].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
                             {
-                                if (node.index > 0)
-                                {
-                                    node.index -= 1;
-                                }
+                                nodes[0].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
                             }
-                            rope.positionCount -= 1;
-                            rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
                         }
+                        nodes.RemoveAt(0);
+                        foreach (Node node in nodes)
+                        {
+                            if (node.index > 0)
+                            {
+                                node.index -= 1;
+                            }
+                        }
+                        rope.positionCount -= 1;
+                        rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
+                    }
                     
                 }
             }
