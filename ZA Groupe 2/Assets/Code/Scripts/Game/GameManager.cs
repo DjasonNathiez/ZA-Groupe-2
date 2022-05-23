@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour
     public string lastCheckpointName;
     public Checkpoint[] allCheckpoint;
     public List<AIBrain> enemyList;
-    
+    public List<ValueTrack> grippableObj;
+
     [Header("Debug Menu")]
     public TrelloUI bugtracker;
     public GameObject playtestMenu;
@@ -74,7 +75,7 @@ public class GameManager : MonoBehaviour
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList.AddRange(FindObjectsOfType<AIBrain>());
-        
+        grippableObj.AddRange(FindObjectsOfType<ValueTrack>());
         Cursor.lockState = CursorLockMode.Confined;
     }
 
