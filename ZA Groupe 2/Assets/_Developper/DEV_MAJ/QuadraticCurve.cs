@@ -13,6 +13,8 @@ public class QuadraticCurve : MonoBehaviour
     public WayPoints[] points;
     public FollowCurve followCurve;
     public Vector3[] meshPointCoord;
+    public Vector3[] meshPlankCoord;
+    public int[] plankInts;
     public MeshFilter meshFilter;
     [HideInInspector] public bool bake;
 
@@ -192,6 +194,57 @@ public class QuadraticCurve : MonoBehaviour
                 }
             }
         }
+
+        int pos = meshPoints.Count;
+        
+        for (int i = 0; i < points.Length; i++)
+        {
+            Vector3 tangent = Vector3.zero;
+            Vector3 binormal = Vector3.zero;
+            Vector3 normal = Vector3.zero;
+            if (i > 0)
+            {
+                tangent = default;
+                binormal = points[i].up;
+                normal = (points[i].point - points[i - 1].point).normalized;
+                Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
+                Debug.DrawRay(points[i].point,normal,Color.red,100);
+                Debug.DrawRay(points[i].point,binormal,Color.green,100);
+                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+            }
+
+
+
+
+
+            for (int j = 0; j < x; j++)
+            {
+                Vector3 point;
+                if (i > 0) point = points[i].point + tangent * -meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
+                else  point = points[i].point + meshPointCoord[j];
+                meshPoints.Add(point);
+            }
+
+            if (i > 0)
+            {
+                for (int j = 0; j < x; j++)
+                {
+                    meshTriangles.Add( pos + ((i-1)*x + ((j +1)% x)));
+
+                    meshTriangles.Add( pos + (i*x + (j+1)%x));
+                    
+                    meshTriangles.Add( pos + ((i-1)*x + j + x));
+
+
+                    meshTriangles.Add( pos + ((i-1)*x + j ));
+
+                    meshTriangles.Add( pos + ((i-1)*x + ((j +1)% x)));
+                    
+                    meshTriangles.Add( pos + ((i-1)*x + j + x));
+                    
+                }
+            }
+        }
         Mesh mesh = new Mesh();
         mesh.vertices = meshPoints.ToArray();
         mesh.triangles = meshTriangles.ToArray();
@@ -204,35 +257,56 @@ public class QuadraticCurve : MonoBehaviour
     
     public Mesh CreateQuad()
     {
+        Debug.Log("gato");
         List<Vector3> meshPoints = new List<Vector3>(0);
         List<int> meshTriangles = new List<int>(0);
-        
-        int x = meshPointCoord.Length;
+        int y = 0;
+        int x = meshPlankCoord.Length;
         for (int i = 0; i < points.Length; i++)
         {
-            for (int j = 0; j < x; j++)
+            Vector3 tangent = Vector3.zero;
+            Vector3 binormal = Vector3.zero;
+            Vector3 normal = Vector3.zero;
+            if (i > 0)
             {
-                Vector3 point = points[i].point + meshPointCoord[j];
-                meshPoints.Add(point);
+                tangent = default;
+                binormal = points[i].up;
+                normal = (points[i].point - points[i - 1].point).normalized;
+                Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
+                Debug.DrawRay(points[i].point,normal,Color.red,100);
+                Debug.DrawRay(points[i].point,binormal,Color.green,100);
+                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+            }
+
+
+
+
+            if (i % 2 == 0)
+            {
+
+                for (int j = 0; j < x; j++)
+                {
+                    Vector3 point;
+                    point = points[i].point + tangent * meshPlankCoord[j].x + binormal * meshPlankCoord[j].y + normal * meshPlankCoord[j].z;
+                
+                    meshPoints.Add(point);
+                }
+
+
+                foreach (int z in plankInts)
+                {
+                    meshTriangles.Add(z + (y * meshPlankCoord.Length));
+                }
+
+                y++;
             }
         }
-        meshTriangles.Add( 0  );
-                    
-        meshTriangles.Add( 1);
-                    
-        meshTriangles.Add( 3);
-                    
-                    
-        meshTriangles.Add( 1);
-                    
-        meshTriangles.Add( 3);
-                    
-        meshTriangles.Add( 4);
         Mesh mesh = new Mesh();
         mesh.vertices = meshPoints.ToArray();
         mesh.triangles = meshTriangles.ToArray();
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
+        meshFilter.mesh = mesh;
         return mesh;
     }
     

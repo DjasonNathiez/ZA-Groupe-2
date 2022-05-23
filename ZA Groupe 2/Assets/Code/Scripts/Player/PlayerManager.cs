@@ -297,27 +297,20 @@ public class PlayerManager : MonoBehaviour
             {
                 if (m_inputController.Player.Move.ReadValue<Vector2>() != Vector2.zero)
                 {
-                    List<Transform> reachable = new List<Transform>(0);
-
-                    foreach (AIBrain enemy in GameManager.instance.enemyList)
-                    {
-                        if (Vector2.SqrMagnitude(new Vector2(enemy.transform.position.x, enemy.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < rope.maximumLenght * rope.maximumLenght)
-                        {
-                            reachable.Add(enemy.transform);
-                        }
-                    }
+                    List<ValueTrack> reachable = new List<ValueTrack>(0);
+                    
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     {
-                        if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < rope.maximumLenght * rope.maximumLenght)
+                        if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < Mathf.Clamp(rope.maximumLenght ,0,12) * Mathf.Clamp(rope.maximumLenght ,0,12)  && obj.transform.position.y > transform.position.y - 1 && obj.transform.position.y < transform.position.y + 1)
                         {
-                            reachable.Add(obj.transform);
+                            reachable.Add(obj);
                         }
                     }
                 
-                    Transform nearest = null;
+                    ValueTrack nearest = null;
                     float angle = aimHelpAngle;
                     Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) + m_inputController.Player.Move.ReadValue<Vector2>();
-                    foreach (Transform obj in reachable)
+                    foreach (ValueTrack obj in reachable)
                     {
                         if(Vector2.Angle(test,new Vector2(obj.transform.position.x,obj.transform.position.z) - new Vector2(transform.position.x,transform.position.z))< angle)
                         {
@@ -328,18 +321,32 @@ public class PlayerManager : MonoBehaviour
 
                     if (nearest != null)
                     {
-                        locking.SetActive(true);
-                        locking.transform.position = nearest.position + Vector3.up * 1.5f;
-                        transform.rotation = Quaternion.LookRotation(new Vector3(nearest.position.x, 0, nearest.position.z) - new Vector3(transform.position.x, 0, transform.position.z));
+                        transform.rotation = Quaternion.LookRotation(new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z) - new Vector3(transform.position.x, 0, transform.position.z));
+                        foreach (ValueTrack obj in reachable)
+                        {
+                            if (nearest == obj)
+                            {
+                                obj.material.SetFloat("_Rgb_Shift",0.5f);
+                            }
+                            else
+                            {
+                                obj.material.SetFloat("_Rgb_Shift",0);
+                            }
+                        }
                     }
                     else
                     {
-                        locking.SetActive(false);
+                        foreach (ValueTrack obj in reachable)
+                        {
+                            
+                                obj.material.SetFloat("_Rgb_Shift",0);
+                            
+                        }
                     }
                 }
                 else
                 {
-                    locking.SetActive(false);
+                    
                 }
             } 
         }
