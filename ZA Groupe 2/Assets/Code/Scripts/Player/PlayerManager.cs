@@ -326,11 +326,11 @@ public class PlayerManager : MonoBehaviour
                         {
                             if (nearest == obj)
                             {
-                                obj.material.SetFloat("_Rgb_Shift",0.5f);
+                                obj.meshRenderer.material.SetFloat("_EnableOutline",1);
                             }
                             else
                             {
-                                obj.material.SetFloat("_Rgb_Shift",0);
+                                obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                             }
                         }
                     }
@@ -339,14 +339,19 @@ public class PlayerManager : MonoBehaviour
                         foreach (ValueTrack obj in reachable)
                         {
                             
-                                obj.material.SetFloat("_Rgb_Shift",0);
+                            obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                             
                         }
                     }
                 }
                 else
                 {
-                    
+                    foreach (ValueTrack obj in GameManager.instance.grippableObj)
+                    {
+                            
+                        obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                            
+                    }
                 }
             } 
         }

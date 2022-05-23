@@ -12,11 +12,11 @@ public enum WeightClass
 public class ValueTrack : MonoBehaviour
 {
     public WeightClass weightClass;
-    public Material material;
+    public MeshRenderer meshRenderer;
 
     private void Start()
     {
-        if(!material) material = GetComponent<MeshRenderer>().material;
+        if(!meshRenderer) meshRenderer = GetComponent<MeshRenderer>();
     }
 }
 
