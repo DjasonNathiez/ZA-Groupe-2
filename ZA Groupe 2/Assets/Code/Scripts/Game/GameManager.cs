@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject collectionPanel;
     public GameObject characterPanel;
     public GameObject settingsPanel;
+    public GameObject currentTab;
 
     [Header("Level")]
     public string gameScene;
@@ -148,6 +149,7 @@ public class GameManager : MonoBehaviour
                 break;
             
             case "Settings": settingsPanel.SetActive(true);
+                currentTab = settingsPanel;
                 
                 collectionPanel.SetActive(false);
                 characterPanel.SetActive(false);
@@ -170,6 +172,11 @@ public class GameManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(selectedButton);
         }
     } //set ui current selected button
+
+    public void CloseTab()
+    {
+        currentTab = settingsPanel;
+    }
     
     public void OpenBugTrackerPanel(bool isOpen)
     {
