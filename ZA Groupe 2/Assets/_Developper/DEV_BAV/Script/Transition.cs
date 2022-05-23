@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways ]
 public class Transition : MonoBehaviour
 {
     [SerializeField] float radius;
     
+    [Header("Transition Etage")]
     [SerializeField] private Transform etagePos;
     [SerializeField] private float heightPlayer;
     [SerializeField] private float _duration;
@@ -20,6 +22,7 @@ public class Transition : MonoBehaviour
         radius= 0f;
     }
 
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -35,6 +38,13 @@ public class Transition : MonoBehaviour
             }
             Shader.SetGlobalFloat("_TransitionRadius", radius);
         }
+    }
+    */
+
+    void Update()
+    {
+        Shader.SetGlobalVector("_PlayerPosition", transform.position);
+        Shader.SetGlobalFloat("_TransitionRadius", radius);
     }
 
     private void OnDisable()
