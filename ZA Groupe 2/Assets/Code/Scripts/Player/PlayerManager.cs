@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using DG.Tweening;
@@ -85,6 +86,8 @@ public class PlayerManager : MonoBehaviour
     public float throwingSpeed;
     [HideInInspector] public Vector3 direction;
     public string state = "StatusQuo";
+    public GameObject locking;
+    public float aimHelpAngle;
 
     //Others
     [Header("Others")] public AnimationClip rollAnimClip;
@@ -279,7 +282,7 @@ public class PlayerManager : MonoBehaviour
             if (currentAttackCD > 0)
             {
                 currentAttackCD -= Time.deltaTime;
-                //Debug.Log(currentAttackCD);
+              
             }
             else if (currentAttackCD <= 0)
             {
@@ -289,6 +292,56 @@ public class PlayerManager : MonoBehaviour
             //Distance
 
             if (state == "Throw") throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+
+            if (state == "Aiming")
+            {
+                if (m_inputController.Player.Move.ReadValue<Vector2>() != Vector2.zero)
+                {
+                    List<Transform> reachable = new List<Transform>(0);
+
+                    foreach (AIBrain enemy in GameManager.instance.enemyList)
+                    {
+                        if (Vector2.SqrMagnitude(new Vector2(enemy.transform.position.x, enemy.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < rope.maximumLenght * rope.maximumLenght)
+                        {
+                            reachable.Add(enemy.transform);
+                        }
+                    }
+                    foreach (ValueTrack obj in GameManager.instance.grippableObj)
+                    {
+                        if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < rope.maximumLenght * rope.maximumLenght)
+                        {
+                            reachable.Add(obj.transform);
+                        }
+                    }
+                
+                    Transform nearest = null;
+                    float angle = aimHelpAngle;
+                    Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) + m_inputController.Player.Move.ReadValue<Vector2>();
+                    foreach (Transform obj in reachable)
+                    {
+                        if(Vector2.Angle(test,new Vector2(obj.transform.position.x,obj.transform.position.z) - new Vector2(transform.position.x,transform.position.z))< angle)
+                        {
+                            angle = Vector2.Angle(test, new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z));
+                            nearest = obj;
+                        }
+                    }
+
+                    if (nearest != null)
+                    {
+                        locking.SetActive(true);
+                        locking.transform.position = nearest.position + Vector3.up * 1.5f;
+                        transform.rotation = Quaternion.LookRotation(new Vector3(nearest.position.x, 0, nearest.position.z) - new Vector3(transform.position.x, 0, transform.position.z));
+                    }
+                    else
+                    {
+                        locking.SetActive(false);
+                    }
+                }
+                else
+                {
+                    locking.SetActive(false);
+                }
+            } 
         }
 
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
@@ -307,8 +360,7 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Pause.started += PauseOnStarted;
         
         //Detect Back
-
-        Debug.DrawRay(transform.position, -transform.forward, Color.magenta);
+        
         
         /*if (Physics.Raycast(transform.position, -transform.forward, out var hit))
         {
@@ -367,9 +419,11 @@ public class PlayerManager : MonoBehaviour
                     }
 
                     break;
+                case "Throw":
+                    Rewind();
+                    break;
                 case "Rope":
                     Rewind();
-                    Debug.Log("ReasonNumberOne");
                     break;
                 default: return;
             }
@@ -399,7 +453,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         { 
-            // Debug.Log("Je bouge encore");
+       
             if (!m_isRolling && !m_attack.isAttacking && !isDead)
             {
                 m_animator.Play("Move");
@@ -409,7 +463,7 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-//                    Debug.Log(moveInput.performed);
+
                     poufpoufTimer = 0;
                     poufpoufInstantiated = true;
                     GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
@@ -549,7 +603,7 @@ public class PlayerManager : MonoBehaviour
 
     public void Rewind()
     {
-        if (state == "Rope")
+        if (state == "Rope" || state == "Throw")
         {
             rope.rewinding = true;
         }
@@ -592,7 +646,7 @@ public class PlayerManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        Debug.Log("RespawnPlayer");
+       
         GameManager.instance.BackToCheckpoint();
         ResetState();
         isDead = false;
@@ -627,7 +681,7 @@ public class PlayerManager : MonoBehaviour
             {
                 case "Health":
                     currentLifePoint += item.valuePercentage;
-                    Debug.Log("Got healed by " + item.valuePercentage);
+                  
                     break;
 
                 case "Rope":
