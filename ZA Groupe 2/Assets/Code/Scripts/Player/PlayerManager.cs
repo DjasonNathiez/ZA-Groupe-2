@@ -484,8 +484,8 @@ public class PlayerManager : MonoBehaviour
 
                     poufpoufTimer = 0;
                     poufpoufInstantiated = true;
-                    GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
-                    go.transform.parent = this.GameObject().transform;
+                   // GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
+                   // go.transform.parent = this.GameObject().transform;
                 }
             }
          
