@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -56,13 +55,13 @@ public class GameManager : MonoBehaviour
         }
         
     
-
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         
         if (instance == null)
         {
+            Debug.Log("instancialize");
             instance = this;
         }
         else

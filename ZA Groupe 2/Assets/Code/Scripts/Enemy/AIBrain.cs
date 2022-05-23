@@ -12,8 +12,8 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public SpawnArea spawnPoint;
 
     [HideInInspector] public Rigidbody rb;
-    [HideInInspector] public GameObject player;
-    [HideInInspector] public NavMeshAgent nav;
+    public GameObject player;
+    public NavMeshAgent nav;
     [HideInInspector] public Animator animator;
     [HideInInspector] public float distanceToPlayer;
 
