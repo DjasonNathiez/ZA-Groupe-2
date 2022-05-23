@@ -451,6 +451,12 @@ public class PlayerManager : MonoBehaviour
                 case "Aiming":
                     Throw();
                     visuthrow.SetActive(false);
+                    foreach (ValueTrack obj in GameManager.instance.grippableObj)
+                    {
+                            
+                        obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                            
+                    }
                     break;
                 default: return;
             }

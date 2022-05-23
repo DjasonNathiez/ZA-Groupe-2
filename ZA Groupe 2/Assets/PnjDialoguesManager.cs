@@ -8,6 +8,8 @@ public class PnjDialoguesManager : MonoBehaviour
 {
     public bool isDialoguing;
     [SerializeField] private TextEffectManager textEffectManager;
+    public float timer;
+    public bool auto;
     [SerializeField] private DialogueLine[] dialogue;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private GameObject button;
@@ -44,7 +46,8 @@ public class PnjDialoguesManager : MonoBehaviour
                 PlayerManager.instance.EnterDialogue();
                 if (dialogue[0].durationIfAuto != 0)
                 {
-                    StartCoroutine(DelayedDialogueLine(dialogue[0].durationIfAuto));
+                    timer = dialogue[0].durationIfAuto;
+                    auto = true;
                 }
             }
         }
@@ -52,7 +55,7 @@ public class PnjDialoguesManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
+        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check && timer == 0)
         {
             check = true;
             if (dialogueBox.activeSelf)
@@ -102,7 +105,8 @@ public class PnjDialoguesManager : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(DelayedDialogueLine(dialogue[textEffectManager.dialogueIndex].durationIfAuto));
+                    timer = dialogue[0].durationIfAuto;
+                    auto = true;
                 }
             }
             else
@@ -127,54 +131,65 @@ public class PnjDialoguesManager : MonoBehaviour
             }
         }
 
+        if (other.CompareTag("Player") && auto)
+        {
+            if (timer > 0)
+            {
+                timer -= Time.deltaTime;
+            }
+            else
+            {
+                auto = false;
+                timer = 0;
+                if (textEffectManager.dialogueIndex == dialogue.Length - 1)
+                {
+                    GameManager.instance.EnableAllEnemy();
+                    dialogueBox.transform.position = new Vector3(960, -160, 0);
+                    isDialoguing = false;
+                    cameraController.playerFocused = true;
+                    cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
+                    cameraController.cameraZoom = 8.22f;
+                    cameraController.panSpeed = 0.5f;
+                    PlayerManager.instance.ExitDialogue();
+                    if (oneTimeDialogue)
+                    {
+                        Destroy(gameObject);
+                        enabled = false;
+                    }
+                }
+                else
+                {
+                    textEffectManager.NextText();
+                    if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
+                    {
+                        cameraController.playerFocused = false;
+                        //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                        cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
+                        Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
+                        cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
+                        cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;
+                        cameraController.panSpeed = dialogue[textEffectManager.dialogueIndex].speedOfPan;
+                    }
+
+                    if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
+                    {
+                        Debug.Log("proutQUiPue");
+                        dialogueBox.transform.position = new Vector3(960, -160, 0);
+                    }
+                    else
+                    {
+                        dialogueBox.transform.position = new Vector3(960, 155, 0);
+                    }
+                }
+            }
+        }
+
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
         {
             check = false;
         }
     }
-
-    IEnumerator DelayedDialogueLine(float time)
-    {
-        yield return new WaitForSeconds(time);
-        if (textEffectManager.dialogueIndex == dialogue.Length - 1)
-        {
-            GameManager.instance.EnableAllEnemy();
-            dialogueBox.SetActive(false);
-            isDialoguing = false;
-            cameraController.playerFocused = true;
-            cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
-            cameraController.cameraZoom = 8.22f;
-            PlayerManager.instance.ExitDialogue();
-            cameraController.panSpeed = 0.5f;
-            if (oneTimeDialogue)
-            {
-                Destroy(gameObject);
-                enabled = false;
-            }
-        }
-        else
-        {
-            textEffectManager.NextText();
-            if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
-            {
-                cameraController.playerFocused = false;
-                //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
-                cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
-                Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
-                cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
-                cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;   
-                cameraController.panSpeed = dialogue[textEffectManager.dialogueIndex].speedOfPan;
-            }   
-            if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
-            {
-                dialogueBox.transform.position = new Vector3(960, -160, 0);
-            }
-            else
-            {
-                dialogueBox.transform.position = new Vector3(960, 155, 0);
-            }
-        }
-    }
+    
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
