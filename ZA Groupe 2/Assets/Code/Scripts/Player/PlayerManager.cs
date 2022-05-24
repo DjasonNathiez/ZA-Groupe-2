@@ -31,7 +31,7 @@ public class PlayerManager : MonoBehaviour
 
     //Personal scripts components
     private Attack m_attack;
-    [HideInInspector] public Rope rope;
+    public Rope rope;
 
     #endregion
 
@@ -114,6 +114,7 @@ public class PlayerManager : MonoBehaviour
         public string hatName;
         public bool collected;
         public GameObject hatObj;
+        public Material baseMaterial;
     }
 
     #endregion
@@ -190,7 +191,7 @@ public class PlayerManager : MonoBehaviour
                 i.hatObj.SetActive(false);
             }
         }
-
+        
         m_inputController = new InputController();
 
         m_animator = GetComponent<Animator>();
@@ -199,6 +200,7 @@ public class PlayerManager : MonoBehaviour
         m_playerInput = GetComponent<PlayerInput>();
         m_attack = GetComponentInChildren<Attack>();
     }
+    
 
     public void SwitchHat(string selectedHat)
     {
@@ -232,6 +234,8 @@ public class PlayerManager : MonoBehaviour
         rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
         m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
         StartCoroutine(RadarEventTimer());
+        
+        GameManager.instance.ui.UpdateHat();
     }
 
     //GameStats
@@ -803,6 +807,7 @@ public class PlayerManager : MonoBehaviour
                         if (item.itemName == hats.hatName)
                         {
                             hats.collected = true;
+                            GameManager.instance.ui.UpdateHat();
                         }
                     }
 
