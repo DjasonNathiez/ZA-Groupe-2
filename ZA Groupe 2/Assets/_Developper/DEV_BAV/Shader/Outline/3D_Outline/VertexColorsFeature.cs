@@ -51,6 +51,7 @@ public class VertexColorsFeature : ScriptableRendererFeature
 
             using (new ProfilingSample(cmd, m_ProfilerTag))
             {
+                context.Submit();
                 context.ExecuteCommandBuffer(cmd);
                 cmd.Clear();
 
@@ -95,8 +96,8 @@ public class VertexColorsFeature : ScriptableRendererFeature
 
     public override void Create()
     {
-        vertexColorsMaterial = CoreUtils.CreateEngineMaterial("Shader Graphs/VertexColor");
-        vertexColorsPass = new VertexColorsPass(RenderQueueRange.opaque, 1, vertexColorsMaterial);
+        vertexColorsMaterial = CoreUtils.CreateEngineMaterial("Hidden/VertexColor");
+        vertexColorsPass = new VertexColorsPass(RenderQueueRange.opaque, -1, vertexColorsMaterial);
         vertexColorsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
         vertexColorsTexture.Init("_CameraVertexColorsTexture");
     }
