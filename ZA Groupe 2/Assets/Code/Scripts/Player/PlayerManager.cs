@@ -104,8 +104,8 @@ public class PlayerManager : MonoBehaviour
     public bool gloves;
     public List<GameObject> hatCollected;
     public GameObject currentHat;
-    public MeshRenderer hatMesh;
-    public Material hatMat;
+    public MeshFilter hatMesh;
+    public MeshRenderer HatMeshRenderer;
 
     #endregion
 
@@ -213,10 +213,9 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
 
-        //Read Input
+        #region Read Input
 
-        //Interact
-        if (!isDead && m_controlState != ControlState.DIALOGUE)
+         if (!isDead && m_controlState != ControlState.DIALOGUE)
         {
             m_inputController.Player.Interact.started += Interact;
             m_inputController.Player.Interact.canceled += Interact;
@@ -346,8 +345,11 @@ public class PlayerManager : MonoBehaviour
                     {
                         foreach (ValueTrack obj in reachable)
                         {
-                            
-                            obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+
+                            if (obj.meshRenderer != null)
+                            {
+                                obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                            }
                             
                         }
                     }
@@ -361,44 +363,31 @@ public class PlayerManager : MonoBehaviour
                             
                     }
                 }
-            } 
-        }
+            }
+            
+            
 
+        }
+         
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
 
 
         m_inputController.Player.Bugtracker.started += _ =>
-            GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
+             GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
         m_inputController.Player.Bugtracker.started += _ =>
-            m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf
-                ? ControlState.UI
-                : ControlState.NORMAL;
+             m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf
+                 ? ControlState.UI
+                 : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ =>
-            Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
+             Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
 
 
         m_inputController.Player.Pause.started += PauseOnStarted;
         
-        //Detect Back
-        
-        
-        /*if (Physics.Raycast(transform.position, -transform.forward, out var hit))
-        {
-            AIBrain aiBrain = hit.collider.GetComponent<AIBrain>();
-
-            if (aiBrain != null)
-            {
-                aiBrain.playerShowBack = true;
-            }
-            else
-            {
-                foreach (AIBrain brain in GameManager.instance.enemyList)
-                {
-                    brain.playerShowBack = false;
-                }
-            }
-        }*/
+        #endregion
     }
+
+    #region ATTACK
 
     void SetAttackCD()
     {
@@ -425,6 +414,37 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region DISTANCE
+
+    private void Throw()
+    {
+        if (state == "Aiming")
+        {
+            m_animator.Play("Throw");
+
+
+            throwingWeapon.SetActive(true);
+            throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
+            throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
+
+            direction = Vector3.forward;
+
+            state = "Throw";
+            rope.enabled = true;
+            rope.rope.gameObject.SetActive(true);
+        }
+    }
+
+    public void Rewind()
+    {
+        if (state == "Rope" || state == "Throw")
+        {
+            rope.rewinding = true;
+        }
+    }
+    
     public void OnRange()
     {
         if (!isDead)
@@ -471,6 +491,10 @@ public class PlayerManager : MonoBehaviour
         }
         
     }
+
+    #endregion
+
+    #region MOVEMENT
 
     private void Move(InputAction.CallbackContext moveInput)
     {
@@ -545,46 +569,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
-    private void Interact(InputAction.CallbackContext interact)
-    {
-        if (interact.started)
-        {
-            inputInteractPushed = true;
-        }
-
-        if (interact.canceled)
-        {
-            inputInteractPushed = false;
-        }
-    }
-
-    public IEnumerator StartStun(float stunDuration)
-    {
-        if (!m_attack.isAttacking) m_animator.Play("Electrocut");
-
-
-        m_playerStateMachine = PlayerStateMachine.STUN;
-        yield return new WaitForSeconds(stunDuration);
-        m_playerStateMachine = PlayerStateMachine.IDLE;
-    }
-
-    private void PauseOnStarted(InputAction.CallbackContext obj)
-    {
-        if (!obj.started) return;
-
-        if (!GameManager.instance.inPause)
-        {
-            GameManager.instance.Pause();
-            GameManager.instance.inPause = true;
-        }
-        else
-        {
-            GameManager.instance.Resume();
-            GameManager.instance.inPause = false;
-        }
-    }
-
+    
     private void Rotation()
     {
         if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
@@ -606,34 +591,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    #endregion
 
-    [SuppressMessage("ReSharper", "Unity.InefficientPropertyAccess")]
-    private void Throw()
-    {
-        if (state == "Aiming")
-        {
-            m_animator.Play("Throw");
-
-
-            throwingWeapon.SetActive(true);
-            throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
-            throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
-
-            direction = Vector3.forward;
-
-            state = "Throw";
-            rope.enabled = true;
-            rope.rope.gameObject.SetActive(true);
-        }
-    }
-
-    public void Rewind()
-    {
-        if (state == "Rope" || state == "Throw")
-        {
-            rope.rewinding = true;
-        }
-    }
+    #region STATE
 
     public void GetHurt(int damage)
     {
@@ -663,13 +623,72 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
-    IEnumerator WaitForRespawn()
+    
+    public IEnumerator StartStun(float stunDuration)
     {
-        yield return new WaitForSeconds(3);
-        RespawnPlayer();
+        if (!m_attack.isAttacking) m_animator.Play("Electrocut");
+        
+        m_playerStateMachine = PlayerStateMachine.STUN;
+        yield return new WaitForSeconds(stunDuration);
+        m_playerStateMachine = PlayerStateMachine.IDLE;
+    }
+    
+    public void ResetState()
+    {
+        m_attack.isAttacking = false;
+        m_isRolling = false;
+        m_attack.m_collider.enabled = false;
+        currentLifePoint = maxLifePoint = baseLifePoint;
+        m_animator.Play(m_moving ? "Move" : "Idle");
     }
 
+    #endregion
+
+    #region INTERACTION
+
+    private void Interact(InputAction.CallbackContext interact)
+    {
+        if (interact.started)
+        {
+            inputInteractPushed = true;
+        }
+
+        if (interact.canceled)
+        {
+            inputInteractPushed = false;
+        }
+    }
+    
+    public void EnterDialogue()
+    {
+        m_controlState = ControlState.DIALOGUE;
+    }
+
+    public void ExitDialogue()
+    {
+        m_controlState = ControlState.NORMAL;
+    }
+    
+
+    #endregion
+
+    #region VISUAL
+
+    public void SetHat(GameObject hatSelected)
+    {
+        hatMesh.mesh = hatSelected.GetComponent<MeshFilter>().mesh;
+        HatMeshRenderer.material = hatSelected.GetComponent<MeshRenderer>().material;
+    }
+    
+    public void LoadVFX(ParticleSystem effect)
+    {
+        Instantiate(effect, transform.position, Quaternion.identity);
+    }
+
+    #endregion
+
+    #region GAME
+    
     public void RespawnPlayer()
     {
        
@@ -686,16 +705,37 @@ public class PlayerManager : MonoBehaviour
         }
         
     }
-
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public void ResetState()
+    
+    IEnumerator WaitForRespawn()
     {
-        m_attack.isAttacking = false;
-        m_isRolling = false;
-        m_attack.m_collider.enabled = false;
-        currentLifePoint = maxLifePoint = baseLifePoint;
-        m_animator.Play(m_moving ? "Move" : "Idle");
+        yield return new WaitForSeconds(3);
+        RespawnPlayer();
     }
+    
+    public void OnRespawn()
+    {
+        transform.position = GameManager.instance.lastCheckpoint.respawnPoint.position;
+    }
+
+    private void PauseOnStarted(InputAction.CallbackContext obj)
+    {
+        if (!obj.started) return;
+
+        if (!GameManager.instance.inPause)
+        {
+            GameManager.instance.Pause();
+            GameManager.instance.inPause = true;
+        }
+        else
+        {
+            GameManager.instance.Resume();
+            GameManager.instance.inPause = false;
+        }
+    }
+    
+    
+
+    #endregion
 
     private void OnTriggerEnter(Collider other)
     {
@@ -718,15 +758,14 @@ public class PlayerManager : MonoBehaviour
                     gloves = true;
                     Debug.Log("gloves is " + gloves);
                     break;
+                
+                case "Hat":
+                    hatCollected.Add(item.gameObject);
+                    break;
             }
 
             Destroy(item.gameObject);
         }
-    }
-    
-    public void LoadVFX(ParticleSystem effect)
-    {
-        Instantiate(effect, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerStay(Collider other)
@@ -737,11 +776,11 @@ public class PlayerManager : MonoBehaviour
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
     }
+   
+    
+    
 
-    public void OnRespawn()
-    {
-        transform.position = GameManager.instance.lastCheckpoint.respawnPoint.position;
-    }
+    #region SETUP
 
     private void OnEnable()
     {
@@ -753,13 +792,8 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Disable();
     }
 
-    public void EnterDialogue()
-    {
-        m_controlState = ControlState.DIALOGUE;
-    }
+    #endregion
+    
 
-    public void ExitDialogue()
-    {
-        m_controlState = ControlState.NORMAL;
-    }
+    
 }

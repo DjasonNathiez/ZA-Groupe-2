@@ -31,6 +31,7 @@ public class AIBrain : MonoBehaviour
     public bool canMove = true;
     public bool canAttack = true;
     public bool canBeKnocked;
+    public bool counterState;
     
     [HideInInspector] public bool isFalling;
     public bool isAttacking;
@@ -82,7 +83,7 @@ public class AIBrain : MonoBehaviour
         
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        player = GameManager.instance.player;
+        player = FindObjectOfType<PlayerManager>().gameObject;
         nav = GetComponent<NavMeshAgent>();
         
         nav.speed = moveSpeed;
@@ -90,7 +91,7 @@ public class AIBrain : MonoBehaviour
         
         animator.Play(idleAnimName);
     }
-
+    
     public void MoveToPlayer(Vector3 destination)
     {
         isMoving = true;
@@ -133,6 +134,7 @@ public class AIBrain : MonoBehaviour
         float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
 
         playerShowBack = directionAngle < detectionAngle;
+        counterState = !playerShowBack;
 
     }
 
