@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using UnityEngine;
+using System.Numerics;
+using Vector3 = UnityEngine.Vector3;
 
 public struct GameStatsLineTemplate
 {
@@ -16,10 +17,13 @@ public struct GameStatsLineTemplate
     {
         EventName = "attack";
         EventName = "throw";
+        EventName = "Roll";
         EventPositionX = position.x.ToString(CultureInfo.CurrentCulture);
         EventPositionY = position.y.ToString(CultureInfo.CurrentCulture);
         EventPositionZ = position.z.ToString(CultureInfo.CurrentCulture);
     }
+    
+    
 
     public override string ToString()
     {

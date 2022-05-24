@@ -25,6 +25,7 @@ public class GameStatExample : MonoBehaviour
         GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate()
         {
             EventName = "Jump"
+            
         });
     }
 }

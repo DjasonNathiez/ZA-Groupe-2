@@ -596,8 +596,10 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+
     private void Roll(InputAction.CallbackContext roll)
     {
+        
         if (roll.started)
         {
             if (!m_attack.isAttacking && !isDead)
@@ -609,9 +611,18 @@ public class PlayerManager : MonoBehaviour
                     m_isRolling = true;
                 }
             }
+            
+            
         }
+        
+        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate()
+                    {
+                        EventName = "JeRouleuii"
+                    });
     }
     
+    
+
     private void Rotation()
     {
         if (m_playerInput.currentControlScheme == "Keyboard&Mouse")
