@@ -162,6 +162,16 @@ public class QuadraticCurve : MonoBehaviour
                 Debug.DrawRay(points[i].point,binormal,Color.green,100);
                 Debug.DrawRay(points[i].point,tangent,Color.blue,100);
             }
+            else
+            {
+                tangent = default;
+                binormal = points[i].up;
+                normal = (points[i+1].point - points[i].point).normalized;
+                Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
+                Debug.DrawRay(points[i].point,normal,Color.red,100);
+                Debug.DrawRay(points[i].point,binormal,Color.green,100);
+                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+            }
 
 
 
@@ -207,6 +217,16 @@ public class QuadraticCurve : MonoBehaviour
                 tangent = default;
                 binormal = points[i].up;
                 normal = (points[i].point - points[i - 1].point).normalized;
+                Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
+                Debug.DrawRay(points[i].point,normal,Color.red,100);
+                Debug.DrawRay(points[i].point,binormal,Color.green,100);
+                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+            }
+            else
+            {
+                tangent = default;
+                binormal = points[i].up;
+                normal = (points[i+1].point - points[i].point).normalized;
                 Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
                 Debug.DrawRay(points[i].point,normal,Color.red,100);
                 Debug.DrawRay(points[i].point,binormal,Color.green,100);

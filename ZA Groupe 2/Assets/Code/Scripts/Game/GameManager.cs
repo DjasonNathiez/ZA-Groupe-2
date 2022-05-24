@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -57,6 +58,11 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
         DontDestroyOnLoad(gameObject);
         
         if (instance == null)
@@ -64,8 +70,9 @@ public class GameManager : MonoBehaviour
             Debug.Log("instancialize");
             instance = this;
         }
-        else
+        else if (instance != this)
         {
+            Debug.Log("Oula");
             Destroy(gameObject);
         }
 
@@ -74,8 +81,8 @@ public class GameManager : MonoBehaviour
         CheckScene();
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();
-        enemyList.AddRange(FindObjectsOfType<AIBrain>());
-        grippableObj.AddRange(FindObjectsOfType<ValueTrack>());
+        enemyList = FindObjectsOfType<AIBrain>().ToList();
+        grippableObj = FindObjectsOfType<ValueTrack>().ToList();
         Cursor.lockState = CursorLockMode.Confined;
     }
 
