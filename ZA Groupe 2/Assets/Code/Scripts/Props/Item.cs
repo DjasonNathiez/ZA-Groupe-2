@@ -23,9 +23,9 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(new Vector3(0f, Time.deltaTime * rotationSpeed, 0f), Space.World);
+        transform.Rotate(new Vector3(0f, Time.unscaledDeltaTime * rotationSpeed, 0f), Space.World);
         tempPos = possOffset;
-        tempPos.y += Mathf.Sin(Time.fixedTime * Mathf.PI * floatSpeed) * amplitude;
+        tempPos.y += Mathf.Sin(Time.fixedUnscaledTime * Mathf.PI * floatSpeed) * amplitude;
 
         transform.position = tempPos;
     }
