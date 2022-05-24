@@ -39,6 +39,7 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public bool isKnocked;
     public bool isMoving;
     [HideInInspector] public bool isDead;
+    public bool isHurt;
     
     [Header("Movement")]
     public float moveSpeed;
@@ -57,16 +58,7 @@ public class AIBrain : MonoBehaviour
     public float dectectionRange;
     public float massAggroRange;
     [Range(0,180)] public float detectionAngle;
-    
-    [Header("Animations")]
-    public string attackAnimName;
-    public string idleAnimName;
-    public string hurtAnimName;
-    public string deathAnimName;
-    public string moveAnimName;
-    public string standUpAnimName;
-    public string fallAnimName;
-    
+
     [Header("VFX")]
     public ParticleSystem hurtVFX;
     public ParticleSystem attackVFX;
@@ -88,14 +80,11 @@ public class AIBrain : MonoBehaviour
         
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
-        
-        animator.Play(idleAnimName);
     }
     
     public void MoveToPlayer(Vector3 destination)
     {
         isMoving = true;
-        animator.Play(moveAnimName);
         nav.SetDestination(destination);
     }
     
@@ -134,7 +123,6 @@ public class AIBrain : MonoBehaviour
         float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
 
         playerShowBack = directionAngle < detectionAngle;
-        counterState = !playerShowBack;
 
     }
 
@@ -142,9 +130,6 @@ public class AIBrain : MonoBehaviour
     {
         isAttacking = true;
         isMoving = false;
-        
-        animator.Play(attackAnimName);
-
         canAttack = false;
     }
     
@@ -178,9 +163,6 @@ public class AIBrain : MonoBehaviour
         canAttack = false;
         canMove = false;
 
-        //Load graphics
-        animator.Play(fallAnimName);
-
         if (hitZoneVFX != null)
         {
             hitZoneVFX.gameObject.SetActive(true);
@@ -198,8 +180,7 @@ public class AIBrain : MonoBehaviour
         yield return new WaitForSeconds(fallTime);
         isFalling = false;
         
-        animator.Play(standUpAnimName);
-        
+
         if (hitZoneVFX != null)
         {
             hitZoneVFX.gameObject.SetActive(false);  
@@ -229,16 +210,13 @@ public class AIBrain : MonoBehaviour
             
             currentHealth -= damage;
 
+            isHurt = true;
+            
             if (hurtVFX != null)
             {
                 hurtVFX.Play();
             }
 
-            if (!isFalling)
-            {
-                animator.Play(hurtAnimName);
-            }
-            
             if (currentHealth <= 0)
             {
                 Death();
@@ -256,9 +234,8 @@ public class AIBrain : MonoBehaviour
         isDead = true;
         
         Disable();
-        GetComponent<CapsuleCollider>().isTrigger = true;
         
-        animator.Play(deathAnimName);
+        GetComponent<CapsuleCollider>().isTrigger = true;
 
         if (deathVFX != null)
         {
@@ -284,13 +261,13 @@ public class AIBrain : MonoBehaviour
     public void Enable()
     {
         isEnable = true;
+        isHurt = false;
+        canMove = true;
     }
     
     public void Disable()
     {
         isEnable = false;
-
-        nav.ResetPath();
         nav.SetDestination(transform.position);
         rb.velocity = Vector3.zero;
     }

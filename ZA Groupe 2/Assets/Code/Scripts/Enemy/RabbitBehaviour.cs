@@ -15,6 +15,8 @@ public class RabbitBehaviour : AIBrain
     [HideInInspector] public StateMachine stateMachine;
     public enum StateMachine{IDLE, CHASE, ATTACK}
 
+    public bool isPatrolling;
+
     [HideInInspector] public Vector3[] detectedPoints;
     [HideInInspector] public List<float> distanceToPoints;
     [HideInInspector] public Vector3 nearestPoint;
@@ -36,6 +38,13 @@ public class RabbitBehaviour : AIBrain
 
     void Update()
     {
+        //Animator Set Bool
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isPatrolling", isPatrolling);
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("isDead", isDead);
+        
         if (!isDead)
         {
             CheckState();
@@ -69,7 +78,9 @@ public class RabbitBehaviour : AIBrain
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                animator.Play("R_Idle");
+                isAttacking = false;
+                isPatrolling = true;
+                isMoving = false;
                 
                 nav.SetDestination(m_pointToGo);
                 
@@ -95,14 +106,16 @@ public class RabbitBehaviour : AIBrain
                 }
                 
                 break;
-            
+
             case StateMachine.CHASE:
-                animator.Play("R_Chase");
+                
+                isPatrolling = false;
+                isAttacking = false;
                 MoveToRope();
                 break;
             
             case StateMachine.ATTACK:
-                animator.Play(attackAnimName);
+                isAttacking = true;
                 player.GetComponent<PlayerManager>().rope.rewinding = true;
                 break;
         }
@@ -122,6 +135,7 @@ public class RabbitBehaviour : AIBrain
 
     private void MoveToRope()
     {
+        isMoving = true;
         nav.SetDestination(nearestPoint);
     }
 

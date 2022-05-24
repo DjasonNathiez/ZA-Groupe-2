@@ -19,6 +19,13 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
+        //Animator Set Bool
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isFalling", isFalling);
+        animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("isDead", isDead);
+        
         if (!isDead)
         {
             CheckState();
@@ -31,15 +38,14 @@ public class BearBehaviour : AIBrain
     {
         //invincible while he is not onground
         isInvincible = !isFalling;
+        GetComponent<Collider>().isTrigger = isFalling;
 
         if (!isFalling)
         {
-
             if (distanceToPlayer > attackRange + attackRangeDeadZone)
             {
                 if (isAggro && !isAttacking && canMove)
                 {
-                    animator.Play("B_Chase");
                     MoveToPlayer(player.transform.position);
                 }
             }
@@ -50,8 +56,6 @@ public class BearBehaviour : AIBrain
                     SpecialBearAttack();
                 }
             }
-           
-
         }
     }
 
@@ -63,7 +67,6 @@ public class BearBehaviour : AIBrain
         {
             if (col.GetComponent<PlayerManager>())
             {
-                Debug.Log("Player hit !");
                 PlayerManager.instance.GetHurt(attackDamage);
                 StartCoroutine(PlayerManager.instance.StartStun(stunDuration));
             }
@@ -79,6 +82,7 @@ public class BearBehaviour : AIBrain
     {
         canMove = true;
         canAttack = true;
+        isFalling = false;
     }
 
    

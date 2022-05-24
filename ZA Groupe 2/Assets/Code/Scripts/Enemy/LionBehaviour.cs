@@ -19,12 +19,19 @@ public class LionBehaviour : AIBrain
     private void Awake()
     {
         InitializationData();
-    
     }
 
     private void Update()
     {
-        isInvincible = !isFalling;
+        //AnimatorSetBool
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isDead", isDead);
+        animator.SetBool("isFalling", isFalling);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("isMoving", isMoving);
+
+        counterState = isInvincible = !isFalling;
+        
         Detection();
 
         if (isEnable && !isDead)
@@ -33,7 +40,6 @@ public class LionBehaviour : AIBrain
             
             if (isAggro)
             {
-                
                 if (canMove && !isAttacking)
                 {
                     if (stayAtRange)
@@ -63,18 +69,12 @@ public class LionBehaviour : AIBrain
                     MoveToPlayer(target);
                 }
                 
-                if (distanceToPlayer <= attackRange && !counterState)
+                if (distanceToPlayer <= attackRange)
                 {
                     if (canAttack)
                     {
                         AttackPlayer();
                     }
-                    
-                    if(!canAttack && !isAttacking)
-                    {
-                        animator.Play(idleAnimName);
-                    }
-                    
                 }
             }
 
