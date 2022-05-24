@@ -44,7 +44,6 @@ public class RollerCoasterEntry : MonoBehaviour
         {
             button.SetActive(false);
             cam.playerFocused = true;
-            PlayerManager.instance.transform.position = SpawnPointEnd.position;
         }
     }
 
