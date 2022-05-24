@@ -96,7 +96,7 @@ public class VertexColorsFeature : ScriptableRendererFeature
     public override void Create()
     {
         vertexColorsMaterial = CoreUtils.CreateEngineMaterial("Shader Graphs/VertexColor");
-        vertexColorsPass = new VertexColorsPass(RenderQueueRange.opaque, -1, vertexColorsMaterial);
+        vertexColorsPass = new VertexColorsPass(RenderQueueRange.opaque, 1, vertexColorsMaterial);
         vertexColorsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
         vertexColorsTexture.Init("_CameraVertexColorsTexture");
     }
