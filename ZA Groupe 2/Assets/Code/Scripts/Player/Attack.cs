@@ -19,6 +19,7 @@ public class Attack : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     { 
       AIBrain iaBrain = other.GetComponent<AIBrain>();
+      BossBehaviour bossBehaviour = other.GetComponent<BossBehaviour>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
       PropsInstructions props = other.GetComponent<PropsInstructions>();
 
@@ -47,6 +48,16 @@ public class Attack : MonoBehaviour
               
               
               iaBrain.GetComponent<AIBrain>().rb.isKinematic = true;
+              canHurt = false;
+          }
+
+      }
+      
+      if (bossBehaviour)
+      {
+          if (canHurt)
+          {
+              bossBehaviour.GetHurt(PlayerManager.instance.attackDamage);
               canHurt = false;
           }
 
