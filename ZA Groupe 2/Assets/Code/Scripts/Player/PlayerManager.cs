@@ -98,6 +98,14 @@ public class PlayerManager : MonoBehaviour
     public GameObject dialogueBox;
     public TextEffectManager textEffectManager;
     public CameraController cameraController;
+    
+    //Inventory
+    [Header("Inventory")]
+    public bool gloves;
+    public List<GameObject> hatCollected;
+    public GameObject currentHat;
+    public MeshRenderer hatMesh;
+    public Material hatMat;
 
     #endregion
 
@@ -704,6 +712,11 @@ public class PlayerManager : MonoBehaviour
 
                 case "Rope":
                     rope.maximumLenght += item.valuePercentage;
+                    break;
+                
+                case "Gloves":
+                    gloves = true;
+                    Debug.Log("gloves is " + gloves);
                     break;
             }
 

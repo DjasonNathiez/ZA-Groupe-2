@@ -36,6 +36,15 @@ public class ThrowingWeapon : MonoBehaviour
                 {
                     other.GetComponent<PuzzleBoutton>().isGripped = true;
                 }
+
+                if (other.GetComponent<ElectrocutedProp>())
+                {
+                    if (!playerManager.gloves)
+                    {
+                        playerManager.state = "Rope";
+                        playerManager.Rewind();
+                    }
+                }
                 
                 
             }   
@@ -57,6 +66,15 @@ public class ThrowingWeapon : MonoBehaviour
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
                 grip.position = transform.position;
                 grip.parent = other.transform;
+                
+                if (other.GetComponent<ElectrocutedProp>())
+                {
+                    if (!playerManager.gloves)
+                    {
+                        playerManager.state = "Rope";
+                        playerManager.Rewind();
+                    }
+                }
             }
         }
     }
