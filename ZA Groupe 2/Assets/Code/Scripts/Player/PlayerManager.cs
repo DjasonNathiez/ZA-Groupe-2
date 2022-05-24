@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Numerics;
 using DG.Tweening;
 using Unity.Mathematics;
@@ -102,10 +103,18 @@ public class PlayerManager : MonoBehaviour
     //Inventory
     [Header("Inventory")]
     public bool gloves;
-    public List<GameObject> hatCollected;
+    public string startHat;
     public GameObject currentHat;
     public MeshFilter hatMesh;
     public MeshRenderer HatMeshRenderer;
+    public Hat[] hats;
+    
+    [Serializable] public class Hat
+    {
+        public string hatName;
+        public bool collected;
+        public GameObject hatObj;
+    }
 
     #endregion
 
@@ -169,6 +178,19 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
+        foreach (Hat i in hats)
+        {
+            if (i.hatName == startHat)
+            {
+                currentHat = i.hatObj;
+                i.hatObj.SetActive(true);
+            }
+            else
+            {
+                i.hatObj.SetActive(false);
+            }
+        }
+
         m_inputController = new InputController();
 
         m_animator = GetComponent<Animator>();
@@ -176,6 +198,22 @@ public class PlayerManager : MonoBehaviour
         rope = GetComponent<Rope>();
         m_playerInput = GetComponent<PlayerInput>();
         m_attack = GetComponentInChildren<Attack>();
+    }
+
+    public void SwitchHat(string selectedHat)
+    {
+        foreach (Hat hat in hats)
+        {
+            if (hat.hatName == selectedHat)
+            {
+                currentHat = hat.hatObj;
+                hat.hatObj.SetActive(true);
+            }
+            else
+            {
+                hat.hatObj.SetActive(false);
+            }
+        }
     }
 
     private void Start()
@@ -760,7 +798,14 @@ public class PlayerManager : MonoBehaviour
                     break;
                 
                 case "Hat":
-                    hatCollected.Add(item.gameObject);
+                    foreach (Hat hats in hats)
+                    {
+                        if (item.itemName == hats.hatName)
+                        {
+                            hats.collected = true;
+                        }
+                    }
+
                     break;
             }
 
