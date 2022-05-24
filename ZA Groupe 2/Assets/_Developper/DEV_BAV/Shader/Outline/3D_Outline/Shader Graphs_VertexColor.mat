@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MINION_ART_SwapTextures_M
-  m_Shader: {fileID: -6465566751694194690, guid: 315e8debd066fe441b258237fc87db4c, type: 3}
+  m_Name: Shader Graphs_VertexColor
+  m_Shader: {fileID: -6465566751694194690, guid: deeb9608ddcbb91468cc8b70354917d4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,18 +19,6 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_4204C0C8:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_80A5EEF3:
-        m_Texture: {fileID: 2800000, guid: 89d9b2c68c421f845a487ac154a80ea9, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ae4c0e7d760230d448517331d29aaac8, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -45,13 +33,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_8ED1EA40: 0.047
-    - Vector1_D632FD56: 1
-    - Vector1_FBD9E64: 0.01
-    m_Colors:
-    - Color_F69F1A11: {r: 0, g: 1, b: 0.8703723, a: 1}
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    m_Colors: []
   m_BuildTextureStacks: []
---- !u!114 &7583030895921524490
+--- !u!114 &7659685174983482226
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
