@@ -34,6 +34,9 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     [SerializeField] private Animator animator;
     
+    [Header("VFX")]
+    public ParticleSystem hurtVFX;
+    
 
     private void Start()
     {
@@ -41,6 +44,7 @@ public class BossBehaviour : MonoBehaviour
         timeStamp = timeBetweenAttacks;
         material = new Material(material);
         GetComponent<MeshRenderer>().material = material;
+        animator.Play("Marche");
     }
 
     void Update()
@@ -75,7 +79,7 @@ public class BossBehaviour : MonoBehaviour
             if (pillars.Count == 0)
             {
                 state = 0;
-                StartCoroutine(SpawnRabbits(1));
+                StartCoroutine(SpawnRabbits(2));
             }
             else
             {
@@ -115,6 +119,7 @@ public class BossBehaviour : MonoBehaviour
     public IEnumerator SpawnRabbits(float delay)
     {
         material.color = Color.cyan;
+        animator.Play("Lance-Lapin");
         yield return new WaitForSeconds(delay);
         foreach (Transform pos in spawnPosPillars)
         {
@@ -128,6 +133,7 @@ public class BossBehaviour : MonoBehaviour
         }
         material.color = Color.white;
         state = 1;
+        animator.Play("Marche");
     }
 
     public float CalculateCableRotation()
@@ -185,11 +191,49 @@ public class BossBehaviour : MonoBehaviour
 
     public IEnumerator Fall(float delay)
     {
+        animator.Play("Chute");
+        rb.isKinematic = true;
         state = 0;
         material.color = Color.yellow;
         yield return new WaitForSeconds(delay);
         material.color = Color.red;
         state = 3;
+    }
+    
+    public IEnumerator StandUp(float delay)
+    {
+        rb.isKinematic = false;
+        animator.Play("StandUp");
+        yield return new WaitForSeconds(delay);
+        foreach (GameObject obj in pillars)
+        {
+            Destroy(obj);
+        }
+        pillars.Clear();
+        StartCoroutine(SpawnRabbits(2));
+    }
+    public void GetHurt(int damage)
+    {
+        if (state == 3)
+        {
+            if (hurtVFX != null)
+            {
+                hurtVFX.Play();
+            }
+
+            if (phase < 2)
+            {
+                state = 0;
+                StartCoroutine(StandUp(2));
+                phase++;
+            }
+            else
+            {
+                state = 0;
+                animator.Play("Mort");
+                
+            }
+        }
     }
     
     
