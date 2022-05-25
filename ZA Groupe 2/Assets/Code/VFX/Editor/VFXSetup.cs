@@ -208,15 +208,12 @@ public class VFXSetup : EditorWindow
         {
             case 0:
                 _basicMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
-                Debug.Log("Switch Material");
                 break;
             case 1:
                 _basicMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
-                Debug.Log("Switch Material 1 ");
                 break;
             case 2:
                 _basicMaterial = AssetDatabase.GetBuiltinExtraResource<Material>("Default-Diffuse.mat");
-                Debug.Log("Switch Material 2");
                 break;
         }
     }
