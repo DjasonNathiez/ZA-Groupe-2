@@ -16,6 +16,7 @@ public class Door : MonoBehaviour
     public Vector3 rotationClosed;
     public Vector3 rotationOpen;
     public GameObject[] lightFeedback;
+    public CinematicEnvent cinematicEnvent;
     public bool puzzleEnded;
     public GameObject[] child;
     
@@ -39,6 +40,11 @@ public class Door : MonoBehaviour
                 {
                     keysValid = keyNeeded + 1;
                 }   
+            }
+
+            if (cinematicEnvent)
+            {
+                cinematicEnvent.EnableEvent();
             }
 
             if (type == "Puzzle")
