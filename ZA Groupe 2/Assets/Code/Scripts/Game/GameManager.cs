@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Loot Table")] 
     public ItemData[] items;
-    public FishData[] fishList;
 
     [Serializable]
         public struct ItemData
