@@ -15,11 +15,14 @@ Shader "CustomRenderTexture/Light cookie shader"
         
     	[Header(Background)]
     	_BackgroundColor("Background Color", Color) = (1,1,1,1)
+	    _BackgroundColorIntensity("Background Color Intensity", Range(1.0,10.0)) = 2.0
     	
     	//Extra Parameter
     	_InvertTexture("Invert Texture X = Tex1, Y = Tex 2, Z = Tex 3, W = Tex 4", Vector) = (0.0, 0.0, 0.0, 0.0)
     	_ExtraTexture("Extra Texture", int) = 0
     	_Noise("Noise Texture", 2D) = "white" {}
+    	_NoiseColor("Noise Color", Color) = (1,1,1,1)
+        _NoiseColorColorIntensity("Color Noise Intensity", Range(0.0,10.0)) = 2.0
     	
     	[Header(Special Parameter)]
     	_Strength("Strength", Range(0.0,1.0)) = 0.8
@@ -62,6 +65,10 @@ Shader "CustomRenderTexture/Light cookie shader"
             float4     _Color2;
             float      _ColorIntensity2;
             float4     _BackgroundColor;
+            float      _BackgroundColorIntensity;
+            float4     _NoiseColor;
+            float      _NoiseColorColorIntensity;
+            
 
             //Speed Parameter
             float      _Strength;
@@ -81,8 +88,8 @@ Shader "CustomRenderTexture/Light cookie shader"
 				float2 uv3 = IN.globalTexcoord.xy * _Noise_ST.xy + _Noise_ST.zw;
             	
 				//Combine texture
-            	float4 tex1 = tex2D(_Tex1, uv1 + _SineSpeedT1 * 0.1 * _Time.xy);
-				float4 tex2 = tex2D(_Tex2, uv2 + _SineSpeedT2 * 0.1 * _Time.xy);
+            	float4 tex1 = tex2D(_Tex1, uv1 * _Noise_ST.xy + _SineSpeedT1 * 0.1 * _Time.xy);
+				float4 tex2 = tex2D(_Tex2, uv2 * _Noise_ST.xy + _SineSpeedT2 * 0.1 * _Time.xy);
 				float4 texNoise1 = tex2D(_Noise, uv3 + _SineNoiseSpeed * 0.1 * _Time.xy);
             	float4 invertTex = 1 - (tex1 + tex2);
             	float4 tex3 = tex1 * tex2;
@@ -102,11 +109,13 @@ Shader "CustomRenderTexture/Light cookie shader"
             	//Add Texture
             	if(_ExtraTexture == 1)
             	{
-            		tex = (tex1 * _Color1) * _ColorIntensity1 + (tex2 * texNoise1 * _Color2) * _ColorIntensity2 + invertTex * _BackgroundColor ;
+            		tex = tex1 * _Color1 * _ColorIntensity1
+            		+ tex2 * _Color2 * _ColorIntensity2
+            		+ invertTex * _BackgroundColor * _BackgroundColorIntensity ;
             	}
             	else
             	{
-            		tex = (tex1 * _Color1 + tex2 * _Color2);
+            		tex = (tex1 * _Color1 + tex2 * _Color2) + invertTex * _BackgroundColor;
             	}
 				return tex;
             }
