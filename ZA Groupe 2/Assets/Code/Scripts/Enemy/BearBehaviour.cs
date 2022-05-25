@@ -12,6 +12,8 @@ public class BearBehaviour : AIBrain
     public GameObject feedbackWarningAttack;
     private bool m_canSpawn;
 
+    public CapsuleCollider bodyCol;
+
     private void Start()
     {
         InitializationData();
@@ -19,6 +21,8 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
+        bodyCol.isTrigger = !isFalling;
+        
         //Animator Set Bool
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isFalling", isFalling);
