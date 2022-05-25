@@ -101,7 +101,7 @@ public class BossBehaviour : MonoBehaviour
             shockWaveGameObject.transform.localScale += new Vector3((Time.deltaTime * shockWaveSpeed),0,(Time.deltaTime * shockWaveSpeed));
         }
 
-        if (legsColider.childCount > 0 + cableNodes.Count || legsColider.childCount < 1 + cableNodes.Count)
+        if (legsColider.childCount > 1 + cableNodes.Count || legsColider.childCount < 1 + cableNodes.Count)
         {
             List<GameObject> nodes = new List<GameObject>(0);
             foreach (Node node in PlayerManager.instance.rope.nodes)
@@ -112,6 +112,15 @@ public class BossBehaviour : MonoBehaviour
                 }
             }
             cableNodes = nodes;
+            if (cableNodes.Count > 0 && phase == 0 && state == 1)
+            {
+                state = 4;
+                
+            }
+            else if (cableNodes.Count == 0 && phase == 0 && state == 4)
+            {
+                state = 1;
+            }
             cableRotation = CalculateCableRotation();
         }
     }
