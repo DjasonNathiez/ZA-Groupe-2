@@ -65,6 +65,7 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem attackVFX;
     public ParticleSystem hitZoneVFX;
     public ParticleSystem deathVFX;
+    public ParticleSystem explosionVFX;
 
     public bool playerShowBack;
 
@@ -241,6 +242,11 @@ public class AIBrain : MonoBehaviour
         if (deathVFX != null)
         {
             deathVFX.Play();
+        }
+
+        if (explosionVFX != null)
+        {
+            explosionVFX.Play();
         }
         
         GameManager.instance.enemyList.Remove(this);

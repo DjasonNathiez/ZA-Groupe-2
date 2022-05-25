@@ -273,7 +273,16 @@ public class PlayerManager : MonoBehaviour
         m_animator.SetBool("isHurt", isHurt);
         m_animator.SetBool("startTalking", startTalking);
         m_animator.SetBool("isTalking", isTalking);
-        
+
+        if (isRolling)
+        {
+            isAttacking = false;
+        }
+        if (isAttacking)
+        {
+            isRolling = false;
+        }
+
         #region Read Input
 
          if (!isDead && m_controlState != ControlState.DIALOGUE)
@@ -282,7 +291,10 @@ public class PlayerManager : MonoBehaviour
             m_inputController.Player.Interact.canceled += Interact;
 
             //Roll
-            m_inputController.Player.Roll.started += Roll;
+            if (!isRolling && !isAttacking && isMoving)
+            {
+                m_inputController.Player.Roll.started += Roll;
+            }
 
             if (m_isRolling)
             {
@@ -345,7 +357,10 @@ public class PlayerManager : MonoBehaviour
 
 
             //Attack Melee
-            m_inputController.Player.Melee.started += Attack;
+            if (!isAttacking && !isRolling)
+            {
+                m_inputController.Player.Melee.started += Attack;
+            }
 
             if (currentAttackCD > 0)
             {
@@ -464,13 +479,15 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking)
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
+                
                 GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "attack"));
+                
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
@@ -635,8 +652,8 @@ public class PlayerManager : MonoBehaviour
                 if (m_canRoll)
                 {
                     GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "roll"));
-                    isRolling = true;
                     rollVFX.Play();
+                    isRolling = true;
                     m_isRolling = true;
                 }
             }
