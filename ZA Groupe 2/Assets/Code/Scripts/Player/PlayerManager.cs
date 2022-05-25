@@ -69,6 +69,16 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public bool isInvincible;
     [HideInInspector] public bool haveGloves;
 
+    public bool isAttacking;
+    public bool isMoving;
+    public bool isRolling;
+    public bool collect;
+    public bool isThrowing;
+    public bool isElectrocut;
+    public bool isHurt;
+    public bool startTalking;
+    public bool isTalking;
+
     [Header("Movements Stats")] public float moveSpeed;
     public float rotationSpeed;
     public float rollCooldown;
@@ -79,7 +89,6 @@ public class PlayerManager : MonoBehaviour
 
     // Melee Attack
     public int attackDamage;
-
     public float attackSpeed;
 
     // Distance Attack
@@ -244,8 +253,7 @@ public class PlayerManager : MonoBehaviour
     IEnumerator RadarEventTimer()
     {
         GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "PlayerRadar"));
-     
-
+        
         yield return new WaitForSeconds(1f);
 
         StartCoroutine(RadarEventTimer());
@@ -255,6 +263,17 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
 
+        //animator Set Bool
+        m_animator.SetBool("isAttacking", isAttacking);
+        m_animator.SetBool("isMoving", isMoving);
+        m_animator.SetBool("isRolling", isRolling);
+        m_animator.SetBool("collect", collect);
+        m_animator.SetBool("isThrowing", isThrowing);
+        m_animator.SetBool("isElectrocut", isElectrocut);
+        m_animator.SetBool("isHurt", isHurt);
+        m_animator.SetBool("startTalking", startTalking);
+        m_animator.SetBool("isTalking", isTalking);
+        
         #region Read Input
 
          if (!isDead && m_controlState != ControlState.DIALOGUE)
@@ -456,7 +475,7 @@ public class PlayerManager : MonoBehaviour
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
                 attackVFX.Play();
-                m_animator.Play("Attack");
+                isAttacking = true;
             }
         }
     }
@@ -469,13 +488,13 @@ public class PlayerManager : MonoBehaviour
     {
         if (state == "Aiming")
         {
-            m_animator.Play("Throw");
+            isThrowing = true;
 
 
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
             throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
-
+            
             direction = Vector3.forward;
 
             GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
@@ -490,6 +509,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (state == "Rope" || state == "Throw")
         {
+            isThrowing = false;
             rope.rewinding = true;
         }
     }
@@ -555,7 +575,8 @@ public class PlayerManager : MonoBehaviour
        
             if (!m_isRolling && !m_attack.isAttacking && !isDead)
             {
-                m_animator.Play("Move");
+                isMoving = true;
+                
                 if (poufpoufTimer < poufpoufTime)
                 {
                     poufpoufTimer += Time.deltaTime;
@@ -594,7 +615,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (!m_attack.isAttacking && !m_isRolling && !isDead)
             {
-                m_animator.Play("Idle");
+                isMoving = false;
 
                 poufpoufTimer = poufpoufTime;
                 m_moving = false;
@@ -614,13 +635,12 @@ public class PlayerManager : MonoBehaviour
                 if (m_canRoll)
                 {
                     GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "roll"));
-                    m_animator.Play("Roll");
+                    isRolling = true;
                     rollVFX.Play();
                     m_isRolling = true;
                 }
             }
-            
-            
+
         }
         
     }
@@ -666,13 +686,12 @@ public class PlayerManager : MonoBehaviour
             
                 if (!m_attack.isAttacking)
                 {
-                    m_animator.Play("Hurt");
+                    isHurt = true;
                 }
             }
             
             if (currentLifePoint <= 0)
             {
-                m_animator.Play("Death");
                 GameManager.instance.DisableAllEnemy();
                 StartCoroutine(WaitForRespawn());
                 isDead = true;
@@ -683,10 +702,10 @@ public class PlayerManager : MonoBehaviour
     
     public IEnumerator StartStun(float stunDuration)
     {
-        if (!m_attack.isAttacking) m_animator.Play("Electrocut");
-        
+        isElectrocut = true;
         m_playerStateMachine = PlayerStateMachine.STUN;
         yield return new WaitForSeconds(stunDuration);
+        isElectrocut = false;
         m_playerStateMachine = PlayerStateMachine.IDLE;
     }
     
@@ -695,8 +714,23 @@ public class PlayerManager : MonoBehaviour
         m_attack.isAttacking = false;
         m_isRolling = false;
         m_attack.m_collider.enabled = false;
+
+        isAttacking = false;
+        
+        if (!m_moving)
+        {
+            isMoving = false;
+        }
+        
+        isRolling = false;
+        collect = false;
+        isThrowing = false;
+        isElectrocut = false;
+        isHurt = false;
+        startTalking = false;
+        isTalking = false;
+        
         currentLifePoint = maxLifePoint = baseLifePoint;
-        m_animator.Play(m_moving ? "Move" : "Idle");
     }
 
     #endregion
