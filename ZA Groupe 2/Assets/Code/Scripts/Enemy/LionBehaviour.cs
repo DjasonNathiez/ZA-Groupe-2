@@ -33,13 +33,14 @@ public class LionBehaviour : AIBrain
         counterState = isInvincible = !isFalling;
         
         Detection();
-
+        
         if (isEnable && !isDead)
         {
             stayAtRange = !playerShowBack;
             
             if (isAggro)
             {
+
                 if (canMove && !isAttacking)
                 {
                     if (stayAtRange)
@@ -84,6 +85,13 @@ public class LionBehaviour : AIBrain
                 canMove = false;
                 canFall = false;
             }
+            else
+            {
+                if (isAggro)
+                {
+                    transform.LookAt(player.transform);
+                }
+            }
         }
     }
 
@@ -99,6 +107,5 @@ public class LionBehaviour : AIBrain
             fallVFX.Play();
         }
     }
-  
-    
+
 }
