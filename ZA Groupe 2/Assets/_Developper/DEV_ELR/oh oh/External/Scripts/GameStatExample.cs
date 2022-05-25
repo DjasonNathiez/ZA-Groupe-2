@@ -11,10 +11,8 @@ public class GameStatExample : MonoBehaviour
     
     IEnumerator RadarEventTimer()
     {
-        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position)
-        {
-            EventName = "PlayerRadar"
-        });
+        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "PlayerRadar"));
+  
 
         yield return new WaitForSeconds(1f);
 

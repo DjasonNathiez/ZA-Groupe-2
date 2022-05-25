@@ -234,17 +234,17 @@ public class PlayerManager : MonoBehaviour
         rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
         m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
         StartCoroutine(RadarEventTimer());
-        
+      
+    
+
         GameManager.instance.ui.UpdateHat();
     }
 
     //GameStats
     IEnumerator RadarEventTimer()
     {
-        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position)
-        {
-            EventName = "PlayerRadar"
-        });
+        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "PlayerRadar"));
+     
 
         yield return new WaitForSeconds(1f);
 
@@ -340,7 +340,12 @@ public class PlayerManager : MonoBehaviour
 
             //Distance
 
-            if (state == "Throw") throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+            if (state == "Throw")
+            {
+             
+                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
+
+            }
 
             if (state == "Aiming")
             {
@@ -446,7 +451,7 @@ public class PlayerManager : MonoBehaviour
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
-
+                GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "attack"));
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
@@ -473,6 +478,8 @@ public class PlayerManager : MonoBehaviour
 
             direction = Vector3.forward;
 
+            GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
+            Debug.Log("bonsoir à tous les amis");
             state = "Throw";
             rope.enabled = true;
             rope.rope.gameObject.SetActive(true);
@@ -606,6 +613,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (m_canRoll)
                 {
+                    GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "roll"));
                     m_animator.Play("Roll");
                     rollVFX.Play();
                     m_isRolling = true;
@@ -615,10 +623,6 @@ public class PlayerManager : MonoBehaviour
             
         }
         
-        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate()
-                    {
-                        EventName = "JeRouleuii"
-                    });
     }
     
     
