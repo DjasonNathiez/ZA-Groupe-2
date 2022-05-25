@@ -58,6 +58,7 @@ public class AIBrain : MonoBehaviour
     public float dectectionRange;
     public float massAggroRange;
     [Range(0,180)] public float detectionAngle;
+    public Door doorIfDead;
 
     [Header("VFX")]
     public ParticleSystem hurtVFX;
@@ -232,7 +233,7 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
-        
+        if (doorIfDead) doorIfDead.keysValid++;
         Disable();
         
         GetComponent<CapsuleCollider>().isTrigger = true;

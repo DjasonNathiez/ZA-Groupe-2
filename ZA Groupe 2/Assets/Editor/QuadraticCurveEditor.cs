@@ -13,7 +13,7 @@ public class QuadraticCurveEditor : Editor
         if (script.bake)
         {
             script.bake = false;
-            script.CreateQuad();
+            script.CreateMesh();
         }
     }
 }

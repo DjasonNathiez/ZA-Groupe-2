@@ -8,25 +8,29 @@ public class CinematicEnvent : MonoBehaviour
     public Animation Animation;
     public bool done;
     public float timeforDestruction;
+    public float timeforEnabling;
     public GameObject toDestroy;
     public float timeForReturn;
     [SerializeField] private CameraController cameraController;
     public Vector3 camPos;
     public Vector3 camAngle;
     public float camZoom;
+    public MeshRenderer enableMesh;
+    public Collider enableCollider;
     
     public void EnableEvent()
     {
         if (!done)
         {
-            Animation.Play("test");
-            Destroy(toDestroy,timeforDestruction);
+            if(Animation)Animation.Play("test");
+             Destroy(toDestroy,timeforDestruction);
             PlayerManager.instance.EnterDialogue();
             cameraController.playerFocused = false;
             cameraController.cameraPos.localPosition = camPos;
             cameraController.cameraPos.rotation = Quaternion.Euler(camAngle);
             cameraController.cameraZoom = camZoom;
             StartCoroutine(finishCinematic());
+            if(timeforEnabling > 0) StartCoroutine(Enable());
             done = true;
         }
     }
@@ -40,6 +44,14 @@ public class CinematicEnvent : MonoBehaviour
         cameraController.cameraZoom = 8.22f;
         
         
+    }
+    public IEnumerator Enable()
+    {
+        yield return new WaitForSeconds(timeforEnabling);
+        if (enableCollider) enableCollider.enabled = true;
+        if (enableMesh) enableMesh.enabled = true;
+
+
     }
 
     private void Start()
