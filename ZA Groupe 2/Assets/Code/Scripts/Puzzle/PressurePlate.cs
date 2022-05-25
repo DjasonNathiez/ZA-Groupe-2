@@ -13,7 +13,6 @@ public class PressurePlate : MonoBehaviour
         numberofCurrent++;
         if (other.GetComponent<Rigidbody>() && !isActivate)
         {
-            
             foreach (Door door in doors)
             {
                 door.keysValid++;   
@@ -24,9 +23,9 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        numberofCurrent--;
         if (other.GetComponent<Rigidbody>() && isActivate)
         {
-            numberofCurrent--;
             if (numberofCurrent <= 0)
             {
                 isActivate = false;
