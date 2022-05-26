@@ -196,7 +196,7 @@ public class AIBrain : MonoBehaviour
         if (distanceToPlayer < attackRange + 0.02)
         {
             player.GetComponent<PlayerManager>().GetHurt(attackDamage);
-
+            Debug.Log("player chich kebab");
             Vector3 dir = player.transform.position - transform.position;
             dir = new Vector3(dir.x, 0, dir.z).normalized * knockbackForce;
             player.GetComponent<PlayerManager>().rb.AddForce(dir, ForceMode.Impulse);

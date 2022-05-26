@@ -273,6 +273,7 @@ public class PlayerManager : MonoBehaviour
         m_animator.SetBool("isHurt", isHurt);
         m_animator.SetBool("startTalking", startTalking);
         m_animator.SetBool("isTalking", isTalking);
+        m_animator.SetBool("isDead", isDead);
 
         if (isRolling)
         {
@@ -758,8 +759,6 @@ public class PlayerManager : MonoBehaviour
         isHurt = false;
         startTalking = false;
         isTalking = false;
-        
-        currentLifePoint = maxLifePoint = baseLifePoint;
     }
 
     #endregion
