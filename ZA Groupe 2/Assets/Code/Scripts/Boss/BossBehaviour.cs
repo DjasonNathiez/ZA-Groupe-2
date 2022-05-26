@@ -59,7 +59,7 @@ public class BossBehaviour : MonoBehaviour
                 forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
                 rb.velocity = forward;
                 bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*rotationSpeed);
-                if (cableRotation >= 360 || cableRotation <= -360)
+                if (cableRotation is >= 360 or <= -360)
                 {
                     PlayerManager.instance.rope.rewinding = true;
                     state = 0;
@@ -150,7 +150,6 @@ public class BossBehaviour : MonoBehaviour
         float cableRot = 0;
         if (cableNodes.Count > 1)
         {
-            Debug.Log("okBienOUej");
             for (int i = 1; i < cableNodes.Count; i++)
             {
                 Vector3 pos = cableNodes[i - 1].transform.position;
@@ -200,6 +199,7 @@ public class BossBehaviour : MonoBehaviour
 
     public IEnumerator Fall(float delay)
     {
+        Debug.Log("Chute");
         animator.Play("Chute");
         rb.isKinematic = true;
         state = 0;

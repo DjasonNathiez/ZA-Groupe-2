@@ -66,12 +66,10 @@ public class GameManager : MonoBehaviour
         
         if (instance == null)
         {
-            Debug.Log("instancialize");
             instance = this;
         }
         else if (instance != this)
         {
-            Debug.Log("Oula");
             Destroy(gameObject);
         }
 

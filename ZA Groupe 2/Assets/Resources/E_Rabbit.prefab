@@ -310,7 +310,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9143046397679579488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.23, y: 0.54, z: 3.17}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -355,7 +355,7 @@ MonoBehaviour:
   isMoving: 0
   isDead: 0
   isHurt: 0
-  moveSpeed: 4
+  moveSpeed: 5
   attackDamage: 1
   attackRange: 1.24
   attackSpeed: 1.3
@@ -366,14 +366,16 @@ MonoBehaviour:
   dectectionRange: 8.5
   massAggroRange: 0
   detectionAngle: 0
+  doorIfDead: {fileID: 0}
   hurtVFX: {fileID: 0}
   attackVFX: {fileID: 0}
   hitZoneVFX: {fileID: 0}
   deathVFX: {fileID: 0}
+  explosionVFX: {fileID: 0}
   playerShowBack: 0
   areaToMove: 10.21
   avoidFront: 2
-  timeToGoNextPoint: 1
+  timeToGoNextPoint: 0.2
   stateMachine: 0
   isPatrolling: 0
   detectedPoints: []

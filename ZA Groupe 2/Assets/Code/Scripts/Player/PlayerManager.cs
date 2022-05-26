@@ -389,6 +389,7 @@ public class PlayerManager : MonoBehaviour
                     
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     {
+                        if (obj == null || obj.GetComponent<ValueTrack>() == null) return;
                         if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < Mathf.Clamp(rope.maximumLenght ,0,12) * Mathf.Clamp(rope.maximumLenght ,0,12)  && obj.transform.position.y > transform.position.y - 1 && obj.transform.position.y < transform.position.y + 1)
                         {
                             reachable.Add(obj);
@@ -412,11 +413,11 @@ public class PlayerManager : MonoBehaviour
                         transform.rotation = Quaternion.LookRotation(new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z) - new Vector3(transform.position.x, 0, transform.position.z));
                         foreach (ValueTrack obj in reachable)
                         {
-                            if (nearest == obj)
+                            if (nearest == obj && obj.meshRenderer != null)
                             {
                                 obj.meshRenderer.material.SetFloat("_EnableOutline",1);
                             }
-                            else
+                            else if(nearest != obj && obj.meshRenderer != null)
                             {
                                 obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                             }
@@ -442,6 +443,17 @@ public class PlayerManager : MonoBehaviour
                             
                         obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                             
+                    }
+                }
+            }
+
+            if (state != "Aiming")
+            {
+                foreach (ValueTrack obj in GameManager.instance.grippableObj)
+                {
+                    if (obj.meshRenderer != null)
+                    {
+                        obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
                     }
                 }
             }
@@ -515,7 +527,6 @@ public class PlayerManager : MonoBehaviour
             direction = Vector3.forward;
 
             GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
-            Debug.Log("bonsoir à tous les amis");
             state = "Throw";
             rope.enabled = true;
             rope.rope.gameObject.SetActive(true);
@@ -540,6 +551,7 @@ public class PlayerManager : MonoBehaviour
                 case "StatusQuo":
                     if (!m_attack.isAttacking && !m_isRolling)
                     {
+                        PlayerManager.instance.rb.velocity = Vector3.zero;
                         state = "Aiming";
                         visuthrow.SetActive(true);
                     }
@@ -567,9 +579,9 @@ public class PlayerManager : MonoBehaviour
                     visuthrow.SetActive(false);
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     {
-                            
+                        if (obj.meshRenderer == null) GameManager.instance.grippableObj.Remove(obj);
+                        if (obj.meshRenderer == null) return;
                         obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                            
                     }
                     break;
                 default: return;

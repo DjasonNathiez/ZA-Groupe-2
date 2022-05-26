@@ -142,7 +142,6 @@ public class QuadraticCurve : MonoBehaviour
 
     public Mesh CreateMesh()
     {
-        Debug.Log("gato");
         List<Vector3> meshPoints = new List<Vector3>(0);
         List<int> meshTriangles = new List<int>(0);
         
@@ -277,7 +276,6 @@ public class QuadraticCurve : MonoBehaviour
     
     public Mesh CreateQuad()
     {
-        Debug.Log("gato");
         List<Vector3> meshPoints = new List<Vector3>(0);
         List<int> meshTriangles = new List<int>(0);
         int y = 0;

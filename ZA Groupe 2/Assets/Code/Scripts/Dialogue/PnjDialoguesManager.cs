@@ -94,7 +94,6 @@ public class PnjDialoguesManager : MonoBehaviour
 
                         if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                         {
-                            Debug.Log("proutQUiPue");
                             dialogueBox.transform.position = new Vector3(960, -160, 0);
                         }
                         else
@@ -173,7 +172,6 @@ public class PnjDialoguesManager : MonoBehaviour
 
                     if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                     {
-                        Debug.Log("proutQUiPue");
                         dialogueBox.transform.position = new Vector3(960, -160, 0);
                     }
                     else

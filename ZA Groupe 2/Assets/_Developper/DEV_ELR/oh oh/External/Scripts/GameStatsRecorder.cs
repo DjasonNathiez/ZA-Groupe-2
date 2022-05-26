@@ -43,7 +43,6 @@ public class GameStatsRecorder : MonoBehaviour
         if (_runRecorderInEditor)
         {
             StartRecord();
-            Debug.Log("je record");
         }
 #else
         StartRecord();
@@ -52,7 +51,6 @@ public class GameStatsRecorder : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        Debug.Log("je record pu");
         EndRecord();
     }
 

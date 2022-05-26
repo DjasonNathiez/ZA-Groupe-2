@@ -152,6 +152,15 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Command"",
+                    ""type"": ""Button"",
+                    ""id"": ""eacd1a80-6a58-4dbf-98f8-38b73210af80"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -704,6 +713,17 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""OutRange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04b2b542-5525-4252-b7da-5e03ca8f3e02"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Command"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -776,6 +796,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Respawn = m_Player.FindAction("Respawn", throwIfNotFound: true);
         m_Player_Unclamp = m_Player.FindAction("Unclamp", throwIfNotFound: true);
         m_Player_OutRange = m_Player.FindAction("OutRange", throwIfNotFound: true);
+        m_Player_Command = m_Player.FindAction("Command", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -849,6 +870,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Respawn;
     private readonly InputAction m_Player_Unclamp;
     private readonly InputAction m_Player_OutRange;
+    private readonly InputAction m_Player_Command;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -867,6 +889,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Respawn => m_Wrapper.m_Player_Respawn;
         public InputAction @Unclamp => m_Wrapper.m_Player_Unclamp;
         public InputAction @OutRange => m_Wrapper.m_Player_OutRange;
+        public InputAction @Command => m_Wrapper.m_Player_Command;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -918,6 +941,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @OutRange.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
                 @OutRange.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
                 @OutRange.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnOutRange;
+                @Command.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
+                @Command.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
+                @Command.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -964,6 +990,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @OutRange.started += instance.OnOutRange;
                 @OutRange.performed += instance.OnOutRange;
                 @OutRange.canceled += instance.OnOutRange;
+                @Command.started += instance.OnCommand;
+                @Command.performed += instance.OnCommand;
+                @Command.canceled += instance.OnCommand;
             }
         }
     }
@@ -1020,5 +1049,6 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnRespawn(InputAction.CallbackContext context);
         void OnUnclamp(InputAction.CallbackContext context);
         void OnOutRange(InputAction.CallbackContext context);
+        void OnCommand(InputAction.CallbackContext context);
     }
 }

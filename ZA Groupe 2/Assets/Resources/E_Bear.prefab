@@ -5656,7 +5656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7535309206435652039
 Transform:
   m_ObjectHideFlags: 0
@@ -5720,12 +5720,14 @@ MonoBehaviour:
   canMove: 0
   canAttack: 0
   canBeKnocked: 0
+  counterState: 0
   isFalling: 0
   isAttacking: 0
   isAggro: 0
   isKnocked: 0
   isMoving: 0
   isDead: 0
+  isHurt: 0
   moveSpeed: 3
   attackDamage: 1
   attackRange: 2.2
@@ -5737,22 +5739,18 @@ MonoBehaviour:
   dectectionRange: 3.85
   massAggroRange: 0
   detectionAngle: 0
-  attackAnimName: B_Attack
-  idleAnimName: B_Idle
-  hurtAnimName: B_Hurt
-  deathAnimName: B_Death
-  moveAnimName: 
-  standUpAnimName: 
-  fallAnimName: 
-  hurtVFX: {fileID: 0}
-  attackVFX: {fileID: 0}
+  doorIfDead: {fileID: 0}
+  hurtVFX: {fileID: 4462502174547752648, guid: 66452f6e536e32a47997ee926aa7e5e1, type: 3}
+  attackVFX: {fileID: 7054975941008088945, guid: 0221aab2952bec248b448ef5c391e87e, type: 3}
   hitZoneVFX: {fileID: 6526876799281956030}
   deathVFX: {fileID: 6069505261280202282}
+  explosionVFX: {fileID: 0}
   playerShowBack: 0
   attackZoneRange: 4.5
-  stunDuration: 0.6
+  stunDuration: 1.2
   attackRangeDeadZone: 0.1
-  feedbackWarningAttack: {fileID: 0}
+  feedbackWarningAttack: {fileID: 1909120503186805312, guid: 973b3d44c52bc1448b98712995458971, type: 3}
+  bodyCol: {fileID: 7535309206435652058}
 --- !u!54 &7535309206435652061
 Rigidbody:
   m_ObjectHideFlags: 0

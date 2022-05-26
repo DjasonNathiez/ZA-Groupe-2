@@ -23,7 +23,7 @@ public class Attack : MonoBehaviour
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
       PropsInstructions props = other.GetComponent<PropsInstructions>();
 
-      if (props)
+      if (props && isAttacking)
       {
           StartCoroutine(props.DestroyThis());
       }

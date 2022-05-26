@@ -51,10 +51,8 @@ public class Rope : MonoBehaviour
             Ray ray = new Ray(transform.position, dir);
             if (Physics.Raycast(ray, out RaycastHit hit, Vector3.Distance(transform.position, point)))
             {
-                Debug.Log("hitté ");
                 if (!hit.collider.isTrigger)
                 {
-                    Debug.Log("pasTrigger ");
                     rope.positionCount += 1;
                     Node nodeToCreate = new Node();
                     nodeToCreate.index = rope.positionCount - 2;
@@ -345,7 +343,6 @@ public class Rope : MonoBehaviour
                 int check = nodes.Count;
                 for (int i = 0; i < check; i++)
                 {
-                    Debug.Log((nodes[0].nodePoint.transform.position - pin.transform.position).magnitude);
                     if (((nodes[0].nodePoint.transform.position - pin.transform.position).normalized * Time.deltaTime * newlenght).magnitude <
                         (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude && (nodes[0].nodePoint.transform.position - pin.transform.position).magnitude > 0.001f)
                     {
