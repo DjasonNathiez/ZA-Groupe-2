@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -48,6 +49,12 @@ public class LionBehaviour : AIBrain
                         if (distanceToPlayer < awayRange)
                         {
                             awayPoint = new Vector3(player.transform.position.x - awayRange, player.transform.position.y, player.transform.position.z - awayRange);
+                            
+                            NavMeshHit navHit;
+                            if (NavMesh.SamplePosition(target, out navHit, awayRange, NavMesh.AllAreas))
+                            {
+                                awayPoint = -awayPoint;
+                            }
                         }
                        
                         if(distanceToPlayer >= awayRange)
@@ -69,6 +76,8 @@ public class LionBehaviour : AIBrain
                     
                     MoveToPlayer(target);
                 }
+
+                
                 
                 if (distanceToPlayer <= attackRange)
                 {
@@ -108,4 +117,8 @@ public class LionBehaviour : AIBrain
         }
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, awayRange);
+    }
 }

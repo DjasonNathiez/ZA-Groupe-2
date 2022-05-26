@@ -643,10 +643,10 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.canceled)
         {
+            isMoving = false;
+            
             if (!m_attack.isAttacking && !m_isRolling && !isDead)
             {
-                isMoving = false;
-
                 poufpoufTimer = poufpoufTime;
                 m_moving = false;
                 rb.velocity = Vector3.zero;
@@ -660,7 +660,7 @@ public class PlayerManager : MonoBehaviour
         
         if (roll.started)
         {
-            if (!m_attack.isAttacking && !isDead)
+            if (!m_attack.isAttacking && !isDead && isMoving)
             {
                 if (m_canRoll)
                 {
