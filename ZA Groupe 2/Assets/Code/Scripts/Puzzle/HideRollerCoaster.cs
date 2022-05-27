@@ -6,6 +6,7 @@ using UnityEngine;
 public class HideRollerCoaster : MonoBehaviour
 {
     public List<GameObject> objetsToHide;
+    public bool finalCheck;
     private bool isHide;
 
     private void Start()
@@ -16,23 +17,33 @@ public class HideRollerCoaster : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        switch (isHide)
+        if (finalCheck)
         {
-            case false:
-                foreach (GameObject o in objetsToHide)
-                {
-                    o.SetActive(false);
-                }
+            foreach (GameObject o in objetsToHide)
+            {
+                o.SetActive(true);
+            }
+        }
+        else
+        {
+            switch (isHide)
+            {
+                case false:
+                    foreach (GameObject o in objetsToHide)
+                    {
+                        o.SetActive(false);
+                    }
 
-                isHide = true;
-                break;
-            case true:
-                foreach (GameObject o in objetsToHide)
-                {
-                    o.SetActive(true);
-                }
-                isHide =false;
-                break;
+                    isHide = true;
+                    break;
+                case true:
+                    foreach (GameObject o in objetsToHide)
+                    {
+                        o.SetActive(true);
+                    }
+                    isHide =false;
+                    break;
+            }
         }
     }
 }

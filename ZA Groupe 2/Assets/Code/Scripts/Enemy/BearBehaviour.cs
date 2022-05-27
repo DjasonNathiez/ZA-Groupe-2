@@ -35,7 +35,8 @@ public class BearBehaviour : AIBrain
             CheckState();
             Detection();
         }
-
+        
+        enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
     }
     
     void CheckState()

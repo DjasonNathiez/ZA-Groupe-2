@@ -68,6 +68,9 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem explosionVFX;
 
     public bool playerShowBack;
+    public GameObject enemyStatusPointer;
+    public Material aggroMaterial;
+    public Material nonAggroMaterial;
 
     public void InitializationData()
     {
@@ -83,7 +86,7 @@ public class AIBrain : MonoBehaviour
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
     }
-    
+
     public void MoveToPlayer(Vector3 destination)
     {
         isMoving = true;

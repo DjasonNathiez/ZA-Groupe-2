@@ -50,6 +50,8 @@ public class RabbitBehaviour : AIBrain
             CheckState();
             Detection();
         }
+        
+        enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
     }
 
     private void CheckState()

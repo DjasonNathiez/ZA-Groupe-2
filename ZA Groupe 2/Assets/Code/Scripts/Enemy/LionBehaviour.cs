@@ -41,7 +41,8 @@ public class LionBehaviour : AIBrain
             
             if (isAggro)
             {
-
+                enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
+                
                 if (canMove && !isAttacking)
                 {
                     if (stayAtRange)
