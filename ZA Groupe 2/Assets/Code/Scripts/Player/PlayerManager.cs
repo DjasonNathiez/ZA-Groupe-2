@@ -440,9 +440,8 @@ public class PlayerManager : MonoBehaviour
                 else
                 {
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
-                    {
-                            
-                        obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                    { 
+                        if (obj.meshRenderer != null) obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                             
                     }
                 }
@@ -580,7 +579,7 @@ public class PlayerManager : MonoBehaviour
                     visuthrow.SetActive(false);
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     {
-                        if (obj.meshRenderer == null) GameManager.instance.grippableObj.Remove(obj);
+                        if (obj.meshRenderer == null || obj == null) GameManager.instance.grippableObj.Remove(obj);
                         if (obj.meshRenderer == null) return;
                         obj.meshRenderer.material.SetFloat("_EnableOutline",0);
                     }
