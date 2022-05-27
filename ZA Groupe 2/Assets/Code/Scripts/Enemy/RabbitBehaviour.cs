@@ -49,6 +49,7 @@ public class RabbitBehaviour : AIBrain
         {
             CheckState();
             Detection();
+            SetColor();
         }
         
         enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
@@ -83,6 +84,7 @@ public class RabbitBehaviour : AIBrain
                 isAttacking = false;
                 isPatrolling = true;
                 isMoving = false;
+                isAggro = false;
                 
                 nav.SetDestination(m_pointToGo);
                 
@@ -110,7 +112,7 @@ public class RabbitBehaviour : AIBrain
                 break;
 
             case StateMachine.CHASE:
-                
+                isAggro = true;
                 isPatrolling = false;
                 isAttacking = false;
                 MoveToRope();

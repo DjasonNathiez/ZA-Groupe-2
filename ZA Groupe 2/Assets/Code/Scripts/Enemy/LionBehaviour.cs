@@ -34,6 +34,7 @@ public class LionBehaviour : AIBrain
         counterState = isInvincible = !isFalling;
         
         Detection();
+        SetColor();
         
         if (isEnable && !isDead)
         {
@@ -41,8 +42,7 @@ public class LionBehaviour : AIBrain
             
             if (isAggro)
             {
-                enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
-                
+
                 if (canMove && !isAttacking)
                 {
                     if (stayAtRange)

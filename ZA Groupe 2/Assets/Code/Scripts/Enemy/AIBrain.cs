@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
@@ -43,7 +44,6 @@ public class AIBrain : MonoBehaviour
     
     [Header("Movement")]
     public float moveSpeed;
-
     
     [Header("Attack")]
     public int attackDamage;
@@ -59,7 +59,8 @@ public class AIBrain : MonoBehaviour
     public float massAggroRange;
     [Range(0,180)] public float detectionAngle;
     public Door doorIfDead;
-
+    [HideInInspector] public bool playerShowBack;
+    
     [Header("VFX")]
     public ParticleSystem hurtVFX;
     public ParticleSystem attackVFX;
@@ -67,7 +68,10 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem deathVFX;
     public ParticleSystem explosionVFX;
 
-    public bool playerShowBack;
+    [Header("Visual")] 
+    public List<SkinnedMeshRenderer> modelMeshRenderer;
+    public Material modelNonAggroMat;
+    public Material modelAggroMat;
     public GameObject enemyStatusPointer;
     public Material aggroMaterial;
     public Material nonAggroMaterial;
@@ -92,6 +96,23 @@ public class AIBrain : MonoBehaviour
         isMoving = true;
         nav.SetDestination(destination);
     }
+
+    public void SetColor()
+    {
+        foreach (SkinnedMeshRenderer mesh in modelMeshRenderer)
+        {
+            if (isAggro)
+            {
+                mesh.material = modelAggroMat;
+                enemyStatusPointer.GetComponent<MeshRenderer>().material = aggroMaterial;
+            }
+            else
+            {
+                mesh.material = modelNonAggroMat;
+                enemyStatusPointer.GetComponent<MeshRenderer>().material = nonAggroMaterial;
+            }
+        }
+    }
     
     public void Detection()
     {
@@ -104,7 +125,11 @@ public class AIBrain : MonoBehaviour
         {
             if (col.GetComponent<PlayerManager>())
             {
-                isAggro = true;
+                if (GetComponent<RabbitBehaviour>() == null)
+                {
+                    isAggro = true;
+                }
+                
             }
         }
 
