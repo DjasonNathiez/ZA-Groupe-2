@@ -86,7 +86,6 @@ public class PnjDialoguesManager : MonoBehaviour
                             cameraController.playerFocused = false;
                             //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
                             cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
-                            Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
                             cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
                             cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;
                             cameraController.panSpeed = dialogue[textEffectManager.dialogueIndex].speedOfPan;
@@ -122,7 +121,6 @@ public class PnjDialoguesManager : MonoBehaviour
                     cameraController.playerFocused = false;
                     //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
                     cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
-                    Debug.Log(dialogue[0].positionCamera);
                     cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
                     cameraController.cameraZoom = dialogue[0].zoom;   
                 }   
@@ -164,7 +162,6 @@ public class PnjDialoguesManager : MonoBehaviour
                         cameraController.playerFocused = false;
                         //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
                         cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
-                        Debug.Log(dialogue[textEffectManager.dialogueIndex].positionCamera);
                         cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[textEffectManager.dialogueIndex].angleCamera);
                         cameraController.cameraZoom = dialogue[textEffectManager.dialogueIndex].zoom;
                         cameraController.panSpeed = dialogue[textEffectManager.dialogueIndex].speedOfPan;

@@ -13,21 +13,25 @@ public class TextEffectManager : MonoBehaviour
     public int showedCharIndex = 0;
     [SerializeField] private float speedOfShowing = 0.05f;
     [SerializeField] private float timeStamp;
-    [SerializeField] private float[] charBasedHeight;
+    //[SerializeField] private float[] charBasedHeight;
     public int dialogueIndex;
     public DialogueLine[] dialogue;
     
     public void ShowText()
     {
+        Debug.Log("ShowText Void Launching");
+
         textElement.text = dialogue[dialogueIndex].text;
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
-        charBasedHeight = new float[textElement.textInfo.characterCount];
-        Debug.Log(textElement.textInfo.characterCount);
-        for (int i = 0; i < charBasedHeight.Length; i++)
+        Debug.Log("Before Error");
+        //charBasedHeight = new float[textElement.textInfo.characterCount];
+        Debug.Log("4 Line Function ShowText");
+        //Debug.Log(charBasedHeight);
+        /*for (int i = 0; i < charBasedHeight.Length; i++)
         {
             charBasedHeight[i] = -1f;
-        }
+        }*/
         timeStamp = speedOfShowing;
     }
     public void NextText()
@@ -38,12 +42,11 @@ public class TextEffectManager : MonoBehaviour
             textElement.text = dialogue[dialogueIndex].text;
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
-            charBasedHeight = new float[textElement.textInfo.characterCount];
-            Debug.Log(textElement.textInfo.characterCount);
-            for (int i = 0; i < charBasedHeight.Length; i++)
+            //charBasedHeight = new float[textElement.textInfo.characterCount];
+            /*for (int i = 0; i < charBasedHeight.Length; i++)
             {
                 charBasedHeight[i] = -1f;
-            }
+            }*/
             timeStamp = speedOfShowing;   
         }
     }
@@ -90,9 +93,9 @@ public class TextEffectManager : MonoBehaviour
                 
                 for (int v = 0; v < 4; v++)
                 {
-                    verts[charInfo.vertexIndex + v] = GetVertex(verts[charInfo.vertexIndex + v],i);
+                    //verts[charInfo.vertexIndex + v] = GetVertex(verts[charInfo.vertexIndex + v],i);
                     Color32 original = colors[charInfo.vertexIndex + v];
-                    colors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
+                    //colors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
                 }
             }
         }
@@ -116,7 +119,7 @@ public class TextEffectManager : MonoBehaviour
         }
     }
 
-    public Vector3 GetVertex(Vector3 original,int charIndex)
+    /*public Vector3 GetVertex(Vector3 original,int charIndex)
     {
         Vector3 product = new Vector3(original.x, original.y + charBasedHeight[charIndex], original.z);
         if (charIndex < showedCharIndex)
@@ -124,7 +127,7 @@ public class TextEffectManager : MonoBehaviour
             charBasedHeight[charIndex] = Mathf.Lerp(charBasedHeight[charIndex], 0, 0.02f);
         }
         return product;
-    }
+    }*/
     
     public Vector3 ApplyEffectToVertex(Vector3 original,EffectTypeEnum effect,Vector3 center,float speed,float width)
     {
