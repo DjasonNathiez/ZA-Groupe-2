@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-562166867100113399
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 5
 --- !u!21 &2100000
 Material:
   serializedVersion: 6
@@ -20,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Arbre_01
+  m_Name: M_Ampoule_01
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -34,15 +21,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AmbiantOcclusionMapTex2D:
-        m_Texture: {fileID: 2800000, guid: b09566e038227b044b2c6a076d78bfbc, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _AmbiantOcclusionMap_Tex:
-        m_Texture: {fileID: 2800000, guid: b09566e038227b044b2c6a076d78bfbc, type: 3}
+        m_Texture: {fileID: 2800000, guid: e93191cc6116a6a448350ca34d62526a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColor_Tex:
-        m_Texture: {fileID: 2800000, guid: b20030b44ea3bfd4e8249648445b2d61, type: 3}
+        m_Texture: {fileID: 2800000, guid: 37ff19b742719df40b108fd96d3de01f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -70,11 +53,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMapTex2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap_Tex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b223408cabda35549ad7adbfb310c35a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMapTex2D:
@@ -90,11 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMapTex2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicMap_Tex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3d7c288ce0d115547a97dbe81fabb81f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapTex2D:
@@ -134,10 +109,9 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AmbiantOcclusionMap: 1
-    - _AmbiantOcclusionMap__Int: 1
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1
-    - _AmbiantOcclusion_Smoothstep_Min: 0.5
+    - _AmbiantOcclusion_Smoothstep_Min: 0
     - _Blend: 0
     - _BumpScale: 1
     - _CastShadows: 1
@@ -150,10 +124,9 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionMap: 0
-    - _EmissionMap__Int: 0
+    - _EmissionMap: 1
     - _Emission_Smoothstep_Max: 1
-    - _Emission_Smoothstep_Min: -0.11
+    - _Emission_Smoothstep_Min: 0
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
@@ -162,20 +135,16 @@ Material:
     - _HSV: 0
     - _HSV_Saturation: 2.57
     - _HSV_Shift: 2.57
-    - _HSV_Value: 1
-    - _HSV__Int: 0
+    - _HSV_Value: 2.57
     - _HeightMap: 1
     - _Height_Scale: 0.1
     - _Metallic: 0
-    - _MetallicMap: 0
-    - _MetallicMap__Int: 0
-    - _Metallic_Intensity: 0
+    - _MetallicMap: 1
+    - _Metallic_Intensity: 1
     - _Metallic_Smoothstep_Max: 0
     - _Metallic_Smoothstep_Min: 0
-    - _Modify_Color: 0
-    - _Modify_Color__Int: 1
+    - _Modify_Color: 1
     - _Modify_Intensity: 1
-    - _Modify_Intensity__Int: 1
     - _Modify_Normal_Intensity: 0
     - _NormalMap: 0
     - _Normal_Intensity: 1
@@ -186,11 +155,11 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Rgb_Shift: 0
-    - _RoughnessMap: 1
-    - _Roughness_Intensity: 1
-    - _Roughness_Smoothstep_Max: 0.975
-    - _Roughness_Smoothstep_Min: 1
-    - _Smoothness: 0.2
+    - _RoughnessMap: 0
+    - _Roughness_Intensity: 0
+    - _Roughness_Smoothstep_Max: 1
+    - _Roughness_Smoothstep_Min: 0
+    - _Smoothness: 0.5
     - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -208,3 +177,16 @@ Material:
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &5491308432407599146
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5
