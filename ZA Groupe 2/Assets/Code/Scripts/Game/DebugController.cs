@@ -12,6 +12,7 @@ public class DebugController : MonoBehaviour
     
     public static DebugCommand PLAYER_TP;
     public static DebugCommand RELOAD_SCENE;
+    public static DebugCommand SPEED;
 
     public List<object> commandList;
 
@@ -25,11 +26,16 @@ public class DebugController : MonoBehaviour
         {
             GameManager.instance.LoadScene("MAP_Parc");
         });
+        SPEED = new DebugCommand("speed", "Change speed of player to 20", "speed", () =>
+        {
+            PlayerManager.instance.ChangeSpeedPlayer();
+        });
 
-        commandList = new List<object>
+            commandList = new List<object>
         {
             PLAYER_TP,
             RELOAD_SCENE,
+            SPEED,
         };
     }
 

@@ -8,15 +8,22 @@ public class PressurePlate : MonoBehaviour
     public int numberofCurrent;
     public bool isActivate;
     public Door[] doors;
+    public bool multiActivate;
     private void OnTriggerEnter(Collider other)
     {
         numberofCurrent++;
-        if (other.GetComponent<Rigidbody>() && !isActivate)
+
+        if (!other.GetComponent<Rigidbody>() || isActivate) return;
+        if (!multiActivate)
         {
-            foreach (Door door in doors)
-            {
-                door.keysValid++;   
-            }
+            if (!other.CompareTag("Player") && !other.GetComponent<ValueTrack>().canActivatePressurePlate) return;
+            foreach (Door door in doors) { door.keysValid++; }
+            isActivate = true;
+        }
+        else
+        {
+            if (!other.GetComponent<ValueTrack>().canActivatePressurePlate || other.GetComponent<ValueTrack>() == null) return;
+            foreach (Door door in doors) { door.keysValid++; }
             isActivate = true;
         }
     }
@@ -24,16 +31,10 @@ public class PressurePlate : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         numberofCurrent--;
-        if (other.GetComponent<Rigidbody>() && isActivate)
-        {
-            if (numberofCurrent <= 0)
-            {
-                isActivate = false;
-                foreach (Door door in doors)
-                {
-                    door.keysValid--;   
-                }   
-            }
-        }
+
+        if (!other.GetComponent<Rigidbody>() || !isActivate) return;
+        if (numberofCurrent > 0) return;
+        isActivate = false;
+        foreach (Door door in doors) { door.keysValid--; }
     }
 }

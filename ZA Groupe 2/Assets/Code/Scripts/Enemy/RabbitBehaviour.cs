@@ -21,10 +21,13 @@ public class RabbitBehaviour : AIBrain
     [HideInInspector] public List<float> distanceToPoints;
     [HideInInspector] public Vector3 nearestPoint;
 
+    private Material enemyStatutPointerMaterial;
+    
     void Start()
     {
         isInvincible = false;
         m_originPoint = transform.position;
+        enemyStatutPointerMaterial = enemyStatusPointer.GetComponent<MeshRenderer>().material;
         
         float minX = transform.position.x - areaToMove;
         float minZ = transform.position.z - areaToMove;
@@ -52,7 +55,7 @@ public class RabbitBehaviour : AIBrain
             SetColor();
         }
         
-        enemyStatusPointer.GetComponent<MeshRenderer>().material = isAggro ? aggroMaterial : nonAggroMaterial;
+        enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
     }
 
     private void CheckState()

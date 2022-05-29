@@ -416,11 +416,22 @@ public class PlayerManager : MonoBehaviour
                         {
                             if (nearest == obj && obj.meshRenderer != null)
                             {
-                                obj.meshRenderer.material.SetFloat("_EnableOutline",1);
+                                if (obj.isEnemy)
+                                {
+                                    obj.meshRenderer.material.SetFloat("_EnableOutline",1);
+                                    obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 1);
+                                    obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 1);
+                                }
+                                else obj.meshRenderer.material.SetFloat("_EnableOutline",1);
                             }
                             else if(nearest != obj && obj.meshRenderer != null)
                             {
                                 obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                                
+                                if (!obj.isEnemy) continue;
+                                if (obj == null) return;
+                                obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+                                obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                             }
                         }
                     }
@@ -432,6 +443,11 @@ public class PlayerManager : MonoBehaviour
                             if (obj.meshRenderer != null)
                             {
                                 obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                                
+                                if (!obj.isEnemy) continue;
+                                if (obj == null) return;
+                                obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+                                obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                             }
                             
                         }
@@ -442,7 +458,11 @@ public class PlayerManager : MonoBehaviour
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     { 
                         if (obj.meshRenderer != null) obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                            
+                        
+                        if (!obj.isEnemy) continue;
+                        if (obj == null) return;
+                        obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+                        obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                     }
                 }
             }
@@ -455,6 +475,11 @@ public class PlayerManager : MonoBehaviour
                     {
                         obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
                     }
+
+                    if (!obj.isEnemy) continue;
+                    if (obj == null) return;
+                    obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+                    obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                 }
             }
             
@@ -582,6 +607,9 @@ public class PlayerManager : MonoBehaviour
                         if (obj.meshRenderer == null || obj == null) GameManager.instance.grippableObj.Remove(obj);
                         if (obj.meshRenderer == null) return;
                         obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+                        if (!obj.isEnemy) continue;
+                        obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+                        obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                     }
                     break;
                 default: return;
@@ -901,6 +929,11 @@ public class PlayerManager : MonoBehaviour
         {
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
+    }
+
+    public void ChangeSpeedPlayer()
+    {
+        moveSpeed = 20;
     }
    
     

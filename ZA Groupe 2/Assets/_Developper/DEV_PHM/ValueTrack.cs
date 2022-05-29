@@ -11,6 +11,11 @@ public enum WeightClass
 }
 public class ValueTrack : MonoBehaviour
 {
+    [Header("Usefull Attributs")]
+    public bool isEnemy;
+    public bool canActivatePressurePlate;
+    
+    [Header("Outline Attributs")]
     public WeightClass weightClass;
     public MeshRenderer meshRenderer;
 
