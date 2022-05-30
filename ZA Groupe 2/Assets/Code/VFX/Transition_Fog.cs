@@ -3,50 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteAlways ]
+
+[ExecuteAlways]
 public class Transition_Fog : MonoBehaviour
 {
-    [SerializeField] Vector2 fogRadiusXHeightY;
-    [SerializeField] Vector2 transitionRadiusXHeightY;
+    [SerializeField] private Vector2 baseFogRadiusXHeightY;
+    [SerializeField] private Vector2 baseTransitionRadiusXHeightY;
+    [SerializeField] private float etagePos;
+    [SerializeField] private float _speed;
     
+    private Vector2 fogRadiusXHeightY;
+    private Vector2 transitionRadiusXHeightY;
+    private float heightPlayer;
+    private float durationTime;
     
     //Private float
-    private float _speed;
+
 
     private void Start()
     {
-        fogRadiusXHeightY = new Vector2(0f,0f);
-        transitionRadiusXHeightY = new Vector2(0f,0f);
+
     }
 
-    /*
+    
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPosition = PlayerManager.instance.transform.position;
-        Shader.SetGlobalVector("_PlayerPosition", playerPosition);
-        heightPlayer =  (etagePos.localPosition.y + 1) - playerPosition.y;
-        //Debug.Log(heightPlayer);
-        if (heightPlayer != 0)
+        Vector3 playerPosition = transform.position;
+        durationTime += Time.deltaTime;
+        float percentage = durationTime / _speed;
+        if (playerPosition.y > -15)
         {
-            if (heightPlayer >= 0)
-            {
-                radius = Mathf.Lerp(0, 80, heightPlayer.Remap(4, 2, 0, 1));
-            }
-            Shader.SetGlobalFloat("_TransitionRadius", radius);
+            transitionRadiusXHeightY.y = Mathf.Lerp(3,10, percentage);
         }
+        fogRadiusXHeightY = baseFogRadiusXHeightY;
+        transitionRadiusXHeightY = baseTransitionRadiusXHeightY;
+        
+        Shader.SetGlobalVector("_PlayerPosition", playerPosition);
+        Shader.SetGlobalFloat("_TransitionRadius", transitionRadiusXHeightY.x);
+        Shader.SetGlobalFloat("_TransitionHeight", transitionRadiusXHeightY.y);
+        Shader.SetGlobalFloat("_FogRadius", fogRadiusXHeightY.x);
+        Shader.SetGlobalFloat("_FogHeight", fogRadiusXHeightY.y);
+        Debug.Log(transitionRadiusXHeightY.y);
     }
-    */
     
-
-    void Update()
-    {
-        Shader.SetGlobalFloat("TransitionRadius", transitionRadiusXHeightY.x);
-        Shader.SetGlobalFloat("TransitionHeight", transitionRadiusXHeightY.y);
-        Shader.SetGlobalFloat("FogRadius", fogRadiusXHeightY.x);
-        Shader.SetGlobalFloat("FogHeight", fogRadiusXHeightY.y);
-    }
-
     private void OnDisable()
     {
         transitionRadiusXHeightY.x = 200f;
