@@ -24,29 +24,27 @@ public class Transition_Fog : MonoBehaviour
 
     private void Start()
     {
-
+        transitionRadiusXHeightY = baseTransitionRadiusXHeightY;
     }
 
     
     // Update is called once per frame
     void Update()
     {
-        Vector3 playerPosition = transform.position;
-        durationTime += Time.deltaTime;
-        float percentage = durationTime / _speed;
-        if (playerPosition.y > -15)
-        {
-            transitionRadiusXHeightY.y = Mathf.Lerp(3,10, percentage);
-        }
+        Vector3 playerPosition = transform.localPosition;
+        float heightPlayer = playerPosition.y;
+        //durationTime += Time.deltaTime;
+        //float percentage = durationTime / _speed;
+
+        transitionRadiusXHeightY.y = Mathf.Lerp(baseTransitionRadiusXHeightY.y,10, heightPlayer.Remap(4,8,0,1));
         fogRadiusXHeightY = baseFogRadiusXHeightY;
-        transitionRadiusXHeightY = baseTransitionRadiusXHeightY;
         
         Shader.SetGlobalVector("_PlayerPosition", playerPosition);
         Shader.SetGlobalFloat("_TransitionRadius", transitionRadiusXHeightY.x);
         Shader.SetGlobalFloat("_TransitionHeight", transitionRadiusXHeightY.y);
         Shader.SetGlobalFloat("_FogRadius", isPuzzle ? puzzleFogRadiusXHeightY.x : fogRadiusXHeightY.x);
         Shader.SetGlobalFloat("_FogHeight", fogRadiusXHeightY.y);
-//        Debug.Log(transitionRadiusXHeightY.y);
+        //Debug.Log(playerPosition.y);
     }
     
     private void OnDisable()
