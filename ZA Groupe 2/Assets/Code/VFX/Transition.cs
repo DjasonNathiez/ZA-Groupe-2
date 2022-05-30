@@ -7,6 +7,7 @@ using UnityEngine;
 public class Transition : MonoBehaviour
 {
     [SerializeField] float radius;
+    [SerializeField] Vector3 radiusDebug;
     
     [Header("Transition Etage")]
     [SerializeField] private Transform etagePos;
@@ -43,13 +44,15 @@ public class Transition : MonoBehaviour
 
     void Update()
     {
-        Shader.SetGlobalVector("_PlayerPosition", transform.position);
-        Shader.SetGlobalFloat("_TransitionRadius", radius);
+        Shader.SetGlobalVector("_PlayerPosition_2", transform.position);
+        Shader.SetGlobalVector("_TransitionDebug_1", radiusDebug);
+        Shader.SetGlobalFloat("_TransitionRadiu", radius);
     }
 
     private void OnDisable()
     {
         radius = 200f;
-        Shader.SetGlobalFloat("_TransitionRadius", radius);
+        Shader.SetGlobalVector("_TransitionDebug_1", radiusDebug);
+        Shader.SetGlobalFloat("_TransitionRadiu", radius);
     }
 }
