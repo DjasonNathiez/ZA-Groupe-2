@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Manoir_Water
+  m_Name: M_Manoir_Water
   m_Shader: {fileID: -6465566751694194690, guid: 659b41e104d87bc44a26a4bae287df5d, type: 3}
-  m_ShaderKeywords: _RECEIVE_SHADOWS_OFF _SURFACE_TYPE_TRANSPARENT
+  m_ShaderKeywords: _ALPHATEST_ON _RECEIVE_SHADOWS_OFF _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -17,8 +17,8 @@ Material:
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
-  - SHADOWCASTER
   - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -54,7 +54,7 @@ Material:
     m_Floats:
     - _AO: 1
     - _Alpha: 1
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _CastShadows: 0
     - _CausticsCutOut: 0.03
@@ -66,6 +66,7 @@ Material:
     - _FoamCufOff: 0.364
     - _FoamThickness: -0.2
     - _Foam_CufOffSmoothness: 0
+    - _Manoir: 1
     - _Metallic: 0
     - _NoiseDistorsion: -0.33
     - _NoiseDistortScale: 0.3
@@ -92,7 +93,7 @@ Material:
     - _CausticsSpeed: {r: 0, g: 0, b: 0, a: 0}
     - _DepthColor: {r: 0.31132078, g: 0.25111252, b: 0.3060976, a: 1}
     - _EdgeColor: {r: 0.46464, g: 0.057849757, b: 0.49056602, a: 1}
-    - _MainTint: {r: 0.5660378, g: 0.06140977, b: 0.44158342, a: 1}
+    - _MainTint: {r: 1, g: 0.9009434, b: 0.97678363, a: 1}
     - _Refraction_Position: {r: 0.03, g: -0.03, b: 0, a: 0}
     - _SpecularColor: {r: 32, g: 32, b: 32, a: 0}
   m_BuildTextureStacks: []

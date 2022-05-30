@@ -9,13 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: M_AssietteVide_01
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -119,7 +119,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 1
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AmbiantOcclusionMap: 1
     - _AmbiantOcclusionMap__Int: 1
     - _AmbiantOcclusion_Intensity: 1
@@ -141,7 +141,9 @@ Material:
     - _EmissionMap__Int: 0
     - _Emission_Smoothstep_Max: 1
     - _Emission_Smoothstep_Min: 0
+    - _EnableOutline: 0
     - _EnvironmentReflections: 1
+    - _Etage: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -152,6 +154,7 @@ Material:
     - _HSV__Int: 0
     - _HeightMap: 1
     - _Height_Scale: 0.1
+    - _Manoir: 1
     - _Metallic: 0
     - _MetallicMap: 0
     - _MetallicMap__Int: 0
@@ -166,6 +169,7 @@ Material:
     - _NormalMap: 0
     - _Normal_Intensity: 1
     - _OcclusionStrength: 1
+    - _OutlineThickness: 6
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -190,6 +194,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8977883810465666368
