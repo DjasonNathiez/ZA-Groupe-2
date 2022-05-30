@@ -541,9 +541,9 @@ public class Rope : MonoBehaviour
     {
         foreach (Node node in nodes)
         {
-            BearBehaviour ai = node.anchor.GetComponent<BearBehaviour>();
+            BearBehaviour ai = node.anchor.GetComponentInParent<BearBehaviour>();
             
-            if (ai && ai.canFall)
+            if (ai && ai.canFall && GetComponent<PlayerManager>().state == "Rope")
             {
                 ai.FallOnTheGround();
                 rewinding = true;

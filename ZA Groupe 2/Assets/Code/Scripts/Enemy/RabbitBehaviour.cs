@@ -65,7 +65,7 @@ public class RabbitBehaviour : AIBrain
         
         if (player.GetComponent<PlayerManager>().rope.enabled && distanceToPlayer <= dectectionRange)
         {
-            RopePointDetection();
+            
             
             if (dectectionRange < distanceToNearestPoint)
             {
@@ -82,17 +82,22 @@ public class RabbitBehaviour : AIBrain
             isAggro = false;
         }
 
+        if (isAggro)
+        {
+            RopePointDetection();
+        }
+        
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                isAttacking = false;
-                isPatrolling = true;
-                isMoving = false;
-                isAggro = false;
-                
-                nav.SetDestination(m_pointToGo);
-                
-                
+                if (!isPatrolling)
+                {
+                    isAttacking = false;
+                    isPatrolling = true;
+                    isMoving = false;
+                    isAggro = false;
+                }
+
                 Vector3 pointToGoMin = new Vector3(m_pointToGo.x - 3, transform.position.y, m_pointToGo.z - 3);
                 Vector3 pointToGoMax = new Vector3(m_pointToGo.x + 3, transform.position.y, m_pointToGo.z + 3);
 
@@ -100,6 +105,7 @@ public class RabbitBehaviour : AIBrain
                     transform.position.x <= pointToGoMax.x && transform.position.z <= pointToGoMax.z)
                 {
                     SetNavPoint();
+                    nav.SetDestination(m_pointToGo);
                 }
 
                 RaycastHit hit; 
@@ -116,22 +122,27 @@ public class RabbitBehaviour : AIBrain
                 break;
 
             case StateMachine.CHASE:
-                isAggro = true;
-                isPatrolling = false;
-                isAttacking = false;
+                if (isPatrolling)
+                {
+                    isAggro = true;
+                    isPatrolling = false;
+                    isAttacking = false;
+                }
                 MoveToRope();
                 break;
             
             case StateMachine.ATTACK:
-                isAttacking = true;
-                player.GetComponent<PlayerManager>().rope.rewinding = true;
+                if (!isAttacking)
+                {
+                    isAttacking = true;
+                    player.GetComponent<PlayerManager>().rope.rewinding = true;
+                }
                 break;
         }
     }
 
     private void SetNavPoint()
     {
-      
         float minX = m_originPoint.x - areaToMove;
         float minZ = m_originPoint.z - areaToMove;
         float maxX = m_originPoint.x + areaToMove;
@@ -143,8 +154,11 @@ public class RabbitBehaviour : AIBrain
 
     private void MoveToRope()
     {
-        isMoving = true;
-        nav.SetDestination(nearestPoint);
+        if (isAggro)
+        {
+            isMoving = true;
+            nav.SetDestination(nearestPoint);
+        }
     }
 
     private void RopePointDetection()

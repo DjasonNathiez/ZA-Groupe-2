@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -18,7 +19,7 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     { 
-      AIBrain iaBrain = other.GetComponent<AIBrain>();
+      AIBrain iaBrain = other.GetComponentInParent<AIBrain>();
       BossBehaviour bossBehaviour = other.GetComponent<BossBehaviour>();
       KnockableObject knockableObject = other.GetComponent<KnockableObject>();
       PropsInstructions props = other.GetComponent<PropsInstructions>();
@@ -28,7 +29,7 @@ public class Attack : MonoBehaviour
           StartCoroutine(props.DestroyThis());
       }
 
-      if (iaBrain)
+      if (iaBrain && other.CompareTag("HitBox"))
       {
           if (canHurt)
           {

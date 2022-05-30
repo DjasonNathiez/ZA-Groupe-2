@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Shape:
-    rid: 2916058299013267461
+    rid: 8205884665035227204
   m_Size: {x: -1, y: -1, z: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_PivotLocation: 1
@@ -415,7 +415,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2916058299013267461
+    - rid: 8205884665035227204
       type: {class: Cone, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
       data:
         m_NumberOfSides: 6
@@ -607,9 +607,10 @@ GameObject:
   m_Component:
   - component: {fileID: 388324621864522951}
   - component: {fileID: 9051990876572327350}
+  - component: {fileID: 646308844}
   m_Layer: 0
   m_Name: lapin
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -687,6 +688,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00031471776, y: -0.0024595836, z: 0.0015813494}
     m_Extent: {x: 0.003970887, y: 0.0052099302, z: 0.0050877356}
   m_DirtyAABB: 0
+--- !u!136 &646308844
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612161159139576952}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.74190974
+  m_Height: 1.476856
+  m_Direction: 1
+  m_Center: {x: -0.022789653, y: 0.46052855, z: -0.21209559}
 --- !u!1 &7612894808641764589
 GameObject:
   m_ObjectHideFlags: 0

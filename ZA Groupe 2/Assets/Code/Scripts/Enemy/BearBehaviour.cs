@@ -21,7 +21,7 @@ public class BearBehaviour : AIBrain
 
     private void Update()
     {
-        bodyCol.isTrigger = !isFalling;
+        //bodyCol.isTrigger = !isFalling;
         
         //Animator Set Bool
         animator.SetBool("isAttacking", isAttacking);

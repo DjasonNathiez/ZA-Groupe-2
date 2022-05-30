@@ -118,20 +118,24 @@ public class AIBrain : MonoBehaviour
     {
         //Detect the player to aggro
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        
-        Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
-        
-        foreach (Collider col in hit)
+
+        if (distanceToPlayer <= dectectionRange && !isAggro)
         {
-            if (col.GetComponent<PlayerManager>())
+            Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
+        
+            foreach (Collider col in hit)
             {
-                if (GetComponent<RabbitBehaviour>() == null)
+                if (col.GetComponent<PlayerManager>())
                 {
-                    isAggro = true;
-                }
+                    if (GetComponent<RabbitBehaviour>() == null)
+                    {
+                        isAggro = true;
+                    }
                 
+                }
             }
         }
+        
 
         //Mass Aggro AI Comportement
         if (isAggro)
@@ -166,7 +170,7 @@ public class AIBrain : MonoBehaviour
     public IEnumerator WaitForCooldown()
     {
         yield return new WaitForSeconds(attackDelay);
-        Debug.Log("attack cooldown over");
+       // Debug.Log("attack cooldown over");
         canAttack = true;
     }
 
@@ -174,6 +178,7 @@ public class AIBrain : MonoBehaviour
     {
         if (attackVFX != null)
         {
+            Debug.Log("Playing VFX");
             attackVFX.Play();
         }
     }
@@ -186,6 +191,7 @@ public class AIBrain : MonoBehaviour
     
     public void FallOnTheGround()
     {
+        Debug.Log("FallOnGround");
         //Set State
         isFalling = true;
         isInvincible = false;
@@ -210,7 +216,6 @@ public class AIBrain : MonoBehaviour
         yield return new WaitForSeconds(fallTime);
         isFalling = false;
         
-
         if (hitZoneVFX != null)
         {
             hitZoneVFX.gameObject.SetActive(false);  

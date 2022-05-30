@@ -46,7 +46,7 @@ public class Transition_Fog : MonoBehaviour
         Shader.SetGlobalFloat("_TransitionHeight", transitionRadiusXHeightY.y);
         Shader.SetGlobalFloat("_FogRadius", isPuzzle ? puzzleFogRadiusXHeightY.x : fogRadiusXHeightY.x);
         Shader.SetGlobalFloat("_FogHeight", fogRadiusXHeightY.y);
-        Debug.Log(transitionRadiusXHeightY.y);
+//        Debug.Log(transitionRadiusXHeightY.y);
     }
     
     private void OnDisable()

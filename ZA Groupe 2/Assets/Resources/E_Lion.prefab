@@ -59571,7 +59571,7 @@ ParticleSystem:
       m_RotationOrder: 4
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 1
   randomSeed: 0
   InitialModule:
     serializedVersion: 3
@@ -79542,7 +79542,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5805
+  m_VersionIndex: 5877
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -79560,7 +79560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Shape:
-    rid: 2916058299434270781
+    rid: 8205884665035227202
   m_Size: {x: -1, y: -1, z: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_PivotLocation: 1
@@ -79572,7 +79572,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2916058299434270781
+    - rid: 8205884665035227202
       type: {class: Cone, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
       data:
         m_NumberOfSides: 6
@@ -89721,9 +89721,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2087061416760269949}
   - component: {fileID: 2246169111934588788}
+  - component: {fileID: 960798439}
   m_Layer: 0
   m_Name: Body001.001
-  m_TagString: Untagged
+  m_TagString: HitBox
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -89820,6 +89821,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.010235038, y: -0.01266676, z: 0.0050404654}
     m_Extent: {x: 0.021081645, y: 0.015919948, z: 0.016707188}
   m_DirtyAABB: 0
+--- !u!136 &960798439
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4784022887112423902}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 4603.86
+  m_Height: 9213.677
+  m_Direction: 1
+  m_Center: {x: -0.10700678, y: -6.939016, z: -1809.1823}
 --- !u!1 &4800472575201185853
 GameObject:
   m_ObjectHideFlags: 0
@@ -90457,7 +90472,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2.3
   m_BaseOffset: 0.47
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!114 &7974381586827788921
 MonoBehaviour:
@@ -90471,9 +90486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 1
+  canActivatePressurePlate: 0
   weightClass: 0
   meshRenderer: {fileID: 2155511381822249415}
-  isEnemy: 1
 --- !u!1 &6281864527757534068
 GameObject:
   m_ObjectHideFlags: 0
