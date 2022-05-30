@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class ArcadeController : MonoBehaviour
+public class arcadeController : MonoBehaviour
 {
     public Rigidbody2D rb;
     public GameObject title;

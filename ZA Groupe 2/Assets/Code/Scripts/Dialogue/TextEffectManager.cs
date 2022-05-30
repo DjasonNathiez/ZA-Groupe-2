@@ -83,7 +83,7 @@ public class TextEffectManager : MonoBehaviour
                             for (int v = 0; v < 4; v++)
                             {
                                 var original = verts[charInfo.vertexIndex + v];
-                                verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width);
+                                verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width,dialogue[dialogueIndex].textEffects[e].height);
                                 colors[charInfo.vertexIndex + v] = ApplyColorEffectToVertex(
                                     dialogue[dialogueIndex].textEffects[e].colorEffectType,
                                     dialogue[dialogueIndex].textEffects[e].firstColor,
@@ -117,8 +117,11 @@ public class TextEffectManager : MonoBehaviour
                 timeStamp -= Time.deltaTime;
                 if (timeStamp <= 0)
                 {
+                    for (int i = 0; i < Mathf.FloorToInt(Mathf.Abs(timeStamp) / speedOfShowing) ; i++)
+                    {
+                        showedCharIndex++;
+                    }
                     timeStamp = speedOfShowing;
-                    showedCharIndex++;
                 }   
             }
         }
@@ -135,13 +138,13 @@ public class TextEffectManager : MonoBehaviour
         return product;
     }
     
-    public Vector3 ApplyEffectToVertex(Vector3 original,EffectTypeEnum effect,Vector3 center,float speed,float width)
+    public Vector3 ApplyEffectToVertex(Vector3 original,EffectTypeEnum effect,Vector3 center,float speed,float width,float height)
     {
         Vector3 product = original;
         switch (effect)
         {
             case EffectTypeEnum.WAVE:
-                product = original + new Vector3(0, Mathf.Sin(Time.time * speed + original.x * width) * 0.15f, 0);
+                product = original + new Vector3(0, Mathf.Sin(Time.time * speed + original.x * width) * height, 0);
                 break;
             case EffectTypeEnum.RANDOM:
                 product = original + new Vector3(Random.Range(-width,width),Random.Range(-width,width),0);
@@ -183,6 +186,7 @@ public class TextEffectManager : MonoBehaviour
     public EffectTypeEnum effectType;
     public float speed = 1;
     public float width = 1;
+    public float height = 1;
     public ColorEffectTypeEnum colorEffectType;
     public float colorSpeed = 1;
     public float colorWidth = 1;
