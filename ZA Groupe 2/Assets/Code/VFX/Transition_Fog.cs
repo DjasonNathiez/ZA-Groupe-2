@@ -8,9 +8,11 @@ using UnityEngine;
 public class Transition_Fog : MonoBehaviour
 {
     [SerializeField] private Vector2 baseFogRadiusXHeightY;
+    [SerializeField] private Vector2 puzzleFogRadiusXHeightY;
     [SerializeField] private Vector2 baseTransitionRadiusXHeightY;
     [SerializeField] private float etagePos;
     [SerializeField] private float _speed;
+    public bool isPuzzle;
     
     private Vector2 fogRadiusXHeightY;
     private Vector2 transitionRadiusXHeightY;
@@ -42,7 +44,7 @@ public class Transition_Fog : MonoBehaviour
         Shader.SetGlobalVector("_PlayerPosition", playerPosition);
         Shader.SetGlobalFloat("_TransitionRadius", transitionRadiusXHeightY.x);
         Shader.SetGlobalFloat("_TransitionHeight", transitionRadiusXHeightY.y);
-        Shader.SetGlobalFloat("_FogRadius", fogRadiusXHeightY.x);
+        Shader.SetGlobalFloat("_FogRadius", isPuzzle ? puzzleFogRadiusXHeightY.x : fogRadiusXHeightY.x);
         Shader.SetGlobalFloat("_FogHeight", fogRadiusXHeightY.y);
         Debug.Log(transitionRadiusXHeightY.y);
     }
