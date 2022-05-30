@@ -71,6 +71,15 @@ public class BossBehaviour : MonoBehaviour
                 rb.velocity = dashDirection * dashingSpeed;
                 bossDetector.transform.rotation = Quaternion.LookRotation(dashDirection);
                 break;
+            case 4:
+                if (cableRotation is >= 360 or <= -360)
+                {
+                    PlayerManager.instance.rope.rewinding = true;
+                    state = 0;
+                    StartCoroutine(Fall(1));
+                    Debug.Log("Falls");
+                }
+                break;
         }
 
         if (timeStamp <= 0 )
@@ -115,7 +124,7 @@ public class BossBehaviour : MonoBehaviour
             if (cableNodes.Count > 0 && phase == 0 && state == 1)
             {
                 state = 4;
-                
+
             }
             else if (cableNodes.Count == 0 && phase == 0 && state == 4)
             {
