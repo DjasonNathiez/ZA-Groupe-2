@@ -189,6 +189,7 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
+        ui.hudParent.SetActive(false);
         pauseMenu.SetActive(true);
         SetSelectedButton(pauseFirstSelectedButton);
     }
@@ -202,6 +203,7 @@ public class GameManager : MonoBehaviour
         playtestMenu.SetActive(false);
         collectionPanel.SetActive(false);
 
+        ui.hudParent.SetActive(true);
         pauseMenu.SetActive(false);
         
     }

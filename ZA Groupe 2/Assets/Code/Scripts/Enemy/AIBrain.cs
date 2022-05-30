@@ -67,6 +67,7 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem hitZoneVFX;
     public ParticleSystem deathVFX;
     public ParticleSystem explosionVFX;
+    public bool explodeOnEvent;
 
     [Header("Visual")] 
     public List<SkinnedMeshRenderer> modelMeshRenderer;
@@ -76,6 +77,14 @@ public class AIBrain : MonoBehaviour
     public Material aggroMaterial;
     public Material nonAggroMaterial;
 
+    public void ExplosionVFX()
+    {
+        if (explosionVFX != null)
+        {
+            explosionVFX.Play();
+        }
+    }
+    
     public void InitializationData()
     {
         currentHealth = maxHealth;
@@ -277,7 +286,7 @@ public class AIBrain : MonoBehaviour
             deathVFX.Play();
         }
 
-        if (explosionVFX != null)
+        if (explosionVFX != null && !explodeOnEvent)
         {
             explosionVFX.Play();
         }
