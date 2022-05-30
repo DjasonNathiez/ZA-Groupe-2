@@ -10,10 +10,11 @@ using Random = UnityEngine.Random;
 public class TextEffectManager : MonoBehaviour
 {
     public TMP_Text textElement;
+    public bool isDialoguing;
     public int showedCharIndex = 0;
     [SerializeField] private float speedOfShowing = 0.05f;
     [SerializeField] private float timeStamp;
-    //[SerializeField] private float[] charBasedHeight;
+    [SerializeField] private float[] charBasedHeight;
     public int dialogueIndex;
     public DialogueLine[] dialogue;
     
@@ -25,13 +26,13 @@ public class TextEffectManager : MonoBehaviour
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
         Debug.Log("Before Error");
-        //charBasedHeight = new float[textElement.textInfo.characterCount];
+        charBasedHeight = new float[textElement.textInfo.characterCount];
         Debug.Log("4 Line Function ShowText");
         //Debug.Log(charBasedHeight);
-        /*for (int i = 0; i < charBasedHeight.Length; i++)
+        for (int i = 0; i < charBasedHeight.Length; i++)
         {
             charBasedHeight[i] = -1f;
-        }*/
+        }
         timeStamp = speedOfShowing;
     }
     public void NextText()
@@ -42,92 +43,97 @@ public class TextEffectManager : MonoBehaviour
             textElement.text = dialogue[dialogueIndex].text;
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
-            //charBasedHeight = new float[textElement.textInfo.characterCount];
-            /*for (int i = 0; i < charBasedHeight.Length; i++)
+            charBasedHeight = new float[textElement.textInfo.characterCount];
+            for (int i = 0; i < charBasedHeight.Length; i++)
             {
                 charBasedHeight[i] = -1f;
-            }*/
+            }
             timeStamp = speedOfShowing;   
         }
     }
     void Update()
     {
-
-        var textInfo = textElement.textInfo;
-        textElement.ForceMeshUpdate();
-        
-        //Debug.Log("OK C " + textInfo.characterInfo[0].scale);
-
-        for (int i = 0; i < textInfo.characterCount; i++)
+        if (isDialoguing)
         {
-            var charInfo = textInfo.characterInfo[i];
-            if (!charInfo.isVisible)
-            {
-                continue;
-            }
             
-            Vector3[] verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
-            Color32[] colors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
+            var textInfo = textElement.textInfo;
+            textElement.ForceMeshUpdate();
+        
+            //Debug.Log("OK C " + textInfo.characterInfo[0].scale);
 
-            if (dialogue.Length > 0)
+            for (int i = 0; i < textInfo.characterCount; i++)
             {
-                for (int e = 0; e < dialogue[dialogueIndex].textEffects.Length; e++)
+                var charInfo = textInfo.characterInfo[i];
+                if (!charInfo.isVisible)
                 {
-                    if (i >= dialogue[dialogueIndex].textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].textEffects[e].lastCharIndex)
+                    continue;
+                }
+            
+                Vector3[] verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+                Debug.Log(verts.Length);
+                Color32[] colors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
+
+                if (dialogue.Length > 0)
+                {
+                    for (int e = 0; e < dialogue[dialogueIndex].textEffects.Length; e++)
                     {
-                        Vector3 center = (verts[charInfo.vertexIndex + 0] + verts[charInfo.vertexIndex + 2])/2;
-                        for (int v = 0; v < 4; v++)
+                        if (i >= dialogue[dialogueIndex].textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].textEffects[e].lastCharIndex)
                         {
-                            var original = verts[charInfo.vertexIndex + v];
-                            verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width);
-                            colors[charInfo.vertexIndex + v] = ApplyColorEffectToVertex(
-                                dialogue[dialogueIndex].textEffects[e].colorEffectType,
-                                dialogue[dialogueIndex].textEffects[e].firstColor,
-                                dialogue[dialogueIndex].textEffects[e].secondColor,
-                                dialogue[dialogueIndex].textEffects[e].colorSpeed,
-                                dialogue[dialogueIndex].textEffects[e].colorWidth,original);
-                        }
-                        break;
+                            Vector3 center = (verts[charInfo.vertexIndex + 0] + verts[charInfo.vertexIndex + 2])/2;
+                            for (int v = 0; v < 4; v++)
+                            {
+                                var original = verts[charInfo.vertexIndex + v];
+                                verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width);
+                                colors[charInfo.vertexIndex + v] = ApplyColorEffectToVertex(
+                                    dialogue[dialogueIndex].textEffects[e].colorEffectType,
+                                    dialogue[dialogueIndex].textEffects[e].firstColor,
+                                    dialogue[dialogueIndex].textEffects[e].secondColor,
+                                    dialogue[dialogueIndex].textEffects[e].colorSpeed,
+                                    dialogue[dialogueIndex].textEffects[e].colorWidth,original);
+                            }
+                            break;
+                        }   
                     }   
-                }   
                 
-                for (int v = 0; v < 4; v++)
-                {
-                    //verts[charInfo.vertexIndex + v] = GetVertex(verts[charInfo.vertexIndex + v],i);
-                    Color32 original = colors[charInfo.vertexIndex + v];
-                    //colors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
+                    for (int v = 0; v < 4; v++)
+                    {
+                        verts[charInfo.vertexIndex + v] = GetVertex(verts[charInfo.vertexIndex + v],i);
+                        Color32 original = colors[charInfo.vertexIndex + v];
+                        colors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
+                    }
                 }
             }
-        }
 
-        for (int i = 0; i < textInfo.meshInfo.Length; i++)
-        {
-            var meshInfo = textInfo.meshInfo[i];
-            meshInfo.mesh.vertices = meshInfo.vertices;
-            textElement.UpdateGeometry(meshInfo.mesh,i);
-            textElement.UpdateVertexData();
-        }
-
-        if (showedCharIndex < textInfo.characterCount)
-        {
-            timeStamp -= Time.deltaTime;
-            if (timeStamp <= 0)
+            for (int i = 0; i < textInfo.meshInfo.Length; i++)
             {
-                timeStamp = speedOfShowing;
-                showedCharIndex++;
-            }   
+                var meshInfo = textInfo.meshInfo[i];
+                meshInfo.mesh.vertices = meshInfo.vertices;
+                textElement.UpdateGeometry(meshInfo.mesh,i);
+                textElement.UpdateVertexData();
+            }
+
+            if (showedCharIndex < textInfo.characterCount)
+            {
+                timeStamp -= Time.deltaTime;
+                if (timeStamp <= 0)
+                {
+                    timeStamp = speedOfShowing;
+                    showedCharIndex++;
+                }   
+            }
         }
     }
 
-    /*public Vector3 GetVertex(Vector3 original,int charIndex)
+    public Vector3 GetVertex(Vector3 original,int charIndex)
     {
+        Debug.Log(charBasedHeight.Length + " et " + charIndex);
         Vector3 product = new Vector3(original.x, original.y + charBasedHeight[charIndex], original.z);
         if (charIndex < showedCharIndex)
         {
             charBasedHeight[charIndex] = Mathf.Lerp(charBasedHeight[charIndex], 0, 0.02f);
         }
         return product;
-    }*/
+    }
     
     public Vector3 ApplyEffectToVertex(Vector3 original,EffectTypeEnum effect,Vector3 center,float speed,float width)
     {
