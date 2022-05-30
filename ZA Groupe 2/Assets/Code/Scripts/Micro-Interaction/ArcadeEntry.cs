@@ -6,11 +6,10 @@ using UnityEngine.Serialization;
 
 public class ArcadeEntry : MonoBehaviour
 {
-    [FormerlySerializedAs("m_arcadeController")] [SerializeField] private ArcadeController arcadeController;
-    [FormerlySerializedAs("m_cam")] [SerializeField] private CameraController cam;
-    [SerializeField] private Vector3 pos;
+    [SerializeField] private arcadeController arcadeController;
+    [SerializeField] private CameraController cam;
     [SerializeField] private Vector3 rotation;
-    [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
+    [SerializeField] private GameObject button;
     [SerializeField] private bool check;
     [SerializeField] private float zoom;
     [SerializeField] private float nearPlane;
@@ -22,6 +21,7 @@ public class ArcadeEntry : MonoBehaviour
     private void Start()
     {
         screen.GetComponent<MeshRenderer>().material = new Material(screen.GetComponent<MeshRenderer>().material);
+        cam = PlayerManager.instance.cameraController;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,16 +37,16 @@ public class ArcadeEntry : MonoBehaviour
         if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
         {
             check = true;
-            arcadeController.onArcade = true;
             cam.playerFocused = false;
-            cam.cameraPos.position  = transform.position + pos;
+            cam.cameraPos.position  = transform.position;
             cam.cameraPos.rotation = Quaternion.Euler(rotation);
             cam.cameraZoom = zoom;
-            PlayerManager.instance.moveSpeed = 0;
-            arcadeController.bg.sprite = background;
-            arcadeController.title.GetComponent<SpriteRenderer>().sprite = title;
-            arcadeController.screen = screen;
+            
+            PlayerManager.instance.EnterDialogue();
+            arcadeController.onArcade = true;
             arcadeController.game = game;
+            arcadeController.screen = screen;
+            button.SetActive(false);
         }
 
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
