@@ -13,16 +13,17 @@ public class PressurePlate : MonoBehaviour
     {
         numberofCurrent++;
 
-        if (!other.GetComponent<Rigidbody>() || isActivate) return;
+        if (!other.gameObject.GetComponent<Rigidbody>() || isActivate) return;
         if (!multiActivate)
         {
-            if (!other.CompareTag("Player") && !other.GetComponent<ValueTrack>().canActivatePressurePlate) return;
+            if (other.gameObject.GetComponent<ValueTrack>() == null) return;
+            if (!other.CompareTag("Player") && !other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate) return;
             foreach (Door door in doors) { door.keysValid++; }
             isActivate = true;
         }
         else
         {
-            if (!other.GetComponent<ValueTrack>().canActivatePressurePlate || other.GetComponent<ValueTrack>() == null) return;
+            if (!other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate || other.gameObject.GetComponent<ValueTrack>() == null) return;
             foreach (Door door in doors) { door.keysValid++; }
             isActivate = true;
         }
@@ -32,7 +33,7 @@ public class PressurePlate : MonoBehaviour
     {
         numberofCurrent--;
 
-        if (!other.GetComponent<Rigidbody>() || !isActivate) return;
+        if (!other.gameObject.GetComponent<Rigidbody>() || !isActivate) return;
         if (numberofCurrent > 0) return;
         isActivate = false;
         foreach (Door door in doors) { door.keysValid--; }

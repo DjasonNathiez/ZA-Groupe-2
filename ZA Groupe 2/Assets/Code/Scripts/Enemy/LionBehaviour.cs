@@ -103,6 +103,8 @@ public class LionBehaviour : AIBrain
                 }
             }
         }
+        
+        enemyStatusPointer.SetActive(isAggro);
     }
 
     public void StopCounterState()

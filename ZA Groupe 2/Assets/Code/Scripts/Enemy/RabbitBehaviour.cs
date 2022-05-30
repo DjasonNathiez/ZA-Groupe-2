@@ -56,6 +56,7 @@ public class RabbitBehaviour : AIBrain
         }
         
         enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
+        enemyStatusPointer.SetActive(isAggro);
     }
 
     private void CheckState()

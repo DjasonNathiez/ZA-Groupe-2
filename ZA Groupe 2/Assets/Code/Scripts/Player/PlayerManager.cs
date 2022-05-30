@@ -577,6 +577,7 @@ public class PlayerManager : MonoBehaviour
                     if (!m_attack.isAttacking && !m_isRolling)
                     {
                         PlayerManager.instance.rb.velocity = Vector3.zero;
+                        ClearAimList();
                         state = "Aiming";
                         visuthrow.SetActive(true);
                     }
@@ -602,15 +603,7 @@ public class PlayerManager : MonoBehaviour
                 case "Aiming":
                     Throw();
                     visuthrow.SetActive(false);
-                    foreach (ValueTrack obj in GameManager.instance.grippableObj)
-                    {
-                        if (obj.meshRenderer == null || obj == null) GameManager.instance.grippableObj.Remove(obj);
-                        if (obj.meshRenderer == null) return;
-                        obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                        if (!obj.isEnemy) continue;
-                        obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
-                        obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
-                    }
+                    ClearAimList();
                     break;
                 default: return;
             }
@@ -928,6 +921,19 @@ public class PlayerManager : MonoBehaviour
             rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
         {
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
+        }
+    }
+
+    private void ClearAimList()
+    {
+        foreach (ValueTrack obj in GameManager.instance.grippableObj)
+        {
+            if (obj.meshRenderer == null || obj == null) GameManager.instance.grippableObj.Remove(obj);
+            if (obj.meshRenderer == null) return;
+            obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+            if (!obj.isEnemy) continue;
+            obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
+            obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
         }
     }
 
