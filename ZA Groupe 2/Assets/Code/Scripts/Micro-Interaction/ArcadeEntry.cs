@@ -44,7 +44,9 @@ public class ArcadeEntry : MonoBehaviour
             PlayerManager.instance.EnterDialogue();
             miniGameManager.onArcade = true;
             miniGameManager.game = game;
+            miniGameManager.cam = cam;
             button.SetActive(false);
+            miniGameManager.screenMaterial.material.color = Color.white;
         }
 
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)

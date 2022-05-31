@@ -57,6 +57,11 @@ public class ThrowingWeapon : MonoBehaviour
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
                 }
+                
+                if (other.GetComponent<Taupe>())
+                {
+                    other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
+                }
             }
             else if (other.CompareTag("TractableObject"))
             {

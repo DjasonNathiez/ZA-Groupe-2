@@ -19,6 +19,7 @@ public class Door : MonoBehaviour
     public CinematicEnvent cinematicEnvent;
     public bool puzzleEnded;
     public GameObject[] child;
+    public bool startedTapeTaupe;
     
     void Update()
     {
@@ -40,6 +41,14 @@ public class Door : MonoBehaviour
                 {
                     keysValid = keyNeeded + 1;
                 }   
+            }
+            else if (type == "TapeTaupe")
+            {
+                if (!startedTapeTaupe)
+                {
+                    startedTapeTaupe = true;
+                    GetComponent<TapeTaupeArcade>().StartTapeTaupe();   
+                }
             }
 
             if (cinematicEnvent)
@@ -81,6 +90,13 @@ public class Door : MonoBehaviour
                 foreach (GameObject c in child)
                 {
                     c.SetActive(false);
+                }
+            }
+            else if (type == "TapeTaupe")
+            {
+                if (startedTapeTaupe)
+                {
+                    startedTapeTaupe = false;
                 }
             }
         }
