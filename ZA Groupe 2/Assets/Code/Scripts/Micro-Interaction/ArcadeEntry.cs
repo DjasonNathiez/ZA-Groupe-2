@@ -6,15 +6,14 @@ using UnityEngine.Serialization;
 
 public class ArcadeEntry : MonoBehaviour
 {
-    [SerializeField] private arcadeController arcadeController;
+    [SerializeField] private MiniGameManager miniGameManager;
     [SerializeField] private CameraController cam;
+    [SerializeField] private GameObject camArcade;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private GameObject button;
     [SerializeField] private bool check;
     [SerializeField] private float zoom;
     [SerializeField] private float nearPlane;
-    [SerializeField] private Sprite background;
-    [SerializeField] private Sprite title;
     [SerializeField] private GameObject screen;
     [SerializeField] private int game;
 
@@ -41,11 +40,10 @@ public class ArcadeEntry : MonoBehaviour
             cam.cameraPos.position  = transform.position;
             cam.cameraPos.rotation = Quaternion.Euler(rotation);
             cam.cameraZoom = zoom;
-            
+            camArcade.transform.position = new Vector3(miniGameManager.transform.position.x,miniGameManager.transform.position.y, -1);
             PlayerManager.instance.EnterDialogue();
-            arcadeController.onArcade = true;
-            arcadeController.game = game;
-            arcadeController.screen = screen;
+            miniGameManager.onArcade = true;
+            miniGameManager.game = game;
             button.SetActive(false);
         }
 

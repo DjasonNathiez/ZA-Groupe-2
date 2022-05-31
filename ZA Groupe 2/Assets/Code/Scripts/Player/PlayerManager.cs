@@ -84,6 +84,7 @@ public class PlayerManager : MonoBehaviour
     public float rollCooldown;
     public AnimationCurve rollAnimationCurve;
     public float grappleFlySpeed;
+    public bool buttonAPressed;
 
     [Header("Attack Stats")]
 
@@ -292,7 +293,7 @@ public class PlayerManager : MonoBehaviour
             m_inputController.Player.Interact.canceled += Interact;
 
             //Roll
-            if (!isRolling && !isAttacking && isMoving)
+            if (!isRolling && !isAttacking && isMoving && m_controlState != ControlState.DIALOGUE)
             {
                 m_inputController.Player.Roll.started += Roll;
             }
@@ -339,9 +340,12 @@ public class PlayerManager : MonoBehaviour
             }
 
             //Move
-            m_inputController.Player.Move.started += Move;
-            m_inputController.Player.Move.performed += Move;
-            m_inputController.Player.Move.canceled += Move;
+            if (m_controlState != ControlState.DIALOGUE)
+            {
+                m_inputController.Player.Move.started += Move;
+                m_inputController.Player.Move.performed += Move;
+                m_inputController.Player.Move.canceled += Move;   
+            }
 
 
             if (!m_attack.isAttacking)
@@ -806,6 +810,11 @@ public class PlayerManager : MonoBehaviour
     public void ExitDialogue()
     {
         m_controlState = ControlState.NORMAL;
+    }
+
+    void OnRoll()
+    {
+        buttonAPressed = true;
     }
     
 
