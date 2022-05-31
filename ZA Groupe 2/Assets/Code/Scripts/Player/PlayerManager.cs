@@ -173,6 +173,7 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem rollVFX;
 
     #endregion
+    
 
     private void Awake()
     {
@@ -189,10 +190,12 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
+        
         foreach (Hat i in hats)
         {
             if (i.hatName == startHat)
             {
+                
                 currentHat = i.hatObj;
                 i.hatObj.SetActive(true);
             }
@@ -533,6 +536,7 @@ public class PlayerManager : MonoBehaviour
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
                 attackVFX.Play();
+                PlaySFX("P_Attack");
                 isAttacking = true;
             }
         }
@@ -547,8 +551,7 @@ public class PlayerManager : MonoBehaviour
         if (state == "Aiming")
         {
             isThrowing = true;
-
-
+            
             throwingWeapon.SetActive(true);
             throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
             throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
@@ -559,6 +562,8 @@ public class PlayerManager : MonoBehaviour
             state = "Throw";
             rope.enabled = true;
             rope.rope.gameObject.SetActive(true);
+            PlaySFX("P_Throw");
+            PlaySFX("P_RopeThrow");
         }
     }
 
@@ -568,6 +573,7 @@ public class PlayerManager : MonoBehaviour
         {
             isThrowing = false;
             rope.rewinding = true;
+            PlaySFX("P_Rewind");
         }
     }
     
@@ -637,7 +643,6 @@ public class PlayerManager : MonoBehaviour
                 }
                 else
                 {
-
                     poufpoufTimer = 0;
                     poufpoufInstantiated = true;
                     GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
@@ -690,6 +695,7 @@ public class PlayerManager : MonoBehaviour
                 {
                     GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "roll"));
                     rollVFX.Play();
+                    PlaySFX("P_Roll");
                     isRolling = true;
                     m_isRolling = true;
                 }
@@ -735,6 +741,7 @@ public class PlayerManager : MonoBehaviour
             if (currentLifePoint > 0)
             {
                 currentLifePoint -= damage;
+                PlaySFX("P_Hurt");
                 hurtVFX.Play();
                 GameManager.instance.ui.UpdateHealth();
             
@@ -884,6 +891,35 @@ public class PlayerManager : MonoBehaviour
     
 
     #endregion
+
+    public void PlaySFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.playerSounds)
+        {
+            if (s.soundName == soundName)
+            {
+                if (s.loop)
+                {
+                    SoundManager.PlayFx(s.clip,loop: true, volume: s.volume);
+                }
+                else
+                {
+                    SoundManager.PlayOnce(s.clip, volume: s.volume);
+                }
+            }
+        }
+    }
+
+    public void StopSFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.playerSounds)
+        {
+            if (s.soundName == soundName)
+            {
+               SoundManager.StopFx(s.clip);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {

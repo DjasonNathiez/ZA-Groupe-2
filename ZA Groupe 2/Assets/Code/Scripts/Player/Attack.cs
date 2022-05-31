@@ -27,12 +27,15 @@ public class Attack : MonoBehaviour
       if (props && isAttacking)
       {
           StartCoroutine(props.DestroyThis());
+          GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
       }
 
       if (iaBrain && other.CompareTag("HitBox"))
       {
+          
           if (canHurt)
           {
+              GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
               iaBrain.GetHurt(PlayerManager.instance.attackDamage);
               
               if (iaBrain.canBeKnocked)
@@ -58,6 +61,7 @@ public class Attack : MonoBehaviour
       {
           if (canHurt)
           {
+              GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
               bossBehaviour.GetHurt(PlayerManager.instance.attackDamage);
               canHurt = false;
           }
@@ -66,6 +70,7 @@ public class Attack : MonoBehaviour
       
       if (knockableObject)
       {
+          GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
           Vector3 dir = other.transform.position - PlayerManager.instance.transform.position;
           dir = new Vector3(dir.x, knockableObject.yforce, dir.z).normalized * knockableObject.force;
           knockableObject.rb.AddForce(dir,ForceMode.Impulse);

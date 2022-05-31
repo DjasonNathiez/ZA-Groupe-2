@@ -18,6 +18,7 @@ public class ThrowingWeapon : MonoBehaviour
         {
             if (other.CompareTag("GrippableObject"))
             {
+                playerManager.PlaySFX("P_RopeGrip");
                 playerManager.state = "Rope";
                 if (other.ClosestPoint(transform.position) == transform.position)
                 {
@@ -60,6 +61,7 @@ public class ThrowingWeapon : MonoBehaviour
             }
             else if (other.CompareTag("TractableObject"))
             {
+                playerManager.PlaySFX("P_RopeGrip");
                 playerManager.state = "Rope";
                 playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.pinnedToObject = true;

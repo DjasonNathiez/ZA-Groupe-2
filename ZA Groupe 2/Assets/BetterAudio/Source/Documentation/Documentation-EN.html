@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BetterAudio Documentation</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+
+        --main-bg-color: #C6C6C6;
+        --mid-bg-color: #999999;
+        --dark-bg-color: #777777;
+
+        font-family: Lato;
+        font-weight: 400;
+      }
+
+      body {
+        display:  flex;
+        flex-direction:  column;
+        align-items: center;
+        background-color: var(--main-bg-color);
+      }
+
+      .logo {
+        margin-top: 2%;
+        width: 40%;
+      }
+
+      section {
+        background-color: var(--main-bg-color);
+        /*border: 5px 5px 5px 5px solid var(--dark-bg-color);
+        border: 5px solid var(--dark-bg-color);*/
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+
+        padding: 2%;
+        width: 75%;
+      }
+
+      strong{
+        font-weight: 800;
+      }
+
+      button {
+        padding: 5px;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+        font-weight: 800;
+      }
+
+      .header {
+        margin-top: 3%;
+        background-color: var(--mid-bg-color);
+        font-size: 2em;
+      }
+
+      .bar {
+        display:  flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+      }
+
+      .filter {
+        padding: 5px;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+        font-weight: 800;
+      }
+
+      .start {
+        background-color: #56B458;
+      }
+
+      .play {
+        background-color: #3964AC;
+      }
+
+      .update {
+        background-color: #CD9B39;
+      }
+      .end {
+        background-color: #B45656;
+      }
+
+      .collider{
+        background-color: #75C6C1;
+      }
+
+      .event {
+        background-color: #AD6AB8;
+      }
+
+      #behavioursList {
+        display:  flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .behaviour:nth-child(even){
+        background-color: var(--mid-bg-color) !important;
+      }
+
+      .behaviour:nth-child(odd){
+        background-color: var(--main-bg-color) !important;
+      }
+
+      .behaviour {
+
+        padding: 2.5%;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+
+      }
+
+      .behaviour:hover{
+
+      }
+
+      .behaviour .bar{
+        cursor: pointer;
+        opacity: 0.6;
+        transition: all 0.5s;
+      }
+
+      .behaviour .bar:hover {
+        opacity: 1;
+      }
+
+      h5 {
+        font-weight: 800;
+        font-size: 1.5em;
+      }
+
+      .description {
+        margin-top: 2%;
+        margin-left: 2%;
+        border-top: 1px solid gray;
+        padding-top: 1%;
+      }
+
+
+
+      .badge {
+        padding: 1%;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+      }
+
+      .badges {
+        display: flex;
+        flex-direction: row;
+        width: 60%;
+        justify-content: space-around;
+      }
+
+      .badges span{
+        justify-content: space-around;
+        display:  flex;
+        flex-direction:  row;
+        width: 65%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+      }
+
+      .plus {
+        width: 33% !important;
+    background: linear-gradient(270deg, #4de1e3, #cd75e6, #f38327);
+    background-size: 600% 600%;
+    box-shadow: inset 0px 0px 8px 6px #c6c6c6;;
+
+    -webkit-animation: BetterAudioPlusGradient 7s ease infinite;
+    -moz-animation: BetterAudioPlusGradient 7s ease infinite;
+    animation: BetterAudioPlusGradient 7s ease infinite;
+}
+
+.plus a {
+  color: black;
+  text-decoration: none;
+  display: inline;
+  float: right;
+  position: absolute;
+  transform: translate(0px, 250%);
+}
+
+      @-webkit-keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+      @-moz-keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+      @keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+
+
+
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+
+        var docs = [];
+
+        function Filter(){
+            var allBehaviours = document.getElementsByClassName("behaviour");
+            var filter = "";
+
+            for (var i = 0; i < allBehaviours.length; i++) {
+              allBehaviours[i].style.display = "none";
+            }
+
+            var start = document.getElementById("_startToggle");
+            if(start.checked){
+              docs = document.getElementsByClassName("start");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var play = document.getElementById("_playToggle");
+            if(play.checked){
+              docs = document.getElementsByClassName("play");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var update = document.getElementById("_updateToggle");
+            if(update.checked){
+              docs = document.getElementsByClassName("update");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_endToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("end");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_colliderToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("collider");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_eventToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("event");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+        }
+
+        $(document).ready(function(){
+          $("#AutoDestroy_Desc").slideUp();
+          $("#AutoDestroy_Toggle").click(function(){
+            $("#AutoDestroy_Desc").slideToggle();
+          });
+
+          $("#ClipSerie_Desc").slideUp();
+          $("#ClipSerie_Toggle").click(function(){
+            $("#ClipSerie_Desc").slideToggle();
+          });
+
+          $("#Delay_Desc").slideUp();
+          $("#Delay_Toggle").click(function(){
+            $("#Delay_Desc").slideToggle();
+          });
+
+          $("#Fade_Desc").slideUp();
+          $("#Fade_Toggle").click(function(){
+            $("#Fade_Desc").slideToggle();
+          });
+
+          $("#Follow_Desc").slideUp();
+          $("#Follow_Toggle").click(function(){
+            $("#Follow_Desc").slideToggle();
+          });
+
+          $("#Loop_Desc").slideUp();
+          $("#Loop_Toggle").click(function(){
+            $("#Loop_Desc").slideToggle();
+          });
+
+          $("#RandomClip_Desc").slideUp();
+          $("#RandomClip_Toggle").click(function(){
+            $("#RandomClip_Desc").slideToggle();
+          });
+
+          $("#SetSource_Desc").slideUp();
+          $("#SetSource_Toggle").click(function(){
+            $("#SetSource_Desc").slideToggle();
+          });
+
+          $("#SetSourceCurve_Desc").slideUp();
+          $("#SetSourceCurve_Toggle").click(function(){
+            $("#SetSourceCurve_Desc").slideToggle();
+          });
+
+        });
+    </script>
+
+  </head>
+  <body>
+    <img class="logo" src="http://betteraudio.raccoonlabs.fr/img/Logo.png"></img>
+    <section class="header">
+      <h4> <strong>BetterAudio</strong> Source Documentation</h4>
+    </section>
+    <section>
+      <div class="bar">
+        <h5> Behaviours list</h5>
+        <p>Filter by categories: </p>
+        <div class="badges">
+          <span>
+          <div class="filter start" id="startToggle"  >
+            <input type="checkbox" onclick="Filter()" id="_startToggle" checked>  On  Start</input>
+          </div>
+          <div class="filter play" id="playToggle" >
+            <input type="checkbox" onclick="Filter()" id="_playToggle" checked>  On  Play</input>
+          </div>
+          <div class="filter update" id="updateToggle" >
+            <input type="checkbox" onclick="Filter()" id="_updateToggle" checked>  On  Update</input>
+          </div>
+          <div class="filter end" id="endToggle" >
+            <input type="checkbox" onclick="Filter()" id="_endToggle" checked>  On  End</input>
+          </div>
+          </span>
+          <span class="plus">
+            <div class="filter collider" id="colliderToggle" >
+              <input type="checkbox" onclick="Filter()" id="_colliderToggle" checked>  On  Collider</input>
+            </div>
+            <div class="filter event" id="eventToggle" >
+              <input type="checkbox" onclick="Filter()" id="_eventToggle" checked>  On  Event</input>
+            </div>
+            <a href="https://assetstore.unity.com/?q=Better Audio Plus" target="_blank">Get Better Audio Plus ! </a>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="behavioursList">
+      <div class="behaviour start play end collider event update">
+        <div class="bar" id="AutoDestroy_Toggle" >
+          <h5>Auto Destroy</h5>
+          <div class="badges">
+            <div class="badge start">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="AutoDestroy_Desc">A simple behaviour that destroy the source's gameobject when triggered. <br> You can specify a delay between the trigger and the execution.
+          <br><br><span class="update">When used in Update behaviour, you must specify a time at wich it will be triggered.</span> </div>
+      </div>
+
+      <div class="behaviour end collider event">
+        <div class="bar" id="ClipSerie_Toggle" >
+          <h5>Clip Serie</h5>
+          <div class="badges">
+            <div class="badge start" style="opacity: 0;">On Start</div>
+            <div class="badge play" style="opacity: 0;">On Play</div>
+            <div class="badge update" style="opacity: 0;">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="ClipSerie_Desc">This behaviour can be used to play clips one after another. Useful to make dialogs.
+        </div>
+      </div>
+
+      <div class="behaviour start play collider event">
+        <div class="bar" id="Delay_Toggle" >
+          <h5>Delay</h5>
+          <div class="badges">
+            <div class="badge start">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update" style="opacity: 0;">On Update</div>
+            <div class="badge end" style="opacity: 0;">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="Delay_Desc">When triggered the <strong>Delay</strong> send a command either <strong>Play, Stop or Toggle</strong> after the specified delay. <br>
+          <ul>
+            <li>Play: if the Audio Source is paused or stopped it will play.</li>
+            <li>Stop: if the Audio Source is playing it will stop it.</li>
+            <li>Toggle: if the Audio Source is playing it will stop, however it will play</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="behaviour play collider event">
+        <div class="bar" id="Fade_Toggle" >
+          <h5>Fade</h5>
+          <div class="badges">
+            <div class="badge start" style="opacity: 0;">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update">On Update</div>
+            <div class="badge end" style="opacity: 0;">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="Fade_Desc">The Fade behaviour will set the volume at the <strong>Initial</strong> amount. Then the amount will go to the <strong>Target</strong> amount taking the time specified in the
+        <strong> Fade Time </strong> property.
+        <br><br><span class="update">When used in Update behaviour, you must specify a time at wich it will be triggered.</span>
+        </div>
+      </div>
+
+      <div class="behaviour start play update end collider event">
+        <div class="bar" id="Follow_Toggle" >
+          <h5>Follow</h5>
+          <div class="badges">
+            <div class="badge start">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="Follow_Desc">Follow, will translate the source's gameobject to another specified transform.<br> If <strong> Keep Offset</strong> is checked, the behaviour will remenber the distance between the target and the source when <strong> First </strong> triggered and keep it same for all future triggers.
+        </div>
+      </div>
+
+      <div class="behaviour end collider event">
+        <div class="bar" id="Loop_Toggle" >
+          <h5>Loop</h5>
+          <div class="badges">
+            <div class="badge start" style="opacity: 0;">On Start</div>
+            <div class="badge play" style="opacity: 0;">On Play</div>
+            <div class="badge update" style="opacity: 0;">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="Loop_Desc">When the clip is finished, the <strong>Loop</strong> behaviour will rewind the play time to 0 and play it again. The <strong> Loop count </strong> property will tell how many times the behaviour
+          will trigger. If <strong> Auto Destroy </strong> is active, the source's gameobject will be destroy once all loops done and after the property delay.
+        </div>
+      </div>
+
+      <div class="behaviour start play end collider event">
+        <div class="bar" id="RandomClip_Toggle" >
+          <h5>Random Clip</h5>
+          <div class="badges">
+            <div class="badge start">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update" style="opacity: 0;">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="RandomClip_Desc">When triggered this behaviour will change the source's clip randomly with one of the </strong>clip list</strong>. For On Play event the new clip will be played however it need to be triggered
+          with another method (Delay, Loop, Custom Script).
+        </div>
+      </div>
+
+      <div class="behaviour start play end collider event">
+        <div class="bar" id="SetSource_Toggle" >
+          <h5>Set Source property (float)</h5>
+          <div class="badges">
+            <div class="badge start">On Start</div>
+            <div class="badge play">On Play</div>
+            <div class="badge update" style="opacity: 0;">On Update</div>
+            <div class="badge end">On End</div>
+            <div class="badge collider">On Collider</div>
+            <div class="badge event">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="SetSource_Desc">When triggered it will change the selected <strong> source property </strong> to the desired value.
+        </div>
+      </div>
+
+      <div class="behaviour update">
+        <div class="bar" id="SetSourceCurve_Toggle" >
+          <h5>Set Source property (curve)</h5>
+          <div class="badges">
+            <div class="badge start" style="opacity: 0;">On Start</div>
+            <div class="badge play" style="opacity: 0;">On Play</div>
+            <div class="badge update" >On Update</div>
+            <div class="badge end" style="opacity: 0;">On End</div>
+            <div class="badge collider" style="opacity: 0;">On Collider</div>
+            <div class="badge event" style="opacity: 0;">On Event</div>
+          </div>
+        </div>
+        <div class="description" id="SetSourceCurve_Desc">This behaviour will make the <strong> source property </strong>follow the desired curve (be careful to stay between the bounds).
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <center>
+        <p> Asset and documentation made by Raphaël Horion</p>
+        <p> 2020 All rights reserved </p>
+      </center>
+    </section>
+
+  </body>
+</html>
