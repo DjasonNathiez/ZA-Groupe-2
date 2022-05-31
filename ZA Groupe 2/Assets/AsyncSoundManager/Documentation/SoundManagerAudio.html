@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SoundManager.SoundManagerAudio Documentation</title>
+    <style>
+        * {
+            font-family: arial, sans-serif;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+<h1>SoundManager.SoundManagerAudio Documentation</h1>
+<h2>Description</h2>
+<p>This class is used by the SoundManager script to wrap the Unity <a href="https://docs.unity3d.com/ScriptReference/AudioClip.html" target="_blank">AudioClip</a> class and add more advanced functionalities.</p>
+<h2>Properties</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Accessibility</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>AudioClip</td>
+        <td><a href="https://docs.unity3d.com/ScriptReference/AudioClip.html" target="_blank">AudioClip</a></td>
+        <td>{get;}</td>
+        <td>The AudioClip that will be play when using the SoundManagerAudio object.</td>
+    </tr>
+    <tr>
+        <td>DoNotDestroy</td>
+        <td>bool</td>
+        <td>{get;}</td>
+        <td>If the SoundManagerAudio object will be automatically deleted after done playing.</td>
+    </tr>
+    <tr>
+        <td>Duration</td>
+        <td>float</td>
+        <td>{get;}</td>
+        <td>The duration of the AudioClip.</td>
+    </tr>
+    <tr>
+        <td>IsPLaying</td>
+        <td>bool</td>
+        <td>{get;}</td>
+        <td>If the SoundManagerAudio is currently playing.</td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>BetterAudio Documentation</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+
+        --main-bg-color: #C6C6C6;
+        --mid-bg-color: #999999;
+        --dark-bg-color: #777777;
+
+        font-family: Lato;
+        font-weight: 400;
+      }
+
+      body {
+        display:  flex;
+        flex-direction:  column;
+        align-items: center;
+        background-color: var(--main-bg-color);
+      }
+
+      .logo {
+        margin-top: 2%;
+        width: 40%;
+      }
+
+      section {
+        background-color: var(--main-bg-color);
+        /*border: 5px 5px 5px 5px solid var(--dark-bg-color);
+        border: 5px solid var(--dark-bg-color);*/
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+
+        padding: 2%;
+        width: 75%;
+      }
+
+      strong{
+        font-weight: 800;
+      }
+
+      button {
+        padding: 5px;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+        font-weight: 800;
+      }
+
+      .header {
+        margin-top: 3%;
+        background-color: var(--mid-bg-color);
+        font-size: 2em;
+      }
+
+      .bar {
+        display:  flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+      }
+
+      .filter {
+        padding: 5px;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+        font-weight: 800;
+      }
+
+      .start {
+        background-color: #56B458;
+      }
+
+      .play {
+        background-color: #3964AC;
+      }
+
+      .update {
+        background-color: #CD9B39;
+      }
+      .end {
+        background-color: #B45656;
+      }
+
+      .collider{
+        background-color: #75C6C1;
+      }
+
+      .event {
+        background-color: #AD6AB8;
+      }
+
+      #behavioursList {
+        display:  flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .behaviour:nth-child(even){
+        background-color: var(--mid-bg-color) !important;
+      }
+
+      .behaviour:nth-child(odd){
+        background-color: var(--main-bg-color) !important;
+      }
+
+      .behaviour {
+
+        padding: 2.5%;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+
+      }
+
+      .behaviour:hover{
+
+      }
+
+      .behaviour .bar{
+        cursor: pointer;
+        opacity: 0.6;
+        transition: all 0.5s;
+      }
+
+      .behaviour .bar:hover {
+        opacity: 1;
+      }
+
+      h5 {
+        font-weight: 800;
+        font-size: 1.5em;
+      }
+
+      h5 strong {
+        font-weight: 1000;
+        font-size: 1.501em;
+      }
+
+      .description {
+        margin-top: 2%;
+        margin-left: 2%;
+        border-top: 1px solid gray;
+        padding-top: 1%;
+      }
+
+      .code{
+        font-weight: 300;
+        color: blue;
+      }
+
+      .unity {
+        font-weight: 300;
+        color: #ff6003;
+      }
+
+
+
+      .badge {
+        padding: 1%;
+        box-shadow: 0px 0px 5px var(--dark-bg-color);
+      }
+
+      .badges {
+        display: flex;
+        flex-direction: row;
+        width: 60%;
+        justify-content: space-around;
+      }
+
+      .badges span{
+        justify-content: space-around;
+        display:  flex;
+        flex-direction:  row;
+        width: 65%;
+        padding-top: 3%;
+        padding-bottom: 3%;
+      }
+
+      .plus {
+        width: 33% !important;
+    background: linear-gradient(270deg, #4de1e3, #cd75e6, #f38327);
+    background-size: 600% 600%;
+    box-shadow: inset 0px 0px 8px 6px #c6c6c6;;
+
+    -webkit-animation: BetterAudioPlusGradient 7s ease infinite;
+    -moz-animation: BetterAudioPlusGradient 7s ease infinite;
+    animation: BetterAudioPlusGradient 7s ease infinite;
+}
+
+.plus a {
+  color: black;
+  text-decoration: none;
+  display: inline;
+  float: right;
+  position: absolute;
+  transform: translate(0px, 250%);
+}
+
+      @-webkit-keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+      @-moz-keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+      @keyframes BetterAudioPlusGradient {
+          0%{background-position:0% 50%}
+          50%{background-position:100% 50%}
+          100%{background-position:0% 50%}
+      }
+
+
+
+
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+
+        var docs = [];
+
+        function Filter(){
+            var allBehaviours = document.getElementsByClassName("behaviour");
+            var filter = "";
+
+            for (var i = 0; i < allBehaviours.length; i++) {
+              allBehaviours[i].style.display = "none";
+            }
+
+            var start = document.getElementById("_startToggle");
+            if(start.checked){
+              docs = document.getElementsByClassName("start");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var play = document.getElementById("_playToggle");
+            if(play.checked){
+              docs = document.getElementsByClassName("play");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var update = document.getElementById("_updateToggle");
+            if(update.checked){
+              docs = document.getElementsByClassName("update");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_endToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("end");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_colliderToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("collider");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+
+            var end = document.getElementById("_eventToggle");
+            if(end.checked){
+              docs = document.getElementsByClassName("event");
+              for (var i = 0; i < docs.length; i++) {
+                docs[i].style.display = "block";
+              }
+            }
+        }
+
+        $(document).ready(function(){
+          $("#AutoDestroy_Desc").slideUp();
+          $("#AutoDestroy_Toggle").click(function(){
+            $("#AutoDestroy_Desc").slideToggle();
+          });
+
+        });
+    </script>
+
+  </head>
+  <body>
+    <img class="logo" src="http://betteraudio.raccoonlabs.fr/img/Logo.png"></img>
+    <section class="header">
+      <h4> <strong>BetterAudio</strong> Source API</h4>
+    </section>
+
+    <section id="behavioursList">
+      <div class="behaviour start play end collider event update">
+        <div class="bar" id="SendEvent_Toggle" >
+          <h5><strong style="color: black">BetterAudioEvent.SendEvent</strong> (<span class="code">string</span> Event Name, <span class="code">out</span> <span class="unity">GameObject|[]</span> Target|Targets, <span class="code">object</span> argument) </h5>
+        </div>
+        <div class="description" id="SendEvent_Desc"><strong>Events are only available for the Plus version</strong><br><br>
+          SendEvent will trigger all behaviours in "OnEvent" categorie with matching name for all BetterAudio Sources in scene.<br>
+          The function can output the last target or all triggered GameObject.<br>
+          Argument are not usable for now.
+        </div>
+      </div>
+
+
+    </section>
+
+    <section>
+      <center>
+        <p> Asset and documentation made by Raphaël Horion</p>
+        <p> 2020 All rights reserved </p>
+      </center>
+    </section>
+
+  </body>
+</html>

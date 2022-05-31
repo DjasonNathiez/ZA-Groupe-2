@@ -25,7 +25,10 @@ public class GameManager : MonoBehaviour
     public GameObject currentTab;
 
     [Header("Level")]
-    public string gameScene;
+    public string parcScene;
+    public string dungeonScene;
+    public string menuScene;
+    public bool dungeonEnded;
     public Checkpoint lastCheckpoint;
     public string lastCheckpointName;
     public Checkpoint[] allCheckpoint;
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialize();
+        CheckScene();
     }
 
     public void Initialize()
@@ -228,9 +232,14 @@ public class GameManager : MonoBehaviour
     
     public void CheckScene()
     {
-        if (SceneManager.GetActiveScene().name == gameScene)
+        if (SceneManager.GetActiveScene().name == parcScene)
         {
-            InitializeGame();
+            AudioManager.instance.SetMusic(dungeonEnded ? "Parc_2" : "Parc_1");
+        }
+
+        if (SceneManager.GetActiveScene().name == dungeonScene)
+        {
+            AudioManager.instance.SetMusic("Mansion");
         }
     }
 
