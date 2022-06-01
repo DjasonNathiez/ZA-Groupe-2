@@ -139,6 +139,16 @@ public class AIBrain : MonoBehaviour
                     if (GetComponent<RabbitBehaviour>() == null)
                     {
                         isAggro = true;
+
+                        if (GetComponent<LionBehaviour>())
+                        {
+                            GetComponent<LionBehaviour>().PlaySFX("L_Aggro");
+                        }
+
+                        if (GetComponent<BearBehaviour>())
+                        {
+                            GetComponent<BearBehaviour>().PlaySFX("B_Aggro");
+                        }
                     }
                 
                 }

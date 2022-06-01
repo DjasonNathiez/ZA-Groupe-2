@@ -1007,9 +1007,113 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a52dd57492658094e98d247f3305529c, type: 3}
     loop: 0
     volume: 1
-  lionSounds: []
-  rabbitSounds: []
-  bearSounds: []
+  lionSounds:
+  - soundName: L_Attack_1
+    clip: {fileID: 8300000, guid: 6524cc1fc72140144bae33a6144cc285, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Attack_2
+    clip: {fileID: 8300000, guid: 1d3f25192d012b24183ece8b5a5ff6e6, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Aggro
+    clip: {fileID: 8300000, guid: 233f80f082597734a993a75b63a97dee, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Fall
+    clip: {fileID: 8300000, guid: 5b78aaf1f42d7de4f8ec6a98932d70a2, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Death
+    clip: {fileID: 8300000, guid: bec089ce18540ca40b8df5f0a673b6bf, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Explosion
+    clip: {fileID: 8300000, guid: 57d464290c01c744c99ec4ed6f50e7cd, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Move_1
+    clip: {fileID: 8300000, guid: 0dac9ea7648f1e34abe48774876f3712, type: 3}
+    loop: 0
+    volume: 0
+  - soundName: L_Move_2
+    clip: {fileID: 8300000, guid: 2862edfccf40df94b911346d3852e659, type: 3}
+    loop: 0
+    volume: 0
+  - soundName: L_Hurt
+    clip: {fileID: 8300000, guid: 864af07805bcb6c479dae039157dfce7, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: L_Counter
+    clip: {fileID: 0}
+    loop: 0
+    volume: 1
+  - soundName: L_StandUp
+    clip: {fileID: 0}
+    loop: 0
+    volume: 1
+  rabbitSounds:
+  - soundName: R_Attack
+    clip: {fileID: 8300000, guid: 3bdc3635fa51e904f9ef1d3af811f77c, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: R_Patrol
+    clip: {fileID: 0}
+    loop: 0
+    volume: 1
+  - soundName: R_Move
+    clip: {fileID: 0}
+    loop: 0
+    volume: 1
+  - soundName: R_Death_1
+    clip: {fileID: 8300000, guid: bdbabbce1b2bc2844aeeb388c2757d8a, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: R_Death_2
+    clip: {fileID: 8300000, guid: d67ccac2aa7077b488d810ec5389c02a, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: R_Aggro
+    clip: {fileID: 8300000, guid: 9132ce2e7d1d2d348820b82a5f5c90e9, type: 3}
+    loop: 0
+    volume: 1
+  bearSounds:
+  - soundName: B_Attack_1
+    clip: {fileID: 8300000, guid: 7a629d25d6f2c7f41abf487cc51f5115, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Attack_2
+    clip: {fileID: 8300000, guid: e683f976cd5e61d40a1b516e6fbcab04, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Fall
+    clip: {fileID: 8300000, guid: fdbd83906ce96b845a67b56546d49321, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_StandUp
+    clip: {fileID: 8300000, guid: 60a9e42dfd261f54bb752f8c5bd0ca72, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Move_1
+    clip: {fileID: 8300000, guid: a9060b0a71251384d91e9e41b3c297aa, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Move_2
+    clip: {fileID: 8300000, guid: a9060b0a71251384d91e9e41b3c297aa, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Aggro
+    clip: {fileID: 8300000, guid: 3cc9be6ca85c8e1459c539decb5f8290, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Death
+    clip: {fileID: 8300000, guid: baf718697736eb844bae93ddd7b53fd6, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: B_Explosion
+    clip: {fileID: 8300000, guid: fe21c670dc4450444abbd0003918eb3d, type: 3}
+    loop: 0
+    volume: 1
   bossSounds: []
   musics:
   - soundName: Parc_1
@@ -1019,19 +1123,19 @@ MonoBehaviour:
   - soundName: Mansion
     clip: {fileID: 8300000, guid: 4b7c4882f229c604ea20812a8f311a72, type: 3}
     loop: 0
-    volume: 1
+    volume: 0.142
   - soundName: Parc_2
     clip: {fileID: 8300000, guid: 69e0049a156812245be9372ec67263fe, type: 3}
     loop: 0
-    volume: 1
+    volume: 0.128
   - soundName: Boss
     clip: {fileID: 8300000, guid: 965dff3dd8afc2148973e1b54c7cdf53, type: 3}
     loop: 0
-    volume: 1
+    volume: 0.122
   - soundName: Cinematic
     clip: {fileID: 8300000, guid: 8bbb013c39702e54884ae57af3980dda, type: 3}
     loop: 0
-    volume: 1
+    volume: 0.122
 --- !u!1 &347325480019437593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,6 +1736,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   grappleFlySpeed: 0
+  buttonAPressed: 0
   attackDamage: 1
   attackSpeed: 1
   throwingWeapon: {fileID: 2719977749006521894}
