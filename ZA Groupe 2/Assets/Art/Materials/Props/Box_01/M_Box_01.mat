@@ -65,6 +65,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _DiffuseTex2D:
+        m_Texture: {fileID: 2800000, guid: e1d7fc6820715584e9b791f44e00c37f, type: 3}
+        m_Scale: {x: 0, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -101,6 +105,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -131,6 +139,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AO: 0.989
     - _Alpha: 1
     - _AlphaClip: 0
     - _AmbiantOcclusionMap: 1
@@ -147,6 +156,7 @@ Material:
     - _Cull: 2
     - _CutOff: 0.5
     - _Cutoff: 0.5
+    - _DebugWind: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -157,6 +167,7 @@ Material:
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
     - _Etage: 0
+    - _FogIntensity: 0.01
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -180,7 +191,9 @@ Material:
     - _Modify_Intensity__Int: 1
     - _Modify_Normal_Intensity: 0
     - _NormalMap: 0
+    - _NormalStrength: 1
     - _Normal_Intensity: 1
+    - _ObjPos: 0
     - _OcclusionStrength: 1
     - _OutlineThickness: 6
     - _Parallax: 0.005
@@ -188,6 +201,7 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Rgb_Shift: 0
+    - _Roughness: 0
     - _RoughnessMap: 0
     - _Roughness_Intensity: 0
     - _Roughness_Smoothstep_Max: 1
@@ -198,15 +212,31 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Tiling: 0.01
+    - _UseNormal: 0
+    - _UseWind: 0
+    - _WindDensity: 5
+    - _WindGradient: 0
+    - _WindSpeed: 0.1
+    - _WindStrengh: 16
     - _WorkflowMode: 1
+    - _XTexture: 1
+    - _XTexture_TwoSide: 1
+    - _YTexture: 1
+    - _YTexture_TwoSide: 1
     - _ZTest: 4
+    - _ZTexture: 1
+    - _ZTexture_TwoSide: 1
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _AjustTexPos: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Fog_BackgroundColor: {r: 0, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _MainColor: {r: 1, g: 0, b: 0, a: 0}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
