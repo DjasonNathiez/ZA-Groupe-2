@@ -35,18 +35,26 @@ public class ArcadeEntry : MonoBehaviour
     {
         if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
         {
-            check = true;
-            cam.playerFocused = false;
-            cam.cameraPos.position  = transform.position;
-            cam.cameraPos.rotation = Quaternion.Euler(rotation);
-            cam.cameraZoom = zoom;
-            camArcade.transform.position = new Vector3(miniGameManager.transform.position.x,miniGameManager.transform.position.y, -1);
-            PlayerManager.instance.EnterDialogue();
-            miniGameManager.onArcade = true;
-            miniGameManager.game = game;
-            miniGameManager.cam = cam;
-            button.SetActive(false);
-            miniGameManager.screenMaterial.material.color = Color.white;
+            if (!miniGameManager.control && !miniGameManager.onArcade)
+            {
+                check = true;
+                cam.playerFocused = false;
+                cam.cameraPos.position  = transform.position;
+                cam.cameraPos.rotation = Quaternion.Euler(rotation);
+                cam.cameraZoom = zoom;
+                camArcade.transform.position = new Vector3(miniGameManager.transform.position.x,miniGameManager.transform.position.y, -1);
+                PlayerManager.instance.EnterDialogue();
+                miniGameManager.onArcade = true;
+                miniGameManager.game = game;
+                miniGameManager.cam = cam;
+                button.SetActive(false);
+                miniGameManager.screenMaterial.material.color = Color.white;   
+            }
+            else if (miniGameManager.control)
+            {
+                miniGameManager.ExitArcade();
+                check = true;
+            }
         }
 
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)

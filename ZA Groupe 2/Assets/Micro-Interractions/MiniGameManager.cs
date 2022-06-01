@@ -21,6 +21,8 @@ public class MiniGameManager : MonoBehaviour
     public GameObject collisions;
     public float score;
     public TextMeshPro scoreText;
+    public TextMeshPro[] texts;
+    public SpriteRenderer[] controls;
     public bool endGame;
     public CameraController cam;
     public Vector3 PlayerStartPos;
@@ -51,7 +53,15 @@ public class MiniGameManager : MonoBehaviour
                 delay -= Time.deltaTime;
             }
 
-            scoreText.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), Mathf.Clamp(delay, 0, 1));
+            foreach (TextMeshPro text in texts)
+            {
+                text.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), Mathf.Clamp(delay, 0, 1));
+            }
+            foreach (SpriteRenderer sprite in controls)
+            {
+                sprite.color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), Mathf.Clamp(delay, 0, 1));
+            }
+            
         }
         else if (onArcade && endGame)
         {
@@ -66,13 +76,29 @@ public class MiniGameManager : MonoBehaviour
                 {
                     Destroy(ennemi.gameObject);
                 }
+
+                if (game == 3)
+                {
+                    foreach (ProjectileArcade projectileArcade in transform.GetComponentsInChildren<ProjectileArcade>())
+                    {
+                        Destroy(projectileArcade.gameObject);
+                    }
+                }
+
                 cam.playerFocused = true;
                 cam.cameraPos.position  = transform.position;
                 cam.cameraPos.rotation = Quaternion.Euler(45,-45,0);
                 cam.cameraZoom = 8.22f;
                 endGame = false;
                 player.transform.position = PlayerStartPos;
-                scoreText.color = new Color(1, 1, 1, 0);
+                foreach (TextMeshPro text in texts)
+                {
+                    text.color = new Color(1, 1, 1, 0);
+                }
+                foreach (SpriteRenderer sprite in controls)
+                {
+                    sprite.color = new Color(1, 1, 1, 0);
+                }
                 screenMaterial.material.color = Color.black;
                 gameOver.SetActive(false);
                 PlayerManager.instance.ExitDialogue();
@@ -136,6 +162,43 @@ public class MiniGameManager : MonoBehaviour
                 
                 break;
             }
+            case 2:
+            {
+                int rng = Random.Range(1, 5);
+                Vector3 position = default;
+                switch (rng)
+                {
+                    case 1:
+                        position = transform.position + new Vector3(Random.Range(-8f,8f), -6.5f, -0.2f);
+                        break;
+                    case 2:
+                        position = transform.position + new Vector3(Random.Range(-8f,8f), 6.5f, -0.2f);
+                        break;
+                    case 3:
+                        position = transform.position + new Vector3(10, Random.Range(-6.5f,6.5f), -0.2f);
+                        break;
+                    case 4:
+                        position = transform.position + new Vector3(-10, Random.Range(-6.5f,6.5f), -0.2f);
+                        break;
+                }
+                GameObject newennemi = Instantiate(ennemi[0], position,quaternion.identity,transform);
+                newennemi.GetComponent<EnnemiArcade>().dir = player.transform.position - newennemi.transform.position;
+                break;
+            }
+            case 3:
+            {
+                int choose = Random.Range(0, spawnPoints.Length);
+                if (choose == previousSpawn)
+                {
+                    choose = (choose + 1) % spawnPoints.Length;
+                }
+                previousSpawn = choose;
+                GameObject newObj = Instantiate(ennemi[Random.Range(0,2)], spawnPoints[choose],quaternion.identity, transform);
+                newObj.GetComponent<ProjectileArcade>().miniGameManager = this;
+                newObj.GetComponent<ProjectileArcade>().dir = new Vector2(Random.Range(0,2)*2-1,Random.Range(0,2)*2-1);
+                break;
+            }
+            
             case 4:
             {
                 int rng = Random.Range(1, 7);
@@ -212,6 +275,16 @@ public class MiniGameManager : MonoBehaviour
                 GameObject newObj = Instantiate(obj, spawnPoints[choose],quaternion.identity, transform);
                 newObj.GetComponent<ProjectileArcade>().miniGameManager = this;
                 break;
+            case 2:
+                int choose2 = Random.Range(0, spawnPoints.Length);
+                if (choose2 == previousSpawn)
+                {
+                    choose2 = (choose2 + 1) % spawnPoints.Length;
+                }
+                previousSpawn = choose2;
+                GameObject newObj2 = Instantiate(obj, spawnPoints[choose2],quaternion.identity, transform);
+                newObj2.GetComponent<ProjectileArcade>().miniGameManager = this;
+                break;
         }
     }
 
@@ -222,5 +295,57 @@ public class MiniGameManager : MonoBehaviour
         onArcade = true;
         delay = 3;
         endGame = true;
+        foreach (EnnemiArcade ennemi in transform.GetComponentsInChildren<EnnemiArcade>())
+        {
+            ennemi.enabled = false;
+        }
+
+        if (game == 3)
+        {
+            foreach (ProjectileArcade projectileArcade in transform.GetComponentsInChildren<ProjectileArcade>())
+            {
+                projectileArcade.enabled = false;
+            }   
+        }
+    }
+    public void ExitArcade()
+    {
+        control = false;
+        title.SetActive(true);
+        onArcade = false;
+        delay = 3.5f;
+        score = 0;
+        UpdateScore();
+        foreach (EnnemiArcade ennemi in transform.GetComponentsInChildren<EnnemiArcade>())
+        {
+            Destroy(ennemi.gameObject);
+        }
+
+        if (game == 3)
+        {
+            foreach (ProjectileArcade projectileArcade in transform.GetComponentsInChildren<ProjectileArcade>())
+            {
+                Destroy(projectileArcade.gameObject);
+            }
+        }
+
+        cam.playerFocused = true;
+        cam.cameraPos.position  = transform.position;
+        cam.cameraPos.rotation = Quaternion.Euler(45,-45,0);
+        cam.cameraZoom = 8.22f;
+        endGame = false;
+        player.transform.position = PlayerStartPos;
+        foreach (TextMeshPro text in texts)
+        {
+            text.color = new Color(1, 1, 1, 0);
+        }
+        foreach (SpriteRenderer sprite in controls)
+        {
+            sprite.color = new Color(1, 1, 1, 0);
+        }
+        
+        screenMaterial.material.color = Color.black;
+        gameOver.SetActive(false);
+        PlayerManager.instance.ExitDialogue();
     }
 }
