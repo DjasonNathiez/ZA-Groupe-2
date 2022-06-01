@@ -7,6 +7,7 @@ public class PropsInstructions : MonoBehaviour
    [Tooltip("Ce props est un item qui peut être ramasser")] public bool isLoot;
 
    public string lootName;
+   public GameObject boxExplosion; 
 
    public IEnumerator DestroyThis()
    {
@@ -22,6 +23,7 @@ public class PropsInstructions : MonoBehaviour
             yield return new WaitForSeconds(0.001f);
             
             Destroy(gameObject);
+            Instantiate(boxExplosion, transform.position, Quaternion.identity);
 
             break;
          }
