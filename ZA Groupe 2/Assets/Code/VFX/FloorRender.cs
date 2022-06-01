@@ -1,24 +1,23 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FloorRender : MonoBehaviour
 {
     public GameObject floor;
-    public GameObject boxToFall;
-
-    public GameObject floor1;
+    public float yHigh;
+    public float yLow;
+    public bool etage;
 
     private void Update()
     {
-        if (PlayerManager.instance.transform.position.y > transform.position.y)
+        if (PlayerManager.instance.transform.position.y > yHigh && !etage)
         {
             floor.SetActive(true);
+            etage = true;
         }
-        else
+        else if (PlayerManager.instance.transform.position.y < yLow && etage)
         {
             floor.SetActive(false);
+            etage = false;
         }
     }
 }
