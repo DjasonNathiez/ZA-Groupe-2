@@ -109,6 +109,7 @@ public class PlayerManager : MonoBehaviour
     public GameObject dialogueBox;
     public TextEffectManager textEffectManager;
     public CameraController cameraController;
+    public GameObject manoirLight;
     
     //Inventory
     [Header("Inventory")]
