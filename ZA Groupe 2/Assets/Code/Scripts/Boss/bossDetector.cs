@@ -19,6 +19,13 @@ public class bossDetector : MonoBehaviour
             {
                 m_bossBehaviour.state = 0;
                 m_bossBehaviour.pillars.Remove(other.gameObject);
+                if (PlayerManager.instance.rope.pinnedTo == other.gameObject)
+                {
+                    PlayerManager.instance.Rewind();
+                    PlayerManager.instance.rope.pinnedTo = null;
+                    PlayerManager.instance.rope.pinnedRb = null;
+                    PlayerManager.instance.throwingWeapon.GetComponent<ThrowingWeapon>().grip.parent = PlayerManager.instance.throwingWeapon.transform;
+                }
                 Destroy(other.gameObject);
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
@@ -28,8 +35,8 @@ public class bossDetector : MonoBehaviour
                 m_bossBehaviour.state = 0;
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 
-                // Faire perdre 1 point de vie au joueur ------------------------
-                
+                PlayerManager.instance.GetHurt(1);
+
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
             }
             else if (other.gameObject.CompareTag("Ennemi"))
