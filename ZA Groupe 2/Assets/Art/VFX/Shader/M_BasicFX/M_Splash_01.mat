@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5015393576545771389
+--- !u!114 &-8941602576577115069
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,20 +20,34 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Tag_Decal
-  m_Shader: {fileID: -6465566751694194690, guid: 1d8cad5106f0c364788486919ed4dad0, type: 3}
-  m_ShaderKeywords: 
+  m_Name: M_Splash_01
+  m_Shader: {fileID: -6465566751694194690, guid: db39eb11ec58fd54ea6e81d8f23b8834, type: 3}
+  m_ShaderKeywords: _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Transparent
+  disabledShaderPasses:
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_abfdaea01b0848f5872e4cce686041a5:
-        m_Texture: {fileID: 2800000, guid: 2d70288b6c5c046449b699ab0d60e46e, type: 3}
+    - _Flow:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 69b9ba9f474588742977c7f58788f832, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -50,13 +64,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_72e359440c214bb8a17ee61ebc8b9613: 0.5
-    - Vector1_ae38c733494341e6b71922fcf2eb9dbb: 0.5
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _CastShadows: 1
+    - _Cull: 0
+    - _Custom_UV1: 0
+    - _Custom_UV2: 0
+    - _DstBlend: 10
+    - _Emission: 1
+    - _FlipUV: 0
+    - _InvertMask: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Tiling: 1
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _UseEmision: 1
+    - _UseEmission: 0
+    - _UseMask: 0
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 0
     m_Colors:
-    - Vector2_b4265c08e6704b1ba33a0deec2a5e52e: {r: 1, g: 1, b: 1, a: 0}
-    - Vector3_05431135c6424ac8bd0f4d60909b808b: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-    - Vector3_f6a3d720e07342a09f6ff26573ad7a16: {r: -0.02, g: -4.06, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Distortion_Speed_XY_Power_Z: {r: 0.2, g: 0.4, b: 0, a: 0}
+    - _Speed_MainTex_U_V_Noise_Z_W: {r: 0, g: 0, b: 0.5, a: 0}
   m_BuildTextureStacks: []
