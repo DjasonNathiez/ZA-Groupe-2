@@ -125,11 +125,12 @@ public class BossBehaviour : MonoBehaviour
             if (cableNodes.Count > 0 && phase == 0 && state == 1)
             {
                 state = 4;
-
+                animator.Play("BeforeFalling");
             }
             else if (cableNodes.Count == 0 && phase == 0 && state == 4)
             {
                 state = 1;
+                animator.Play("Marche");
             }
             cableRotation = CalculateCableRotation();
         }
@@ -140,8 +141,9 @@ public class BossBehaviour : MonoBehaviour
         material.color = Color.cyan;
         animator.Play("Lance-Lapin");
         yield return new WaitForSeconds(vfxDelay);
-        vfx[1].SetActive(false);
         vfx[1].SetActive(true);
+        vfx[1].GetComponent<ParticleSystem>().Stop();
+        vfx[1].GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(delay-vfxDelay);
         
         foreach (Transform pos in spawnPosPillars)
@@ -181,6 +183,9 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("Dash");
         material.color = Color.cyan;
         yield return new WaitForSeconds(delay);
+        vfx[3].SetActive(true);
+        vfx[3].GetComponent<ParticleSystem>().Stop();
+        vfx[3].GetComponent<ParticleSystem>().Play();
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
         dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
         transform.rotation = Quaternion.LookRotation(dashDirection);
@@ -221,6 +226,7 @@ public class BossBehaviour : MonoBehaviour
         state = 0;
         material.color = Color.yellow;
         yield return new WaitForSeconds(delay);
+        
         material.color = Color.red;
         state = 3;
     }
