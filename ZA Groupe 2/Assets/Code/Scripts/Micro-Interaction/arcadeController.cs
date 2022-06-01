@@ -60,6 +60,36 @@ public class arcadeController : MonoBehaviour
                     Vector2 direction = new Vector2(PlayerManager.instance.move.x, 0);
                     rb.velocity = direction.normalized * speed;
                     break;
+                
+                case 2:
+                    Vector2 dir2 = new Vector2(PlayerManager.instance.move.x, PlayerManager.instance.move.z);
+                    rb.velocity = dir2.normalized * speed;
+                    if (dir2.x > 0)
+                    {
+                        spriteRenderer.flipX = false;
+                    }
+                    else if (dir2.x < 0)
+                    {
+                        spriteRenderer.flipX = true;
+                    }
+
+                    break;
+                
+                case 3:
+                    Vector2 dir3 = new Vector2(PlayerManager.instance.move.x, PlayerManager.instance.move.z);
+                    if (dir3 != Vector2.zero) lastMove = dir3;
+                    rb.velocity = dir3.normalized * speed;
+                    if (dir3.x > 0)
+                    {
+                        spriteRenderer.flipX = false;
+                    }
+                    else if (dir3.x < 0)
+                    {
+                        spriteRenderer.flipX = true;
+                    }
+
+                    break;
+                
                 case 4:
                     Vector2 dir4 = new Vector2(PlayerManager.instance.move.x, 0);
                     rb.velocity = new Vector2(dir4.normalized.x * speed,rb.velocity.y);

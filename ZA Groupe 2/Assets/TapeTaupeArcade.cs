@@ -22,6 +22,7 @@ public class TapeTaupeArcade : MonoBehaviour
     public int score;
     public AnimationCurve rate;
     public int goal;
+    public GameObject reward;
 
     private void Start()
     {
@@ -52,7 +53,7 @@ public class TapeTaupeArcade : MonoBehaviour
         }
         else
         {
-            grille.transform.localPosition = Vector3.Lerp(grille.transform.localPosition, new Vector3(0,-0.85f,0), 5 * Time.deltaTime);
+            grille.transform.localPosition = Vector3.Lerp(grille.transform.localPosition, new Vector3(0,-1.75f,0), 5 * Time.deltaTime);
         }
 
         if (active)
@@ -137,6 +138,7 @@ public class TapeTaupeArcade : MonoBehaviour
             light.SetActive(false);
             directionalOff.SetActive(false);
             directionalOn.SetActive(true);
+            if(reward && score >= goal) reward.SetActive(true);
         }
     }
     
