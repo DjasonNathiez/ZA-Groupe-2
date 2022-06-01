@@ -32,7 +32,8 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
     [SerializeField] private float rotationSpeed;
-    [SerializeField] private Animator animator;
+    public Animator animator;
+    public GameObject[] vfx;
     
     [Header("VFX")]
     public ParticleSystem hurtVFX;
@@ -88,7 +89,7 @@ public class BossBehaviour : MonoBehaviour
             if (pillars.Count == 0)
             {
                 state = 0;
-                StartCoroutine(SpawnRabbits(2));
+                StartCoroutine(SpawnRabbits(2.2f,1.20f));
             }
             else
             {
@@ -134,14 +135,20 @@ public class BossBehaviour : MonoBehaviour
         }
     }
 
-    public IEnumerator SpawnRabbits(float delay)
+    public IEnumerator SpawnRabbits(float delay,float vfxDelay)
     {
         material.color = Color.cyan;
         animator.Play("Lance-Lapin");
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(vfxDelay);
+        vfx[1].SetActive(false);
+        vfx[1].SetActive(true);
+        yield return new WaitForSeconds(delay-vfxDelay);
+        
         foreach (Transform pos in spawnPosPillars)
         {
             GameObject pillar = Instantiate(pillarGameObject, pos.position, quaternion.identity);
+            GameObject vfxpillar = Instantiate(vfx[2], pos.position, quaternion.identity);
+            Destroy(vfxpillar,3);
             pillars.Add(pillar);
         }
         foreach (Transform pos in spawnPosRabbits)
@@ -228,7 +235,7 @@ public class BossBehaviour : MonoBehaviour
             Destroy(obj);
         }
         pillars.Clear();
-        StartCoroutine(SpawnRabbits(2));
+        StartCoroutine(SpawnRabbits(2.2f,1.2f));
     }
     public void GetHurt(int damage)
     {
