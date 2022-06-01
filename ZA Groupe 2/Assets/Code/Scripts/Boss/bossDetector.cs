@@ -14,6 +14,7 @@ public class bossDetector : MonoBehaviour
                 m_bossBehaviour.state = 0;
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
+                m_bossBehaviour.animator.Play("DashEnd");
             }
             else if (m_bossBehaviour.pillars.Contains(other.gameObject))
             {
@@ -29,6 +30,7 @@ public class bossDetector : MonoBehaviour
                 Destroy(other.gameObject);
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
+                m_bossBehaviour.animator.Play("DashEnd");
             }
             else if (other.gameObject.CompareTag("Player"))
             {
@@ -45,6 +47,7 @@ public class bossDetector : MonoBehaviour
                 Destroy(other.gameObject);
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
+                m_bossBehaviour.animator.Play("DashEnd");
             }
         }
     }
