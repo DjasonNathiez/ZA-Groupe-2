@@ -98,7 +98,7 @@ public class VertexColorsFeature : ScriptableRendererFeature
     {
         vertexColorsMaterial = CoreUtils.CreateEngineMaterial("Hidden/VertexColor");
         vertexColorsPass = new VertexColorsPass(RenderQueueRange.opaque, -1, vertexColorsMaterial);
-        vertexColorsPass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
+        vertexColorsPass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
         vertexColorsTexture.Init("_CameraVertexColorsTexture");
     }
 
