@@ -102,4 +102,33 @@ public class BearBehaviour : AIBrain
         Instantiate(feedbackWarningAttack, transform.position, quaternion.identity);
         m_canSpawn = false;
     }
+    
+    public void PlaySFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.bearSounds)
+        {
+            if (s.soundName == soundName)
+            {
+                if (s.loop)
+                {
+                    SoundManager.PlayFx(s.clip,loop: true, volume: s.volume);
+                }
+                else
+                {
+                    SoundManager.PlayOnce(s.clip, volume: s.volume);
+                }
+            }
+        }
+    }
+
+    public void StopSFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.bearSounds)
+        {
+            if (s.soundName == soundName)
+            {
+                SoundManager.StopFx(s.clip);
+            }
+        }
+    }
 }

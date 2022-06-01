@@ -124,4 +124,33 @@ public class LionBehaviour : AIBrain
     {
         Gizmos.DrawWireSphere(transform.position, awayRange);
     }
+    
+    public void PlaySFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.lionSounds)
+        {
+            if (s.soundName == soundName)
+            {
+                if (s.loop)
+                {
+                    SoundManager.PlayFx(s.clip,loop: true, volume: s.volume);
+                }
+                else
+                {
+                    SoundManager.PlayOnce(s.clip, volume: s.volume);
+                }
+            }
+        }
+    }
+
+    public void StopSFX(string soundName)
+    {
+        foreach (AudioManager.Sounds s in AudioManager.instance.lionSounds)
+        {
+            if (s.soundName == soundName)
+            {
+                SoundManager.StopFx(s.clip);
+            }
+        }
+    }
 }
