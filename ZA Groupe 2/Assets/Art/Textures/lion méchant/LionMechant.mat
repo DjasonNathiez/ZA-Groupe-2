@@ -33,6 +33,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaMaskMap2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMapTex2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -121,6 +125,9 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _AlphaClip: 0
+    - _AlphaMask: 0
+    - _AlphaMask_Smoothstep_Max: 1
+    - _AlphaMask_Smoothstep_Min: 0
     - _AmbiantOcclusionMap: 1
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1

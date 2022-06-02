@@ -129,7 +129,6 @@ public class TextEffectManager : MonoBehaviour
 
     public Vector3 GetVertex(Vector3 original,int charIndex)
     {
-        Debug.Log(charBasedHeight.Length + " et " + charIndex);
         Vector3 product = new Vector3(original.x, original.y + charBasedHeight[charIndex], original.z);
         if (charIndex < showedCharIndex)
         {
@@ -208,6 +207,7 @@ public class TextEffectManager : MonoBehaviour
     public float speedOfPan;
     public bool cinematicAngleOnly;
     public float durationIfAuto;
+    public GameObject toActivate;
 }
 
 [Serializable]

@@ -20,7 +20,7 @@ public class Door : MonoBehaviour
     public bool puzzleEnded;
     public GameObject[] child;
     public bool startedTapeTaupe;
-    
+
     void Update()
     {
         if (keysValid >= keyNeeded)
@@ -49,6 +49,18 @@ public class Door : MonoBehaviour
                     startedTapeTaupe = true;
                     GetComponent<TapeTaupeArcade>().StartTapeTaupe();   
                 }
+            }
+            else if (type == "Dialogue")
+            {
+                if (!startedTapeTaupe)
+                {
+                    startedTapeTaupe = true;
+                    GetComponent<PnjDialoguesManager>().StartDialogue();   
+                }
+            }
+            else if (type == "ActivateElec")
+            {
+                GetComponent<ElectrocutedProp>().activated = true;
             }
 
             if (cinematicEnvent)
@@ -83,6 +95,10 @@ public class Door : MonoBehaviour
             else if (type == "Rotating")
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationClosed), Time.deltaTime * 5);
+            }
+            else if (type == "ActivateElec")
+            {
+                GetComponent<ElectrocutedProp>().activated = false;
             }
 
             if (type == "Activator")

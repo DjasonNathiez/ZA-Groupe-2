@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6613627744361672048}
   - component: {fileID: 8947707074759399866}
   - component: {fileID: 7671490392581095391}
-  - component: {fileID: 8753612777635441505}
-  m_Layer: 0
+  - component: {fileID: 6205988933240675214}
+  m_Layer: 2
   m_Name: P_bougie_01
   m_TagString: UngrippableObject
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dfb9041b8fc6fad4dba4a1dd7b5cc860, type: 2}
+  - {fileID: 2100000, guid: f42111299f99d184595729f437db9f00, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,12 +97,12 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &8753612777635441505
-MeshCollider:
+--- !u!65 &6205988933240675214
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,6 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -7034936880245114762, guid: 7b16cc960b8fd8846839ce3d428fc9c2, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 0.46053535, y: 0.84445345, z: 1.557856}
+  m_Center: {x: -0.00025309785, y: 0.007013605, z: 0.7789279}
