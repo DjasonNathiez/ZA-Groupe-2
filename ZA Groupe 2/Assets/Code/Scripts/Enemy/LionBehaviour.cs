@@ -137,7 +137,7 @@ public class LionBehaviour : AIBrain
                 }
                 else
                 {
-                    SoundManager.PlayOnce(s.clip, volume: s.volume);
+                    SoundManager.PlayOnce(s.clip, volume: s.volume, mixer: SoundManager.FxAudioMixer);
                 }
             }
         }
