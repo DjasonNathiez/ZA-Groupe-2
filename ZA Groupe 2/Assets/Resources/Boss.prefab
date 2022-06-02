@@ -103,6 +103,7 @@ MonoBehaviour:
   walkingSpeed: 1
   dashingSpeed: 10
   rb: {fileID: 0}
+  legsColider: {fileID: 0}
   spawnPosPillars:
   - {fileID: 0}
   - {fileID: 0}
@@ -129,6 +130,10 @@ MonoBehaviour:
   cableRotation: 0
   bossDetector: {fileID: 3701790183717433258}
   material: {fileID: 2100000, guid: df015de4b69db4e45be01083b4e0e8c2, type: 2}
+  rotationSpeed: 0
+  animator: {fileID: 0}
+  vfx: []
+  hurtVFX: {fileID: 0}
 --- !u!95 &3419773943086721808
 Animator:
   serializedVersion: 4
