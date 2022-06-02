@@ -225,7 +225,7 @@ public class RabbitBehaviour : AIBrain
                 }
                 else
                 {
-                    SoundManager.PlayOnce(s.clip, volume: s.volume);
+                    SoundManager.PlayOnce(s.clip, volume: s.volume, mixer: SoundManager.FxAudioMixer);
                 }
             }
         }

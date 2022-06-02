@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,6 +26,18 @@ public class GameManager : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject currentTab;
 
+    [Header("Sound")] 
+    public Slider mainSlider;
+    public Slider musicSlider;
+    public Slider environmentSlider;
+    public Slider sfxSlider;
+    public AudioMixerGroup mainMixer;
+    public AudioMixerGroup musicMixer;
+    public AudioMixerGroup sfxMixer;
+    public AudioMixerGroup environmentMixer;
+    public AudioClip testSoundFeedback;
+    private bool isMute;
+    
     [Header("Level")]
     public string parcScene;
     public string dungeonScene;
@@ -85,6 +99,17 @@ public class GameManager : MonoBehaviour
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
         Cursor.lockState = CursorLockMode.Confined;
+
+        SoundManager.AudioMixer = mainMixer;
+        SoundManager.MusicAudioMixer = musicMixer;
+        SoundManager.EffectAudioMixer = environmentMixer;
+        SoundManager.FxAudioMixer = sfxMixer;
+
+        mainSlider.onValueChanged.AddListener(SetMainVolume);
+        musicSlider.onValueChanged.AddListener(SetMusicVolume);
+        sfxSlider.onValueChanged.AddListener(SetFxVolume);
+        environmentSlider.onValueChanged.AddListener(SetEffectVolume);
+
     }
 
     public void EnableAllEnemy()
@@ -278,7 +303,55 @@ public class GameManager : MonoBehaviour
 
     #region SETTINGS MENU
 
-    
+    public void SetFxVolume(float value)
+    {
+        if (!isMute)
+        {
+            SoundManager.FxAudioMixer.audioMixer.SetFloat("SFXVolume", value);
+            SoundManager.PlayFx(testSoundFeedback);
+        }
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        if (!isMute)
+        {
+            SoundManager.MusicAudioMixer.audioMixer.SetFloat("MusicVolume", value);
+            SoundManager.PlayMusic(testSoundFeedback);
+        }
+    }
+
+    public void SetEffectVolume(float value)
+    {
+        if (!isMute)
+        {
+            SoundManager.EffectAudioMixer.audioMixer.SetFloat("EnvironmentVolume", value);
+            SoundManager.PlayEffect(testSoundFeedback);
+        }
+    }
+
+    public void SetMainVolume(float value)
+    {
+        if (!isMute)
+        {
+            SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", value);
+            SoundManager.PlayOnce(testSoundFeedback);
+        }
+    }
+
+    public void Mute(bool isOn)
+    {
+        if (isOn)
+        {
+            isMute = true;
+            SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", -80);
+        }
+        else
+        {
+            isMute = false;
+            SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", 0);
+        }
+    }
 
     #endregion
 }
