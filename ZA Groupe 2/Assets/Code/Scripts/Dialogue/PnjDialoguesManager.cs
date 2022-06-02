@@ -66,23 +66,29 @@ public class PnjDialoguesManager : MonoBehaviour
         
         if(!textEffectManager.isDialoguing && other.CompareTag("Player") && !automatic)
         {
-            GameManager.instance.DisableAllEnemy();
-            dialogueBox.transform.position = new Vector3(960, 18, 0);
-            textEffectManager.isDialoguing = true;
-            isDialoguing = true;
-            if (button) button.SetActive(false);   
-            textEffectManager.dialogueIndex = 0;
-            textEffectManager.dialogue = dialogue;
-            textEffectManager.ShowText();
-            if (dialogue[0].modifyCameraPosition)
+            if (PlayerManager.instance.inputInteractPushed && !check && timer == 0)
             {
-                cameraController.playerFocused = false;
-                //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
-                cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
-                cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
-                cameraController.cameraZoom = dialogue[0].zoom;   
-            }   
-            PlayerManager.instance.EnterDialogue();
+                GameManager.instance.DisableAllEnemy();
+                dialogueBox.transform.position = new Vector3(960, 18, 0);
+                textEffectManager.isDialoguing = true;
+                isDialoguing = true;
+                if (button) button.SetActive(false);
+                textEffectManager.dialogueIndex = 0;
+                textEffectManager.dialogue = dialogue;
+                textEffectManager.ShowText();
+                if (dialogue[0].modifyCameraPosition)
+                {
+                    cameraController.playerFocused = false;
+                    //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
+                    cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
+                    cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
+                    cameraController.cameraZoom = dialogue[0].zoom;
+                    cameraController.panSpeed = dialogue[0].speedOfPan;
+                }
+
+                check = true;
+                PlayerManager.instance.EnterDialogue();
+            }
         }
     }
     
@@ -90,13 +96,15 @@ public class PnjDialoguesManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            dialogueBox.transform.position = new Vector3(960, -260, 0);
-            button.SetActive(false);
-            textEffectManager.isDialoguing = false;
-            isDialoguing = false;
-            cameraController.playerFocused = true;
-            cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
-            cameraController.cameraZoom = 8.22f;
+            
+                dialogueBox.transform.position = new Vector3(960, -260, 0);
+                button.SetActive(false);
+                textEffectManager.isDialoguing = false;
+                isDialoguing = false;
+                cameraController.playerFocused = true;
+                cameraController.cameraPos.rotation = Quaternion.Euler(45, -45, 0);
+                cameraController.cameraZoom = 8.22f;
+            
         }
     }
 
@@ -230,10 +238,10 @@ public class PnjDialoguesManager : MonoBehaviour
                     }
                 }
             }
-            if (!PlayerManager.instance.inputInteractPushed && check)
-            {
-                check = false;
-            }
+        }
+        if (!PlayerManager.instance.inputInteractPushed && check)
+        {
+            check = false;
         }
     }
 

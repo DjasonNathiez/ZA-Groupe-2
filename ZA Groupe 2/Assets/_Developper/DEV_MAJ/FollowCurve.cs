@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class FollowCurve : MonoBehaviour
@@ -12,14 +13,21 @@ public class FollowCurve : MonoBehaviour
     public float step;
     public bool loop;
     public bool moving;
-    public bool canon;
     public CameraController cam;
     public Vector3 pos;
+    public bool control;
+    public GameObject canon;
 
     private void FixedUpdate()
     {
         if (moving)
         {
+            if (control)
+            {
+                float angle = Vector2.SignedAngle(new Vector2(PlayerManager.instance.move.x,PlayerManager.instance.move.z), new Vector2(transform.forward.x, transform.forward.z).normalized);
+                angle += PlayerManager.instance.cameraController.transform.eulerAngles.y;
+                canon.transform.localEulerAngles = new Vector3(-90,0,angle);
+            }
             step += speed;
 
             while (step >= 1)
