@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5448040419691974126}
   - component: {fileID: 8949928377729073739}
   - component: {fileID: 6615927736431687297}
+  - component: {fileID: 1032194321}
+  - component: {fileID: 1032194320}
   m_Layer: 0
   m_Name: P_Vase_01
   m_TagString: Untagged
@@ -25,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4670377163323971412}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 54.95121, y: 0.5548115, z: -106.24314}
   m_LocalScale: {x: 0.688512, y: 0.588435, z: 0.588435}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &8949928377729073739
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -83,3 +85,32 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1032194321
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4670377163323971412}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.84229076, y: 1.0994024, z: 2.07535}
+  m_Center: {x: -0.00000002980232, y: -0.07532593, z: 0.94452715}
+--- !u!114 &1032194320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4670377163323971412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905a3b32666517d4e9590d32fedafde6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDestroy: 1
+  isLoot: 0
+  lootName: 
+  boxExplosion: {fileID: 4115429008550558110, guid: 4475bdbb311f9914cb1d986f82262cb5, type: 3}
