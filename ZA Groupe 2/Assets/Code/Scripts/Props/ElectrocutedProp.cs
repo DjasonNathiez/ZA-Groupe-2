@@ -11,6 +11,7 @@ public class ElectrocutedProp : MonoBehaviour
     public Door[] door;
     public CinematicEnvent CinematicEnvent;
     public bool enablecinematic;
+    public GameObject offMesh;
 
     [Header("Eye Pillar ?")]
     public bool isEyePillar;
@@ -46,6 +47,7 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && isOn)
         {
             isOn = false;
+            offMesh.SetActive(true);
             foreach (Door door in door)
             {
                 door.keysValid--;      
@@ -58,6 +60,7 @@ public class ElectrocutedProp : MonoBehaviour
         if (!sender && !isOn)
         {
             isOn = true;
+            offMesh.SetActive(false);
             foreach (Door door in door)
             {
                 door.keysValid++;

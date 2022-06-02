@@ -11,6 +11,7 @@ public class Teleporter : MonoBehaviour
         if (player != null)
         {
             player.transform.position = teleportPoint.position;
+            player.cameraController.transform.position = teleportPoint.position;
         }
     }
 }

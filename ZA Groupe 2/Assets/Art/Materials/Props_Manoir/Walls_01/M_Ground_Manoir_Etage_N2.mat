@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Wall_Manoir_W_N_01
+  m_Name: M_Ground_Manoir_Etage_N2
   m_Shader: {fileID: -6465566751694194690, guid: 3de1fe9b4b13f2f44af0fcff66f6cd35, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 2
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _DiffuseTex2D:
-        m_Texture: {fileID: 2800000, guid: 65a5f9d9a8099834285a58abc1b22e41, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7b9b86bc68825b848b585c178ec596be, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal:
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex2D:
-        m_Texture: {fileID: 2800000, guid: e354fa6452f9c8048960b95ac13d02b0, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2D:
@@ -50,28 +50,29 @@ Material:
     m_Ints: []
     m_Floats:
     - _AO: 1
+    - _Debug: 0
     - _Etage: 0
     - _FogIntensity: 0.5
-    - _Manoir: 1
+    - _Manoir: 0
     - _Metallic: 0
-    - _NormalStrength: 10
+    - _NormalStrength: 1
     - _ObjPos: 0
     - _Pos: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Roughness: 0
-    - _Tiling: 0.5
-    - _UseNormal: 0
-    - _XTexture: 1
-    - _XTexture_TwoSide: 1
-    - _YTexture: 0
-    - _YTexture_TwoSide: 0
-    - _ZTexture: 1
-    - _ZTexture_TwoSide: 1
+    - _Tiling: 0.2
+    - _UseNormal: 1
+    - _XTexture: 0
+    - _XTexture_TwoSide: 0
+    - _YTexture: 1
+    - _YTexture_TwoSide: 1
+    - _ZTexture: 0
+    - _ZTexture_TwoSide: 0
     m_Colors:
     - _AjustTexPos: {r: 0, g: 1.73, b: 0, a: 0}
     - _Fog_BackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainColor: {r: 0.21176472, g: 0.15686275, b: 0.2509804, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1059796237355562204
 MonoBehaviour:

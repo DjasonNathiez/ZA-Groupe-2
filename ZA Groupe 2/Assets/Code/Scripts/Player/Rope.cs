@@ -70,7 +70,7 @@ public class Rope : MonoBehaviour
                         nodeToCreate.positive = false;   
                     }
                     nodes.Add(nodeToCreate);
-                    CheckElectrocution();   
+                      
                 }
             }
             Debug.DrawRay(ray.origin + Vector3.up,ray.direction * Vector3.Distance(transform.position, point),Color.red);
@@ -118,7 +118,7 @@ public class Rope : MonoBehaviour
                             }
 
                             nodes.Insert(0, nodeToCreate);
-                            CheckElectrocution();
+                            
                         }
                     }
                 }  
@@ -175,7 +175,7 @@ public class Rope : MonoBehaviour
                                 }
 
                                 nodes.Insert(node.index - 2, nodeToCreate);
-                                CheckElectrocution();
+                                
                                 break;
                             }
                         }
@@ -228,7 +228,6 @@ public class Rope : MonoBehaviour
                         }
                         rope.positionCount -= 1;
                         rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
-                        CheckElectrocution();
                     }
                 }
                 else
@@ -259,7 +258,6 @@ public class Rope : MonoBehaviour
                         }
                         rope.positionCount -= 1;
                         rope.SetPosition(rope.positionCount-1,transform.position-rope.transform.position);
-                        CheckElectrocution();
                     }
                 }
             }
@@ -281,7 +279,8 @@ public class Rope : MonoBehaviour
         {
             remainingLenght = maximumLenght - (checklenght - Vector3.Distance(rope.GetPosition(rope.positionCount-2), rope.GetPosition(rope.positionCount-1)));    
         }
-        
+
+        CheckElectrocution();
 
         lenght = checklenght;
         
@@ -513,6 +512,11 @@ public class Rope : MonoBehaviour
             {
                 electrocutedPropPin.LightsOn();
             }
+            else if (!electrocuted && electrocutedPropPin && electrocutedPropPin.activated &&
+                     !electrocutedPropPin.sender)
+            {
+                electrocutedPropPin.LightsOff();
+            }
         }
         foreach (Node node in nodes)
         {
@@ -527,6 +531,11 @@ public class Rope : MonoBehaviour
                 {
                     electrocutedProp.LightsOn();
                 }
+                else if (!electrocuted)
+                {
+                    electrocutedProp.LightsOff();
+                }
+                
             }
 
             if (electrocutedProp && electrocutedProp.isEyePillar)
