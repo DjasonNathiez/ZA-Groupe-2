@@ -21,19 +21,24 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Toile_01
-  m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
+  m_Shader: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _SURFACE_TYPE_TRANSPARENT
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
   - DepthOnly
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaMaskMap2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMapTex2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -122,6 +127,9 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _AlphaClip: 1
+    - _AlphaMask: 0
+    - _AlphaMask_Smoothstep_Max: 1
+    - _AlphaMask_Smoothstep_Min: 0
     - _AmbiantOcclusionMap: 1
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1
@@ -140,6 +148,7 @@ Material:
     - _Cull: 2
     - _CutOff: 0.5
     - _Cutoff: 0.5
+    - _DebugWind: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DistortionBlend: 0.5
@@ -149,7 +158,7 @@ Material:
     - _DstBlend: 10
     - _EmissionMap: 0
     - _Emission_Smoothstep_Max: 1
-    - _Emission_Smoothstep_Min: -0.11
+    - _Emission_Smoothstep_Min: 0
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
     - _FlipbookBlending: 0
@@ -196,15 +205,20 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _Surface: 1
+    - _UseWind: 0
+    - _WindDensity: 5
+    - _WindGradient: 0
+    - _WindSpeed: 0.1
+    - _WindStrengh: 16
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.95931244, g: 0.8443396, b: 1, a: 1}
-    - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 0.9593124, g: 0.8443396, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
