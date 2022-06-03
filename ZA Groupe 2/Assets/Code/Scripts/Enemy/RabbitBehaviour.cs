@@ -186,6 +186,7 @@ public class RabbitBehaviour : AIBrain
                     for (int i = detectedPoints.Length; i < distanceToPoints.Count; i++)
                     {
                         distanceToPoints.Remove(f);
+                        break;
                     }
                 }
             }

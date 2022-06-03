@@ -308,7 +308,7 @@ public class GameManager : MonoBehaviour
         if (!isMute)
         {
             SoundManager.FxAudioMixer.audioMixer.SetFloat("SFXVolume", value);
-            SoundManager.PlayFx(testSoundFeedback);
+            SoundManager.PlayOnce(testSoundFeedback, mixer: sfxMixer);
         }
     }
 
@@ -317,7 +317,7 @@ public class GameManager : MonoBehaviour
         if (!isMute)
         {
             SoundManager.MusicAudioMixer.audioMixer.SetFloat("MusicVolume", value);
-            SoundManager.PlayMusic(testSoundFeedback);
+            SoundManager.PlayOnce(testSoundFeedback, mixer: musicMixer);
         }
     }
 
@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
         if (!isMute)
         {
             SoundManager.EffectAudioMixer.audioMixer.SetFloat("EnvironmentVolume", value);
-            SoundManager.PlayEffect(testSoundFeedback);
+            SoundManager.PlayOnce(testSoundFeedback, mixer: environmentMixer);
         }
     }
 
@@ -335,7 +335,7 @@ public class GameManager : MonoBehaviour
         if (!isMute)
         {
             SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", value);
-            SoundManager.PlayOnce(testSoundFeedback);
+            SoundManager.PlayOnce(testSoundFeedback, mixer: mainMixer);
         }
     }
 
