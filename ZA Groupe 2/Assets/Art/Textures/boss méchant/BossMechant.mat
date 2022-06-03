@@ -110,8 +110,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Vector1_ca97823cb1a845c3aab0c5c59a632e77: 0.4
     - _Alpha: 0.5
     - _AlphaClip: 1
+    - _AlphaClipUb: 1
     - _AlphaMask: 1
     - _AlphaMask_Smoothstep_Max: 1
     - _AlphaMask_Smoothstep_Min: 0
@@ -127,7 +129,9 @@ Material:
     - _Color_Intensity: 1
     - _Cull: 0
     - _Cutoff: 0.5
+    - _Cutoff_Height: -0.2
     - _DebugWind: 0
+    - _Destruction: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -136,9 +140,11 @@ Material:
     - _Emission_Smoothstep_Min: -0.11
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
+    - _FlipAxis: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Glow_Edge_Thickness: 0.1
     - _HSV: 0
     - _HSV_Saturation: 2.57
     - _HSV_Shift: 2.57
@@ -154,6 +160,7 @@ Material:
     - _Modify_Color: 0
     - _Modify_Intensity: 1
     - _Modify_Normal_Intensity: 1
+    - _Noise_Scale: 50
     - _NormalMap: 1
     - _Normal_Intensity: 1
     - _OcclusionStrength: 1
@@ -186,9 +193,11 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Glow_Color: {r: 1, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _X_DissolveAxisY_Y_DissolveAxisZ: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7256825129082500520
 MonoBehaviour:
