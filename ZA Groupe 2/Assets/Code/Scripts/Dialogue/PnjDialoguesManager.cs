@@ -97,7 +97,7 @@ public class PnjDialoguesManager : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             
-                dialogueBox.transform.position = new Vector3(960, -260, 0);
+                dialogueBox.transform.position = new Vector3(960, -320, 0);
                 if (button) button.SetActive(false);
                 textEffectManager.isDialoguing = false;
                 isDialoguing = false;
@@ -135,7 +135,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                         {
                             GameManager.instance.EnableAllEnemy();
-                            dialogueBox.transform.position = new Vector3(960, -260, 0);
+                            dialogueBox.transform.position = new Vector3(960, -320, 0);
                             textEffectManager.isDialoguing = false;
                             isDialoguing = false;
                             afterText = true;
@@ -171,7 +171,7 @@ public class PnjDialoguesManager : MonoBehaviour
                             if (dialogue[textEffectManager.dialogueIndex].toActivate) dialogue[textEffectManager.dialogueIndex].toActivate.SetActive(!dialogue[textEffectManager.dialogueIndex].toActivate.activeSelf);
                             if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                             {
-                                dialogueBox.transform.position = new Vector3(960, -260, 0);
+                                dialogueBox.transform.position = new Vector3(960, -320, 0);
                             }
                             else
                             {
@@ -199,7 +199,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                     {
                         GameManager.instance.EnableAllEnemy();
-                        dialogueBox.transform.position = new Vector3(960, -260, 0);
+                        dialogueBox.transform.position = new Vector3(960, -320, 0);
                         textEffectManager.isDialoguing = false;
                         isDialoguing = false;
                         cameraController.playerFocused = true;
@@ -229,7 +229,7 @@ public class PnjDialoguesManager : MonoBehaviour
 
                         if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                         {
-                            dialogueBox.transform.position = new Vector3(960, -260, 0);
+                            dialogueBox.transform.position = new Vector3(960, -320, 0);
                         }
                         else
                         {
