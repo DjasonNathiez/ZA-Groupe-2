@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class TextEffectManager : MonoBehaviour
 {
     public TMP_Text textElement;
+    public TMP_Text talkingCharacter;
     public bool isDialoguing;
     public int showedCharIndex = 0;
     [SerializeField] private float speedOfShowing = 0.05f;
@@ -17,6 +18,7 @@ public class TextEffectManager : MonoBehaviour
     [SerializeField] private float[] charBasedHeight;
     public int dialogueIndex;
     public DialogueLine[] dialogue;
+    public List<Color32> colors;
     
     public void ShowText()
     {
@@ -25,6 +27,7 @@ public class TextEffectManager : MonoBehaviour
         textElement.text = dialogue[dialogueIndex].text;
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
+        talkingCharacter.text = dialogue[dialogueIndex].speakingName;
         Debug.Log("Before Error");
         charBasedHeight = new float[textElement.textInfo.characterCount];
         Debug.Log("4 Line Function ShowText");
@@ -33,6 +36,7 @@ public class TextEffectManager : MonoBehaviour
         {
             charBasedHeight[i] = -1f;
         }
+        UpdateColor();
         timeStamp = speedOfShowing;
     }
     public void NextText()
@@ -43,11 +47,13 @@ public class TextEffectManager : MonoBehaviour
             textElement.text = dialogue[dialogueIndex].text;
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
+            talkingCharacter.text = dialogue[dialogueIndex].speakingName;
             charBasedHeight = new float[textElement.textInfo.characterCount];
             for (int i = 0; i < charBasedHeight.Length; i++)
             {
                 charBasedHeight[i] = -1f;
             }
+            UpdateColor();
             timeStamp = speedOfShowing;   
         }
     }
@@ -57,60 +63,6 @@ public class TextEffectManager : MonoBehaviour
         {
             
             var textInfo = textElement.textInfo;
-            textElement.ForceMeshUpdate();
-        
-            //Debug.Log("OK C " + textInfo.characterInfo[0].scale);
-
-            for (int i = 0; i < textInfo.characterCount; i++)
-            {
-                var charInfo = textInfo.characterInfo[i];
-                if (!charInfo.isVisible)
-                {
-                    continue;
-                }
-            
-                Vector3[] verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
-                Debug.Log(verts.Length);
-                Color32[] colors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
-
-                if (dialogue.Length > 0)
-                {
-                    for (int e = 0; e < dialogue[dialogueIndex].textEffects.Length; e++)
-                    {
-                        if (i >= dialogue[dialogueIndex].textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].textEffects[e].lastCharIndex)
-                        {
-                            Vector3 center = (verts[charInfo.vertexIndex + 0] + verts[charInfo.vertexIndex + 2])/2;
-                            for (int v = 0; v < 4; v++)
-                            {
-                                var original = verts[charInfo.vertexIndex + v];
-                                verts[charInfo.vertexIndex + v] = ApplyEffectToVertex(original,dialogue[dialogueIndex].textEffects[e].effectType,center,dialogue[dialogueIndex].textEffects[e].speed,dialogue[dialogueIndex].textEffects[e].width,dialogue[dialogueIndex].textEffects[e].height);
-                                colors[charInfo.vertexIndex + v] = ApplyColorEffectToVertex(
-                                    dialogue[dialogueIndex].textEffects[e].colorEffectType,
-                                    dialogue[dialogueIndex].textEffects[e].firstColor,
-                                    dialogue[dialogueIndex].textEffects[e].secondColor,
-                                    dialogue[dialogueIndex].textEffects[e].colorSpeed,
-                                    dialogue[dialogueIndex].textEffects[e].colorWidth,original);
-                            }
-                            break;
-                        }   
-                    }   
-                
-                    for (int v = 0; v < 4; v++)
-                    {
-                        verts[charInfo.vertexIndex + v] = GetVertex(verts[charInfo.vertexIndex + v],i);
-                        Color32 original = colors[charInfo.vertexIndex + v];
-                        colors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
-                    }
-                }
-            }
-
-            for (int i = 0; i < textInfo.meshInfo.Length; i++)
-            {
-                var meshInfo = textInfo.meshInfo[i];
-                meshInfo.mesh.vertices = meshInfo.vertices;
-                textElement.UpdateGeometry(meshInfo.mesh,i);
-                textElement.UpdateVertexData();
-            }
 
             if (showedCharIndex < textInfo.characterCount)
             {
@@ -120,11 +72,86 @@ public class TextEffectManager : MonoBehaviour
                     for (int i = 0; i < Mathf.FloorToInt(Mathf.Abs(timeStamp) / speedOfShowing) ; i++)
                     {
                         showedCharIndex++;
+                        
                     }
                     timeStamp = speedOfShowing;
                 }   
             }
+            
+            
+            for (int i = 0; i < textInfo.characterCount; i++)
+            {
+
+                var charInfo = textInfo.characterInfo[i];
+                if (!charInfo.isVisible)
+                {
+                    continue;
+                }
+                Color32[] newcolors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
+                if (i < showedCharIndex)
+                {
+                    charBasedHeight[i] = Mathf.Lerp(charBasedHeight[i], 0, 5 * Time.deltaTime);
+                }
+                if (dialogue.Length > 0)
+                {
+                    for (int v = 0; v < 4; v++)
+                    {
+                        Color32 original = colors[charInfo.vertexIndex + v];
+                        newcolors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
+                    }
+                }
+            }
+        
+            textElement.UpdateVertexData();
         }
+    }
+
+    public void UpdateColor()
+    {
+        var textInfo = textElement.textInfo;
+        colors.Clear();
+        
+        for (int j = 0; j < textInfo.characterCount *4; j++)
+        {
+            colors.Add(new Color32(255, 255, 255, 255));
+        }
+
+        for (int i = 0; i < textInfo.characterCount; i++)
+        {
+            var charInfo = textInfo.characterInfo[i];
+            if (!charInfo.isVisible)
+            {
+                continue;
+            }
+            Color32[] newcolors = textInfo.meshInfo[charInfo.materialReferenceIndex].colors32;
+
+            if (dialogue.Length > 0)
+            {
+                for (int e = 0; e < dialogue[dialogueIndex].textEffects.Length; e++)
+                {
+                    if (i >= dialogue[dialogueIndex].textEffects[e].firstCharIndex && i <= dialogue[dialogueIndex].textEffects[e].lastCharIndex)
+                    {
+                        for (int v = 0; v < 4; v++)
+                        {
+                            colors[charInfo.vertexIndex + v] = dialogue[dialogueIndex].textEffects[e].firstColor;
+                            
+                            Debug.Log("OkFrero " + dialogue[dialogueIndex].textEffects[e].firstColor);
+                        }
+                        break;
+                    }   
+                }   
+                
+                for (int v = 0; v < 4; v++)
+                {
+                    Color32 original = colors[charInfo.vertexIndex + v];
+                    newcolors[charInfo.vertexIndex + v] = Color32.Lerp(new Color32(original.r, original.g, original.b, 0), original, charBasedHeight[i] + 1);
+                }
+            }
+        }
+        
+        
+        textElement.UpdateVertexData();
+        
     }
 
     public Vector3 GetVertex(Vector3 original,int charIndex)
@@ -198,6 +225,7 @@ public class TextEffectManager : MonoBehaviour
 
 [Serializable] public class DialogueLine
 {
+    public string speakingName;
     [TextArea] public string text;
     [FormerlySerializedAs("m_textEffects")] public TextEffect[] textEffects;
     public bool modifyCameraPosition;
