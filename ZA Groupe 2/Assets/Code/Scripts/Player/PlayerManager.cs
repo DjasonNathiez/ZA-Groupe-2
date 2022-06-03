@@ -97,7 +97,7 @@ public class PlayerManager : MonoBehaviour
     public float throwingSpeed;
     [HideInInspector] public Vector3 direction;
     public string state = "StatusQuo";
-    public GameObject locking;
+    public GameObject playerThrowingWeapon;
     public float aimHelpAngle;
 
     //Others
@@ -524,7 +524,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && state == "StatusQuo")
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
@@ -561,6 +561,7 @@ public class PlayerManager : MonoBehaviour
 
             GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
             state = "Throw";
+            playerThrowingWeapon.SetActive(false);
             rope.enabled = true;
             rope.rope.gameObject.SetActive(true);
             PlaySFX("P_Throw");
@@ -926,7 +927,7 @@ public class PlayerManager : MonoBehaviour
     {
         Item item = other.GetComponent<Item>();
 
-        if (item)
+        if (item && !item.distributed)
         {
             switch (item.affectedValue)
             {
@@ -956,8 +957,9 @@ public class PlayerManager : MonoBehaviour
 
                     break;
             }
-
-            Destroy(item.gameObject);
+            item.height = 1;
+            item.distributed = true;
+            item.PnjDialoguesManager.StartDialogue();
         }
     }
 

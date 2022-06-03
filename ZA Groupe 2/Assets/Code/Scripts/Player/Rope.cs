@@ -396,6 +396,7 @@ public class Rope : MonoBehaviour
                 {
                     pin.SetActive(false);
                     playerManager.state = "StatusQuo";
+                    playerManager.playerThrowingWeapon.SetActive(true);
                     rope.gameObject.SetActive(false);
                     pinnedToObject = false;
                     rewinding = false;

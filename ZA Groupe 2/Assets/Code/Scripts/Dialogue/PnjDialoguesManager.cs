@@ -10,7 +10,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private TextEffectManager textEffectManager;
     public float timer;
     public bool auto;
-    [SerializeField] private DialogueLine[] dialogue;
+    public DialogueLine[] dialogue;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private GameObject button;
     [SerializeField] private CameraController cameraController;
@@ -30,7 +30,7 @@ public class PnjDialoguesManager : MonoBehaviour
         {
             if (!automatic)
             {
-                button.SetActive(true);   
+                if (button) button.SetActive(true);   
             }
             else
             {
@@ -98,7 +98,7 @@ public class PnjDialoguesManager : MonoBehaviour
         {
             
                 dialogueBox.transform.position = new Vector3(960, -260, 0);
-                button.SetActive(false);
+                if (button) button.SetActive(false);
                 textEffectManager.isDialoguing = false;
                 isDialoguing = false;
                 cameraController.playerFocused = true;

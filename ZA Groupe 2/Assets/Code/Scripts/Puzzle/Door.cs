@@ -42,6 +42,14 @@ public class Door : MonoBehaviour
                     keysValid = keyNeeded + 1;
                 }   
             }
+            else if (type == "Rising")
+            {
+                transform.position = Vector3.Lerp(transform.position, rotationOpen, Time.deltaTime * 5);
+                if (persistent)
+                {
+                    keysValid = keyNeeded + 1;
+                }   
+            }
             else if (type == "TapeTaupe")
             {
                 if (!startedTapeTaupe)
@@ -95,6 +103,10 @@ public class Door : MonoBehaviour
             else if (type == "Rotating")
             {
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(rotationClosed), Time.deltaTime * 5);
+            }
+            else if (type == "Rising")
+            {
+                transform.position = Vector3.Lerp(transform.position, rotationClosed, Time.deltaTime * 5);
             }
             else if (type == "ActivateElec")
             {
