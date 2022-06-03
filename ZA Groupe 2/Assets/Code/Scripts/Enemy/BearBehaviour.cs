@@ -29,6 +29,19 @@ public class BearBehaviour : AIBrain
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isHurt", isHurt);
         animator.SetBool("isDead", isDead);
+        if (isDead)
+        {
+            modelAggroMat.SetFloat("_NoiseStrenght",animationDeath.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_NoiseStrenght",animationDeath.Evaluate(Time.time - hurtTime));
+        }
+        if (hurtAnim)
+        {
+            modelAggroMat.SetFloat("_UseOnAlbedo",animationHurt.Evaluate(Time.time - hurtTime));
+            modelAggroMat.SetFloat("_UseOnEmission",animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnAlbedo",animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnEmission",animationHurt.Evaluate(Time.time - hurtTime));
+            if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
+        }
         
         if (!isDead)
         {

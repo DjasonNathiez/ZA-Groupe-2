@@ -39,7 +39,7 @@ public class AIBrain : MonoBehaviour
     public bool isAggro;
     [HideInInspector] public bool isKnocked;
     public bool isMoving;
-    [HideInInspector] public bool isDead;
+     public bool isDead;
     public bool isHurt;
     
     [Header("Movement")]
@@ -77,6 +77,10 @@ public class AIBrain : MonoBehaviour
     public GameObject enemyStatusPointer;
     public Material aggroMaterial;
     public Material nonAggroMaterial;
+    public AnimationCurve animationHurt;
+    public AnimationCurve animationDeath;
+    public bool hurtAnim;
+    public float hurtTime;
 
     public void ExplosionVFX()
     {
@@ -91,7 +95,8 @@ public class AIBrain : MonoBehaviour
         currentHealth = maxHealth;
         canMove = true;
         Enable();
-        
+        modelAggroMat = new Material(modelAggroMat);
+        modelNonAggroMat = new Material(modelNonAggroMat);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         player = FindObjectOfType<PlayerManager>().gameObject;
@@ -264,8 +269,10 @@ public class AIBrain : MonoBehaviour
             if (isInvincible) return;
             
             currentHealth -= damage;
-
+            
             isHurt = true;
+            hurtAnim = true;
+            hurtTime = Time.time;
             
             if (hurtVFX != null)
             {
@@ -287,7 +294,7 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
-        
+        modelAggroMat.SetFloat("_Destruction",1);
         if (doorIfDead) doorIfDead.keysValid++;
         if (currentArena) currentArena.currentSpawned.Remove(this.gameObject);
         
