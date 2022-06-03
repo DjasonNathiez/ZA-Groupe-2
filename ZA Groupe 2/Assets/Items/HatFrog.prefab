@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5839769823160975759}
   - component: {fileID: 5839769823160975756}
   - component: {fileID: 5839769823160975757}
+  - component: {fileID: 7845012707688209355}
   m_Layer: 0
   m_Name: HatFrog
   m_TagString: Untagged
@@ -64,12 +65,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99f7d9bcb6655d47bcc2f89893aaee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: LoreDiary
+  itemName: Frog
   valuePercentage: 5
-  affectedValue: LoreDiary
+  affectedValue: Hat
+  distributed: 0
   rotationSpeed: 0
   amplitude: 0
   floatSpeed: 0
+  height: 0
+  PnjDialoguesManager: {fileID: 7845012707688209355}
 --- !u!33 &5839769823160975758
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4899,6 +4903,56 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7845012707688209355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5839769823160975475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537c3d4fa31e57c4f85581823f39e6db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDialoguing: 0
+  textEffectManager: {fileID: 0}
+  timer: 0
+  auto: 0
+  dialogue:
+  - text: Vous avez obtenu le Chapeau Grenouille !
+    textEffects: []
+    modifyCameraPosition: 1
+    positionCamera: {x: 0, y: 0, z: 0}
+    angleCamera: {x: 45, y: -45, z: 0}
+    zoom: 3
+    speedOfPan: 0
+    cinematicAngleOnly: 0
+    durationIfAuto: 0
+    toActivate: {fileID: 0}
+  - text: "Vous pouvez l'\xE9quiper dans le menu de collection."
+    textEffects: []
+    modifyCameraPosition: 0
+    positionCamera: {x: 0, y: 0, z: 0}
+    angleCamera: {x: 0, y: 0, z: 0}
+    zoom: 0
+    speedOfPan: 0
+    cinematicAngleOnly: 0
+    durationIfAuto: 0
+    toActivate: {fileID: 0}
+  dialogueBox: {fileID: 0}
+  button: {fileID: 0}
+  cameraController: {fileID: 0}
+  check: 0
+  automatic: 0
+  oneTimeDialogue: 1
+  objToActive: {fileID: 0}
+  toActiveOnExit: {fileID: 0}
+  animation: {fileID: 0}
+  timerLiberate: 0
+  liberateAfter: 0
+  liberated: 0
+  afterText: 0
 --- !u!1 &8854826427799972190
 GameObject:
   m_ObjectHideFlags: 0

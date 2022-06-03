@@ -79542,7 +79542,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5895
+  m_VersionIndex: 5901
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -79560,7 +79560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Shape:
-    rid: 9030829992945385526
+    rid: 6617592234010738936
   m_Size: {x: -1, y: -1, z: 1}
   m_Rotation: {x: 0, y: 0, z: 0, w: 1}
   m_PivotLocation: 1
@@ -79572,7 +79572,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 9030829992945385526
+    - rid: 6617592234010738936
       type: {class: Cone, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
       data:
         m_NumberOfSides: 6
@@ -90352,6 +90352,7 @@ MonoBehaviour:
   massAggroRange: 3
   detectionAngle: 50
   doorIfDead: {fileID: 0}
+  currentArena: {fileID: 0}
   playerShowBack: 0
   hurtVFX: {fileID: 869542568800250958}
   attackVFX: {fileID: 2286769498368705039}
@@ -90380,6 +90381,65 @@ MonoBehaviour:
   enemyStatusPointer: {fileID: 3323710626091503136}
   aggroMaterial: {fileID: 2100000, guid: d1740b8e5d4462c4faa664d6070a9c98, type: 2}
   nonAggroMaterial: {fileID: 2100000, guid: 4a5ed008d412c154a9b5cb24d91ab106, type: 2}
+  animationHurt:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.8898807
+      outSlope: 2.8898807
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06629702
+    - serializedVersion: 3
+      time: 0.054690912
+      value: 1.0048417
+      inSlope: 0.0035445648
+      outSlope: 0.0035445648
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.37661684
+    - serializedVersion: 3
+      time: 0.49562013
+      value: 0.001758208
+      inSlope: -3.4420629
+      outSlope: -3.4420629
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.067773096
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationDeath:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1
+      value: 10
+      inSlope: -13.333333
+      outSlope: -13.333333
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.5
+      value: -10
+      inSlope: -13.333333
+      outSlope: -13.333333
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hurtAnim: 0
+  hurtTime: 0
   stayAtRange: 1
   awayRange: 6
   awayPoint: {x: 0, y: 0, z: 0}

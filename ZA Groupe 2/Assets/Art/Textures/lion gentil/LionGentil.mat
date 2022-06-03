@@ -22,13 +22,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LionGentil
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -123,9 +123,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_ca97823cb1a845c3aab0c5c59a632e77: 0.4
-    - _Alpha: 1
-    - _AlphaClip: 0
+    - Vector1_ca97823cb1a845c3aab0c5c59a632e77: 10
+    - _AdjustPose: 2
+    - _Alpha: 0.5
+    - _AlphaClip: 1
     - _AlphaClipUb: 1
     - _AlphaMask: 0
     - _AlphaMask_Smoothstep_Max: 1
@@ -134,6 +135,7 @@ Material:
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1
     - _AmbiantOcclusion_Smoothstep_Min: 0
+    - _Amplitude: 1
     - _Blend: 0
     - _BumpScale: 1
     - _CastShadows: 1
@@ -156,6 +158,8 @@ Material:
     - _EnvironmentReflections: 1
     - _Etage: 0
     - _FlipAxis: 0
+    - _FlipAxis_Dam: 0
+    - _FlipAxis_Des: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -166,6 +170,8 @@ Material:
     - _HSV_Value: 2.57
     - _HeightMap: 1
     - _Height_Scale: 0.1
+    - _Iteration: 1
+    - _Looping: 0
     - _Manoir: 0
     - _Metallic: 0
     - _MetallicMap: 0
@@ -175,6 +181,7 @@ Material:
     - _Modify_Color: 0
     - _Modify_Intensity: 1
     - _Modify_Normal_Intensity: 0
+    - _NoiseStrenght: 10
     - _Noise_Scale: 50
     - _NormalMap: 1
     - _Normal_Intensity: 1
@@ -193,8 +200,12 @@ Material:
     - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UseMovingVertices: 0
+    - _UseOnAlbedo: 0
+    - _UseOnEmission: 0
     - _UseWind: 0
     - _WindDensity: 5
     - _WindGradient: 0
@@ -205,12 +216,21 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _AdjustPosAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _AmplitudeAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _BackgroundColor: {r: 1, g: 0, b: 0, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Glow_Color: {r: 1, g: 0, b: 0, a: 1}
+    - _FrequencyAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _Glow_Color: {r: 8, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _ImpactColor: {r: 1, g: 0, b: 0, a: 1}
+    - _MainTINT: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpeedMoveAxis: {r: 0, g: 0, b: 0, a: 0}
     - _X_DissolveAxisY_Y_DissolveAxisZ: {r: 0, g: 0, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Dam: {r: 0, g: 1, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Des: {r: 0, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
