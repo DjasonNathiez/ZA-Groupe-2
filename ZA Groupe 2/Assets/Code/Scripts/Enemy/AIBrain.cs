@@ -59,6 +59,7 @@ public class AIBrain : MonoBehaviour
     public float massAggroRange;
     [Range(0,180)] public float detectionAngle;
     public Door doorIfDead;
+    public ArenaParc currentArena;
     [HideInInspector] public bool playerShowBack;
     
     [Header("VFX")]
@@ -286,7 +287,10 @@ public class AIBrain : MonoBehaviour
     public void Death()
     {
         isDead = true;
+        
         if (doorIfDead) doorIfDead.keysValid++;
+        if (currentArena) currentArena.currentSpawned.Remove(this.gameObject);
+        
         Disable();
         
         GetComponent<CapsuleCollider>().isTrigger = true;
