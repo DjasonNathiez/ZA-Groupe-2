@@ -29,6 +29,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] public List<GameObject> pillars;
     [SerializeField] private List<GameObject> cableNodes;
     [SerializeField] private float cableRotation;
+    [SerializeField] private List<Pilone> pilones;
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
     [SerializeField] private float rotationSpeed;
@@ -175,6 +176,13 @@ public class BossBehaviour : MonoBehaviour
                 cableRot += Vector3.SignedAngle(new Vector3(pos.x,transform.position.y,pos.z) - transform.position, new Vector3(nextpos.x,transform.position.y,nextpos.z) - transform.position, Vector3.up);
             }   
         }
+        
+        foreach (var pilone in pilones)
+        {
+            if (cableRot > pilone.rotation || cableRot < -pilone.rotation) pilone.pilone.SetActive(false);
+            else pilone.pilone.SetActive(true);
+        }
+
         return cableRot;
     }
     
@@ -266,6 +274,11 @@ public class BossBehaviour : MonoBehaviour
             }
         }
     }
-    
-    
+}
+
+[Serializable]
+public class Pilone
+{
+    public GameObject pilone;
+    public float rotation;
 }
