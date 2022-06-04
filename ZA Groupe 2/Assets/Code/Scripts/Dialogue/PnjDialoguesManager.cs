@@ -52,6 +52,14 @@ public class PnjDialoguesManager : MonoBehaviour
                     cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
                     cameraController.cameraZoom = dialogue[0].zoom;   
                 }
+
+                if (dialogue[0].animations.Length > 0)
+                {
+                    for (int i = 0; i < dialogue[0].animations.Length; i++)
+                    {
+                        dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+                    }
+                }
                 if (dialogue[0].durationIfAuto != 0)
                 {
                     timer = dialogue[0].durationIfAuto;
@@ -85,7 +93,13 @@ public class PnjDialoguesManager : MonoBehaviour
                     cameraController.cameraZoom = dialogue[0].zoom;
                     cameraController.panSpeed = dialogue[0].speedOfPan;
                 }
-
+                if (dialogue[0].animations.Length > 0)
+                {
+                    for (int i = 0; i < dialogue[0].animations.Length; i++)
+                    {
+                        dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+                    }
+                }
                 check = true;
                 PlayerManager.instance.EnterDialogue();
             }
@@ -177,6 +191,13 @@ public class PnjDialoguesManager : MonoBehaviour
                             {
                                 dialogueBox.transform.position = new Vector3(960, 18, 0);
                             }
+                            if (dialogue[textEffectManager.dialogueIndex].animations.Length > 0)
+                            {
+                                for (int i = 0; i < dialogue[textEffectManager.dialogueIndex].animations.Length; i++)
+                                {
+                                    dialogue[textEffectManager.dialogueIndex].animations[i].Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                }
+                            }
                         }   
                     }
                     else
@@ -226,7 +247,13 @@ public class PnjDialoguesManager : MonoBehaviour
                             cameraController.panSpeed = dialogue[textEffectManager.dialogueIndex].speedOfPan;
                         }
                         if (dialogue[textEffectManager.dialogueIndex].toActivate) dialogue[textEffectManager.dialogueIndex].toActivate.SetActive(!dialogue[textEffectManager.dialogueIndex].toActivate.activeSelf);
-
+                        if (dialogue[textEffectManager.dialogueIndex].animations.Length > 0)
+                        {
+                            for (int i = 0; i < dialogue[textEffectManager.dialogueIndex].animations.Length; i++)
+                            {
+                                dialogue[textEffectManager.dialogueIndex].animations[i].Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                            }
+                        }
                         if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                         {
                             dialogueBox.transform.position = new Vector3(960, -320, 0);
@@ -278,6 +305,13 @@ public class PnjDialoguesManager : MonoBehaviour
         {
             timer = dialogue[0].durationIfAuto;
             auto = true;
+        }
+        if (dialogue[0].animations.Length > 0)
+        {
+            for (int i = 0; i < dialogue[0].animations.Length; i++)
+            {
+                dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+            }
         }
             
         
