@@ -4920,7 +4920,8 @@ MonoBehaviour:
   timer: 0
   auto: 0
   dialogue:
-  - text: "Vous avez obtenu les gants d'\xE9lectricien !"
+  - speakingName: 
+    text: "Vous avez obtenu les gants d'\xE9lectricien !"
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4930,7 +4931,10 @@ MonoBehaviour:
     cinematicAngleOnly: 0
     durationIfAuto: 0
     toActivate: {fileID: 0}
-  - text: "Vous pouvez d\xE9sormais planter votre cable dans un g\xE9n\xE9rateur
+    animations: []
+    clips: []
+  - speakingName: 
+    text: "Vous pouvez d\xE9sormais planter votre cable dans un g\xE9n\xE9rateur
       \xE9lectrique pour y faire passer du courant."
     textEffects: []
     modifyCameraPosition: 0
@@ -4941,12 +4945,15 @@ MonoBehaviour:
     cinematicAngleOnly: 0
     durationIfAuto: 0
     toActivate: {fileID: 0}
+    animations: []
+    clips: []
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
   check: 0
   automatic: 0
   oneTimeDialogue: 1
+  destroyAfter: 1
   objToActive: {fileID: 0}
   toActiveOnExit: {fileID: 0}
   animation: {fileID: 0}

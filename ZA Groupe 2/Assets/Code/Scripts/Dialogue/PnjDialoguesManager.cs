@@ -17,6 +17,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private bool check;
     [SerializeField] private bool automatic;
     [SerializeField] private bool oneTimeDialogue;
+    [SerializeField] private bool destroyAfter;
     [SerializeField] private GameObject objToActive;
     [SerializeField] private BearBehaviour toActiveOnExit;
     [SerializeField] private Animation animation;
@@ -24,6 +25,9 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private bool liberateAfter;
     [SerializeField] private bool liberated;
     [SerializeField] private bool afterText;
+    [SerializeField] private Vector3 playerPos;
+    [SerializeField] private Vector3 playerRot;
+    [SerializeField] private bool movePlayer;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -57,7 +61,10 @@ public class PnjDialoguesManager : MonoBehaviour
                 {
                     for (int i = 0; i < dialogue[0].animations.Length; i++)
                     {
-                        dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+                        if (dialogue[0].animations[i])
+                            dialogue[0].animations[i]
+                                .Play(dialogue[0].clips[i]);
+                        else GetComponent<Animation>().Play(dialogue[0].clips[i]);
                     }
                 }
                 if (dialogue[0].durationIfAuto != 0)
@@ -97,7 +104,10 @@ public class PnjDialoguesManager : MonoBehaviour
                 {
                     for (int i = 0; i < dialogue[0].animations.Length; i++)
                     {
-                        dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+                        if (dialogue[0].animations[i])
+                            dialogue[0].animations[i]
+                                .Play(dialogue[0].clips[i]);
+                        else GetComponent<Animation>().Play(dialogue[0].clips[i]);
                     }
                 }
                 check = true;
@@ -166,7 +176,14 @@ public class PnjDialoguesManager : MonoBehaviour
                             if(objToActive) objToActive.SetActive(false);
                             if (oneTimeDialogue)
                             {
-                                Destroy(gameObject);
+                                if (GetComponent<Collider>())
+                                {
+                                    foreach (var collider in GetComponents<Collider>())
+                                    {
+                                        collider.enabled = false;
+                                    }    
+                                }
+                                if(destroyAfter) Destroy(gameObject);
                                 enabled = false;
                             }
                         }
@@ -191,20 +208,24 @@ public class PnjDialoguesManager : MonoBehaviour
                             {
                                 dialogueBox.transform.position = new Vector3(960, 18, 0);
                             }
+                            if (dialogue[textEffectManager.dialogueIndex].durationIfAuto != 0)
+                            {
+                                timer = dialogue[textEffectManager.dialogueIndex].durationIfAuto;
+                                auto = true;
+                            }
                             if (dialogue[textEffectManager.dialogueIndex].animations.Length > 0)
                             {
                                 for (int i = 0; i < dialogue[textEffectManager.dialogueIndex].animations.Length; i++)
                                 {
-                                    dialogue[textEffectManager.dialogueIndex].animations[i].Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                    if (dialogue[textEffectManager.dialogueIndex].animations[i])
+                                        dialogue[textEffectManager.dialogueIndex].animations[i]
+                                            .Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                    else GetComponent<Animation>().Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
                                 }
                             }
                         }   
                     }
-                    else
-                    {
-                        timer = dialogue[0].durationIfAuto;
-                        auto = true;
-                    }
+                
                
             }
             if (auto)
@@ -230,7 +251,14 @@ public class PnjDialoguesManager : MonoBehaviour
                         PlayerManager.instance.ExitDialogue();
                         if (oneTimeDialogue)
                         {
-                            Destroy(gameObject);
+                            if (GetComponent<Collider>())
+                            {
+                                foreach (var collider in GetComponents<Collider>())
+                                {
+                                    collider.enabled = false;
+                                }    
+                            }
+                            if(destroyAfter) Destroy(gameObject);
                             enabled = false;
                         }
                     }
@@ -251,7 +279,10 @@ public class PnjDialoguesManager : MonoBehaviour
                         {
                             for (int i = 0; i < dialogue[textEffectManager.dialogueIndex].animations.Length; i++)
                             {
-                                dialogue[textEffectManager.dialogueIndex].animations[i].Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                if (dialogue[textEffectManager.dialogueIndex].animations[i])
+                                    dialogue[textEffectManager.dialogueIndex].animations[i]
+                                        .Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                else GetComponent<Animation>().Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
                             }
                         }
                         if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
@@ -264,6 +295,14 @@ public class PnjDialoguesManager : MonoBehaviour
                         }
                     }
                 }
+            }
+
+            if (movePlayer)
+            {
+                PlayerManager.instance.transform.position = Vector3.Lerp(PlayerManager.instance.transform.position,
+                    playerPos, 2 * Time.deltaTime);
+                PlayerManager.instance.transform.rotation = Quaternion.Lerp(PlayerManager.instance.transform.rotation,
+                    Quaternion.Euler(playerRot), 2 * Time.deltaTime);
             }
         }
         if (!PlayerManager.instance.inputInteractPushed && check)
@@ -310,7 +349,10 @@ public class PnjDialoguesManager : MonoBehaviour
         {
             for (int i = 0; i < dialogue[0].animations.Length; i++)
             {
-                dialogue[0].animations[i].Play(dialogue[0].clips[i]);
+                if (dialogue[textEffectManager.dialogueIndex].animations[i])
+                    dialogue[textEffectManager.dialogueIndex].animations[i]
+                        .Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                else GetComponent<Animation>().Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
             }
         }
             

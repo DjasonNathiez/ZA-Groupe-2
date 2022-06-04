@@ -11,7 +11,7 @@ public class InitializerScript : MonoBehaviour
     private void Awake()
     {
         GameManager.instance.Initialize();
-        if (true)
+        if (PlayerManager.instance.storyState == 1)
         {
             foreach (GameObject obj in active)
             {
