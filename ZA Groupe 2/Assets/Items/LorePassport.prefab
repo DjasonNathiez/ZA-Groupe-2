@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6421735062892603229}
   - component: {fileID: 6421735062892603226}
   - component: {fileID: 6421735062892603227}
+  - component: {fileID: 7165997107280077269}
   m_Layer: 0
   m_Name: LorePassport
   m_TagString: Untagged
@@ -67,9 +68,12 @@ MonoBehaviour:
   itemName: LorePassport
   valuePercentage: 5
   affectedValue: LorePassport
+  distributed: 0
   rotationSpeed: 0
   amplitude: 0
   floatSpeed: 0
+  height: 0
+  PnjDialoguesManager: {fileID: 7165997107280077269}
 --- !u!33 &6421735062892603228
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4899,6 +4903,58 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7165997107280077269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6421735062892603224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537c3d4fa31e57c4f85581823f39e6db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDialoguing: 0
+  textEffectManager: {fileID: 0}
+  timer: 0
+  auto: 0
+  dialogue:
+  - speakingName: 
+    text: Vous avez obtenu plus de longueur de cable !
+    textEffects: []
+    modifyCameraPosition: 1
+    positionCamera: {x: 0, y: 0, z: 0}
+    angleCamera: {x: 45, y: -45, z: 0}
+    zoom: 3
+    speedOfPan: 0
+    cinematicAngleOnly: 0
+    durationIfAuto: 0
+    toActivate: {fileID: 0}
+  - speakingName: 
+    text: "Vous pouvez d\xE9sormais tirer votre cable sur une plus grande distance."
+    textEffects: []
+    modifyCameraPosition: 0
+    positionCamera: {x: 0, y: 0, z: 0}
+    angleCamera: {x: 0, y: 0, z: 0}
+    zoom: 0
+    speedOfPan: 0
+    cinematicAngleOnly: 0
+    durationIfAuto: 0
+    toActivate: {fileID: 0}
+  dialogueBox: {fileID: 0}
+  button: {fileID: 0}
+  cameraController: {fileID: 0}
+  check: 0
+  automatic: 0
+  oneTimeDialogue: 1
+  objToActive: {fileID: 0}
+  toActiveOnExit: {fileID: 0}
+  animation: {fileID: 0}
+  timerLiberate: 0
+  liberateAfter: 0
+  liberated: 0
+  afterText: 0
 --- !u!1001 &6421735062843310194
 PrefabInstance:
   m_ObjectHideFlags: 0

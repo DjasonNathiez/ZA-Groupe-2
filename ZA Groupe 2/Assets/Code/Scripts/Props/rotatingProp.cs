@@ -56,7 +56,7 @@ public class rotatingProp : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         door.Play("closePortal");
         yield return new WaitForSeconds(1.5f);
-        dialogueBox.SetActive(false);
+        dialogueBox.transform.position = new Vector3(960, -320, 0);
         cameraController.playerFocused = true;
         cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
         cameraController.cameraZoom = 8.22f;
