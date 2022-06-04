@@ -81,7 +81,7 @@ public class PnjDialoguesManager : MonoBehaviour
         
         if(!textEffectManager.isDialoguing && other.CompareTag("Player") && !automatic)
         {
-            if (PlayerManager.instance.inputInteractPushed && !check && timer == 0)
+            if (PlayerManager.instance.buttonAPressed && !check && timer == 0)
             {
                 GameManager.instance.DisableAllEnemy();
                 dialogueBox.transform.position = new Vector3(960, 18, 0);
@@ -150,7 +150,7 @@ public class PnjDialoguesManager : MonoBehaviour
         
         if (isDialoguing)
         {
-            if (PlayerManager.instance.inputInteractPushed && !check && timer == 0)
+            if (PlayerManager.instance.buttonAPressed && !check && timer == 0)
             {
                 check = true;
                 
@@ -305,7 +305,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     Quaternion.Euler(playerRot), 2 * Time.deltaTime);
             }
         }
-        if (!PlayerManager.instance.inputInteractPushed && check)
+        if (!PlayerManager.instance.buttonAPressed && check)
         {
             check = false;
         }
