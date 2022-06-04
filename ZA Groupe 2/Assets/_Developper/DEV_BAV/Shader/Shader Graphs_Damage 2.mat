@@ -26,7 +26,7 @@ Material:
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses: []
@@ -148,6 +148,7 @@ Material:
     - _Modify_Color: 1
     - _Modify_Intensity: 1
     - _Modify_Normal_Intensity: 0
+    - _NoiseStrenght: 0.4
     - _Noise_Scale: 50
     - _NormalMap: 0
     - _Normal_Intensity: 1
@@ -168,6 +169,7 @@ Material:
     - _Surface: 0
     - _Timer: -2.2
     - _UseDamage: 0
+    - _UseMovingVertices: 0
     - _UseOnAlbedo: 0
     - _UseOnEmission: 1
     - _UseWind: 0
@@ -181,10 +183,13 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - Color_c2460159513c48b3b53482409b05bc9d: {r: 1, g: 0, b: 0, a: 0}
+    - _AdjustPosAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _AmplitudeAxis: {r: 0, g: 0, b: 0, a: 0}
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _ColorImpact: {r: 0, g: 0, b: 0, a: 0}
     - _DamageColor: {r: 0.0025007725, g: 1, b: 0, a: 0}
+    - _FrequencyAxis: {r: 0, g: 0, b: 0, a: 0}
     - _FrequencyScaleAxis: {r: 1, g: 1, b: 1, a: 0}
     - _Glow_Color: {r: 1, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
@@ -196,6 +201,7 @@ Material:
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _ScaleMax: {r: 1.6, g: 1.6, b: 1.6, a: 0}
     - _ScaleMin: {r: 1.4, g: 1.4, b: 1.4, a: 0}
+    - _SpeedMoveAxis: {r: 0, g: 0, b: 0, a: 0}
     - _SpeedScaleVertice: {r: 2, g: 2, b: 2, a: 0}
     - _Tex2D: {r: 0, g: 0, b: 0, a: 0}
     - _X_DissolveAxisY_Y_DissolveAxisZ: {r: 1, g: 0, b: 0, a: 0}

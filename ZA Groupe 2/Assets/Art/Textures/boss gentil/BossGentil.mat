@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaMaskMap2D:
-        m_Texture: {fileID: 2800000, guid: 694d0970117bfd040b28d155cdd2e5ca, type: 3}
+        m_Texture: {fileID: 2800000, guid: a6ba825554f58784d998bdb37c0563a6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMapTex2D:
@@ -110,15 +110,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdjustPose: 0
     - _Alpha: 0.5
     - _AlphaClip: 1
-    - _AlphaMask: 1
+    - _AlphaClipUb: 1
+    - _AlphaMask: 0
     - _AlphaMask_Smoothstep_Max: 1
     - _AlphaMask_Smoothstep_Min: 0
     - _AmbiantOcclusionMap: 1
     - _AmbiantOcclusion_Intensity: 1
-    - _AmbiantOcclusion_Smoothstep_Max: 1
+    - _AmbiantOcclusion_Smoothstep_Max: 0.555
     - _AmbiantOcclusion_Smoothstep_Min: 0
+    - _Amplitude: 1
     - _Blend: 0
     - _BumpScale: 1
     - _CastShadows: 1
@@ -127,24 +130,31 @@ Material:
     - _Color_Intensity: 1
     - _Cull: 0
     - _Cutoff: 0.5
+    - _Cutoff_Height: -0.2
     - _DebugWind: 0
+    - _Destruction: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EmissionMap: 1
     - _Emission_Smoothstep_Max: 1
-    - _Emission_Smoothstep_Min: -0.11
+    - _Emission_Smoothstep_Min: 0
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
+    - _FlipAxis_Dam: 0
+    - _FlipAxis_Des: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Glow_Edge_Thickness: 0.1
     - _HSV: 0
     - _HSV_Saturation: 2.57
     - _HSV_Shift: 2.57
     - _HSV_Value: 2.57
     - _HeightMap: 1
     - _Height_Scale: 0.1
+    - _Iteration: 1
+    - _Looping: 0
     - _Manoir: 0
     - _Metallic: 0
     - _MetallicMap: 1
@@ -154,8 +164,10 @@ Material:
     - _Modify_Color: 0
     - _Modify_Intensity: 1
     - _Modify_Normal_Intensity: 1
-    - _NormalMap: 1
-    - _Normal_Intensity: 1
+    - _NoiseStrenght: 0.4
+    - _Noise_Scale: 50
+    - _NormalMap: 0
+    - _Normal_Intensity: 10
     - _OcclusionStrength: 1
     - _OutlineThickness: 6
     - _Parallax: 0.005
@@ -171,8 +183,12 @@ Material:
     - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UseMovingVertices: 0
+    - _UseOnAlbedo: 0
+    - _UseOnEmission: 0
     - _UseWind: 0
     - _WindDensity: 5
     - _WindGradient: 0
@@ -183,12 +199,22 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _AdjustPosAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _AmplitudeAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FrequencyAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _Glow_Color: {r: 1, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _ImpactColor: {r: 1, g: 0, b: 0, a: 0}
+    - _MainTINT: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpeedMoveAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Dam: {r: 0, g: 0, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Des: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7256825129082500520
 MonoBehaviour:

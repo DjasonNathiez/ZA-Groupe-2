@@ -236,6 +236,8 @@ public class TextEffectManager : MonoBehaviour
     public bool cinematicAngleOnly;
     public float durationIfAuto;
     public GameObject toActivate;
+    public Animator[] animations;
+    public string[] clips;
 }
 
 [Serializable]
