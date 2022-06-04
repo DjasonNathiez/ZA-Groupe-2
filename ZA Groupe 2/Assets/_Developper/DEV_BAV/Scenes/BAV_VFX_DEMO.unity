@@ -5216,6 +5216,20 @@ MonoBehaviour:
   enemyStatusPointer: {fileID: 294898680}
   aggroMaterial: {fileID: 2100000, guid: d1740b8e5d4462c4faa664d6070a9c98, type: 2}
   nonAggroMaterial: {fileID: 2100000, guid: 4a5ed008d412c154a9b5cb24d91ab106, type: 2}
+  animationHurt:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationDeath:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hurtAnim: 0
+  hurtTime: 0
   areaToMove: 5
   avoidFront: 2
   timeToGoNextPoint: 0.2
@@ -45889,6 +45903,63 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1001 &994910706
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_RootOrder
+      value: 41
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379121, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3388916613020379124, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
+      propertyPath: m_Name
+      value: VFX_SHIELD 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: af99d59ccbe798848a6a19d5d8953e8c, type: 3}
 --- !u!1 &1006057596
 GameObject:
   m_ObjectHideFlags: 0
@@ -56427,6 +56498,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b45f958c0f49e945865b2c950580c52, type: 3}
+--- !u!1001 &1423934917
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_RootOrder
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329146514512333690, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: m_Name
+      value: VFX_SHIELD
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
 --- !u!1 &1474381974
 GameObject:
   m_ObjectHideFlags: 0
@@ -136770,6 +136898,20 @@ MonoBehaviour:
   enemyStatusPointer: {fileID: 1274546372578945263}
   aggroMaterial: {fileID: 2100000, guid: d1740b8e5d4462c4faa664d6070a9c98, type: 2}
   nonAggroMaterial: {fileID: 2100000, guid: 4a5ed008d412c154a9b5cb24d91ab106, type: 2}
+  animationHurt:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  animationDeath:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hurtAnim: 0
+  hurtTime: 0
   areaToMove: 5
   avoidFront: 2
   timeToGoNextPoint: 0.2
