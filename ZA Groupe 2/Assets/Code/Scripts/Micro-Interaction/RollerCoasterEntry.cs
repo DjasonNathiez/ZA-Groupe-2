@@ -31,6 +31,7 @@ public class RollerCoasterEntry : MonoBehaviour
             rollerCoaster.cam = cam;
             cam.playerFocused = false;
             PlayerManager.instance.transform.position = pos;
+            PlayerManager.instance.EnterDialogue();
         }
 
         if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)

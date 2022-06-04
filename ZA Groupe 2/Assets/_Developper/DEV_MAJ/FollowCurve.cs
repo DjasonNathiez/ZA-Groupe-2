@@ -77,6 +77,7 @@ public class FollowCurve : MonoBehaviour
                 moving = false;
                 control = false;
                 cam.playerFocused = true;
+                PlayerManager.instance.ExitDialogue();
             }
         }
     }

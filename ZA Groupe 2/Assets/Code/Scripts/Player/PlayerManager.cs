@@ -302,7 +302,8 @@ public class PlayerManager : MonoBehaviour
             {
                 m_inputController.Player.Roll.started += Roll;
             }
-
+            m_inputController.Player.Roll.started += RollInput;
+            m_inputController.Player.Roll.canceled += RollInput;
             if (m_isRolling)
             {
                 m_canRoll = false;
@@ -822,9 +823,17 @@ public class PlayerManager : MonoBehaviour
         m_controlState = ControlState.NORMAL;
     }
 
-    void OnRoll()
+    private void RollInput(InputAction.CallbackContext rollInput)
     {
-        buttonAPressed = true;
+        if (rollInput.started)
+        {
+            buttonAPressed = true;
+        }
+
+        if (rollInput.canceled)
+        {
+            buttonAPressed = false;
+        }
     }
     
 

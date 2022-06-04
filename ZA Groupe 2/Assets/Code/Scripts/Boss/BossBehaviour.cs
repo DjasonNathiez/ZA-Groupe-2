@@ -179,8 +179,8 @@ public class BossBehaviour : MonoBehaviour
         
         foreach (var pilone in pilones)
         {
-            if (cableRot > pilone.rotation || cableRot < -pilone.rotation) pilone.pilone.SetActive(false);
-            else pilone.pilone.SetActive(true);
+            if (cableRot > pilone.rotation || cableRot < -pilone.rotation) pilone.pilone.SetActive(true);
+            else pilone.pilone.SetActive(false);
         }
 
         return cableRot;
