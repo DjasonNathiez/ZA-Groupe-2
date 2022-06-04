@@ -78,6 +78,7 @@ public class PlayerManager : MonoBehaviour
     public bool isHurt;
     public bool startTalking;
     public bool isTalking;
+    public int storyState;
 
     [Header("Movements Stats")] public float moveSpeed;
     public float rotationSpeed;

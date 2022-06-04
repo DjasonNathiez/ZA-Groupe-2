@@ -71,6 +71,13 @@ public class FollowCurve : MonoBehaviour
                 cam.cameraPos.rotation = Quaternion.Lerp(points[currentPoint].camAngle, points[0].camAngle, step);
                 cam.cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[0].camZoom, step);
             }
+
+            if (currentPoint > 606)
+            {
+                moving = false;
+                control = false;
+                cam.playerFocused = true;
+            }
         }
     }
 
