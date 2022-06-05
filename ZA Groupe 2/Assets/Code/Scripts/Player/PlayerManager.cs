@@ -980,6 +980,11 @@ public class PlayerManager : MonoBehaviour
         {
             transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
         }
+        else if (other.GetComponent<Grappin>() && inputInteractPushed &&
+                 rope.maximumLenght < other.GetComponent<Grappin>().ropeSizeNecessary)
+        {
+            other.GetComponent<PnjDialoguesManager>().StartDialogue();
+        }
     }
 
     private void ClearAimList()

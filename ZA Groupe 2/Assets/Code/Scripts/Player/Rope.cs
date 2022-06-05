@@ -10,6 +10,8 @@ public class Rope : MonoBehaviour
     public float gripY;
     public float yCheckDistance;
     public LineRenderer rope;
+    public Material unpowered;
+    public Material powered;
     public float checkDistance;
     public List<Node> nodes = new List<Node>();
     public float borderDist = 0.05f;
@@ -545,6 +547,8 @@ public class Rope : MonoBehaviour
             }
         }
         electrocuted = checkedElectrocution;
+        if (electrocuted) rope.material = powered;
+        else rope.material = unpowered;
     }
 
     public void CheckToFall()

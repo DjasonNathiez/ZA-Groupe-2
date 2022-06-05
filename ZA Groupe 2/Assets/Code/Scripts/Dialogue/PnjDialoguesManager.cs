@@ -16,6 +16,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
     [SerializeField] private bool check;
     [SerializeField] private bool automatic;
+    [SerializeField] private bool noTrigger;
     [SerializeField] private bool oneTimeDialogue;
     [SerializeField] private bool destroyAfter;
     [SerializeField] private GameObject objToActive;
@@ -32,11 +33,11 @@ public class PnjDialoguesManager : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!automatic)
+            if (!automatic && !noTrigger)
             {
                 if (button) button.SetActive(true);   
             }
-            else
+            else if(!noTrigger)
             {
                 GameManager.instance.DisableAllEnemy();
                 PlayerManager.instance.EnterDialogue();
@@ -79,7 +80,7 @@ public class PnjDialoguesManager : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         
-        if(!textEffectManager.isDialoguing && other.CompareTag("Player") && !automatic)
+        if(!textEffectManager.isDialoguing && other.CompareTag("Player") && !automatic && !noTrigger)
         {
             if (PlayerManager.instance.buttonAPressed && !check && timer == 0)
             {
@@ -118,7 +119,7 @@ public class PnjDialoguesManager : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isDialoguing)
         {
             
                 dialogueBox.transform.position = new Vector3(960, -320, 0);
