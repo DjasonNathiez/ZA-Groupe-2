@@ -198,6 +198,11 @@ public class PlayerManager : MonoBehaviour
     public AnimationCurve animationHurt;
     public float hurtTime;
     public bool hurtAnim;
+    [Header("Visual Blink")]
+    public AnimationCurve blinkIteration;
+    public AnimationCurve blinkSpeed;
+    public float blinkTime;
+    public bool blinkAnim;
     #endregion
     
 
@@ -320,6 +325,18 @@ public class PlayerManager : MonoBehaviour
             modelKent.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
             modelKent.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
             if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
+        }
+
+        if (blinkAnim)
+        {
+            modelKent.SetFloat("_UseInvincibility", 1);
+            modelKent.SetFloat("_Speed_B", blinkSpeed.Evaluate(Time.time - blinkTime));
+            modelKent.SetFloat("_Iteration_B", blinkIteration.Evaluate(Time.time - blinkTime));
+            if (Time.time - blinkTime > blinkSpeed.keys[animationHurt.keys.Length - 1].time)
+            {
+                blinkAnim = false;
+                modelKent.SetFloat("_UseInvincibility", 0);
+            }
         }
 
         #region Read Input
@@ -781,7 +798,9 @@ public class PlayerManager : MonoBehaviour
                 PlaySFX("P_Hurt");
                 hurtVFX.Play();
                 hurtAnim = true;
+                blinkAnim = true;
                 hurtTime = Time.time;
+                blinkTime = Time.time;
                 GameManager.instance.ui.UpdateHealth();
                 if (!m_attack.isAttacking)
                 {
