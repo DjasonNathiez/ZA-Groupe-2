@@ -18,10 +18,16 @@ public class ElectrocutedProp : MonoBehaviour
     public PuzzleEyePillar eyePillar;
 
     private DUNGEON_PuzzleManager pzManager;
+    public ParticleSystem electricity;
 
     private void Awake()
     {
         pzManager = FindObjectOfType<DUNGEON_PuzzleManager>();
+        
+        if (activated)
+        {
+            electricity.Play();
+        }
     }
 
     public void AddToEyePillar()
