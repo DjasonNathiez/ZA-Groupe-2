@@ -843,10 +843,19 @@ public class PlayerManager : MonoBehaviour
 
     #region VISUAL
 
-    public void SetHat(GameObject hatSelected)
+    public void SetHat()
     {
-        hatMesh.mesh = hatSelected.GetComponent<MeshFilter>().mesh;
-        HatMeshRenderer.material = hatSelected.GetComponent<MeshRenderer>().material;
+        foreach (Hat h in hats)
+        {
+            if (h.hatObj == currentHat)
+            {
+                h.hatObj.SetActive(true);
+            }
+            else
+            {
+                h.hatObj.SetActive(false);
+            }
+        }
     }
     
     public void LoadVFX(ParticleSystem effect)

@@ -80,7 +80,7 @@ public class UIManager : MonoBehaviour
                         }
                     }
                     
-                   // m_player.SetHat();
+                   m_player.SetHat();
                 }
             }
         }
