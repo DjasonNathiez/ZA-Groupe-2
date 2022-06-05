@@ -10,39 +10,33 @@ public class DebugController : MonoBehaviour
     private bool showConsole;
     private string input;
     
-    public static DebugCommand PLAYER_TP;
-    public static DebugCommand RELOAD_SCENE;
     public static DebugCommand SPEED;
+    public static DebugCommand GOD_MOD;
 
     public List<object> commandList;
 
     private void Awake()
     {
-        PLAYER_TP = new DebugCommand("player_tp", "Reset player Position on 0,0,0.", "player_tp", () =>
-        {
-            PlayerManager.instance.gameObject.transform.position = Vector3.zero;
-        });
-        RELOAD_SCENE = new DebugCommand("reload_scene", "Reload current scene", "reload_scene", () =>
-        {
-            GameManager.instance.LoadScene("MAP_Parc");
-        });
         SPEED = new DebugCommand("speed", "Change speed of player to 20", "speed", () =>
         {
             PlayerManager.instance.ChangeSpeedPlayer();
         });
 
+        GOD_MOD = new DebugCommand("god_mod", "", "god_mod", () =>
+        {
+            PlayerManager.instance.SetGodMode();
+        });
+        
             commandList = new List<object>
         {
-            PLAYER_TP,
-            RELOAD_SCENE,
             SPEED,
+            GOD_MOD,
         };
     }
 
     private void Update()
     {
         if (Keyboard.current.tKey.wasPressedThisFrame) showConsole = !showConsole;
-        if (!Keyboard.current.backslashKey.wasPressedThisFrame) return;
         if (!showConsole) return;
         HandleInput();
         input = "";
