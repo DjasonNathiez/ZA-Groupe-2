@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class KonamiCode : MonoBehaviour
 {
+    [Header("Attributs")]
     [SerializeField] public string buffer;
-    [SerializeField] private float maxTimeDif = 1;
     [SerializeField] private Vector2 offset;
-    private List<string> validPatterns = new List<string>() {"UUDDLRLRYA" , "ULDRAUY"};
-    [SerializeField] private float timeDif;
+    [SerializeField] private float maxTimeDif = 1;
+    [Space]
+    [SerializeField] private List<Konamis> validPatterns;
+    private float timeDif;
 
     private bool isUp, isDown, isLeft, isRight, isY, isA;
 
@@ -76,16 +79,48 @@ public class KonamiCode : MonoBehaviour
 
     void checkPatterns()
     {
-        if (buffer.EndsWith(validPatterns[0]))
+        if (buffer.EndsWith(validPatterns[0].inputBuffer))
         {
             PlayerManager.instance.SetGodMode();
             buffer = "";
         }
 
-        if (buffer.EndsWith(validPatterns[1]))
+        if (buffer.EndsWith(validPatterns[1].inputBuffer))
         {
             PlayerManager.instance.ChangeSpeedPlayer();
             buffer = "";
         }
+
+        if (buffer.EndsWith(validPatterns[2].inputBuffer))
+        {
+            PlayerManager.instance.gloves = true;
+            PlayerManager.instance.rope.maximumLenght = 1000f;
+            buffer = "";
+        }
+
+        if (buffer.EndsWith(validPatterns[3].inputBuffer))
+        {
+            PlayerManager.instance.transform.position = new Vector3(27.85f, 2.7f, -99.83f);
+            PlayerManager.instance.manoirLight.SetActive(true);
+            SceneManager.LoadScene("Manoir");
+            buffer = "";
+        }
+
+        if (buffer.EndsWith(validPatterns[4].inputBuffer))
+        {
+            PlayerManager.instance.haveGloves = true;
+            PlayerManager.instance.rope.maximumLenght = 30f;
+            PlayerManager.instance.transform.position = new Vector3(6.34f, 7.8f, -10.74f);
+            SceneManager.LoadScene("MAP_Boss");
+            buffer = "";
+        }
     }
+}
+
+[Serializable]
+public class Konamis
+{
+    public string name;
+    public string inputBuffer;
+    [TextArea] public string description;
 }
