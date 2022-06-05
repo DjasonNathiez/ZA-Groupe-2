@@ -14,14 +14,17 @@ public class Item : MonoBehaviour
     public float amplitude = 0.2f;
     public float floatSpeed = 2f;
     public float height;
+    public bool goToPos;
+    public Vector3 pos;
 
-    private Vector3 possOffset;
+    public Vector3 possOffset;
     private Vector3 tempPos;
     public PnjDialoguesManager PnjDialoguesManager;
 
-    void Start()
+    void Awake()
     {
-        possOffset = transform.position;
+        if(!goToPos) possOffset = transform.position;
+        else possOffset = pos;
         PnjDialoguesManager.dialogue[0].positionCamera = possOffset;
     }
 
@@ -30,7 +33,7 @@ public class Item : MonoBehaviour
         transform.Rotate(new Vector3(0f, Time.unscaledDeltaTime * rotationSpeed, 0f), Space.World);
         tempPos = possOffset;
         tempPos.y += Mathf.Sin(Time.fixedUnscaledTime * Mathf.PI * floatSpeed) * amplitude;
-
         transform.position = Vector3.Lerp(transform.position, possOffset + Vector3.up * height, 5 * Time.deltaTime);
+
     }
 }
