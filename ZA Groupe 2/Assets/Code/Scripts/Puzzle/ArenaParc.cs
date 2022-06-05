@@ -6,48 +6,58 @@ using Random = System.Random;
 
 public class ArenaParc : MonoBehaviour
 {
+    public bool started;
     public List<Wave> waves;
     public List<Transform> spawnPoints;
     public int currentWave;
     public bool spawnNew;
     public List<GameObject> currentSpawned;
     public bool ended;
+    public GameObject doorNorth;
+    public GameObject doorSouth;
     
     [Serializable] public struct Wave
     {
         public List<GameObject> enemy;
     }
 
-    private void Start()
-    {
-        SpawnEnemy();
-    }
-
     private void Update()
     {
-        if (!ended)
+        if (started)
         {
-            if (currentSpawned.Count <= 0)
+            if (!ended)
             {
-                if (currentWave >= waves.Count)
+                if (currentSpawned.Count <= 0)
                 {
-                    ended = true;
+                    if (currentWave >= waves.Count)
+                    {
+                        ended = true;
+                        doorNorth.SetActive(false);
+                        doorSouth.SetActive(false);
+                    }
+                    else
+                    {
+                        currentWave++;
+                        spawnNew = true;
+                    }
                 }
-                else
+
+                if (spawnNew)
                 {
-                    currentWave++;
-                    spawnNew = true;
+                    SpawnEnemy();
                 }
-            }
 
-            if (spawnNew)
-            {
-                SpawnEnemy();
             }
-
-           
         }
 
+    }
+
+    private void OnEnable()
+    {
+        Debug.Log(this);
+        doorNorth.SetActive(true);
+        doorSouth.SetActive(true);
+        SpawnEnemy();
     }
 
 
@@ -55,10 +65,11 @@ public class ArenaParc : MonoBehaviour
     {
         for (int i = 0; i < waves[currentWave].enemy.Count; i++)
         {
-            GameObject newEnemy = Instantiate(waves[currentWave].enemy[i]);
-            newEnemy.transform.position = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)].position;
+            GameObject newEnemy = Instantiate(waves[currentWave].enemy[i], spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count-1)].position, Quaternion.identity);
             newEnemy.GetComponent<AIBrain>().currentArena = this;
             currentSpawned.Add(newEnemy);
+            
+            Debug.Log(newEnemy.gameObject.name + " " + newEnemy.transform.position);
         }
 
         if (waves[currentWave].enemy.Count >= currentSpawned.Count)
