@@ -31,6 +31,7 @@ public class ThrowingWeapon : MonoBehaviour
                 
                 grip.parent = other.transform;
                 playerManager.rope.pinnedTo = other.gameObject;
+                if(other.GetComponent<ValueTrack>()) playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
                 playerManager.rope.CheckElectrocution();
                 
                 if (other.GetComponent<PuzzleBoutton>())
@@ -70,6 +71,7 @@ public class ThrowingWeapon : MonoBehaviour
                 playerManager.state = "Rope";
                 playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.pinnedToObject = true;
+                if(other.GetComponent<ValueTrack>()) playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
                 grip.position = transform.position;
                 grip.parent = other.transform;
