@@ -154,6 +154,7 @@ public class BossBehaviour : MonoBehaviour
         {
             GameObject pillar = Instantiate(pillarGameObject, pos.position, quaternion.identity);
             GameObject vfxpillar = Instantiate(vfx[2], pos.position, quaternion.identity);
+            vfxpillar.transform.rotation = Quaternion.Euler(-90,0,0);
             Destroy(vfxpillar,3);
             pillars.Add(pillar);
         }
@@ -219,11 +220,12 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("Attaque");
         yield return new WaitForSeconds(delay);
         shockWaveGameObject.SetActive(true);
-        shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0);
-        shockWaveGameObject.transform.localScale = new Vector3(2, 0.2f, 2);
+        shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0) + bossDetector.transform.forward*2;
+        shockWaveGameObject.transform.localScale = new Vector3(2, 1, 2);
         material.color = Color.blue;
-        GameObject attack = Instantiate(vfx[6], attackSpawnPlace);
+        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0) + bossDetector.transform.forward*2,quaternion.identity,attackSpawnPlace);
         attack.transform.SetParent(null);
+        attack.transform.rotation = Quaternion.Euler(-90,0,0);
         yield return new WaitForSeconds(shockWaveDuration);
         
         material.color = Color.white;
