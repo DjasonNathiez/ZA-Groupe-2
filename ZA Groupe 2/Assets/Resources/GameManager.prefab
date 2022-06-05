@@ -1648,7 +1648,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -34.34, y: 1.01, z: -78.55}
+  m_LocalPosition: {x: -30.3, y: 2.03, z: -98.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -41559,9 +41559,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffer: 
-  maxTimeDif: 1
   offset: {x: 0.9, y: 0.7}
-  timeDif: 0
+  maxTimeDif: 1
+  validPatterns:
+  - name: God Mod Konami
+    inputBuffer: UUDDLRLRYA
+    description: Set & Unset god mod for player
+  - name: Speedy like Sonic
+    inputBuffer: ULDRAUY
+    description: Change player speed to 20 and back to 6.8
+  - name: Max level Rope
+    inputBuffer: DAUALLRRYDU
+    description: 'Set rope length to 1000 and give gloves '
+  - name: Manoir TP
+    inputBuffer: AYUULRARLLR
+    description: Teleport player to dungeon
+  - name: Boss Teleport
+    inputBuffer: URRLLDUYLRA
+    description: Teleport Player to the Boss
 --- !u!1 &8704114524726881248
 GameObject:
   m_ObjectHideFlags: 0
