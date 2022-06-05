@@ -23,6 +23,7 @@ public class Rope : MonoBehaviour
     public GameObject nodePos;
     public PlayerManager playerManager;
     public GameObject pinnedTo;
+    public ValueTrack pinnedValueTrack;
     public int ropeHealth;
     public float lenghtToStick;
     public bool clamped;
@@ -335,6 +336,7 @@ public class Rope : MonoBehaviour
                     }
                 }
                 pinnedTo = null;
+                pinnedValueTrack = null;
             }
             electrocuted = false;
             clamped = false;

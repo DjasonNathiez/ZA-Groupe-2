@@ -969,7 +969,8 @@ public class PlayerManager : MonoBehaviour
             }
             item.height = 1;
             item.distributed = true;
-            item.PnjDialoguesManager.StartDialogue();
+            if( item.PnjDialoguesManager) item.PnjDialoguesManager.StartDialogue();
+            else Destroy(item.gameObject);
         }
     }
 

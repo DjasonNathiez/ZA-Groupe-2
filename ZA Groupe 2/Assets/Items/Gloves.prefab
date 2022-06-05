@@ -4920,7 +4920,7 @@ MonoBehaviour:
   timer: 0
   auto: 0
   dialogue:
-  - speakingName: 
+  - speakingName: Gants
     text: "Vous avez obtenu les gants d'\xE9lectricien !"
     textEffects: []
     modifyCameraPosition: 1
@@ -4933,7 +4933,7 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
-  - speakingName: 
+  - speakingName: Gants
     text: "Vous pouvez d\xE9sormais planter votre cable dans un g\xE9n\xE9rateur
       \xE9lectrique pour y faire passer du courant."
     textEffects: []
@@ -4952,6 +4952,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   check: 0
   automatic: 0
+  noTrigger: 0
   oneTimeDialogue: 1
   destroyAfter: 1
   objToActive: {fileID: 0}
@@ -4961,6 +4962,9 @@ MonoBehaviour:
   liberateAfter: 0
   liberated: 0
   afterText: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  playerRot: {x: 0, y: 0, z: 0}
+  movePlayer: 0
 --- !u!1001 &4742377473405648920
 PrefabInstance:
   m_ObjectHideFlags: 0
