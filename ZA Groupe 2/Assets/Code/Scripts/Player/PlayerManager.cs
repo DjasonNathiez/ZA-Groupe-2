@@ -183,6 +183,13 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem hurtVFX;
     public ParticleSystem rollVFX;
 
+    public ParticleSystem throwingVFX;
+    public ParticleSystem throwHit;
+    public ParticleSystem throwHitEnemy;
+
+    public ParticleSystem collectVFX;
+    public ParticleSystem kentScaredVFX;
+    
     #endregion
     
     #region HurtImpact
@@ -892,9 +899,9 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
-    public void LoadVFX(ParticleSystem effect)
+    public void LoadVFX(ParticleSystem effect, Transform spawnT)
     {
-        Instantiate(effect, transform.position, Quaternion.identity);
+        Instantiate(effect, spawnT.position, Quaternion.identity);
     }
 
     #endregion
@@ -983,11 +990,13 @@ public class PlayerManager : MonoBehaviour
 
         if (item && !item.distributed)
         {
+            collectVFX.Play();
+            
             switch (item.affectedValue)
             {
                 case "Health":
                     currentLifePoint += item.valuePercentage;
-                  
+                    GameManager.instance.ui.UpdateHealth();
                     break;
 
                 case "Rope":

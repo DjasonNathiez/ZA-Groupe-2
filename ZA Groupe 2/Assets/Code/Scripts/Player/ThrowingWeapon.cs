@@ -47,6 +47,7 @@ public class ThrowingWeapon : MonoBehaviour
                         playerManager.Rewind();
                     }
                 }
+                playerManager.LoadVFX(playerManager.throwHit, other.transform);
                 
                 
             }   
@@ -58,6 +59,7 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<LionBehaviour>())
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
+                    playerManager.LoadVFX(playerManager.throwHitEnemy, other.transform);
                 }
                 
                 if (other.GetComponent<Taupe>())
