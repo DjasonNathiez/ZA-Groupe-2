@@ -61,6 +61,30 @@ public class UIManager : MonoBehaviour
         currentDisplayInt--;
     }
 
+    public void SetHat()
+    {
+        foreach (PlayerManager.Hat playerHat in m_player.hats)
+        {
+            foreach (var uiHat in allDisplayHat)
+            {
+                if (currentDisplayHat == uiHat.hatObj)
+                {
+                    if (uiHat.collected)
+                    {
+                        if (uiHat.hatName == playerHat.hatName)
+                        {
+                            m_player.currentHat = playerHat.hatObj;
+                        }
+                    }
+                    
+                   // m_player.SetHat();
+                }
+            }
+        }
+        
+        
+    }
+
     public void UpdateHat()
     {
         foreach (PlayerManager.Hat playerHat in m_player.hats)
@@ -110,24 +134,7 @@ public class UIManager : MonoBehaviour
                 hat.hatObj.SetActive(true);
             }
         }
-        
-        foreach (PlayerManager.Hat playerHat in m_player.hats)
-        {
-            foreach (var uiHat in allDisplayHat)
-            {
-                if (currentDisplayHat == uiHat.hatObj)
-                {
-                    if (uiHat.collected)
-                    {
-                        if (uiHat.hatName == playerHat.hatName)
-                        {
-                            m_player.currentHat = playerHat.hatObj;
-                        }
-                    }
-                }
-            }
-        }
-        
+
     }
 
 

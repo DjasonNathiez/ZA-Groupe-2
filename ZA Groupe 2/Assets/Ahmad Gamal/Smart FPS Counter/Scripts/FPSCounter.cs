@@ -68,6 +68,9 @@ public class FPSCounter : MonoBehaviour
     private float FPSPeriod = 0;
     private float nextUpdate;
 
+    public int counterListElement;
+    public TextMeshProUGUI counterListText;
+
     private List<float> FPSHistory = new List<float>();
 
     private void Start()
@@ -106,6 +109,9 @@ public class FPSCounter : MonoBehaviour
 
     private void Update()
     {
+        counterListElement = GameManager.instance.grippableObj.Count;
+        counterListText.text = "Grip obj = " + counterListElement;
+        
         FPSAccumulator++;
         if (Time.realtimeSinceStartup > FPSPeriod)
         {
