@@ -35,6 +35,9 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     public Animator animator;
     public GameObject[] vfx;
+    public Transform attackSpawnPlace;
+    public Transform DeathSpawnPlace;
+
     
     [Header("VFX")]
     public ParticleSystem hurtVFX;
@@ -219,7 +222,10 @@ public class BossBehaviour : MonoBehaviour
         shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0);
         shockWaveGameObject.transform.localScale = new Vector3(2, 0.2f, 2);
         material.color = Color.blue;
+        GameObject attack = Instantiate(vfx[6], attackSpawnPlace);
+        attack.transform.SetParent(null);
         yield return new WaitForSeconds(shockWaveDuration);
+        
         material.color = Color.white;
         shockWaveGameObject.SetActive(false);
         state = 1;
@@ -270,7 +276,7 @@ public class BossBehaviour : MonoBehaviour
             {
                 state = 0;
                 animator.Play("Mort");
-                
+                GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
             }
         }
     }
