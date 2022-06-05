@@ -798,7 +798,6 @@ public class PlayerManager : MonoBehaviour
                 PlaySFX("P_Hurt");
                 hurtVFX.Play();
                 hurtAnim = true;
-                blinkAnim = true;
                 hurtTime = Time.time;
                 blinkTime = Time.time;
                 GameManager.instance.ui.UpdateHealth();
@@ -821,6 +820,7 @@ public class PlayerManager : MonoBehaviour
     public IEnumerator InvincibilityFrame()
     {
         isInvincible = true;
+        blinkAnim = true;
         Debug.Log("is invincible");
         yield return new WaitForSeconds(invicibiltyTimer);
         isInvincible = false;
