@@ -18,6 +18,9 @@ public class ValueTrack : MonoBehaviour
     [Header("Outline Attributs")]
     public WeightClass weightClass;
     public MeshRenderer meshRenderer;
+    public Vector3 posCam;
+    public Vector3 rotCam;
+    public bool moveCam;
 
     private void Start()
     {

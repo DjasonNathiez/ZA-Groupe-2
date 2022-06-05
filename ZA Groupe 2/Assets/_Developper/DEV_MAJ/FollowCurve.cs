@@ -16,7 +16,13 @@ public class FollowCurve : MonoBehaviour
     public CameraController cam;
     public Vector3 pos;
     public bool control;
+    public bool check;
     public GameObject canon;
+    public float timer;
+    public float delay;
+    public GameObject bullet;
+    public Transform canonTir;
+    public Transform visee;
 
     private void FixedUpdate()
     {
@@ -27,6 +33,22 @@ public class FollowCurve : MonoBehaviour
                 float angle = Vector2.SignedAngle(new Vector2(PlayerManager.instance.move.x,PlayerManager.instance.move.z), new Vector2(transform.forward.x, transform.forward.z).normalized);
                 angle += PlayerManager.instance.cameraController.transform.eulerAngles.y;
                 canon.transform.localEulerAngles = new Vector3(-90,0,angle);
+
+                if (PlayerManager.instance.buttonAPressed && !check && timer <= 0)
+                {
+                    Shoot();
+                    timer = delay;
+                }
+
+                if (!PlayerManager.instance.buttonAPressed && check) check = false;
+
+                if (timer > 0)
+                {
+                    timer -= Time.deltaTime;
+                }
+
+
+
             }
             step += speed;
 
@@ -80,6 +102,12 @@ public class FollowCurve : MonoBehaviour
                 PlayerManager.instance.ExitDialogue();
             }
         }
+    }
+
+    void Shoot()
+    {
+        GameObject newbullet = Instantiate(bullet,canonTir.position,quaternion.identity);
+        newbullet.GetComponent<Rigidbody>().AddForce((canonTir.position - visee.position).normalized * 10,ForceMode.Impulse);
     }
 
     private void Start()

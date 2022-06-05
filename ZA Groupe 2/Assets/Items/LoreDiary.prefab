@@ -4920,8 +4920,8 @@ MonoBehaviour:
   timer: 0
   auto: 0
   dialogue:
-  - speakingName: 
-    text: Vous avez obtenu plus de longueur de cable !
+  - speakingName: Journal
+    text: Vous avez obtenu le Journal de Blake !
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4933,8 +4933,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
-  - speakingName: 
-    text: "Vous pouvez d\xE9sormais tirer votre cable sur une plus grande distance."
+  - speakingName: Journal
+    text: "Consultez le dans l'\xE9cran de collection dans le menu pause."
     textEffects: []
     modifyCameraPosition: 0
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4951,6 +4951,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   check: 0
   automatic: 0
+  noTrigger: 0
   oneTimeDialogue: 1
   destroyAfter: 1
   objToActive: {fileID: 0}
@@ -4960,6 +4961,9 @@ MonoBehaviour:
   liberateAfter: 0
   liberated: 0
   afterText: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  playerRot: {x: 0, y: 0, z: 0}
+  movePlayer: 0
 --- !u!1001 &1322646249276420942
 PrefabInstance:
   m_ObjectHideFlags: 0

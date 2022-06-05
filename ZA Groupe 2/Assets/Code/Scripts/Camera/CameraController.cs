@@ -43,7 +43,16 @@ public class CameraController : MonoBehaviour
 
         if (playerFocused && m_player)
         {
-            cameraPos.position = m_player.transform.position;   
+            if (PlayerManager.instance.rope.pinnedValueTrack && PlayerManager.instance.rope.pinnedValueTrack.moveCam)
+            {
+                cameraPos.position = PlayerManager.instance.rope.pinnedValueTrack.posCam;
+                cameraPos.rotation = Quaternion.Euler(PlayerManager.instance.rope.pinnedValueTrack.rotCam);
+            }
+            else
+            {
+                cameraPos.position = m_player.transform.position;   
+                cameraPos.rotation = Quaternion.Euler(45,-45,0);   
+            }
         }
     }
 

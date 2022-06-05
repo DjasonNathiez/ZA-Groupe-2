@@ -4920,7 +4920,7 @@ MonoBehaviour:
   timer: 0
   auto: 0
   dialogue:
-  - speakingName: 
+  - speakingName: Chapeau
     text: Vous avez obtenu le Chapeau Grenouille !
     textEffects: []
     modifyCameraPosition: 1
@@ -4933,7 +4933,7 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
-  - speakingName: 
+  - speakingName: Chapeau
     text: "Vous pouvez l'\xE9quiper dans le menu de collection."
     textEffects: []
     modifyCameraPosition: 0
@@ -4951,6 +4951,7 @@ MonoBehaviour:
   cameraController: {fileID: 0}
   check: 0
   automatic: 0
+  noTrigger: 0
   oneTimeDialogue: 1
   destroyAfter: 1
   objToActive: {fileID: 0}
@@ -4960,6 +4961,9 @@ MonoBehaviour:
   liberateAfter: 0
   liberated: 0
   afterText: 0
+  playerPos: {x: 0, y: 0, z: 0}
+  playerRot: {x: 0, y: 0, z: 0}
+  movePlayer: 0
 --- !u!1 &8854826427799972190
 GameObject:
   m_ObjectHideFlags: 0
