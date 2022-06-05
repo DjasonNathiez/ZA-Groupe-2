@@ -28,6 +28,9 @@ public class bossDetector : MonoBehaviour
                     PlayerManager.instance.throwingWeapon.GetComponent<ThrowingWeapon>().grip.parent = PlayerManager.instance.throwingWeapon.transform;
                 }
                 Destroy(other.gameObject);
+                GameObject vfxpillar = Instantiate(m_bossBehaviour.vfx[2], other.transform.position, Quaternion.identity);
+                vfxpillar.transform.rotation = Quaternion.Euler(-90,0,0);
+                Destroy(vfxpillar,3);
                 m_bossBehaviour.rb.velocity = Vector3.zero;
                 StartCoroutine(m_bossBehaviour.ReturnToIddle(1));
                 m_bossBehaviour.animator.Play("DashEnd");
