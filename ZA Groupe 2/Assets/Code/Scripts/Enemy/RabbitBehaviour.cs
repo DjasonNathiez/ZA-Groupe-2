@@ -22,6 +22,13 @@ public class RabbitBehaviour : AIBrain
     [HideInInspector] public Vector3 nearestPoint;
 
     private Material enemyStatutPointerMaterial;
+
+    [Header("Rabbit Self VFX")] 
+    public ParticleSystem chaseBegin;
+    public ParticleSystem chaseContinue;
+    public ParticleSystem chaseEnd;
+    public ParticleSystem chaseSurprise;
+    public ParticleSystem chaseMangaAngry;
     
     void Start()
     {
@@ -67,7 +74,7 @@ public class RabbitBehaviour : AIBrain
             Detection();
             SetColor();
         }
-        
+
         enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
         enemyStatusPointer.SetActive(isAggro);
     }
@@ -76,20 +83,34 @@ public class RabbitBehaviour : AIBrain
     {
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
-        if (player.GetComponent<PlayerManager>().rope.enabled && distanceToPlayer <= dectectionRange)
+        if (player.GetComponent<PlayerManager>().state != "StatusQuo")
         {
-            if (dectectionRange < distanceToNearestPoint && player.GetComponent<PlayerManager>().state != "StatusQuo")
+            if (distanceToPlayer <= dectectionRange && dectectionRange < distanceToNearestPoint && !isAggro)
             {
-                stateMachine = StateMachine.CHASE;
+                chaseBegin.Play();
+                chaseContinue.Play();
+                chaseSurprise.Play();
+                chaseMangaAngry.Play();
+                PlaySFX("R_Aggro");
+                
                 isAggro = true;
+                stateMachine = StateMachine.CHASE;
             }
 
             stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
+            
         }
         else
         {
-            stateMachine = StateMachine.IDLE;
-            isAggro = false;
+            if (isAggro)
+            {
+                stateMachine = StateMachine.IDLE;
+            
+                chaseContinue.Stop();
+                chaseEnd.Play();
+            
+                isAggro = false;
+            }
         }
 
         if (isAggro)

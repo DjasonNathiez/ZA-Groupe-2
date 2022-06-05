@@ -47,11 +47,7 @@ public class ArenaParc : MonoBehaviour
 
            
         }
-        
-        Debug.Log(currentWave);
-        Debug.Log(waves.Count);
-        
-        
+
     }
 
 

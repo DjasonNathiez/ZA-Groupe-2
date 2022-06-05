@@ -69,6 +69,7 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem deathVFX;
     public ParticleSystem explosionVFX;
     public bool explodeOnEvent;
+    public ParticleSystem aggroVFX;
 
     [Header("Visual")] 
     public List<SkinnedMeshRenderer> modelMeshRenderer;
@@ -145,6 +146,11 @@ public class AIBrain : MonoBehaviour
                     if (GetComponent<RabbitBehaviour>() == null)
                     {
                         isAggro = true;
+                        
+                        if (aggroVFX != null)
+                        {
+                            aggroVFX.Play();
+                        }
 
                         if (GetComponent<LionBehaviour>())
                         {

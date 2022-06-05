@@ -90287,6 +90287,7 @@ Transform:
   - {fileID: 2492184568957529657}
   - {fileID: 7608447830817604690}
   - {fileID: 7950434360744043398}
+  - {fileID: 7969731321478684046}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -90360,6 +90361,7 @@ MonoBehaviour:
   deathVFX: {fileID: 478714259778308814}
   explosionVFX: {fileID: 2492184568957529658}
   explodeOnEvent: 0
+  aggroVFX: {fileID: 7969731321478684033}
   modelMeshRenderer:
   - {fileID: 5876374909300912018}
   - {fileID: 1957082996786986401}
@@ -111049,4 +111051,71 @@ Transform:
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5473767685482185351, guid: aca6657081c5bff42965d78971970585, type: 3}
   m_PrefabInstance: {fileID: 6006105893877932076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7301317965716191723
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6227108461447566809}
+    m_Modifications:
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_RootOrder
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.564
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 849300612150092904, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+      propertyPath: m_Name
+      value: VFX_Rabbit_Chase_Surprise
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+--- !u!198 &7969731321478684033 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 849300612150092906, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+  m_PrefabInstance: {fileID: 7301317965716191723}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7969731321478684046 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 849300612150092901, guid: 8f790595565cf5c42a59181b38d50e99, type: 3}
+  m_PrefabInstance: {fileID: 7301317965716191723}
   m_PrefabAsset: {fileID: 0}
