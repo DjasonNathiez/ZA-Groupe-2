@@ -68,6 +68,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public float maxLifePoint;
     [HideInInspector] public bool isInvincible;
     [HideInInspector] public bool haveGloves;
+    public float invicibiltyTimer;
 
     public bool isAttacking;
     public bool isMoving;
@@ -747,6 +748,7 @@ public class PlayerManager : MonoBehaviour
             if (currentLifePoint > 0)
             {
                 currentLifePoint -= damage;
+                StartCoroutine(InvincibilityFrame());
                 PlaySFX("P_Hurt");
                 hurtVFX.Play();
                 GameManager.instance.ui.UpdateHealth();
@@ -765,6 +767,15 @@ public class PlayerManager : MonoBehaviour
                 m_playerStateMachine = PlayerStateMachine.DEAD;
             }
         }
+    }
+
+    public IEnumerator InvincibilityFrame()
+    {
+        isInvincible = true;
+        Debug.Log("is invincible");
+        yield return new WaitForSeconds(invicibiltyTimer);
+        isInvincible = false;
+        Debug.Log("is no longer invincible");
     }
     
     public IEnumerator StartStun(float stunDuration)
