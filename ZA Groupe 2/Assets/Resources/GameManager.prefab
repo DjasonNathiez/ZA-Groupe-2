@@ -1750,6 +1750,7 @@ MonoBehaviour:
   maxLifePoint: 3
   isInvincible: 0
   haveGloves: 0
+  invicibiltyTimer: 0
   isAttacking: 0
   isMoving: 0
   isRolling: 0
@@ -1864,6 +1865,41 @@ MonoBehaviour:
   attackVFX: {fileID: 6896911667257383965}
   hurtVFX: {fileID: 6484041033361083166}
   rollVFX: {fileID: 1360612950402948632}
+  modelKent: {fileID: 2100000, guid: f3e9180fc16a69f4aaaf5c4832fac700, type: 2}
+  animationHurt:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.8898807
+      outSlope: 2.8898807
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06629702
+    - serializedVersion: 3
+      time: 0.054690912
+      value: 1.0048417
+      inSlope: 0.0035445648
+      outSlope: 0.0035445648
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.37661684
+    - serializedVersion: 3
+      time: 0.49562013
+      value: 0.001758208
+      inSlope: -3.4420629
+      outSlope: -3.4420629
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.067773096
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  hurtTime: 0
 --- !u!114 &838435004051609742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8136,7 +8172,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: fa8dad729bd6c1d45937a1c4476334d2, type: 3}
+  - {fileID: 2100000, guid: f3e9180fc16a69f4aaaf5c4832fac700, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

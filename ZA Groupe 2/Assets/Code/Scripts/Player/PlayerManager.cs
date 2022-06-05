@@ -134,6 +134,8 @@ public class PlayerManager : MonoBehaviour
 
     #endregion
 
+
+
     #region Private variables
 
     //Movement
@@ -177,6 +179,14 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem hurtVFX;
     public ParticleSystem rollVFX;
 
+    #endregion
+    
+    #region HurtImpact
+    [Header("Visual Hurt")] 
+    public Material modelKent;
+    public AnimationCurve animationHurt;
+    public float hurtTime;
+    public bool hurtAnim;
     #endregion
     
 
@@ -270,6 +280,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
 
         //animator Set Bool
@@ -291,6 +302,13 @@ public class PlayerManager : MonoBehaviour
         if (isAttacking)
         {
             isRolling = false;
+        }
+        
+        if(hurtAnim)
+        {
+            modelKent.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
+            modelKent.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
+            if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
         }
 
         #region Read Input
@@ -751,8 +769,9 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(InvincibilityFrame());
                 PlaySFX("P_Hurt");
                 hurtVFX.Play();
+                hurtAnim = true;
+                hurtTime = Time.time;
                 GameManager.instance.ui.UpdateHealth();
-            
                 if (!m_attack.isAttacking)
                 {
                     isHurt = true;
@@ -880,7 +899,6 @@ public class PlayerManager : MonoBehaviour
     
     public void RespawnPlayer()
     {
-       
         GameManager.instance.BackToCheckpoint();
         ResetState();
         isDead = false;
