@@ -112,6 +112,9 @@ public class PlayerManager : MonoBehaviour
     public TextEffectManager textEffectManager;
     public CameraController cameraController;
     public GameObject manoirLight;
+
+    [Header("Debug Commands")] 
+    public GameObject godModeText;
     
     //Inventory
     [Header("Inventory")]
@@ -140,6 +143,7 @@ public class PlayerManager : MonoBehaviour
 
     //Movement
     private float m_speed;
+    private bool isSpeedBoost;
     private Vector3 m_moveDirection;
     private bool m_moving;
     private Quaternion m_lookRot;
@@ -1043,10 +1047,24 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeSpeedPlayer()
     {
-        moveSpeed = 20;
+        if (!isSpeedBoost) moveSpeed = 20;
+        else moveSpeed = 6.8f;
     }
-   
-    
+
+    public void SetGodMode()
+    {
+        if (isInvincible)
+        {
+            isInvincible = false;
+            godModeText.SetActive(false);
+        }
+        else
+        {
+            isInvincible = true;
+            godModeText.SetActive(true);
+        }
+        
+    }
     
 
     #region SETUP
