@@ -47,7 +47,7 @@ public class Door : MonoBehaviour
                 transform.position = Vector3.Lerp(transform.position, rotationOpen, Time.deltaTime * 5);
                 if (persistent)
                 {
-                    keysValid = keyNeeded + 1;
+                    keysValid = keyNeeded + 10;
                 }   
             }
             else if (type == "TapeTaupe")

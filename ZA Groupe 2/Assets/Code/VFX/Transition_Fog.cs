@@ -42,7 +42,7 @@ public class Transition_Fog : MonoBehaviour
         Shader.SetGlobalVector("_PlayerPosition", playerPosition);
         Shader.SetGlobalFloat("_TransitionRadius", transitionRadiusXHeightY.x);
         Shader.SetGlobalFloat("_TransitionHeight", transitionRadiusXHeightY.y);
-        Shader.SetGlobalFloat("_FogRadius", isPuzzle ? puzzleFogRadiusXHeightY.x : fogRadiusXHeightY.x);
+        Shader.SetGlobalFloat("_FogRadius", isPuzzle ? Mathf.Lerp(Shader.GetGlobalFloat("_FogRadius"),puzzleFogRadiusXHeightY.x,5*Time.deltaTime) : Mathf.Lerp(Shader.GetGlobalFloat("_FogRadius"),fogRadiusXHeightY.x,5*Time.deltaTime));
         Shader.SetGlobalFloat("_FogHeight", fogRadiusXHeightY.y);
         //Debug.Log(playerPosition.y);
     }

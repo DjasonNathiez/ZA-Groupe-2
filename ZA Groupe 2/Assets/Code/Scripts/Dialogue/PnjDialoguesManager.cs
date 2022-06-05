@@ -10,6 +10,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private TextEffectManager textEffectManager;
     public float timer;
     public bool auto;
+    public int storyState;
     public DialogueLine[] dialogue;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private GameObject button;
@@ -321,7 +322,7 @@ public class PnjDialoguesManager : MonoBehaviour
     
     public void StartDialogue()
     {
-        
+        if (storyState != 0) PlayerManager.instance.storyState = storyState;
         GameManager.instance.DisableAllEnemy();
         if(objToActive) objToActive.SetActive(true);
         if(animation) animation.Play("closePortal");

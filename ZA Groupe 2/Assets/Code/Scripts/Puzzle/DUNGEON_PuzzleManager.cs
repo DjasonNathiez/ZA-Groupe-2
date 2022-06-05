@@ -6,15 +6,15 @@ using UnityEngine;
 public class DUNGEON_PuzzleManager : MonoBehaviour
 {
     public Door[] puzzle;
-    public GameObject[] activationLight;
+    public Collider[] activationLight;
     public Door finalDoor;
 
     private void Update()
     {
 
-        if (puzzle[0].puzzleEnded && puzzle[1].puzzleEnded && puzzle[2].puzzleEnded)
+        if (activationLight[0].enabled && activationLight[1].enabled && activationLight[2].enabled)
         {
-            finalDoor.gameObject.SetActive(false);
+            finalDoor.keysValid = 1;
         }
     }
 }
