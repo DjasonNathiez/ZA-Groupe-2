@@ -246,7 +246,8 @@ public class AIBrain : MonoBehaviour
     {
         yield return new WaitForSeconds(fallTime);
         isFalling = false;
-        
+        canAttack = true;
+        canMove = true;
         if (hitZoneVFX != null)
         {
             hitZoneVFX.gameObject.SetActive(false);  
@@ -339,6 +340,7 @@ public class AIBrain : MonoBehaviour
         isEnable = true;
         isHurt = false;
         canMove = true;
+        canAttack = true;
     }
     
     public void Disable()
