@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
         m_player = FindObjectOfType<PlayerManager>();
         
         UpdateHealth();
+        UpdateHat();
         
         currentDisplayHat = allDisplayHat[currentDisplayInt].hatObj;
 
@@ -52,7 +53,6 @@ public class UIManager : MonoBehaviour
             }
         }
     }
-    
 
     public void DisplayNext()
     {
