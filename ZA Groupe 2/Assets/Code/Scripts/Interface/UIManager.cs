@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class UIManager : MonoBehaviour
     public Material hideMaterial;
     public GameObject currentDisplayHat;
     public int currentDisplayInt;
+    public TextMeshProUGUI hatNameText;
+    public TextMeshProUGUI hatDescriptionText;
 
     private void Awake()
     {
@@ -131,6 +134,16 @@ public class UIManager : MonoBehaviour
             }
             else
             {
+                if (hat.collected)
+                {
+                    hatNameText.text = hat.displayName;
+                    hatDescriptionText.text = hat.description;
+                }
+                else
+                {
+                    hatNameText.text = "?";
+                    hatDescriptionText.text = "???";
+                }
                 hat.hatObj.SetActive(true);
             }
         }

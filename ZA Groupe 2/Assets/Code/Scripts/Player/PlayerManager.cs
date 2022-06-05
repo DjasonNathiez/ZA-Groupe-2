@@ -124,6 +124,8 @@ public class PlayerManager : MonoBehaviour
     [Serializable] public class Hat
     {
         public string hatName;
+        public string displayName;
+        public string description;
         public bool collected;
         public GameObject hatObj;
         public Material baseMaterial;
