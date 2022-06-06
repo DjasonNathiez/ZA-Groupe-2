@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -294,6 +295,24 @@ public class GameManager : MonoBehaviour
     public void Unpause()
     {
         
+    }
+
+    public IEnumerator VoiceSound(int counterSpeak)
+    {
+        for (int i = 0; i < counterSpeak; i++)
+        {
+            SoundManager.PlayFx(AudioManager.instance.voices[i].clip, AudioManager.instance.voices[i].volume);
+            yield return new WaitForSeconds(0.12f);
+        }
+       
+    }
+
+    public void SpeakSound(int counterSpeak)
+    {
+        for (int i = 0; i < counterSpeak; i++)
+        {
+            
+        }
     }
     
     #region Playtest Functions

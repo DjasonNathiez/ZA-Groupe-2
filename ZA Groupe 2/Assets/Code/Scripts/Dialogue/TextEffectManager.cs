@@ -238,6 +238,8 @@ public class TextEffectManager : MonoBehaviour
     public GameObject toActivate;
     public Animator[] animations;
     public string[] clips;
+    public float durationBetweenVoiceSound;
+    public int voiceCombo;
 }
 
 [Serializable]

@@ -85,6 +85,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   colors: []
 --- !u!1 &162404842
 GameObject:
@@ -1175,6 +1177,27 @@ MonoBehaviour:
     loop: 0
     volume: 0.29
   bossSounds: []
+  environment:
+  - soundName: Box_Destruction
+    clip: {fileID: 8300000, guid: c1b0391e2a8989d49a1ec170897e8381, type: 3}
+    loop: 0
+    volume: 0.25
+  - soundName: PressurePlate_On
+    clip: {fileID: 8300000, guid: dd66a3e156439db429ecaaea92344a2f, type: 3}
+    loop: 0
+    volume: 0.5
+  - soundName: PressurePlate_Off
+    clip: {fileID: 8300000, guid: 7d2c6c2a65e29be4ab492dc8442cc121, type: 3}
+    loop: 0
+    volume: 0.5
+  - soundName: PirateBoat_Explosion
+    clip: {fileID: 8300000, guid: c7889020f39bc5645b7bb9444a13611d, type: 3}
+    loop: 0
+    volume: 0.25
+  - soundName: PuzzleSucces
+    clip: {fileID: 8300000, guid: f85f92dfc4703934bb47f462561b89c8, type: 3}
+    loop: 0
+    volume: 0.25
   musics:
   - soundName: Parc_1
     clip: {fileID: 8300000, guid: 24b9b32905f28b84ebe58f3a7cd69bec, type: 3}
@@ -1200,6 +1223,35 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d797c78672274dd4899c7dfc78410f23, type: 3}
     loop: 1
     volume: 0.122
+  voices:
+  - soundName: Voice_1
+    clip: {fileID: 8300000, guid: a8df6c09c66edc24595e2706e00d5026, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_2
+    clip: {fileID: 8300000, guid: 5986827eb273f7a4c90690dbae49f535, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_3
+    clip: {fileID: 8300000, guid: 381e5e8dbe6b399459d723536d25445a, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_4
+    clip: {fileID: 8300000, guid: bfe21bdce581ab64c97f8ad7fcac7834, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_5
+    clip: {fileID: 8300000, guid: 2f30437f2ef540c4184b698d05f11f89, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_6
+    clip: {fileID: 8300000, guid: 153dfc797fb6ad94e8fabee947effc64, type: 3}
+    loop: 0
+    volume: 1
+  - soundName: Voice_7
+    clip: {fileID: 8300000, guid: 04ee816278cf22447bcfac3efc240503, type: 3}
+    loop: 0
+    volume: 1
 --- !u!1 &347325480019437593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,7 +1706,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -35.914, y: 2.03, z: -78}
+  m_LocalPosition: {x: -29.27, y: 1.938, z: -100.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9613,7 +9665,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5611085992882340225
 Transform:
   m_ObjectHideFlags: 0
@@ -9622,7 +9674,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2719977749006521894}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.508}
+  m_LocalPosition: {x: -51.4, y: 47.1, z: -97.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

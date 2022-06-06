@@ -12,6 +12,11 @@ public class PressurePlate : MonoBehaviour
     public Material onMat;
     public Material offMat;
     public MeshRenderer meshRenderer;
+    
+    public AudioClip enterPlateSound;
+    public AudioClip exitPlateSound;
+    public float volume;
+    
     private void OnTriggerEnter(Collider other)
     {
 
@@ -53,6 +58,11 @@ public class PressurePlate : MonoBehaviour
             isActivate = true;
             meshRenderer.material = onMat;
         }
+
+        if (!isActivate)
+        {
+            AudioManager.instance.PlayEnvironment("PressurePlate_On");
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -76,6 +86,8 @@ public class PressurePlate : MonoBehaviour
             meshRenderer.material = offMat;
             foreach (Door door in doors) { door.keysValid--; }
         }
+
+        AudioManager.instance.PlayEnvironment("PressurePlate_Off");
 
     }
 }

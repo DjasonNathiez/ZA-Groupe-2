@@ -12,7 +12,10 @@ public class AudioManager : MonoBehaviour
     public Sounds[] rabbitSounds;
     public Sounds[] bearSounds;
     public Sounds[] bossSounds;
+    public Sounds[] environment;
     public Sounds[] musics;
+    public Sounds[] voices;
+    
     [Serializable]public struct Sounds
     {
         public string soundName;
@@ -33,6 +36,17 @@ public class AudioManager : MonoBehaviour
             if (s.soundName == musicName)
             {
                 SoundManager.PlayMusic(s.clip, s.volume, s.loop);
+            }
+        }
+    }
+
+    public void PlayEnvironment(string enviroName)
+    {
+        foreach (Sounds s in environment)
+        {
+            if (s.soundName == enviroName)
+            {
+                SoundManager.PlayEffect(s.clip, s.volume, s.loop);
             }
         }
     }

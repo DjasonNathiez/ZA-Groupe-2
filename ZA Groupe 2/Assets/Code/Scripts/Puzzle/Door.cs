@@ -20,11 +20,18 @@ public class Door : MonoBehaviour
     public bool puzzleEnded;
     public GameObject[] child;
     public bool startedTapeTaupe;
+    private bool soundLoad;
 
     void Update()
     {
         if (keysValid >= keyNeeded)
         {
+            if (!soundLoad)
+            {
+                AudioManager.instance.PlayEnvironment("PuzzleSucces");
+                soundLoad = true;
+            }
+
             if (type == "Disabling")
             {
                 Collider.enabled = close;

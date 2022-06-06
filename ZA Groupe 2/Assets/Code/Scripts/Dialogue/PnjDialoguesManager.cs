@@ -45,6 +45,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 if(objToActive) objToActive.SetActive(true);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
+                GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
                 if (!dialogue[0].cinematicAngleOnly) dialogueBox.transform.position = new Vector3(960, 18, 0);
@@ -89,6 +90,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 dialogueBox.transform.position = new Vector3(960, 18, 0);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
+                GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
                 if (button) button.SetActive(false);
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
@@ -192,6 +194,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         else
                         {
                             textEffectManager.NextText();
+                            GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[textEffectManager.dialogueIndex].voiceCombo));
                             if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
                             {
                                 cameraController.playerFocused = false;
@@ -267,6 +270,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
+                        GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[textEffectManager.dialogueIndex].voiceCombo));
                         if (dialogue[textEffectManager.dialogueIndex].modifyCameraPosition)
                         {
                             cameraController.playerFocused = false;
