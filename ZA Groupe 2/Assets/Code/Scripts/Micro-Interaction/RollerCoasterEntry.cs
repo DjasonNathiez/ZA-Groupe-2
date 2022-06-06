@@ -18,33 +18,11 @@ public class RollerCoasterEntry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            button.SetActive(true);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player") && PlayerManager.instance.inputInteractPushed && !check)
-        {
-            check = true;
             rollerCoaster.moving = true;
             rollerCoaster.cam = cam;
             cam.playerFocused = false;
             PlayerManager.instance.transform.position = pos;
             PlayerManager.instance.EnterDialogue();
-        }
-
-        if (other.CompareTag("Player") && !PlayerManager.instance.inputInteractPushed && check)
-        {
-            check = false;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            button.SetActive(false);
-            cam.playerFocused = true;
         }
     }
 

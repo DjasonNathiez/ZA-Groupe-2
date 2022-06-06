@@ -9,24 +9,40 @@ public class PressurePlate : MonoBehaviour
     public bool isActivate;
     public Door[] doors;
     public bool multiActivate;
+    public Material onMat;
+    public Material offMat;
+    public MeshRenderer meshRenderer;
     private void OnTriggerEnter(Collider other)
     {
-        numberofCurrent++;
 
-        if (!other.gameObject.GetComponent<Rigidbody>() || isActivate) return;
+        if (!other.gameObject.GetComponent<Rigidbody>()) return;
         if (!multiActivate)
         {
             if (other.CompareTag("Player"))
             {
-                foreach (Door door in doors) { door.keysValid++; }
-                isActivate = true;
+                numberofCurrent++;
+                if (!isActivate)
+                {
+                    foreach (Door door in doors) { door.keysValid++; }
+                    isActivate = true;
+                    meshRenderer.material = onMat;
+                }
             }
             else
             {
+                
                 if (other.gameObject.GetComponent<ValueTrack>() == null) return;
                 if (!other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate) return;
-                foreach (Door door in doors) { door.keysValid++; }
-                isActivate = true;
+                numberofCurrent++;
+                if (!isActivate)
+                {
+                    foreach (Door door in doors)
+                    {
+                        door.keysValid++;
+                    }
+                    meshRenderer.material = onMat;
+                    isActivate = true;
+                }
             }
         }
         else
@@ -35,22 +51,31 @@ public class PressurePlate : MonoBehaviour
             if (!other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate) return;
             foreach (Door door in doors) { door.keysValid++; }
             isActivate = true;
+            meshRenderer.material = onMat;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        numberofCurrent--;
 
         if (other.CompareTag("Player") && !multiActivate)
         {
+            numberofCurrent--;
+            if (numberofCurrent > 0) return;
             isActivate = false;
+            meshRenderer.material = offMat;
             foreach (Door door in doors) { door.keysValid--; }
         }
 
-        if (!other.gameObject.GetComponent<Rigidbody>() || !isActivate) return;
-        if (numberofCurrent > 0) return;
-        isActivate = false;
-        foreach (Door door in doors) { door.keysValid--; }
+        if (other.gameObject.GetComponent<ValueTrack>() &&
+            other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate)
+        {
+            numberofCurrent--;
+            if (numberofCurrent > 0) return;
+            isActivate = false;
+            meshRenderer.material = offMat;
+            foreach (Door door in doors) { door.keysValid--; }
+        }
+
     }
 }

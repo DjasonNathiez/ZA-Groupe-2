@@ -14,7 +14,8 @@ public class InitializerScript : MonoBehaviour
     public GameObject[] unactiveManoir;
     public GameObject[] activeArcade;
     public GameObject[] unactiveArcade;
-    
+    [SerializeField] public Collectable[] collectables;
+
     private void Awake()
     {
         if (PlayerManager.instance.storyState == 1)
@@ -55,6 +56,17 @@ public class InitializerScript : MonoBehaviour
         }
         
         if(changestoryState) PlayerManager.instance.storyState = state;
+
+        foreach (Collectable col in collectables)
+        {
+            foreach (PlayerManager.Hat hat in PlayerManager.instance.hats)
+            {
+                if (hat.hatName == col.name && hat.collected)
+                {
+                    col.loreObj.SetActive(false);
+                }
+            }
+        }
     }
 
     private void Start()
@@ -64,4 +76,11 @@ public class InitializerScript : MonoBehaviour
             PlayerManager.instance.storyState = 0;
         }
     }
+}
+
+[Serializable]
+public class Collectable
+{
+    public GameObject loreObj;
+    public string name;
 }

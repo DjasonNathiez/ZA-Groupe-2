@@ -100,6 +100,7 @@ public class FollowCurve : MonoBehaviour
                 control = false;
                 cam.playerFocused = true;
                 PlayerManager.instance.ExitDialogue();
+                PlayerManager.instance.transform.position = pos;
             }
         }
     }

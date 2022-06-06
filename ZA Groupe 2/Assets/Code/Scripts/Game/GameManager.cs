@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
         }
 
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
-
+       
         CheckScene();
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();

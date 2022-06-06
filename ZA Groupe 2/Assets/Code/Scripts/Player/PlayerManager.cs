@@ -615,8 +615,7 @@ public class PlayerManager : MonoBehaviour
                 throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
             
                 direction = Vector3.forward;
-
-                GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
+                Debug.Log("ouiokpkpas");
                 state = "Throw";
                 playerThrowingWeapon.SetActive(false);
                 rope.enabled = true;
