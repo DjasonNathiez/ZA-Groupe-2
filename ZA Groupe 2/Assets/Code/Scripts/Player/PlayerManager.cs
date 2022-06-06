@@ -698,7 +698,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
             {
-                Debug.Log(m_moveDirection.magnitude);
                 if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
                     isMoving = true;
