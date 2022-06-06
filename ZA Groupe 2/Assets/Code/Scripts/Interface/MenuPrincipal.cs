@@ -20,7 +20,7 @@ public class MenuPrincipal : MonoBehaviour
 
         public void StartTheGame()
         {
-            SceneManager.LoadScene(1);
+            StartCoroutine(GameManager.instance.LoadFirstCinematic());
         }
 
         public void StartCredits()
