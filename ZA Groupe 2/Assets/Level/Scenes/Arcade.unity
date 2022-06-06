@@ -15305,7 +15305,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  goal: 25
+  goal: 30
   reward: {fileID: 1081853692}
 --- !u!114 &1197634536
 MonoBehaviour:
@@ -17626,7 +17626,7 @@ PrefabInstance:
     - target: {fileID: 4449776893922574306, guid: 9b059304035bfc14a8a5b9ad0a1cb180, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 003a46d8b54372a43b37d26f9f931668, type: 2}
+      objectReference: {fileID: 2100000, guid: a5fa969b4dccf4144bbce50d7fa8ab1d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b059304035bfc14a8a5b9ad0a1cb180, type: 3}
 --- !u!4 &1413433091 stripped
@@ -21150,6 +21150,9 @@ MonoBehaviour:
   onMat: {fileID: 0}
   offMat: {fileID: 0}
   meshRenderer: {fileID: 0}
+  enterPlateSound: {fileID: 0}
+  exitPlateSound: {fileID: 0}
+  volume: 0
 --- !u!65 &1722004980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21590,6 +21593,9 @@ MonoBehaviour:
   position: {x: -88.465195, y: 12.811825, z: -38.912094}
   setFalseLight: 0
   setTrueLight: 0
+  timeBeforeSceneChange: 0
+  timeBeforeTimeBeforeSceneChange: 0
+  doorToActivate: {fileID: 0}
 --- !u!65 &1777719639
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25296,7 +25302,7 @@ PrefabInstance:
     - target: {fileID: 4449776893922574306, guid: 9b059304035bfc14a8a5b9ad0a1cb180, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 003a46d8b54372a43b37d26f9f931668, type: 2}
+      objectReference: {fileID: 2100000, guid: a5fa969b4dccf4144bbce50d7fa8ab1d, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b059304035bfc14a8a5b9ad0a1cb180, type: 3}
 --- !u!4 &2091039288 stripped
