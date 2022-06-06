@@ -579,7 +579,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && state == "StatusQuo")
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && state == "StatusQuo" && m_controlState != ControlState.DIALOGUE)
             {
                 m_canRoll = false;
                 m_attack.isAttacking = true;
@@ -688,43 +688,40 @@ public class PlayerManager : MonoBehaviour
         move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
 
         if (moveInput.performed)
-        { 
-       
-            if (!m_isRolling && !m_attack.isAttacking && !isDead)
+        {
+            if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
             {
-                isMoving = true;
-                
-                if (poufpoufTimer < poufpoufTime)
+                Debug.Log(m_moveDirection.magnitude);
+                if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
-                    poufpoufTimer += Time.deltaTime;
-                }
-                else
-                {
-                    poufpoufTimer = 0;
-                    poufpoufInstantiated = true;
-                    GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
-                    go.transform.parent = this.GameObject().transform;
+                    isMoving = true;
+
+                    if (poufpoufTimer < poufpoufTime)
+                    {
+                        poufpoufTimer += Time.deltaTime;
+                    }
+                    else
+                    {
+                        poufpoufTimer = 0;
+                        poufpoufInstantiated = true;
+                        GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
+                        go.transform.parent = this.GameObject().transform;
+                    }
                 }
             }
-         
-
-
+            else
+            {
+                isMoving = false;
+            }
+            
             m_moving = true;
-
+            
             //Rotation
-            if (!isDead)
+            if (!isDead && m_controlState != ControlState.DIALOGUE)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
                 rb.MoveRotation(lookRotation);
             }
-
-
-            // m_lookRot = Quaternion.LookRotation(m_moveDirection);
-            // rb.DORotate(m_lookRot.eulerAngles, rotationSpeed);
-
-            //FX
-
-            //Instantiate(Poufpouf, transform.position, Quaternion.identity);
         }
 
         if (moveInput.canceled)
