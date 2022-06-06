@@ -198,6 +198,7 @@ public class BossBehaviour : MonoBehaviour
         vfx[3].SetActive(true);
         vfx[3].GetComponent<ParticleSystem>().Stop();
         vfx[3].GetComponent<ParticleSystem>().Play();
+        //GameObject DashVFX = Instantiate(vfx[3], transform.position, quaternion.identity);
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
         dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
         transform.rotation = Quaternion.LookRotation(dashDirection);
