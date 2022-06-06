@@ -32,6 +32,7 @@ public class ArenaParc : MonoBehaviour
                     if (currentWave >= waves.Count)
                     {
                         ended = true;
+                        AudioManager.instance.PlayEnvironment("ArenaSucces");
                         doorNorth.SetActive(false);
                         doorSouth.SetActive(false);
                     }
