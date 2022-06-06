@@ -15,6 +15,8 @@ public class AudioManager : MonoBehaviour
     public Sounds[] environment;
     public Sounds[] musics;
     public Sounds[] voices;
+
+    public bool secretSoundActivated;
     
     [Serializable]public struct Sounds
     {

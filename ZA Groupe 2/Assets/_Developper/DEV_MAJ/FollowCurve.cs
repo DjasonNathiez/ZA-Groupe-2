@@ -101,12 +101,15 @@ public class FollowCurve : MonoBehaviour
                 cam.playerFocused = true;
                 PlayerManager.instance.ExitDialogue();
                 PlayerManager.instance.transform.position = pos;
+                GameManager.instance.CheckScene();
+                FindObjectOfType<RollerCoasterEntry>().statue.GetComponent<Animator>().enabled = false;
             }
         }
     }
 
     void Shoot()
     {
+        AudioManager.instance.PlayEnvironment("FireworkShoot");
         GameObject newbullet = Instantiate(bullet,canonTir.position,quaternion.identity);
         newbullet.GetComponent<Rigidbody>().AddForce((canonTir.position - visee.position).normalized * 10,ForceMode.Impulse);
     }
