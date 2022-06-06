@@ -215,13 +215,19 @@ public class RabbitBehaviour : AIBrain
         {
             if (distanceToPoints.Count > detectedPoints.Length)
             {
-                foreach (float f in distanceToPoints)
+                List<int> indexes = new List<int>(0);
+
+                for (int x = 0; x < distanceToPoints.Count; x++)
                 {
                     for (int i = detectedPoints.Length; i < distanceToPoints.Count; i++)
                     {
-                        distanceToPoints.Remove(f);
-                        break;
+                        indexes.Add(x);
                     }
+                }
+
+                for (int i = indexes.Count-1; i > -1; i--)
+                {
+                    distanceToPoints.RemoveAt(i);
                 }
             }
         }
