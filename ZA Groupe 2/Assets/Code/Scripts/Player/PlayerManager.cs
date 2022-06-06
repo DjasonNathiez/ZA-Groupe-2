@@ -296,7 +296,11 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-
+        if (storyState == 1 && !GameManager.instance.dungeonEnded)
+        {
+            GameManager.instance.dungeonEnded = true;
+        }
+        
         Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
 
         //animator Set Bool

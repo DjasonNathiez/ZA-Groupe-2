@@ -123,6 +123,7 @@ public class TapeTaupeArcade : MonoBehaviour
             directionalOn.SetActive(false);
             timer = 60;
             score = 0;
+            AudioManager.instance.SetMusic("Arcade");
         }
     }
     
@@ -139,6 +140,7 @@ public class TapeTaupeArcade : MonoBehaviour
             directionalOff.SetActive(false);
             directionalOn.SetActive(true);
             if(reward && score >= goal) reward.SetActive(true);
+            AudioManager.instance.SetMusic(GameManager.instance.dungeonEnded ? "Parc_2" : "Parc_1");
         }
     }
     
