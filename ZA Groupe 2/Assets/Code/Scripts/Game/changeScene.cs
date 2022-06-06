@@ -17,7 +17,7 @@ public class changeScene : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            doorToActivate.keysValid++;
+            if (doorToActivate)doorToActivate.keysValid++;
             PlayerManager.instance.EnterDialogue();
             StartCoroutine(ChangeScene());
         }
