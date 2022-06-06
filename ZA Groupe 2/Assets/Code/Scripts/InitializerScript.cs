@@ -14,6 +14,7 @@ public class InitializerScript : MonoBehaviour
     public GameObject[] unactiveManoir;
     public GameObject[] activeArcade;
     public GameObject[] unactiveArcade;
+    public GameObject toDestroyOn2;
     [SerializeField] public Collectable[] collectables;
 
     private void Awake()
@@ -41,6 +42,11 @@ public class InitializerScript : MonoBehaviour
             {
                 obj.SetActive(false);
             }
+        }
+
+        if (PlayerManager.instance.storyState == 2 && toDestroyOn2)
+        {
+            Destroy(toDestroyOn2);
         }
 
         if(changestoryState) PlayerManager.instance.storyState = state;
