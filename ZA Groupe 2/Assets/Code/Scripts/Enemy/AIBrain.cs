@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class AIBrain : MonoBehaviour
 {
@@ -314,6 +315,11 @@ public class AIBrain : MonoBehaviour
         Disable();
         
         GetComponent<CapsuleCollider>().isTrigger = true;
+        
+        if (GetComponentInChildren<CapsuleCollider>())
+        {
+            GetComponentInChildren<CapsuleCollider>().isTrigger = true;
+        }
 
         if (deathVFX != null)
         {
@@ -330,8 +336,31 @@ public class AIBrain : MonoBehaviour
         StartCoroutine(WaitForDestroy());
     }
 
+    void DropLoot()
+    {
+        int i = Random.Range(0, 100);
+        
+        if (GetComponent<LionBehaviour>())
+        {
+            if (i >= 77)
+            {
+                GameManager.instance.DropItem("Health", transform);
+            }
+        }
+
+        if (GetComponent<BearBehaviour>())
+        {
+            if (i >= 50)
+            {
+                GameManager.instance.DropItem("Health", transform);
+            }
+        }
+        
+    }
+    
     IEnumerator WaitForDestroy()
     {
+        DropLoot();
         yield return new WaitForSeconds(2.5f);
         Destroy(gameObject);
     }
