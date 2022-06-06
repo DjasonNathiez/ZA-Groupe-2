@@ -8,12 +8,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    
-    [Header("Game")]
+
+    [Header("Game")] 
+    public bool isStartGM;
     public GameObject player;
     private PlayerManager m_playerManager;
     public new GameObject camera;
@@ -80,7 +82,10 @@ public class GameManager : MonoBehaviour
                 ROPE
             }
         }
-        
+
+        [Header("Cinematics")] 
+        public VideoPlayer firstCinematic;
+        public VideoPlayer lastCinematic;
     
     private void Start()
     {
@@ -89,7 +94,10 @@ public class GameManager : MonoBehaviour
 
     public void Initialize()
     {
-        DontDestroyOnLoad(gameObject);
+        if (!isStartGM)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         if (instance == null)
         {
@@ -317,9 +325,18 @@ public class GameManager : MonoBehaviour
     
     public void CheckScene()
     {
+        
+        if (SceneManager.GetActiveScene().name == "Menu_Principal")
+        {
+            ui.hudParent.SetActive(false);
+            player.SetActive(false);
+        }
+        
         if (SceneManager.GetActiveScene().name == parcScene)
         {
             AudioManager.instance.SetMusic(dungeonEnded ? "Parc_2" : "Parc_1");
+            ui.hudParent.SetActive(true);
+            player.SetActive(true);
         }
 
         if (SceneManager.GetActiveScene().name == dungeonScene)
@@ -432,4 +449,22 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    
+    public IEnumerator LoadFirstCinematic()
+    {
+        SoundManager.StopAll();
+        firstCinematic.Play();
+        yield return new WaitForSeconds(50);
+        LoadScene("MAP_Parc");
+        firstCinematic.Stop();
+    }
+    
+    public IEnumerator LoadEndCinematic()
+    {
+        SoundManager.StopAll();
+        lastCinematic.Play();
+        yield return new WaitForSeconds(72);
+        LoadScene("Main_Menu");
+    }
 }
