@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: c30280387247b9148ba0428a17c7d6b1, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -2606,8 +2606,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897e596834cb916419bf0925f05e3fd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  active: []
-  unactive: []
+  changestoryState: 1
+  state: 2
+  activePost: []
+  unactivePost: []
+  activeManoir: []
+  unactiveManoir: []
+  activeArcade: []
+  unactiveArcade: []
 --- !u!4 &209011911
 Transform:
   m_ObjectHideFlags: 0
@@ -15268,7 +15274,7 @@ MonoBehaviour:
   light: {fileID: 1977757050}
   directionalOn: {fileID: 1642807556}
   directionalOff: {fileID: 440004588}
-  timer: 60
+  timer: 50
   timerText: {fileID: 1347863784}
   scoreText: {fileID: 1896207589}
   score: 0
@@ -15296,7 +15302,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  goal: 40
+  goal: 25
   reward: {fileID: 1081853692}
 --- !u!114 &1197634536
 MonoBehaviour:
