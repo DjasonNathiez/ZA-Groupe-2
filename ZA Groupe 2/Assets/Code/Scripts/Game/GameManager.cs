@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public float delaytransition;
     public bool transitionOn;
     public bool transitionOff;
+    public GameObject loading;
 
     [Header("Sound")] 
     public Slider mainSlider;
@@ -148,7 +149,9 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                transition.SetFloat("_Scale", 0);
                 timertransition = delaytransition;
+                loading.SetActive(true);
                 transitionOff = false;
             }
         }
@@ -156,11 +159,13 @@ public class GameManager : MonoBehaviour
         {
             if (timertransition > 0)
             {
+                loading.SetActive(false);
                 transition.SetFloat("_Scale",Mathf.Lerp(7,0,timertransition/delaytransition));
                 timertransition -= Time.deltaTime;
             }
             else
             {
+                transition.SetFloat("_Scale", 7);
                 timertransition = delaytransition;
                 transitionOn = false;
             }
