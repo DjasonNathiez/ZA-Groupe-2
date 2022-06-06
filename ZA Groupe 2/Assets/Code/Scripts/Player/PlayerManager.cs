@@ -1074,7 +1074,11 @@ public class PlayerManager : MonoBehaviour
     {
         foreach (ValueTrack obj in GameManager.instance.grippableObj)
         {
-            if (obj.meshRenderer == null || obj == null) GameManager.instance.grippableObj.Remove(obj);
+            if (obj.meshRenderer == null || obj == null)
+            {
+                Debug.Log("WOOOOOOW");
+                GameManager.instance.grippableObj.Remove(obj);
+            }
             if (obj.meshRenderer == null) return;
             obj.meshRenderer.material.SetFloat("_EnableOutline",0);
             if (!obj.isEnemy) continue;

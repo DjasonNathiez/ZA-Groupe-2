@@ -11,6 +11,7 @@ public class BossBehaviour : MonoBehaviour
     public int state;
     [FormerlySerializedAs("m_phase")] [SerializeField] private int phase;
     [SerializeField] private float walkingSpeed;
+    [SerializeField] private float walkingSpeed3;
     [SerializeField] private float dashingSpeed;
     [FormerlySerializedAs("m_rb")] [SerializeField]
     public Rigidbody rb;
@@ -21,10 +22,13 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private GameObject shockWaveGameObject;
     [SerializeField] private GameObject rabbitGameObject;
     [SerializeField] private float timeBetweenAttacks;
+    [SerializeField] private float timeBetweenAttackPhaseThree;
     [SerializeField] private float timeStamp;
     [SerializeField] private float detectionDist;
     [SerializeField] private float shockWaveSpeed = 1;
+    [SerializeField] private float shockWaveSpeed3 = 1;
     [SerializeField] private float shockWaveDuration;
+    [SerializeField] private float shockWaveDuration2;
     [SerializeField] private Vector3 dashDirection;
     [SerializeField] public List<GameObject> pillars;
     [SerializeField] private List<GameObject> cableNodes;
@@ -37,6 +41,12 @@ public class BossBehaviour : MonoBehaviour
     public GameObject[] vfx;
     public Transform attackSpawnPlace;
     public Transform DeathSpawnPlace;
+    public AnimationCurve animationHurt;
+    public bool hurtAnim;
+    public float hurtTime;
+    public Material aggroMaterial;
+    public List<SkinnedMeshRenderer> modelMeshRenderer;
+    public List<MeshRenderer> modelMeshRenderer2;
 
     
     [Header("VFX")]
@@ -50,6 +60,16 @@ public class BossBehaviour : MonoBehaviour
         material = new Material(material);
         GetComponent<MeshRenderer>().material = material;
         animator.Play("Marche");
+        aggroMaterial = new Material(aggroMaterial);
+        foreach (SkinnedMeshRenderer mesh in modelMeshRenderer)
+        {
+            mesh.material = aggroMaterial;
+        }
+        foreach (MeshRenderer mesh in modelMeshRenderer2)
+        {
+            mesh.material = aggroMaterial;
+        }
+        
     }
 
     void Update()
@@ -108,6 +128,14 @@ public class BossBehaviour : MonoBehaviour
                     StartCoroutine(Dash(0.2f));
                 }
             }
+        }
+        
+        if (hurtAnim)
+        {
+            aggroMaterial.SetFloat("_UseOnAlbedo",animationHurt.Evaluate(Time.time - hurtTime));
+            aggroMaterial.SetFloat("_UseOnEmission",animationHurt.Evaluate(Time.time - hurtTime));
+            
+            if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
         }
 
         if (shockWaveGameObject.activeSelf)
@@ -268,12 +296,20 @@ public class BossBehaviour : MonoBehaviour
             {
                 hurtVFX.Play();
             }
-
+            hurtAnim = true;
+            hurtTime = Time.time;
             if (phase < 2)
             {
                 state = 0;
                 StartCoroutine(StandUp(2));
                 phase++;
+                if (phase == 2)
+                {
+                    timeBetweenAttacks = timeBetweenAttackPhaseThree;
+                    shockWaveDuration = shockWaveDuration2;
+                    shockWaveSpeed = shockWaveSpeed3;
+                    walkingSpeed = walkingSpeed3;
+                }
             }
             else
             {
