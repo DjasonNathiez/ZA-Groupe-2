@@ -16,8 +16,6 @@ GameObject:
   - component: {fileID: 1978202092}
   - component: {fileID: 1978202091}
   - component: {fileID: 1978202093}
-  - component: {fileID: 2680156783231076443}
-  - component: {fileID: 47462095885690491}
   m_Layer: 0
   m_Name: P_Generator_01
   m_TagString: GrippableObject
@@ -107,6 +105,9 @@ MonoBehaviour:
   canActivatePressurePlate: 0
   weightClass: 0
   meshRenderer: {fileID: 0}
+  posCam: {x: 0, y: 0, z: 0}
+  rotCam: {x: 0, y: 0, z: 0}
+  moveCam: 0
 --- !u!65 &8219278616058711792
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -171,41 +172,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2680156783231076443
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4577702502838773787}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.7619293, y: 3.368956, z: 6.930912}
-  m_Center: {x: -0.0010864451, y: -0.28573656, z: 3.4643736}
---- !u!114 &47462095885690491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4577702502838773787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883f72fd2dc3f6449963dc595567468e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activated: 1
-  sender: 1
-  isOn: 0
-  door: []
-  CinematicEnvent: {fileID: 0}
-  enablecinematic: 0
-  offMesh: {fileID: 0}
-  isEyePillar: 0
-  eyePillar: {fileID: 0}
-  electricity: {fileID: 0}
 --- !u!1001 &1596844798836199287
 PrefabInstance:
   m_ObjectHideFlags: 0

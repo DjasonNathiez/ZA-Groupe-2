@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaMaskMap2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMapTex2D:
         m_Texture: {fileID: 2800000, guid: b249373170d7e64408777def0dd15876, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -118,13 +122,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AdjustPose: 0
     - _Alpha: 1
     - _AlphaClip: 0
+    - _AlphaClipUb: 1
+    - _AlphaMask: 0
+    - _AlphaMask_Smoothstep_Max: 1
+    - _AlphaMask_Smoothstep_Min: 0
     - _AmbiantOcclusionMap: 1
     - _AmbiantOcclusionMap__Int: 1
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1
     - _AmbiantOcclusion_Smoothstep_Min: 0
+    - _Amplitude: 1
     - _BaseColor_UV: 1
     - _Blend: 0
     - _BumpScale: 1
@@ -135,6 +145,9 @@ Material:
     - _Cull: 2
     - _CutOff: 0.5
     - _Cutoff: 0.5
+    - _Cutoff_Height: -0.2
+    - _DebugWind: 0
+    - _Destruction: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -144,16 +157,22 @@ Material:
     - _Emission_Smoothstep_Min: 1
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
+    - _FlipAxis_Dam: 0
+    - _FlipAxis_Des: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HSV: 0
+    - _Glow_Edge_Thickness: 0.1
+    - _HSV: 1
     - _HSV_Saturation: 1
     - _HSV_Shift: 1
     - _HSV_Value: 1
     - _HSV__Int: 0
     - _HeightMap: 1
     - _Height_Scale: 0.1
+    - _Iteration_B: 10
+    - _Iteration_D: 1
+    - _Looping: 0
     - _Manoir: 0
     - _Metallic: 0
     - _MetallicMap: 1
@@ -163,9 +182,11 @@ Material:
     - _Metallic_Smoothstep_Min: 1
     - _Modify_Color: 1
     - _Modify_Color__Int: 0
-    - _Modify_Intensity: 0
+    - _Modify_Intensity: 1
     - _Modify_Intensity__Int: 1
     - _Modify_Normal_Intensity: 0
+    - _NoiseStrenght: 0.4
+    - _Noise_Scale: 50
     - _NormalMap: 0
     - _Normal_Intensity: 1
     - _OcclusionStrength: 1
@@ -180,24 +201,46 @@ Material:
     - _Roughness_Intensity: 0
     - _Roughness_Smoothstep_Max: 1
     - _Roughness_Smoothstep_Min: 0
+    - _SmoothMovementVertices: 0
     - _Smoothness: 0.5
     - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _Speed_B: 1
+    - _Speed_D: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UseInvincibility: 0
+    - _UseMovingVertices: 0
+    - _UseOnAlbedo: 0
+    - _UseOnEmission: 0
+    - _UseWind: 0
+    - _WindDensity: 5
+    - _WindGradient: 0
+    - _WindSpeed: 0.1
+    - _WindStrengh: 16
     - _WorkflowMode: 1
     - _ZTest: 4
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
+    - _AdjustPosAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _AmplitudeAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _BackgroundColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FrequencyAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _Glow_Color: {r: 1, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
+    - _ImpactColor: {r: 1, g: 0, b: 0, a: 0}
+    - _MainTINT: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
     - _SmoothStep_X_Y: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _SpeedMoveAxis: {r: 0, g: 0, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Dam: {r: 0, g: 0, b: 0, a: 0}
+    - _X_DissolveAxisY_Y_DissolveAxisZ_Des: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4871133814825880556
 MonoBehaviour:
