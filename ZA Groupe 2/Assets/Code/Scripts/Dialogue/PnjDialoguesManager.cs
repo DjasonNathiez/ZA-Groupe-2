@@ -30,6 +30,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private Vector3 playerPos;
     [SerializeField] private Vector3 playerRot;
     [SerializeField] private bool movePlayer;
+    [SerializeField] private Teleporter teleporter;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -163,6 +164,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                         {
                             GameManager.instance.EnableAllEnemy();
+                            if(teleporter) teleporter.StartTP();
                             dialogueBox.transform.position = new Vector3(960, -320, 0);
                             textEffectManager.isDialoguing = false;
                             isDialoguing = false;
