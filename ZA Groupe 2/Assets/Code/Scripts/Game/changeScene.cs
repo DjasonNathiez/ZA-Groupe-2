@@ -26,8 +26,8 @@ public class changeScene : MonoBehaviour
     public IEnumerator ChangeScene()
     {
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
-        
-        yield return new WaitForSeconds(timeBeforeSceneChange);
+        GameManager.instance.transitionOff = true;
+        yield return new WaitForSeconds(1);
         PlayerManager.instance.transform.position = position;
         PlayerManager.instance.cameraController.transform.position = position;
         if (setTrueLight) PlayerManager.instance.manoirLight.SetActive(true);

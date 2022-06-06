@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
     public GameObject characterPanel;
     public GameObject settingsPanel;
     public GameObject currentTab;
+    public Material transition;
+    public float timertransition;
+    public float delaytransition;
+    public bool transitionOn;
+    public bool transitionOff;
 
     [Header("Sound")] 
     public Slider mainSlider;
@@ -113,6 +118,8 @@ public class GameManager : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(SetFxVolume);
         environmentSlider.onValueChanged.AddListener(SetEffectVolume);
 
+        transitionOn = true;
+
     }
 
     private void OnEnable()
@@ -128,6 +135,33 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (inputDisplayFPS.triggered) fpsCounter.SetActive(!fpsCounter.activeSelf);
+
+        if (transitionOff)
+        {
+            if (timertransition > 0)
+            {
+                transition.SetFloat("_Scale",Mathf.Lerp(0,7,timertransition/delaytransition));
+                timertransition -= Time.deltaTime;
+            }
+            else
+            {
+                timertransition = delaytransition;
+                transitionOff = false;
+            }
+        }
+        if (transitionOn)
+        {
+            if (timertransition > 0)
+            {
+                transition.SetFloat("_Scale",Mathf.Lerp(7,0,timertransition/delaytransition));
+                timertransition -= Time.deltaTime;
+            }
+            else
+            {
+                timertransition = delaytransition;
+                transitionOn = false;
+            }
+        }
     }
 
     public void EnableAllEnemy()

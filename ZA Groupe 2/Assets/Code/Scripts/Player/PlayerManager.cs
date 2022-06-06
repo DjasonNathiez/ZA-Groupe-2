@@ -1059,7 +1059,7 @@ public class PlayerManager : MonoBehaviour
         if (other.GetComponent<Grappin>() && inputInteractPushed &&
             rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
         {
-            transform.DOMove(other.GetComponent<Grappin>().pointToGo.position, grappleFlySpeed);
+            other.GetComponent<Grappin>().StartGrappin();
         }
         else if (other.GetComponent<Grappin>() && inputInteractPushed &&
                  rope.maximumLenght < other.GetComponent<Grappin>().ropeSizeNecessary)
