@@ -25,7 +25,7 @@ public class Item : MonoBehaviour
     {
         if(!goToPos) possOffset = transform.position;
         else possOffset = pos;
-        PnjDialoguesManager.dialogue[0].positionCamera = possOffset;
+        if(PnjDialoguesManager) PnjDialoguesManager.dialogue[0].positionCamera = possOffset;
     }
 
     private void Update()

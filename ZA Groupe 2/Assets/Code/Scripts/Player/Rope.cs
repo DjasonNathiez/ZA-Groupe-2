@@ -311,7 +311,7 @@ public class Rope : MonoBehaviour
             }
         }
         
-        if (Vector3.SqrMagnitude(rope.GetPosition(rope.positionCount-2) - rope.GetPosition(rope.positionCount-1)) > remainingLenght * remainingLenght)
+        if (Vector3.SqrMagnitude(rope.GetPosition(rope.positionCount-2) - rope.GetPosition(rope.positionCount-1)) > remainingLenght * remainingLenght && PlayerManager.instance.state == "Rope")
         {
 
             Vector3 newPos = (rope.GetPosition(rope.positionCount - 2)+rope.transform.position) + (transform.position - (rope.GetPosition(rope.positionCount - 2)+rope.transform.position)).normalized * remainingLenght;
@@ -422,8 +422,11 @@ public class Rope : MonoBehaviour
 
     public void OnClamp()
     {
-        clamped = true;
-        lenghtToStick = lenght;
+        if (PlayerManager.instance.state == "Rope")
+        {
+            clamped = true;
+            lenghtToStick = lenght;
+        }
     }
     
     public void OnUnclamp()
