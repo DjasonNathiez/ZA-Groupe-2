@@ -18,7 +18,7 @@ public class InitializerScript : MonoBehaviour
 
     private void Awake()
     {
-        if (PlayerManager.instance.storyState == 1)
+        if (PlayerManager.instance.storyState >= 1)
         {
             GameManager.instance.Initialize();
             foreach (GameObject obj in activePost)
@@ -42,19 +42,7 @@ public class InitializerScript : MonoBehaviour
                 obj.SetActive(false);
             }
         }
-        else if (PlayerManager.instance.storyState == 2)
-        {
-            GameManager.instance.Initialize();
-            foreach (GameObject obj in activeArcade)
-            {
-                obj.SetActive(true);
-            }
-            foreach (GameObject obj in unactiveArcade)
-            {
-                obj.SetActive(false);
-            }
-        }
-        
+
         if(changestoryState) PlayerManager.instance.storyState = state;
 
         foreach (Collectable col in collectables)
