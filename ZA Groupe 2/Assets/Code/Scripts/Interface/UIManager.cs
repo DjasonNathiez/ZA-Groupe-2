@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
         public string loreName;
         public GameObject lorePanel;
         public GameObject loreItem;
+        public Material baseMat;
+        public bool collected;
     }
     
     private void Awake()
@@ -123,6 +125,18 @@ public class UIManager : MonoBehaviour
     {
         //Check if player already get it
         //SetMaterial
+
+        foreach (LoreItem lore in LoreItems)
+        {
+            if (lore.collected)
+            {
+                lore.loreItem.GetComponent<MeshRenderer>().material = lore.baseMat;
+            }
+            else
+            {
+                lore.loreItem.GetComponent<MeshRenderer>().material = hideMaterial;
+            }
+        }
     }
     
     public void ShowLore(string loreName)
