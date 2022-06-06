@@ -95,6 +95,7 @@ public class KonamiCode : MonoBehaviour
         {
             PlayerManager.instance.gloves = true;
             PlayerManager.instance.rope.maximumLenght = 1000f;
+            PlayerManager.instance.maxLevelText.SetActive(true);
             buffer = "";
         }
 
@@ -112,6 +113,13 @@ public class KonamiCode : MonoBehaviour
             PlayerManager.instance.rope.maximumLenght = 30f;
             PlayerManager.instance.transform.position = new Vector3(6.34f, 7.8f, -10.74f);
             SceneManager.LoadScene("MAP_Boss");
+            buffer = "";
+        }
+
+        if (buffer.EndsWith(validPatterns[5].inputBuffer))
+        {
+            AudioManager.instance.secretSoundActivated = true;
+            AudioManager.instance.secretImageUI.SetActive(true);
             buffer = "";
         }
     }
