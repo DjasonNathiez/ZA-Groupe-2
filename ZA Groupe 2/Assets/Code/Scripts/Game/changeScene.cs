@@ -15,9 +15,9 @@ public class changeScene : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        doorToActivate.keysValid++;
         if (other.CompareTag("Player"))
         {
+            doorToActivate.keysValid++;
             PlayerManager.instance.EnterDialogue();
             StartCoroutine(ChangeScene());
         }
@@ -25,9 +25,10 @@ public class changeScene : MonoBehaviour
 
     public IEnumerator ChangeScene()
     {
+        Debug.Log("OUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
         
-        yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
+        yield return new WaitForSeconds(timeBeforeSceneChange);
         PlayerManager.instance.transform.position = position;
         PlayerManager.instance.cameraController.transform.position = position;
         if (setTrueLight) PlayerManager.instance.manoirLight.SetActive(true);
