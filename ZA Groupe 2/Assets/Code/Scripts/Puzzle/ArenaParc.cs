@@ -69,8 +69,7 @@ public class ArenaParc : MonoBehaviour
             GameObject newEnemy = Instantiate(waves[currentWave].enemy[i], spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count-1)].position, Quaternion.identity);
             newEnemy.GetComponent<AIBrain>().currentArena = this;
             currentSpawned.Add(newEnemy);
-            
-            Debug.Log(newEnemy.gameObject.name + " " + newEnemy.transform.position);
+            GameManager.instance.grippableObj.Add(newEnemy.GetComponent<ValueTrack>());
         }
 
         if (waves[currentWave].enemy.Count >= currentSpawned.Count)
