@@ -23,6 +23,16 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI hatNameText;
     public TextMeshProUGUI hatDescriptionText;
 
+    [Header("Lore Collection Panel")] 
+    public LoreItem[] LoreItems;
+
+    [Serializable] public struct LoreItem
+    {
+        public string loreName;
+        public GameObject lorePanel;
+        public GameObject loreItem;
+    }
+    
     private void Awake()
     {
         m_player = FindObjectOfType<PlayerManager>();
@@ -109,10 +119,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowLore(string loreName)
+    {
+        foreach (LoreItem lore in LoreItems)
+        {
+            if (lore.loreName == loreName)
+            {
+                lore.lorePanel.SetActive(true);
+                lore.loreItem.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 1);
+            }
+            else
+            {
+                lore.lorePanel.SetActive(false);
+                lore.loreItem.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 0);
+            }
+        }   
+        
+        Debug.Log(loreName + " showed");
+    }
+
     private void Update()
     {
-        
-        
         if (currentDisplayInt < 0)
         {
             currentDisplayInt = allDisplayHat.Length - 1;
