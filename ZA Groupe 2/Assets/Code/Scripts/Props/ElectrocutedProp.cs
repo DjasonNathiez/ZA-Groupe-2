@@ -24,7 +24,7 @@ public class ElectrocutedProp : MonoBehaviour
     {
         pzManager = FindObjectOfType<DUNGEON_PuzzleManager>();
         
-        if (activated)
+        if (activated && electricity)
         {
             electricity.Play();
         }

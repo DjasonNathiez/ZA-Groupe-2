@@ -16,7 +16,7 @@ public class TapeTaupeArcade : MonoBehaviour
     public GameObject light;
     public GameObject directionalOn;
     public GameObject directionalOff;
-    public float timer = 60;
+    public float timer = 50;
     public TextMeshPro timerText;
     public TextMeshPro scoreText;
     public int score;
@@ -89,7 +89,7 @@ public class TapeTaupeArcade : MonoBehaviour
                     activated[rng] = true;
                 }
             
-                taupeTimer = rate.Evaluate(1 - timer/60);
+                taupeTimer = rate.Evaluate(1 - timer/50);
            
             }
             else
@@ -121,7 +121,7 @@ public class TapeTaupeArcade : MonoBehaviour
             light.SetActive(true);
             directionalOff.SetActive(true);
             directionalOn.SetActive(false);
-            timer = 60;
+            timer = 50;
             score = 0;
         }
     }
