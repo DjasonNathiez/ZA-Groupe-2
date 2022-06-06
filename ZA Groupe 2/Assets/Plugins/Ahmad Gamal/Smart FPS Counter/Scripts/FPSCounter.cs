@@ -109,9 +109,6 @@ public class FPSCounter : MonoBehaviour
 
     private void Update()
     {
-        counterListElement = GameManager.instance.grippableObj.Count;
-        counterListText.text = "Grip obj = " + counterListElement;
-        
         FPSAccumulator++;
         if (Time.realtimeSinceStartup > FPSPeriod)
         {
