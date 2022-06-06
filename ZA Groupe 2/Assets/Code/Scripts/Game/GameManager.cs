@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -52,6 +53,8 @@ public class GameManager : MonoBehaviour
     [Header("Debug Menu")]
     public TrelloUI bugtracker;
     public GameObject playtestMenu;
+    public GameObject fpsCounter;
+    public InputAction inputDisplayFPS;
 
     [Header("Loot Table")] 
     public ItemData[] items;
@@ -109,6 +112,21 @@ public class GameManager : MonoBehaviour
         sfxSlider.onValueChanged.AddListener(SetFxVolume);
         environmentSlider.onValueChanged.AddListener(SetEffectVolume);
 
+    }
+
+    private void OnEnable()
+    {
+        inputDisplayFPS.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputDisplayFPS.Disable();
+    }
+
+    private void Update()
+    {
+        if (inputDisplayFPS.triggered) fpsCounter.SetActive(!fpsCounter.activeSelf);
     }
 
     public void EnableAllEnemy()
