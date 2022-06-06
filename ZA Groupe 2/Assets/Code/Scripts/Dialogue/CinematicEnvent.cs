@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CinematicEnvent : MonoBehaviour
 {
-    public Animation Animation;
+    public Animator Animation;
     public bool done;
     public float timeforDestruction;
     public float timeforEnabling;
@@ -17,13 +17,20 @@ public class CinematicEnvent : MonoBehaviour
     public float camZoom;
     public MeshRenderer enableMesh;
     public Collider enableCollider;
+    public string anim;
+    public GameObject vfx;
     
     public void EnableEvent()
     {
         if (!done)
         {
-            if(Animation)Animation.Play("test");
-             Destroy(toDestroy,timeforDestruction);
+            if (Animation)
+            {
+                Animation.Play(anim);
+                vfx.SetActive(true);
+                vfx.GetComponent<ParticleSystem>().Play();
+            } 
+            Destroy(toDestroy,timeforDestruction);
             PlayerManager.instance.EnterDialogue();
             cameraController.playerFocused = false;
             cameraController.cameraPos.localPosition = camPos;
