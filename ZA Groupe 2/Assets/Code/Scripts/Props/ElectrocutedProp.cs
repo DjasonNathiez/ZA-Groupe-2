@@ -36,13 +36,13 @@ public class ElectrocutedProp : MonoBehaviour
     {
         if (PlayerManager.instance.rope.pinnedTo == this.gameObject && !vfxLoop)
         {
-            electricityLoop.Play();
+            if(electricityLoop) electricityLoop.Play();
             vfxLoop = true;
         }
 
         if (PlayerManager.instance.rope.pinnedTo != this.gameObject && vfxLoop)
         {
-            electricityLoop.Stop();
+            if(electricityLoop) electricityLoop.Stop();
             vfxLoop = false;
         }
     }
