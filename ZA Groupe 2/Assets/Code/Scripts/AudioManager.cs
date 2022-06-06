@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public Sounds[] voices;
 
     public bool secretSoundActivated;
+    public GameObject secretImageUI;
     
     [Serializable]public struct Sounds
     {

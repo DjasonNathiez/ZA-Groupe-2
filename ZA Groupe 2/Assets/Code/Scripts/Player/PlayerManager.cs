@@ -116,6 +116,8 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Debug Commands")] 
     public GameObject godModeText;
+    public GameObject speedBoostText;
+    public GameObject maxLevelText;
     
     //Inventory
     [Header("Inventory")]
@@ -1083,8 +1085,19 @@ public class PlayerManager : MonoBehaviour
 
     public void ChangeSpeedPlayer()
     {
-        if (!isSpeedBoost) moveSpeed = 20;
-        else moveSpeed = 6.8f;
+        if (isSpeedBoost)
+        {
+            moveSpeed = 6.8f;
+            speedBoostText.SetActive(false);
+            isSpeedBoost = false;
+        }
+        else
+        {
+            moveSpeed = 20f;
+            speedBoostText.SetActive(true);
+            isSpeedBoost = true;
+
+        }
     }
 
     public void SetGodMode()
@@ -1099,7 +1112,6 @@ public class PlayerManager : MonoBehaviour
             isInvincible = true;
             godModeText.SetActive(true);
         }
-        
     }
     
 
