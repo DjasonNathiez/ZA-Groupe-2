@@ -25,7 +25,6 @@ public class changeScene : MonoBehaviour
 
     public IEnumerator ChangeScene()
     {
-        Debug.Log("OUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
         
         yield return new WaitForSeconds(timeBeforeSceneChange);
