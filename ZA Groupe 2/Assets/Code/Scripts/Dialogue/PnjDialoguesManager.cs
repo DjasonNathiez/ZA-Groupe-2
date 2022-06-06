@@ -31,6 +31,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private Vector3 playerRot;
     [SerializeField] private bool movePlayer;
     [SerializeField] private Teleporter teleporter;
+    [SerializeField] private bool cinematik;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -165,6 +166,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         {
                             GameManager.instance.EnableAllEnemy();
                             if(teleporter) teleporter.StartTP();
+                            if(cinematik) StartCoroutine(GameManager.instance.LoadEndCinematic());
                             dialogueBox.transform.position = new Vector3(960, -320, 0);
                             textEffectManager.isDialoguing = false;
                             isDialoguing = false;
