@@ -4,15 +4,22 @@ using UnityEngine;
 public class Teleporter : MonoBehaviour
 {
     public Transform teleportPoint;
+    public bool triggerOff;
     
     private void OnTriggerEnter(Collider other)
     {
         PlayerManager player = other.GetComponent<PlayerManager>();
 
-        if (player != null)
+        if (player != null && !triggerOff)
         {
+            Debug.Log("attention");
             StartCoroutine(ChangeScene(player));
         }
+    }
+    
+    public void StartTP()
+    {
+        StartCoroutine(ChangeScene(PlayerManager.instance));
     }
     
     public IEnumerator ChangeScene(PlayerManager player)

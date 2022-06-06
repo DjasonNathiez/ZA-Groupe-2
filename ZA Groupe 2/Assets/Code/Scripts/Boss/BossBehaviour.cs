@@ -47,6 +47,9 @@ public class BossBehaviour : MonoBehaviour
     public Material aggroMaterial;
     public List<SkinnedMeshRenderer> modelMeshRenderer;
     public List<MeshRenderer> modelMeshRenderer2;
+    public Teleporter teleporter;
+    public Transform afterBossPos;
+    public PnjDialoguesManager pnjDialoguesManager;
 
     
     [Header("VFX")]
@@ -288,6 +291,24 @@ public class BossBehaviour : MonoBehaviour
         pillars.Clear();
         StartCoroutine(SpawnRabbits(2.2f,1.2f));
     }
+    public IEnumerator Mort(float delay, float delayMort)
+    {
+        animator.Play("StandUp");
+        yield return new WaitForSeconds(delay);
+        rb.isKinematic = true;
+        animator.Play("Mort");
+        GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
+        yield return new WaitForSeconds(delayMort);
+        teleporter.StartTP();
+        yield return new WaitForSeconds(1);
+        Destroy(death);
+        transform.position = afterBossPos.position;
+        bossDetector.transform.rotation = quaternion.Euler(0,0,0);
+        yield return new WaitForSeconds(1.2f);
+        pnjDialoguesManager.StartDialogue();
+        
+
+    }
     public void GetHurt(int damage)
     {
         if (state == 3)
@@ -314,8 +335,7 @@ public class BossBehaviour : MonoBehaviour
             else
             {
                 state = 0;
-                animator.Play("Mort");
-                GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
+                StartCoroutine(Mort(2, 3));
             }
         }
     }
