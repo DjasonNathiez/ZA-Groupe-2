@@ -26,8 +26,11 @@ public class PropsInstructions : MonoBehaviour
             yield return new WaitForSeconds(0.001f);
             AudioManager.instance.PlayEnvironment("Box_Destruction");
             Destroy(gameObject);
-            Instantiate(boxExplosion, transform.position, Quaternion.identity);
-
+            if (boxExplosion != null)
+            {
+               Instantiate(boxExplosion, transform.position, Quaternion.identity);
+            }
+            
             break;
          }
       }
