@@ -112,6 +112,7 @@ public class PlayerManager : MonoBehaviour
     public TextEffectManager textEffectManager;
     public CameraController cameraController;
     public GameObject manoirLight;
+    public LineRenderer ropeGrappin;
 
     [Header("Debug Commands")] 
     public GameObject godModeText;
