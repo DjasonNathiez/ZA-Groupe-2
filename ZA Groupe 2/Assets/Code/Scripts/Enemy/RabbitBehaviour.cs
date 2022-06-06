@@ -227,6 +227,7 @@ public class RabbitBehaviour : AIBrain
 
                 for (int i = indexes.Count-1; i > -1; i--)
                 {
+                    if(i > distanceToPoints.Count -1) return;
                     distanceToPoints.RemoveAt(i);
                 }
             }
@@ -249,6 +250,8 @@ public class RabbitBehaviour : AIBrain
         {
             if (distanceToPoints[i] < distanceToPoints[i + 1])
             {
+                if(i> detectedPoints.Length -1)
+                    return;
                 nearestPoint = detectedPoints[i];
             }
         }

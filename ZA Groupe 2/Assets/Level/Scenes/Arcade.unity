@@ -2614,6 +2614,9 @@ MonoBehaviour:
   unactiveManoir: []
   activeArcade: []
   unactiveArcade: []
+  collectables:
+  - loreObj: {fileID: 4194215896829414936}
+    name: Frog
 --- !u!4 &209011911
 Transform:
   m_ObjectHideFlags: 0
@@ -21144,6 +21147,9 @@ MonoBehaviour:
   doors:
   - {fileID: 1197634536}
   multiActivate: 0
+  onMat: {fileID: 0}
+  offMat: {fileID: 0}
+  meshRenderer: {fileID: 0}
 --- !u!65 &1722004980
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26092,6 +26098,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fa0edb256d322c4cbed6cf2b1bfd42b, type: 3}
+--- !u!1 &4194215896829414936 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5839769823160975475, guid: 2fa0edb256d322c4cbed6cf2b1bfd42b, type: 3}
+  m_PrefabInstance: {fileID: 4194215896829414935}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5140230081257466379
 GameObject:
   m_ObjectHideFlags: 0

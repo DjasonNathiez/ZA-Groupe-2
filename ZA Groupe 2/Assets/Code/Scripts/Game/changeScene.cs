@@ -9,16 +9,30 @@ public class changeScene : MonoBehaviour
     public string scene;
     public Vector3 position;
     public bool setFalseLight, setTrueLight;
+    public float timeBeforeSceneChange;
+    public float timeBeforeTimeBeforeSceneChange;
+    public Door doorToActivate;
 
     private void OnTriggerEnter(Collider other)
     {
+        doorToActivate.keysValid++;
         if (other.CompareTag("Player"))
         {
-            PlayerManager.instance.transform.position = position;
-            if (setTrueLight) PlayerManager.instance.manoirLight.SetActive(true);
-            if (setFalseLight) PlayerManager.instance.manoirLight.SetActive(false);
-
-            SceneManager.LoadScene(scene);   
+            PlayerManager.instance.EnterDialogue();
+            StartCoroutine(ChangeScene());
         }
+    }
+
+    public IEnumerator ChangeScene()
+    {
+        yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
+        
+        yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
+        PlayerManager.instance.transform.position = position;
+        PlayerManager.instance.cameraController.transform.position = position;
+        if (setTrueLight) PlayerManager.instance.manoirLight.SetActive(true);
+        if (setFalseLight) PlayerManager.instance.manoirLight.SetActive(false);
+        PlayerManager.instance.ExitDialogue();
+        SceneManager.LoadScene(scene);
     }
 }
