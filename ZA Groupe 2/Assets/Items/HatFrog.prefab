@@ -73,6 +73,9 @@ MonoBehaviour:
   amplitude: 0
   floatSpeed: 0
   height: 0
+  goToPos: 0
+  pos: {x: 0, y: 0, z: 0}
+  possOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 7845012707688209355}
 --- !u!33 &5839769823160975758
 MeshFilter:
@@ -4919,9 +4922,10 @@ MonoBehaviour:
   textEffectManager: {fileID: 0}
   timer: 0
   auto: 0
+  storyState: 0
   dialogue:
-  - speakingName: Chapeau
-    text: Vous avez obtenu le Chapeau Grenouille !
+  - speakingName: "Haut de Cro\xE2"
+    text: Vous avez obtenu le chapeau Grenouille !
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4933,7 +4937,7 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
-  - speakingName: Chapeau
+  - speakingName: "Haut de Cro\xE2"
     text: "Vous pouvez l'\xE9quiper dans le menu de collection."
     textEffects: []
     modifyCameraPosition: 0
