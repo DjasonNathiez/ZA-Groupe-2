@@ -119,6 +119,12 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void UpdateLore()
+    {
+        //Check if player already get it
+        //SetMaterial
+    }
+    
     public void ShowLore(string loreName)
     {
         foreach (LoreItem lore in LoreItems)
