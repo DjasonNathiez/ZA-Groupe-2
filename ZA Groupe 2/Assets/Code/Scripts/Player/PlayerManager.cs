@@ -604,33 +604,40 @@ public class PlayerManager : MonoBehaviour
 
     private void Throw()
     {
-        if (state == "Aiming")
+        if (m_controlState != ControlState.DIALOGUE)
         {
-            isThrowing = true;
+            if (state == "Aiming")
+            {
+                isThrowing = true;
             
-            throwingWeapon.SetActive(true);
-            throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
-            throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
+                throwingWeapon.SetActive(true);
+                throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
+                throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
             
-            direction = Vector3.forward;
+                direction = Vector3.forward;
 
-            GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
-            state = "Throw";
-            playerThrowingWeapon.SetActive(false);
-            rope.enabled = true;
-            rope.rope.gameObject.SetActive(true);
-            PlaySFX("P_Throw");
-            PlaySFX("P_RopeThrow");
+                GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "cord"));
+                state = "Throw";
+                playerThrowingWeapon.SetActive(false);
+                rope.enabled = true;
+                rope.rope.gameObject.SetActive(true);
+                PlaySFX("P_Throw");
+                PlaySFX("P_RopeThrow");
+            } 
         }
+        
     }
 
     public void Rewind()
     {
-        if (state == "Rope" || state == "Throw")
+        if (m_controlState != ControlState.DIALOGUE)
         {
-            isThrowing = false;
-            rope.rewinding = true;
-            PlaySFX("P_Rewind");
+            if (state == "Rope" || state == "Throw")
+            {
+                isThrowing = false;
+                rope.rewinding = true;
+                PlaySFX("P_Rewind");
+            }
         }
     }
     
