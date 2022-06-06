@@ -101,6 +101,8 @@ public class FollowCurve : MonoBehaviour
                 cam.playerFocused = true;
                 PlayerManager.instance.ExitDialogue();
                 PlayerManager.instance.transform.position = pos;
+                GameManager.instance.CheckScene();
+                FindObjectOfType<RollerCoasterEntry>().statue.GetComponent<Animator>().enabled = false;
             }
         }
     }

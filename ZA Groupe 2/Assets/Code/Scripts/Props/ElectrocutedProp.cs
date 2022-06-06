@@ -19,6 +19,8 @@ public class ElectrocutedProp : MonoBehaviour
 
     private DUNGEON_PuzzleManager pzManager;
     public ParticleSystem electricity;
+    public ParticleSystem electricityLoop;
+    private bool vfxLoop;
 
     private void Awake()
     {
@@ -27,6 +29,21 @@ public class ElectrocutedProp : MonoBehaviour
         if (activated && electricity)
         {
             electricity.Play();
+        }
+    }
+
+    private void Update()
+    {
+        if (PlayerManager.instance.rope.pinnedTo == this.gameObject && !vfxLoop)
+        {
+            electricityLoop.Play();
+            vfxLoop = true;
+        }
+
+        if (PlayerManager.instance.rope.pinnedTo != this.gameObject && vfxLoop)
+        {
+            electricityLoop.Stop();
+            vfxLoop = false;
         }
     }
 

@@ -14,6 +14,8 @@ public class RollerCoasterEntry : MonoBehaviour
     [SerializeField] private Transform SpawnPointEnd;
     public Vector3 pos;
 
+    public GameObject statue;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -23,6 +25,12 @@ public class RollerCoasterEntry : MonoBehaviour
             cam.playerFocused = false;
             PlayerManager.instance.transform.position = pos;
             PlayerManager.instance.EnterDialogue();
+
+            if (AudioManager.instance.secretSoundActivated)
+            {
+                AudioManager.instance.SetMusic("Secret_Sound");
+                statue.GetComponent<Animator>().Play("Dance");
+            }
         }
     }
 
