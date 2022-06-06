@@ -822,11 +822,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: -1.02
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.05
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1652,7 +1652,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.3, y: 2.03, z: -98.3}
+  m_LocalPosition: {x: -35.914, y: 2.03, z: -78}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -13128,39 +13128,39 @@ MonoBehaviour:
     description: "C'est la casquette de Kent, c'est son p\xE8re qui lui a offert."
     collected: 0
     hatObj: {fileID: 7543530392153241433}
-    baseMaterial: {fileID: 2100000, guid: 1a8fec39bfc40b240a000df6b8625666, type: 2}
+    baseMaterial: {fileID: 2100000, guid: 5d039b1462ef48140902ec85b2ea90eb, type: 2}
   - hatName: Luffy
     displayName: Chapeau de paille
     description: Ce chapeau aurait appartenu au roi des pirates. Enfin c'est ce qu'on
       raconte.
     collected: 0
     hatObj: {fileID: 2648820453443320392}
-    baseMaterial: {fileID: 2100000, guid: 37a0edef203a05645944cb576901083f, type: 2}
+    baseMaterial: {fileID: 2100000, guid: 0dfb4a295b19b264baf4e22e364e4e8e, type: 2}
   - hatName: Jojo
     displayName: Casquette de Platine
     description: "Couvre-chef pr\xE9f\xE9r\xE9 d'un oc\xE9anologue tr\xE8s c\xE9l\xE9bre."
     collected: 0
     hatObj: {fileID: 2482678587622157190}
-    baseMaterial: {fileID: 2100000, guid: deac42b155d1197499e14779736e5f11, type: 2}
+    baseMaterial: {fileID: 2100000, guid: f3197c7962fdef7478c4067d41209781, type: 2}
   - hatName: Frog
     displayName: Bob grenouille
     description: "Vous pensez que c'est une vrai grenouille ? Je cro\xE2."
     collected: 0
     hatObj: {fileID: 8313317137868165013}
-    baseMaterial: {fileID: 2100000, guid: ceb68904ac31296468eebe092de3e671, type: 2}
+    baseMaterial: {fileID: 2100000, guid: 7c6c0c8010fefc8499715b90fcad314e, type: 2}
   - hatName: Cone
     displayName: Plot de signalisation
     description: "La s\xE9curit\xE9 avant tout !"
     collected: 0
     hatObj: {fileID: 5948976669129749651}
-    baseMaterial: {fileID: 2100000, guid: 04172b5658c26884e8f7db6e7a9ec3cf, type: 2}
+    baseMaterial: {fileID: 2100000, guid: 46d164f807cee96439180711076436c9, type: 2}
   - hatName: HDF
     displayName: Haut de Forme
     description: "Ce chapeau est port\xE9e par les personnes les plus distingu\xE9s...
       et les robots m\xE9galomanes."
     collected: 0
     hatObj: {fileID: 8734795490747267444}
-    baseMaterial: {fileID: 2100000, guid: e3971ed79f7ad8d4985e7922628af25f, type: 2}
+    baseMaterial: {fileID: 2100000, guid: 03fb32391003ad144b4dda1268f7a543, type: 2}
   hideMaterial: {fileID: 2100000, guid: b1f493546bcea204dae9663bf4248e64, type: 2}
   currentDisplayHat: {fileID: 0}
   currentDisplayInt: 0
@@ -35668,7 +35668,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1a8fec39bfc40b240a000df6b8625666, type: 2}
+  - {fileID: 2100000, guid: 5d039b1462ef48140902ec85b2ea90eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -42319,6 +42319,10 @@ PrefabInstance:
     - target: {fileID: 7134178490255170940, guid: 3c031b97f56cf61418398309e1a920dd, type: 3}
       propertyPath: m_Layer
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7134178490255170940, guid: 3c031b97f56cf61418398309e1a920dd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7514925740993021894, guid: 3c031b97f56cf61418398309e1a920dd, type: 3}
       propertyPath: m_RootOrder

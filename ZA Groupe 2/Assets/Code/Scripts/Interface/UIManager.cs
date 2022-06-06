@@ -79,8 +79,7 @@ public class UIManager : MonoBehaviour
                             m_player.currentHat = playerHat.hatObj;
                         }
                     }
-                    
-                   m_player.SetHat();
+                    m_player.SetHat();
                 }
             }
         }
@@ -113,6 +112,7 @@ public class UIManager : MonoBehaviour
     private void Update()
     {
         
+        
         if (currentDisplayInt < 0)
         {
             currentDisplayInt = allDisplayHat.Length - 1;
@@ -127,6 +127,15 @@ public class UIManager : MonoBehaviour
 
         foreach (var hat in allDisplayHat)
         {
+            if (hat.hatObj.GetComponent<Mesh>() == m_player.currentHat.GetComponent<Mesh>())
+            {
+                hat.hatObj.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 1);
+            }
+            else
+            {
+                hat.hatObj.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 0);
+            }
+            
             //Display Hat
             if (hat.hatObj != currentDisplayHat)
             {
