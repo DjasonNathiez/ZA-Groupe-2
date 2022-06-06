@@ -63,6 +63,8 @@ public class InitializerScript : MonoBehaviour
         {
             PlayerManager.instance.storyState = 0;
         }
+        
+        GameManager.instance.CheckScene();
     }
 }
 

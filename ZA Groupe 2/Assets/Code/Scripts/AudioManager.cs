@@ -30,6 +30,8 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        secretSoundActivated = false;
     }
 
     public void SetMusic(string musicName)

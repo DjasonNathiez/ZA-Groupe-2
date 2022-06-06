@@ -13,6 +13,9 @@ public class MenuPrincipal : MonoBehaviour
         {
             SoundManager.PlayMusic(mainScreenMusic);
             FindObjectOfType<EventSystem>().firstSelectedGameObject = firstSelectedObject;
+            
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public void StartTheGame()

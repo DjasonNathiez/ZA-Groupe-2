@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     public void Initialize()
     {
         DontDestroyOnLoad(gameObject);
-        
+
         if (instance == null)
         {
             instance = this;
@@ -99,6 +99,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();

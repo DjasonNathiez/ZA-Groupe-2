@@ -304,8 +304,6 @@ public class PlayerManager : MonoBehaviour
             GameManager.instance.dungeonEnded = true;
         }
         
-        Cursor.visible = m_playerInput.currentControlScheme == "Keyboard&Mouse"; //add a locker
-
         //animator Set Bool
         m_animator.SetBool("isAttacking", isAttacking);
         m_animator.SetBool("isMoving", isMoving);
