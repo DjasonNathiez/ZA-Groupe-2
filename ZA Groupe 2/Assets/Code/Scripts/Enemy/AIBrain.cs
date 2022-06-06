@@ -70,6 +70,7 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem explosionVFX;
     public bool explodeOnEvent;
     public ParticleSystem aggroVFX;
+    public ParticleSystem counterVFX;
 
     [Header("Visual")] 
     public List<SkinnedMeshRenderer> modelMeshRenderer;
@@ -273,6 +274,11 @@ public class AIBrain : MonoBehaviour
     {
         if (!isDead)
         {
+            if (counterState)
+            {
+               counterVFX.Play();
+            }
+            
             if (isInvincible) return;
             
             currentHealth -= damage;
