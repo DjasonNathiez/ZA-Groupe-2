@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Teleporter : MonoBehaviour
@@ -10,8 +11,17 @@ public class Teleporter : MonoBehaviour
 
         if (player != null)
         {
-            player.transform.position = teleportPoint.position;
-            player.cameraController.transform.position = teleportPoint.position;
+            StartCoroutine(ChangeScene(player));
         }
+    }
+    
+    public IEnumerator ChangeScene(PlayerManager player)
+    {
+        GameManager.instance.transitionOff = true;
+        yield return new WaitForSeconds(1);
+        player.transform.position = teleportPoint.position;
+        player.cameraController.transform.position = teleportPoint.position;
+        PlayerManager.instance.ExitDialogue();
+        GameManager.instance.transitionOn = true;
     }
 }
