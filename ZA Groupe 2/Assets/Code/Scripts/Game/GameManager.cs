@@ -455,7 +455,7 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.StopAll();
         firstCinematic.Play();
-        yield return new WaitForSeconds(50);
+        yield return new WaitForSeconds(48);
         LoadScene("MAP_Parc");
         firstCinematic.Stop();
     }
@@ -465,7 +465,7 @@ public class GameManager : MonoBehaviour
         ui.hudParent.SetActive(false);
         SoundManager.StopAll();
         lastCinematic.Play();
-        yield return new WaitForSeconds(72);
+        yield return new WaitForSeconds(50);
         LoadScene("Main_Menu");
     }
 }
