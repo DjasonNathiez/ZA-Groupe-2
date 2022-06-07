@@ -462,6 +462,7 @@ public class GameManager : MonoBehaviour
     
     public IEnumerator LoadEndCinematic()
     {
+        ui.hudParent.SetActive(false);
         SoundManager.StopAll();
         lastCinematic.Play();
         yield return new WaitForSeconds(72);
