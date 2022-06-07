@@ -9,6 +9,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
@@ -941,12 +942,20 @@ public class PlayerManager : MonoBehaviour
     
     public void RespawnPlayer()
     {
-        GameManager.instance.BackToCheckpoint();
         ResetState();
         isDead = false;
         currentLifePoint = maxLifePoint = baseLifePoint;
         GameManager.instance.ui.UpdateHealth();
         GameManager.instance.EnableAllEnemy();
+        
+        if (SceneManager.GetActiveScene().name == "MAP_Boss_BackUp")
+        {
+            SceneManager.LoadScene("MAP_Boss_BackUp");
+        }
+        else
+        {
+            GameManager.instance.BackToCheckpoint();
+        }
         
         foreach (AIBrain a in GameManager.instance.enemyList)
         {
