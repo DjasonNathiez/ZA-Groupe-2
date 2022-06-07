@@ -15,6 +15,7 @@ public class ArenaParc : MonoBehaviour
     public bool ended;
     public GameObject doorNorth;
     public GameObject doorSouth;
+    public GameObject reward;
     
     [Serializable] public struct Wave
     {
@@ -33,6 +34,7 @@ public class ArenaParc : MonoBehaviour
                     {
                         ended = true;
                         AudioManager.instance.PlayEnvironment("ArenaSucces");
+                        reward.SetActive(true);
                         doorNorth.SetActive(false);
                         doorSouth.SetActive(false);
                     }
