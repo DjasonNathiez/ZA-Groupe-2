@@ -284,7 +284,7 @@ public class PlayerManager : MonoBehaviour
       
     
 
-        GameManager.instance.ui.UpdateHat();
+        if(GameManager.instance) GameManager.instance.ui.UpdateHat();
     }
 
     //GameStats

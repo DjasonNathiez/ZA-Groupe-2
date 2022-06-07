@@ -381,7 +381,7 @@ public class AIBrain : MonoBehaviour
     public void Disable()
     {
         isEnable = false;
-        nav.SetDestination(transform.position);
+        if(nav.enabled) nav.SetDestination(transform.position);
         rb.velocity = Vector3.zero;
     }
 
