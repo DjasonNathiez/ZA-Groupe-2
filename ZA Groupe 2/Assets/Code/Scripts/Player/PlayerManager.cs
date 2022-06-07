@@ -303,6 +303,11 @@ public class PlayerManager : MonoBehaviour
         {
             GameManager.instance.dungeonEnded = true;
         }
+
+        if (currentLifePoint > maxLifePoint)
+        {
+            currentLifePoint = maxLifePoint;
+        }
         
         //animator Set Bool
         m_animator.SetBool("isAttacking", isAttacking);
@@ -1021,7 +1026,10 @@ public class PlayerManager : MonoBehaviour
             switch (item.affectedValue)
             {
                 case "Health":
-                    currentLifePoint += item.valuePercentage;
+                    if (currentLifePoint > maxLifePoint)
+                    {
+                        currentLifePoint += item.valuePercentage;
+                    }
                     GameManager.instance.ui.UpdateHealth();
                     break;
 
@@ -1049,7 +1057,7 @@ public class PlayerManager : MonoBehaviour
                     {
                         if (item.itemName == uiLore.loreName)
                         {
-                            //uiLore.collected = true;
+                            uiLore.collected = true;
                             GameManager.instance.ui.UpdateLore();
                         }
                     }
