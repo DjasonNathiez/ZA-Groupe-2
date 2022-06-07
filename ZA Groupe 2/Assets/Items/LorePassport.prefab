@@ -65,14 +65,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99f7d9bcb6655d47bcc2f89893aaee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: LorePassport
+  itemName: DadPassport
   valuePercentage: 5
-  affectedValue: LorePassport
+  affectedValue: Lore
   distributed: 0
   rotationSpeed: 0
   amplitude: 0
   floatSpeed: 0
   height: 0
+  goToPos: 0
+  pos: {x: 0, y: 0, z: 0}
+  possOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 7165997107280077269}
 --- !u!33 &6421735062892603228
 MeshFilter:
@@ -4919,6 +4922,7 @@ MonoBehaviour:
   textEffectManager: {fileID: 0}
   timer: 0
   auto: 0
+  storyState: 0
   dialogue:
   - speakingName: Passport
     text: "Vous avez obtenu le Passport de votre p\xE9re !"
@@ -4933,6 +4937,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   - speakingName: Passport
     text: "Consultez le dans l'\xE9cran de collection dans le menu pause."
     textEffects: []
@@ -4946,6 +4952,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
@@ -4964,6 +4972,8 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   playerRot: {x: 0, y: 0, z: 0}
   movePlayer: 0
+  teleporter: {fileID: 0}
+  cinematik: 0
 --- !u!1001 &6421735062843310194
 PrefabInstance:
   m_ObjectHideFlags: 0

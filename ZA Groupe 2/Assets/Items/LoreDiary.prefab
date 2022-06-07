@@ -65,14 +65,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99f7d9bcb6655d47bcc2f89893aaee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: LoreDiary
+  itemName: BlakeDiary
   valuePercentage: 5
-  affectedValue: LoreDiary
+  affectedValue: Lore
   distributed: 0
   rotationSpeed: 0
   amplitude: 0
   floatSpeed: 0
   height: 0
+  goToPos: 0
+  pos: {x: 0, y: 0, z: 0}
+  possOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 3146622287139945277}
 --- !u!33 &7024559573391959807
 MeshFilter:
@@ -4919,6 +4922,7 @@ MonoBehaviour:
   textEffectManager: {fileID: 0}
   timer: 0
   auto: 0
+  storyState: 0
   dialogue:
   - speakingName: Journal
     text: Vous avez obtenu le Journal de Blake !
@@ -4933,6 +4937,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   - speakingName: Journal
     text: "Consultez le dans l'\xE9cran de collection dans le menu pause."
     textEffects: []
@@ -4946,6 +4952,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
@@ -4964,6 +4972,8 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   playerRot: {x: 0, y: 0, z: 0}
   movePlayer: 0
+  teleporter: {fileID: 0}
+  cinematik: 0
 --- !u!1001 &1322646249276420942
 PrefabInstance:
   m_ObjectHideFlags: 0

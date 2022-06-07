@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -26,11 +27,12 @@ public class UIManager : MonoBehaviour
     [Header("Lore Collection Panel")] 
     public LoreItem[] LoreItems;
 
-    [Serializable] public struct LoreItem
+    [Serializable] public class LoreItem
     {
         public string loreName;
         public GameObject lorePanel;
         public GameObject loreItem;
+        public GameObject arrow;
         public Material baseMat;
         public bool collected;
     }
@@ -41,6 +43,7 @@ public class UIManager : MonoBehaviour
         
         UpdateHealth();
         UpdateHat();
+        UpdateLore();
         
         currentDisplayHat = allDisplayHat[currentDisplayInt].hatObj;
 
@@ -130,11 +133,27 @@ public class UIManager : MonoBehaviour
         {
             if (lore.collected)
             {
-                lore.loreItem.GetComponent<MeshRenderer>().material = lore.baseMat;
+                
+                if (lore.loreName == "DadPassport")
+                {
+                    lore.loreItem.GetComponentInChildren<MeshRenderer>().material = lore.baseMat;
+                }
+                else
+                {
+                    lore.loreItem.GetComponent<MeshRenderer>().material = lore.baseMat;
+                }
             }
             else
             {
-                lore.loreItem.GetComponent<MeshRenderer>().material = hideMaterial;
+                
+                if (lore.loreName == "DadPassport")
+                {
+                    lore.loreItem.GetComponentInChildren<MeshRenderer>().material = hideMaterial;
+                }
+                else
+                {
+                    lore.loreItem.GetComponent<MeshRenderer>().material = hideMaterial;
+                }
             }
         }
     }
@@ -143,15 +162,13 @@ public class UIManager : MonoBehaviour
     {
         foreach (LoreItem lore in LoreItems)
         {
-            if (lore.loreName == loreName)
+            if (lore.loreName == loreName && lore.collected)
             {
                 lore.lorePanel.SetActive(true);
-                lore.loreItem.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 1);
             }
             else
             {
                 lore.lorePanel.SetActive(false);
-                lore.loreItem.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 0);
             }
         }   
         
@@ -160,6 +177,18 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        foreach (var lore in LoreItems)
+        {
+            if (EventSystem.current.currentSelectedGameObject == lore.loreItem)
+            {
+                lore.arrow.SetActive(true);
+            }
+            else
+            {
+                lore.arrow.SetActive(false);
+            }
+        }
+        
         if (currentDisplayInt < 0)
         {
             currentDisplayInt = allDisplayHat.Length - 1;
