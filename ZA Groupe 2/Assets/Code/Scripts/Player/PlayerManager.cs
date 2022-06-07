@@ -956,6 +956,20 @@ public class PlayerManager : MonoBehaviour
         {
             GameManager.instance.BackToCheckpoint();
         }
+
+        if (FindObjectOfType<ArenaParc>().started)
+        {
+            foreach (GameObject enemy in FindObjectOfType<ArenaParc>().currentSpawned)
+            {
+                FindObjectOfType<ArenaParc>().currentSpawned.Remove(enemy);
+            }
+
+            FindObjectOfType<ArenaParc>().started = false;
+            FindObjectOfType<ArenaParc>().currentWave = 0;
+            FindObjectOfType<ArenaParc>().doorNorth.SetActive(false);
+            FindObjectOfType<ArenaParc>().doorSouth.SetActive(false);
+
+        }
         
         foreach (AIBrain a in GameManager.instance.enemyList)
         {
