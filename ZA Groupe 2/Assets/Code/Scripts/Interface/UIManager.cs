@@ -170,9 +170,7 @@ public class UIManager : MonoBehaviour
             {
                 lore.lorePanel.SetActive(false);
             }
-        }   
-        
-        Debug.Log(loreName + " showed");
+        }
     }
 
     private void Update()

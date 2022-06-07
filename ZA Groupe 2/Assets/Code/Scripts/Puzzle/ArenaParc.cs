@@ -66,19 +66,17 @@ public class ArenaParc : MonoBehaviour
         
         foreach (var enemy in currentSpawned)
         {
-            currentSpawned.Remove(enemy);
             Destroy(enemy);
         }
         
+        currentSpawned.Clear();
+        
         enabled = false;
+        
     }
 
     private void OnEnable()
     {
-        Debug.Log(this);
-        doorNorth.SetActive(true);
-        doorSouth.SetActive(true);
-        SpawnEnemy();
         GameManager.instance.arenaParc = this;
     }
 

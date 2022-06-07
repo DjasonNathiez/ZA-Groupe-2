@@ -622,7 +622,6 @@ public class PlayerManager : MonoBehaviour
                 throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
             
                 direction = Vector3.forward;
-                Debug.Log("ouiokpkpas");
                 state = "Throw";
                 playerThrowingWeapon.SetActive(false);
                 rope.enabled = true;
@@ -834,10 +833,8 @@ public class PlayerManager : MonoBehaviour
     {
         isInvincible = true;
         blinkAnim = true;
-        Debug.Log("is invincible");
         yield return new WaitForSeconds(invicibiltyTimer);
         isInvincible = false;
-        Debug.Log("is no longer invincible");
     }
     
     public IEnumerator StartStun(float stunDuration)
@@ -945,13 +942,8 @@ public class PlayerManager : MonoBehaviour
         ResetState();
         isDead = false;
         currentLifePoint = maxLifePoint = baseLifePoint;
-        GameManager.instance.ui.UpdateHealth();
-        GameManager.instance.EnableAllEnemy();
-        
-        if (GameManager.instance.arenaParc != null)
-        {
-            GameManager.instance.arenaParc.ResetArena();
-        }
+        Rewind();
+        rope.rewinding = true;
         
         if (SceneManager.GetActiveScene().name == "MAP_Boss_BackUp")
         {
@@ -959,10 +951,16 @@ public class PlayerManager : MonoBehaviour
         }
         else
         {
-            if (GameManager.instance.lastCheckpoint != null)
-            {
-                GameManager.instance.BackToCheckpoint();
-            }
+            GameManager.instance.BackToCheckpoint();
+            
+        }
+        
+        GameManager.instance.ui.UpdateHealth();
+        GameManager.instance.EnableAllEnemy();
+        
+        if (GameManager.instance.arenaParc != null)
+        {
+            GameManager.instance.arenaParc.ResetArena();
         }
 
 
@@ -1044,7 +1042,7 @@ public class PlayerManager : MonoBehaviour
             switch (item.affectedValue)
             {
                 case "Health":
-                    if (currentLifePoint > maxLifePoint)
+                    if (currentLifePoint < maxLifePoint)
                     {
                         currentLifePoint += item.valuePercentage;
                     }
@@ -1057,7 +1055,6 @@ public class PlayerManager : MonoBehaviour
                 
                 case "Gloves":
                     gloves = true;
-                    Debug.Log("gloves is " + gloves);
                     break;
                 
                 case "Hat":
@@ -1109,7 +1106,6 @@ public class PlayerManager : MonoBehaviour
         {
             if (obj.meshRenderer == null || obj == null)
             {
-                Debug.Log("WOOOOOOW");
                 GameManager.instance.grippableObj.Remove(obj);
             }
             if (obj.meshRenderer == null) return;

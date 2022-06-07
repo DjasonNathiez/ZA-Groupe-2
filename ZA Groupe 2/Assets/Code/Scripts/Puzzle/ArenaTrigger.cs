@@ -12,8 +12,11 @@ public class ArenaTrigger : MonoBehaviour
         {
             if (!arena.started && !arena.ended)
             {
+                arena.doorNorth.SetActive(true);
+                arena.doorSouth.SetActive(true);
                 arena.enabled = true;
                 arena.started = true;
+                arena.SpawnEnemy();
             }
         }
     }

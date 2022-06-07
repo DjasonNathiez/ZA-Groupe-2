@@ -85,8 +85,10 @@ public class GameManager : MonoBehaviour
         }
 
         [Header("Cinematics")] 
+        public InputAction skipCinematic;
         public VideoPlayer firstCinematic;
         public VideoPlayer lastCinematic;
+        public VideoPlayer playingCinematic;
     
     private void Start()
     {
@@ -138,17 +140,20 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         inputDisplayFPS.Enable();
+        skipCinematic.Enable();
     }
 
     private void OnDisable()
     {
         inputDisplayFPS.Disable();
+        skipCinematic.Disable();
     }
 
     private void Update()
     {
         if (inputDisplayFPS.triggered) fpsCounter.SetActive(!fpsCounter.activeSelf);
-
+        if (skipCinematic.triggered) SkipCinematic();
+        
         if (transitionOff)
         {
             if (timertransition > 0)
@@ -316,6 +321,7 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+        transitionOff = true;
         CheckScene();
     }
 
@@ -456,6 +462,7 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.StopAll();
         firstCinematic.Play();
+        playingCinematic = firstCinematic;
         yield return new WaitForSeconds(48);
         LoadScene("MAP_Parc");
         firstCinematic.Stop();
@@ -466,7 +473,25 @@ public class GameManager : MonoBehaviour
         ui.hudParent.SetActive(false);
         SoundManager.StopAll();
         lastCinematic.Play();
+        playingCinematic = lastCinematic;
         yield return new WaitForSeconds(50);
         LoadScene("Main_Menu");
+    }
+
+    void SkipCinematic()
+    {
+        playingCinematic.Stop();
+
+        if (playingCinematic == firstCinematic)
+        {
+            StopCoroutine(LoadFirstCinematic());
+            LoadScene("MAP_Parc");
+        }
+
+        if (playingCinematic == lastCinematic)
+        {
+            StopCoroutine(LoadEndCinematic());
+            LoadScene("Main_Menu");
+        }
     }
 }

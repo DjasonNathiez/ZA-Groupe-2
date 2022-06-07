@@ -112,7 +112,7 @@ public class KonamiCode : MonoBehaviour
             PlayerManager.instance.haveGloves = true;
             PlayerManager.instance.rope.maximumLenght = 30f;
             PlayerManager.instance.transform.position = new Vector3(6.34f, 7.8f, -10.74f);
-            SceneManager.LoadScene("MAP_Boss");
+            SceneManager.LoadScene("MAP_Boss_BackUp");
             buffer = "";
         }
 
