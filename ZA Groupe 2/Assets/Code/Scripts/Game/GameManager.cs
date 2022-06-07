@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
     public Checkpoint[] allCheckpoint;
     public List<AIBrain> enemyList;
     public List<ValueTrack> grippableObj;
+    public ArenaParc arenaParc;
 
     [Header("Debug Menu")]
     public TrelloUI bugtracker;

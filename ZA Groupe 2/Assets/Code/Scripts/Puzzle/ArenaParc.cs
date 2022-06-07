@@ -24,7 +24,7 @@ public class ArenaParc : MonoBehaviour
 
     private void Update()
     {
-        if (started)
+        if (started && !GameManager.instance.player.GetComponent<PlayerManager>().isDead)
         {
             if (!ended)
             {
@@ -55,12 +55,31 @@ public class ArenaParc : MonoBehaviour
 
     }
 
+    public void ResetArena()
+    {
+        started = false;
+        spawnNew = false;
+        ended = false;
+        doorNorth.SetActive(false);
+        doorSouth.SetActive(false);
+        currentWave = 0;
+        
+        foreach (var enemy in currentSpawned)
+        {
+            currentSpawned.Remove(enemy);
+            Destroy(enemy);
+        }
+        
+        enabled = false;
+    }
+
     private void OnEnable()
     {
         Debug.Log(this);
         doorNorth.SetActive(true);
         doorSouth.SetActive(true);
         SpawnEnemy();
+        GameManager.instance.arenaParc = this;
     }
 
 

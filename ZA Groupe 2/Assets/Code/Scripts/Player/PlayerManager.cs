@@ -166,7 +166,7 @@ public class PlayerManager : MonoBehaviour
     private bool RollCdStarted;
     private float m_cdRoll;
 
-    private bool isDead;
+    public bool isDead;
 
 
     //Animations
@@ -948,29 +948,24 @@ public class PlayerManager : MonoBehaviour
         GameManager.instance.ui.UpdateHealth();
         GameManager.instance.EnableAllEnemy();
         
+        if (GameManager.instance.arenaParc != null)
+        {
+            GameManager.instance.arenaParc.ResetArena();
+        }
+        
         if (SceneManager.GetActiveScene().name == "MAP_Boss_BackUp")
         {
             SceneManager.LoadScene("MAP_Boss_BackUp");
         }
         else
         {
-            GameManager.instance.BackToCheckpoint();
-        }
-
-        if (FindObjectOfType<ArenaParc>().started)
-        {
-            foreach (GameObject enemy in FindObjectOfType<ArenaParc>().currentSpawned)
+            if (GameManager.instance.lastCheckpoint != null)
             {
-                FindObjectOfType<ArenaParc>().currentSpawned.Remove(enemy);
+                GameManager.instance.BackToCheckpoint();
             }
-
-            FindObjectOfType<ArenaParc>().started = false;
-            FindObjectOfType<ArenaParc>().currentWave = 0;
-            FindObjectOfType<ArenaParc>().doorNorth.SetActive(false);
-            FindObjectOfType<ArenaParc>().doorSouth.SetActive(false);
-
         }
-        
+
+
         foreach (AIBrain a in GameManager.instance.enemyList)
         {
             a.isAggro = false;
