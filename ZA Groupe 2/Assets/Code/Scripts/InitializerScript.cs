@@ -46,6 +46,7 @@ public class InitializerScript : MonoBehaviour
 
         if (PlayerManager.instance.storyState == 2 && toDestroyOn2)
         {
+            GameManager.instance.enemyList.Remove(toDestroyOn2.GetComponent<BearBehaviour>());
             Destroy(toDestroyOn2);
         }
 
