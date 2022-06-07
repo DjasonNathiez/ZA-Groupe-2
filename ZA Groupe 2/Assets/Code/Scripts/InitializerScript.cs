@@ -33,7 +33,7 @@ public class InitializerScript : MonoBehaviour
         }
         else if (PlayerManager.instance.storyState == 0)
         {
-            GameManager.instance.Initialize();
+            if(GameManager.instance) GameManager.instance.Initialize();
             foreach (GameObject obj in activeManoir)
             {
                 obj.SetActive(true);
