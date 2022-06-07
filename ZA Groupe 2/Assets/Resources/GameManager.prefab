@@ -2174,7 +2174,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.58, y: 1.96, z: -99.68}
+  m_LocalPosition: {x: -30.142, y: 1.89, z: -99.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2393,6 +2393,7 @@ MonoBehaviour:
   poufpoufTime: 0.81
   poufpoufOffset: {x: 0, y: 0, z: -0.71}
   poufpoufInstantiated: 0
+  isDead: 0
   visuthrow: {fileID: 7403386933788227741}
   attackVFX: {fileID: 6896911667257383965}
   hurtVFX: {fileID: 6484041033361083166}
@@ -11523,7 +11524,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8973343373871707938}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1021111764}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3179871988029640579
 GameObject:
   m_ObjectHideFlags: 0
@@ -43943,6 +43956,7 @@ MonoBehaviour:
   - {fileID: 0}
   enemyList: []
   grippableObj: []
+  arenaParc: {fileID: 0}
   bugtracker: {fileID: 0}
   playtestMenu: {fileID: 4639107708161736366}
   fpsCounter: {fileID: 3404923731828839502}
