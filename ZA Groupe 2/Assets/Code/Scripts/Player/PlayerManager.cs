@@ -284,7 +284,7 @@ public class PlayerManager : MonoBehaviour
       
     
 
-        GameManager.instance.ui.UpdateHat();
+        if(GameManager.instance) GameManager.instance.ui.UpdateHat();
     }
 
     //GameStats
@@ -1043,6 +1043,16 @@ public class PlayerManager : MonoBehaviour
                             GameManager.instance.ui.UpdateHat();
                         }
                     }
+                    break;
+                case "Lore":
+                    foreach (UIManager.LoreItem uiLore in GameManager.instance.ui.LoreItems)
+                    {
+                        if (item.itemName == uiLore.loreName)
+                        {
+                            //uiLore.collected = true;
+                            GameManager.instance.ui.UpdateLore();
+                        }
+                    }
 
                     break;
             }
@@ -1120,12 +1130,12 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        m_inputController.Enable();
+        if(m_inputController != null) m_inputController.Enable();
     }
 
     private void OnDisable()
     {
-        m_inputController.Disable();
+        if(m_inputController != null) m_inputController.Disable();
     }
 
     #endregion
