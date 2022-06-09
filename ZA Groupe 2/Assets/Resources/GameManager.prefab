@@ -73,7 +73,8 @@ MonoBehaviour:
   dialogueIndex: 0
   dialogue:
   - speakingName: 
-    text: 
+    frenchText: 
+    englishText: 
     textEffects: []
     modifyCameraPosition: 0
     positionCamera: {x: 0, y: 0, z: 0}
@@ -2174,7 +2175,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 616107715539217692}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -30.53, y: 1.96, z: -100.06}
+  m_LocalPosition: {x: -115.69, y: 18.37, z: -93.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2220,7 +2221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
+  m_Actions: {fileID: -944628639613478452, guid: da2cb0c40fbcb6547b40179317fafdd8, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -2232,7 +2233,103 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3826961568351911270}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2caea9ac-7c18-4f29-a306-6de20253ce4e
+    m_ActionName: Player/Move[/XInputControllerWindows/leftStick]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c34d41e7-f40c-4c27-a334-ebba12cbbc38
+    m_ActionName: Player/Melee[/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 56d154a8-1913-4975-9a9f-017243899b21
+    m_ActionName: Player/Interact[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3826961568351911270}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Throw
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5afc9112-cd58-41f2-aa17-27680ac92fa8
+    m_ActionName: Player/Range[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3826961568351911270}
+        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
+        m_MethodName: Roll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5cbfd671-6da0-4d87-a7fe-b63c9f4fbf8b
+    m_ActionName: Player/Roll[/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef3772b2-5c18-40a2-85dd-322d7064c9a0
+    m_ActionName: Player/Pause[/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dfa88661-831c-41d3-a5ea-7306e8bbf5ab
+    m_ActionName: Player/Map[/XInputControllerWindows/select]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: efbb0319-1c3d-4961-90bd-a973338478a2
+    m_ActionName: Player/Rope[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cea91d65-ef52-4ce6-ba04-1d032d572842
+    m_ActionName: Player/MousePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4bbfcd60-d27d-45d6-9367-061e63de1eac
+    m_ActionName: Player/Bugtracker
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: dffc391f-9ba9-4044-9691-8e795f266f9c
+    m_ActionName: Player/Clamp[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ef8d4ea9-5503-4554-8f25-277b89cf6d9e
+    m_ActionName: Player/Respawn[/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 55671e63-47ce-4ec6-a74b-042b95f4a52a
+    m_ActionName: Player/Unclamp[/XInputControllerWindows/rightShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6d89096f-fced-4117-98a8-c7a35f2cc980
+    m_ActionName: Player/OutRange[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eacd1a80-6a58-4dbf-98f8-38b73210af80
+    m_ActionName: Player/Command[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -43910,6 +44007,7 @@ MonoBehaviour:
   isStartGM: 0
   player: {fileID: 616107715539217692}
   camera: {fileID: 8704114524726881248}
+  language: 0
   ui: {fileID: 3482627436920398169}
   pauseMenu: {fileID: 7760004240787350350}
   inPause: 0
@@ -44424,8 +44522,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3080451094882235947}
   - component: {fileID: 6376619237357430135}
-  - component: {fileID: 147459953648585337}
-  - component: {fileID: 4299605069969014985}
   m_Layer: 0
   m_Name: poignet
   m_TagString: Untagged
@@ -44522,36 +44618,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.008815674, y: 0.0037076792, z: 0.0001975568}
     m_Extent: {x: 0.003676787, y: 0.004255697, z: 0.0091141965}
   m_DirtyAABB: 0
---- !u!114 &147459953648585337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9175192622451661277}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d57e89c03f081048b1010ab1fd90575, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_collider: {fileID: 4299605069969014985}
-  isAttacking: 0
-  canHurt: 0
-  popcornVFX: {fileID: 0}
-  knockbackForce: 2
---- !u!65 &4299605069969014985
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9175192622451661277}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 40.25983, y: 80.14583, z: 33.0902}
-  m_Center: {x: 23.955105, y: 35.012615, z: 0.0478096}
 --- !u!1001 &1589946357046060980
 PrefabInstance:
   m_ObjectHideFlags: 0

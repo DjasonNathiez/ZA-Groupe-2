@@ -102,7 +102,7 @@ public class AIBrain : MonoBehaviour
         modelNonAggroMat = new Material(modelNonAggroMat);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        player = FindObjectOfType<PlayerManager>().gameObject;
+        player = GameManager.instance.player;
         nav = GetComponent<NavMeshAgent>();
         
         nav.speed = moveSpeed;

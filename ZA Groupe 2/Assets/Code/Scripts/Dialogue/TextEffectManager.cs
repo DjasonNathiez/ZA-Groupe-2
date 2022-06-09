@@ -24,7 +24,17 @@ public class TextEffectManager : MonoBehaviour
     {
         Debug.Log("ShowText Void Launching");
 
-        textElement.text = dialogue[dialogueIndex].text;
+        switch (GameManager.instance.language)
+        {
+            case GameManager.Language.FRENCH:
+                textElement.text = dialogue[dialogueIndex].frenchText;
+                break;
+            
+            case GameManager.Language.ENGLISH:
+                textElement.text = dialogue[dialogueIndex].englishText;
+                break;
+        }
+        
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
         talkingCharacter.text = dialogue[dialogueIndex].speakingName;
@@ -44,7 +54,16 @@ public class TextEffectManager : MonoBehaviour
         if (dialogueIndex < dialogue.Length-1)
         {
             dialogueIndex++;
-            textElement.text = dialogue[dialogueIndex].text;
+            switch (GameManager.instance.language)
+            {
+                case GameManager.Language.FRENCH:
+                    textElement.text = dialogue[dialogueIndex].frenchText;
+                    break;
+            
+                case GameManager.Language.ENGLISH:
+                    textElement.text = dialogue[dialogueIndex].englishText;
+                    break;
+            }
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
             talkingCharacter.text = dialogue[dialogueIndex].speakingName;
@@ -226,7 +245,8 @@ public class TextEffectManager : MonoBehaviour
 [Serializable] public class DialogueLine
 {
     public string speakingName;
-    [TextArea] public string text;
+    [FormerlySerializedAs("text")] [TextArea] public string frenchText;
+    [TextArea] public string englishText;
     [FormerlySerializedAs("m_textEffects")] public TextEffect[] textEffects;
     public bool modifyCameraPosition;
     public Vector3 positionCamera;

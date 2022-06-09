@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     private PlayerManager m_playerManager;
     public new GameObject camera;
+    public Language language;
+    public enum Language{FRENCH, ENGLISH}
     
     [Header("UI")]
     public UIManager ui;
@@ -318,10 +320,11 @@ public class GameManager : MonoBehaviour
         GetComponentInChildren<CameraController>().InitializeCamera();
     }
 
-    public void LoadScene(string sceneName)
+    public IEnumerator LoadScene(string sceneName)
     {
+        transitionOn= true;
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(sceneName);
-        transitionOff = true;
         CheckScene();
     }
 
@@ -357,12 +360,6 @@ public class GameManager : MonoBehaviour
         player.transform.position = lastCheckpoint.respawnPoint.position;
     }
 
-
-    public void Unpause()
-    {
-        
-    }
-
     public IEnumerator VoiceSound(int counterSpeak)
     {
         for (int i = 0; i < counterSpeak; i++)
@@ -372,36 +369,6 @@ public class GameManager : MonoBehaviour
         }
        
     }
-
-    public void SpeakSound(int counterSpeak)
-    {
-        for (int i = 0; i < counterSpeak; i++)
-        {
-            
-        }
-    }
-    
-    #region Playtest Functions
-
-    public void SetInvincibility(bool isInvincible)
-    {
-        //m_playerManager.isInvincible = isInvincible;
-    }
-
-    public void SetInfiniteRope(bool ropeIsInfinite)
-    {
-        
-        if (ropeIsInfinite)
-        {
-            player.GetComponentInChildren<Rope>().lenght = 1000;
-        }
-        else
-        {
-            player.GetComponentInChildren<Rope>().lenght = 50;
-        }
-    }
-
-    #endregion
 
     #region SETTINGS MENU
 
@@ -457,6 +424,19 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public void SetLanguage(string languageSelect)
+    {
+        switch (languageSelect)
+        {
+            case "French":
+                language = Language.FRENCH;
+                break;
+            
+            case "English":
+                language = Language.ENGLISH;
+                break;
+        }
+    }
     
     public IEnumerator LoadFirstCinematic()
     {
@@ -464,7 +444,7 @@ public class GameManager : MonoBehaviour
         firstCinematic.Play();
         playingCinematic = firstCinematic;
         yield return new WaitForSeconds(48);
-        LoadScene("MAP_Parc");
+        StartCoroutine(LoadScene("MAP_Parc"));
         firstCinematic.Stop();
     }
     
@@ -475,7 +455,7 @@ public class GameManager : MonoBehaviour
         lastCinematic.Play();
         playingCinematic = lastCinematic;
         yield return new WaitForSeconds(50);
-        LoadScene("Main_Menu");
+        StartCoroutine(LoadScene("Menu_Principal"));
     }
 
     void SkipCinematic()
@@ -485,13 +465,13 @@ public class GameManager : MonoBehaviour
         if (playingCinematic == firstCinematic)
         {
             StopCoroutine(LoadFirstCinematic());
-            LoadScene("MAP_Parc");
+            StartCoroutine(LoadScene("MAP_Parc"));
         }
 
         if (playingCinematic == lastCinematic)
         {
             StopCoroutine(LoadEndCinematic());
-            LoadScene("Main_Menu");
+            StartCoroutine(LoadScene("Menu_Principal"));
         }
     }
 }
