@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
@@ -37,6 +38,14 @@ public class GameManager : MonoBehaviour
     public bool transitionOn;
     public bool transitionOff;
     public GameObject loading;
+    public UIText[] uiTexts;
+    
+    [Serializable] public struct UIText
+    {
+        public string frenchText;
+        public string englishText;
+        public TextMeshProUGUI uiTMP;
+    }
 
     [Header("Sound")] 
     public Slider mainSlider;
@@ -136,7 +145,28 @@ public class GameManager : MonoBehaviour
         environmentSlider.onValueChanged.AddListener(SetEffectVolume);
 
         transitionOn = true;
+        
+        UpdateUILanguage();
 
+    }
+
+    public void UpdateUILanguage()
+    {
+
+        foreach (UIText uiText in uiTexts)
+        {
+            
+            switch (language)
+            {
+                case Language.FRENCH:
+                    uiText.uiTMP.text = uiText.frenchText;
+                    break;
+            
+                case Language.ENGLISH:
+                    uiText.uiTMP.text = uiText.englishText;
+                    break;
+            }
+        }
     }
 
     private void OnEnable()
@@ -436,6 +466,8 @@ public class GameManager : MonoBehaviour
                 language = Language.ENGLISH;
                 break;
         }
+        
+        UpdateUILanguage();
     }
     
     public IEnumerator LoadFirstCinematic()

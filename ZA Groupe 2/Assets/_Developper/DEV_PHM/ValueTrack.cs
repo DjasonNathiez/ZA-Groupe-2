@@ -61,17 +61,25 @@ public class ValueTrack : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Water"))
+        if (collision.gameObject.layer == 4)
         {
+            ContactPoint contact = collision.GetContact(0);
+            Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+            
             onWater = true;
             meshRenderer.material.SetFloat("_UseMovingVertices", 1);
             meshRenderer.material.SetVector("_SpeedMoveAxis", new Vector3(0,0,1));
             meshRenderer.material.SetVector("_FrequencyAxis", new Vector3(0,0,1.3f));
             meshRenderer.material.SetVector("_AmplitudeAxis", new Vector3(0,0,0.2f));
             meshRenderer.material.SetVector("_AdjustPosAxis", new Vector3(0,0,0.1f));
-            Instantiate(splashVFX, transform.position, Quaternion.identity);
+            Instantiate(splashVFX, contact.point, Quaternion.identity);
+        }
+        
+        if (collision.gameObject.layer == 9)
+        {
+            Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
         }
     }
 }
