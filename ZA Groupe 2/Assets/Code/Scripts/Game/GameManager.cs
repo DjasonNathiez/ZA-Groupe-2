@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
@@ -35,6 +36,14 @@ public class GameManager : MonoBehaviour
     public bool transitionOn;
     public bool transitionOff;
     public GameObject loading;
+    public UIText[] uiTexts;
+    
+    [Serializable] public struct UIText
+    {
+        public string frenchText;
+        public string englishText;
+        public TextMeshProUGUI uiTMP;
+    }
 
     [Header("Sound")] 
     public Slider mainSlider;
@@ -117,7 +126,8 @@ public class GameManager : MonoBehaviour
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();
-
+        UpdateUILanguage();
+        
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
@@ -199,6 +209,24 @@ public class GameManager : MonoBehaviour
         foreach (AIBrain a in enemyList)
         {
             a.Disable();
+        }
+    }
+
+    public void UpdateUILanguage()
+    {
+        foreach (UIText uiText in uiTexts)
+        {
+            
+            switch (GameData.instance.currentLanguage)
+            {
+                case GameData.Language.FRENCH:
+                    uiText.uiTMP.text = uiText.frenchText;
+                    break;
+            
+                case GameData.Language.ENGLISH:
+                    uiText.uiTMP.text = uiText.englishText;
+                    break;
+            }
         }
     }
 
