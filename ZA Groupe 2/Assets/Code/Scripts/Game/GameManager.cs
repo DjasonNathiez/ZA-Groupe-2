@@ -151,25 +151,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void UpdateUILanguage()
-    {
-
-        foreach (UIText uiText in uiTexts)
-        {
-            
-            switch (language)
-            {
-                case Language.FRENCH:
-                    uiText.uiTMP.text = uiText.frenchText;
-                    break;
-            
-                case Language.ENGLISH:
-                    uiText.uiTMP.text = uiText.englishText;
-                    break;
-            }
-        }
-    }
-
     private void OnEnable()
     {
         inputDisplayFPS.Enable();

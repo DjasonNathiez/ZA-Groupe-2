@@ -32,27 +32,36 @@ public class ValueTrack : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == 4)
+        switch (collision.gameObject.layer)
         {
-            ContactPoint contact = collision.GetContact(0);
+            // Water Layer
+                case 4 :
+                    
+                    ContactPoint contact = collision.GetContact(0);
             
-            //Ignore collision on water
-            Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+                    //Ignore collision on water
+                    Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
             
-            //Add the floating movement
-            meshRenderer.material.SetFloat("_UseMovingVertices", 1);
-            meshRenderer.material.SetVector("_SpeedMoveAxis", new Vector3(0,0,1));
-            meshRenderer.material.SetVector("_FrequencyAxis", new Vector3(0,0,1.3f));
-            meshRenderer.material.SetVector("_AmplitudeAxis", new Vector3(0,0,0.2f));
-            meshRenderer.material.SetVector("_AdjustPosAxis", new Vector3(0,0,0.1f));
+                    //Add the floating movement
+                    meshRenderer.material.SetFloat("_UseMovingVertices", 1);
+                    meshRenderer.material.SetVector("_SpeedMoveAxis", new Vector3(0,0,1));
+                    meshRenderer.material.SetVector("_FrequencyAxis", new Vector3(0,0,1.3f));
+                    meshRenderer.material.SetVector("_AmplitudeAxis", new Vector3(0,0,0.2f));
+                    meshRenderer.material.SetVector("_AdjustPosAxis", new Vector3(0,0,0.1f));
             
-            //Add Visual effect
-            Instantiate(splashVFX, contact.point, Quaternion.identity);
-        }
-        
-        if (collision.gameObject.layer == 9)
-        {
-            Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), GetComponent<Collider>());
+                    //Add Visual effect
+                    if (splashVFX)
+                    {
+                        Instantiate(splashVFX, contact.point, Quaternion.identity);
+                    }
+                    
+                break;
+                
+            //Invisible Wall
+            
+              case 9 :
+                Physics.IgnoreCollision(collision.gameObject.GetComponent<Collider>(), gameObject.GetComponent<Collider>());
+                break;
         }
     }
     
