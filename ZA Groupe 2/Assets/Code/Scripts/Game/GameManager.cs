@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
         public VideoPlayer lastCinematic;
         public VideoPlayer playingCinematic;
     
-    private void Start()
+    private void Awake()
     {
         Initialize();
     }
@@ -128,7 +128,8 @@ public class GameManager : MonoBehaviour
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();
-        UpdateUILanguage();
+        
+        //UpdateUILanguage();
         
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
@@ -147,8 +148,6 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
         
-        UpdateUILanguage();
-
     }
 
     private void OnEnable()

@@ -135,6 +135,7 @@ public class AIBrain : MonoBehaviour
     public void Detection()
     {
         //Detect the player to aggro
+        if (player == null) return;
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer <= dectectionRange && !isAggro)
