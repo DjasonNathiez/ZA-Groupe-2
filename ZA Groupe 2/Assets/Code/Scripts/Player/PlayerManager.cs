@@ -586,8 +586,10 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && state == "StatusQuo" && m_controlState != ControlState.DIALOGUE)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && (state is "StatusQuo" or "Rope") && m_controlState != ControlState.DIALOGUE)
             {
+                if(state == "Rope") Rewind();
+                
                 m_canRoll = false;
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
