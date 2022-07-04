@@ -701,7 +701,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
+            if (/*m_moveDirection.magnitude > 0.2 &&*/ m_controlState != ControlState.DIALOGUE)
             {
                 if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
