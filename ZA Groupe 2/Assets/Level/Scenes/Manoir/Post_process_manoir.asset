@@ -15,13 +15,13 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.92355615, y: 0.8117441, z: 1, w: -0.07146882}
+    m_Value: {x: 0.825194, y: 0.79613113, z: 1, w: -0.009692761}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.7418318, y: 0.7431414, z: 1, w: 0.08815887}
+    m_Value: {x: 0.91181487, y: 0.8282274, z: 1, w: 0.057270836}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.76711345, y: 0.81513923, z: 1, w: 0.098595366}
+    m_Value: {x: 0.88167286, y: 0.90165687, z: 1, w: -0.19263288}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -92,7 +92,6 @@ MonoBehaviour:
   - {fileID: 3616258301156341265}
   - {fileID: -1918455368744705412}
   - {fileID: -6090933744825054839}
-  - {fileID: 7719198997245275685}
 --- !u!114 &3616258301156341265
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -108,19 +107,19 @@ MonoBehaviour:
   active: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.9
+    m_Value: 0.91
   intensity:
     m_OverrideState: 1
-    m_Value: 4.5
+    m_Value: 3
   scatter:
     m_OverrideState: 1
-    m_Value: 0.45
+    m_Value: 0.1
   clamp:
     m_OverrideState: 0
-    m_Value: 65472
+    m_Value: 65392.25
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.9076464, g: 0.5613208, b: 1, a: 1}
+    m_Value: {r: 0.46130192, g: 0.21186365, b: 0.6509434, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
@@ -133,19 +132,3 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
---- !u!114 &7719198997245275685
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81180773991d8724ab7f2d216912b564, type: 3}
-  m_Name: ChromaticAberration
-  m_EditorClassIdentifier: 
-  active: 1
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.05
