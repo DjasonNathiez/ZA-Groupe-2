@@ -100,7 +100,8 @@ public class GameManager : MonoBehaviour
         public VideoPlayer firstCinematic;
         public VideoPlayer lastCinematic;
         public VideoPlayer playingCinematic;
-    
+        
+     
     private void Start()
     {
         Initialize();
