@@ -655,7 +655,7 @@ public class PlayerManager : MonoBehaviour
                 case "StatusQuo":
                     if (!m_attack.isAttacking && !m_isRolling)
                     {
-                        PlayerManager.instance.rb.velocity = Vector3.zero;
+                        rb.velocity = Vector3.zero;
                         ClearAimList();
                         state = "Aiming";
                         visuthrow.SetActive(true);

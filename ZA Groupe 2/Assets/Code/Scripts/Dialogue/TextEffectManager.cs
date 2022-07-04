@@ -24,16 +24,26 @@ public class TextEffectManager : MonoBehaviour
     {
         Debug.Log("ShowText Void Launching");
         
-        switch (GameData.instance.currentLanguage)
+        if (GameData.instance == null)
         {
-            case GameData.Language.FRENCH:
-                textElement.text = dialogue[dialogueIndex].frenchText;
-                break;
+            Debug.LogWarning("GameData not found !");
+            textElement.text = dialogue[dialogueIndex].frenchText;
+        }
+        else
+        {
+            switch (GameData.instance.currentLanguage)
+            {
+                case GameData.Language.FRENCH:
+                    textElement.text = dialogue[dialogueIndex].frenchText;
+                    break;
                 
-            case GameData.Language.ENGLISH:
-                textElement.text = dialogue[dialogueIndex].englishText;
-                break;
-        }        
+                case GameData.Language.ENGLISH:
+                    textElement.text = dialogue[dialogueIndex].englishText;
+                    break;
+            }     
+        }
+        
+           
         
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
@@ -54,16 +64,25 @@ public class TextEffectManager : MonoBehaviour
         if (dialogueIndex < dialogue.Length-1)
         {
             dialogueIndex++;
-            switch (GameData.instance.currentLanguage)
+            if (GameData.instance == null)
             {
-                case GameData.Language.FRENCH:
-                    textElement.text = dialogue[dialogueIndex].frenchText;
-                    break;
-                
-                case GameData.Language.ENGLISH:
-                    textElement.text = dialogue[dialogueIndex].englishText;
-                    break;
+                Debug.LogWarning("GameData not found !");
+                textElement.text = dialogue[dialogueIndex].frenchText;
             }
+            else
+            {
+                switch (GameData.instance.currentLanguage)
+                {
+                    case GameData.Language.FRENCH:
+                        textElement.text = dialogue[dialogueIndex].frenchText;
+                        break;
+                
+                    case GameData.Language.ENGLISH:
+                        textElement.text = dialogue[dialogueIndex].englishText;
+                        break;
+                }
+            }
+            
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
             talkingCharacter.text = dialogue[dialogueIndex].speakingName;
