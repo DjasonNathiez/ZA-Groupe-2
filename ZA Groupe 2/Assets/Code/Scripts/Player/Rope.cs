@@ -287,7 +287,7 @@ public class Rope : MonoBehaviour
 
         lenght = checklenght;
         
-        
+        /*
         if (pinnedToObject)
         {
             if (clamped && lenght > 1.5f)
@@ -310,6 +310,7 @@ public class Rope : MonoBehaviour
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
             }
         }
+        */
         
         if (Vector3.SqrMagnitude(rope.GetPosition(rope.positionCount-2) - rope.GetPosition(rope.positionCount-1)) > remainingLenght * remainingLenght && PlayerManager.instance.state == "Rope")
         {
@@ -416,6 +417,32 @@ public class Rope : MonoBehaviour
                 rewinding = true;
                // Debug.Log("ReasonNumberTwo");
                 //Debug.Log(transform.position.y + " and " + gripY);
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (pinnedToObject)
+        {
+            if (clamped && lenght > 1.5f)
+            {
+                Vector3 force = (rope.GetPosition(1) - rope.GetPosition(0)).normalized;
+                float factor = new float();
+                WeightClass objectToPull = WeightClass.LIGHT;
+                objectToPull = pinnedRb.gameObject.GetComponent<ValueTrack>() != null ? pinnedRb.gameObject.GetComponent<ValueTrack>().weightClass : WeightClass.NULL;
+
+                factor = objectToPull switch
+                {
+                    WeightClass.NULL => 0,
+                    WeightClass.LIGHT => 20,
+                    WeightClass.MEDIUM => 10,
+                    WeightClass.HEAVY => 5,
+                    _ => factor
+                };
+
+                pinnedRb.AddForceAtPosition(force * factor ,pin.transform.position,ForceMode.Acceleration);
+                pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
             }
         }
     }
