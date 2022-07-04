@@ -32,7 +32,7 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""2caea9ac-7c18-4f29-a306-6de20253ce4e"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
