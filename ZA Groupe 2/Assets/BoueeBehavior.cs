@@ -40,7 +40,10 @@ public class BoueeBehavior : MonoBehaviour
             if ((new Vector2(PlayerManager.instance.transform.position.x, PlayerManager.instance.transform.position.z) -
                  new Vector2(transform.position.x, transform.position.z)).sqrMagnitude > radius * radius)
             {
-                playerAboard = false;
+                PlayerManager.instance.transform.position = new Vector3(transform.position.x,
+                    PlayerManager.instance.transform.position.y, transform.position.z) +
+                    (PlayerManager.instance.transform.position - new Vector3(transform.position.x,
+                        PlayerManager.instance.transform.position.y, transform.position.z)).normalized * radius;
             }
             
 
@@ -60,7 +63,7 @@ public class BoueeBehavior : MonoBehaviour
             Vector3 newPos = Quaternion.AngleAxis(newAngle, Vector3.up) * previousPosAngle;
             PlayerManager.instance.transform.position += newPos - previousPosAngle;
             previousangle = transform.eulerAngles.y;
-            
+
         }
     }
 }

@@ -63,10 +63,12 @@ public class plateformeMove : MonoBehaviour
             }
         }
 
-        transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(
+        coordToFollow = new Vector3(
             Mathf.Clamp(coordToFollow.x, minimumCoord.x, maximumCoord.x),
             Mathf.Clamp(coordToFollow.y, minimumCoord.y, maximumCoord.y),
-            Mathf.Clamp(coordToFollow.z, minimumCoord.z, maximumCoord.z)), Time.deltaTime * 5);
+            Mathf.Clamp(coordToFollow.z, minimumCoord.z, maximumCoord.z));
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, coordToFollow, Time.deltaTime * 5);
         
         if(playerAboard) PlayerManager.instance.transform.position = PlayerManager.instance.transform.position + (transform.position - lastPos);
     }
