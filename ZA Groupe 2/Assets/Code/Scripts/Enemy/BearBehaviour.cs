@@ -14,6 +14,11 @@ public class BearBehaviour : AIBrain
 
     public CapsuleCollider bodyCol;
 
+    [Header("VfxPos")] 
+    public Transform bearDeathExplosionPos;
+    public Transform bearAttackPos;
+    public Transform rabbit_Chase_SurprisePos;
+
     private void Start()
     {
         InitializationData();
@@ -103,9 +108,8 @@ public class BearBehaviour : AIBrain
         canAttack = true;
         isFalling = false;
     }
-
-   
-
+    
+    
     private void SpecialBearAttack()
     {
         AttackPlayer();

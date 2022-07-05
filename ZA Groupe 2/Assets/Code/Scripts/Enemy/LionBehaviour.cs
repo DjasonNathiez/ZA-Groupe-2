@@ -13,9 +13,7 @@ public class LionBehaviour : AIBrain
     public float rushSpeed;
     
     public float timerToResetCounterState;
-
-    public ParticleSystem fallVFX;
-    public ParticleSystem standUpVFX;
+    public Transform fallVFX;
     
     private void Start()
     {
@@ -131,7 +129,12 @@ public class LionBehaviour : AIBrain
             isFalling = true;
             
             FallOnTheGround();
-            fallVFX.Play();
+            
+            // AUC Change
+            GameObject tempFallVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Fall);
+            tempFallVfx.transform.position = fallVFX.position;
+            tempFallVfx.transform.rotation = fallVFX.rotation;
+
         }
     }
 

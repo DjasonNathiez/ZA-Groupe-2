@@ -24,12 +24,13 @@ public class RabbitBehaviour : AIBrain
     private Material enemyStatutPointerMaterial;
 
     [Header("Rabbit Self VFX")] 
-    public ParticleSystem chaseBegin;
-    public ParticleSystem chaseContinue;
-    public ParticleSystem chaseEnd;
-    public ParticleSystem chaseSurprise;
-    public ParticleSystem chaseMangaAngry;
-    
+    public Transform chaseBegin;
+    public Transform chaseContinue;
+    public Transform chaseEnd;
+    public Transform chaseSurprise;
+    public Transform chaseMangaAngry;
+
+    private GameObject chaseContinueVfx; 
     void Start()
     {
         isInvincible = false;
@@ -87,10 +88,23 @@ public class RabbitBehaviour : AIBrain
         {
             if (distanceToPlayer <= dectectionRange && dectectionRange < distanceToNearestPoint && !isAggro)
             {
-                chaseBegin.Play();
-                chaseContinue.Play();
-                chaseSurprise.Play();
-                chaseMangaAngry.Play();
+                // AUC Changes
+                GameObject chaseBeginVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Chase_Begin);
+                chaseBeginVfx.transform.position = chaseBegin.position;
+                chaseBeginVfx.transform.rotation = chaseBegin.rotation;
+                
+                chaseContinueVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Chase_Continue);
+                chaseContinueVfx.transform.position = chaseContinue.position;
+                chaseContinueVfx.transform.rotation = chaseContinue.rotation;
+                
+                GameObject chaseSurpriseVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Chase_Surprise);
+                chaseSurpriseVfx.transform.position = chaseSurprise.position;
+                chaseSurpriseVfx.transform.rotation = chaseSurprise.rotation;
+                
+                GameObject chaseMangaAngryVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Manga_Angry);
+                chaseMangaAngryVfx.transform.position = chaseMangaAngry.position;
+                chaseMangaAngryVfx.transform.rotation = chaseMangaAngry.rotation;
+                
                 PlaySFX("R_Aggro");
                 
                 isAggro = true;
@@ -105,9 +119,15 @@ public class RabbitBehaviour : AIBrain
             if (isAggro)
             {
                 stateMachine = StateMachine.IDLE;
-            
-                chaseContinue.Stop();
-                chaseEnd.Play();
+
+                if (!chaseContinue && chaseContinueVfx != null)
+                {
+                    chaseContinueVfx.SetActive(false);
+                }
+                
+                GameObject chaseEndVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Chase_End);
+                chaseEndVfx.transform.position = chaseEnd.position;
+                chaseEndVfx.transform.rotation = chaseEnd.rotation;
             
                 isAggro = false;
             }
