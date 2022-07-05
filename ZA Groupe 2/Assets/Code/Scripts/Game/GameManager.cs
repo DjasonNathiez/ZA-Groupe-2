@@ -211,6 +211,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (AIBrain a in enemyList)
         {
+            if (!a.enabled) continue;
             a.Disable();
         }
     }

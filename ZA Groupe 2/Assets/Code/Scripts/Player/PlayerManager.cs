@@ -445,12 +445,14 @@ public class PlayerManager : MonoBehaviour
 
             //Distance
 
+            /*
             if (state == "Throw")
             {
              
                 throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
 
             }
+            */
 
             if (state == "Aiming")
             {
@@ -575,6 +577,16 @@ public class PlayerManager : MonoBehaviour
         #endregion
     }
 
+    private void FixedUpdate()
+    {
+        if (state == "Throw")
+        {
+             
+            throwingWeapon.transform.Translate(direction * (Time.fixedDeltaTime * throwingSpeed));
+
+        }
+    }
+
     #region ATTACK
 
     void SetAttackCD()
@@ -586,8 +598,10 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && state == "StatusQuo" && m_controlState != ControlState.DIALOGUE)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && (state is "StatusQuo" or "Rope") && m_controlState != ControlState.DIALOGUE)
             {
+                if(state == "Rope") Rewind();
+                
                 m_canRoll = false;
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
@@ -648,6 +662,8 @@ public class PlayerManager : MonoBehaviour
     
     public void OnRange()
     {
+        if(m_controlState == ControlState.DIALOGUE) return;
+    
         if (!isDead)
         {
             switch (state)
@@ -655,7 +671,7 @@ public class PlayerManager : MonoBehaviour
                 case "StatusQuo":
                     if (!m_attack.isAttacking && !m_isRolling)
                     {
-                        PlayerManager.instance.rb.velocity = Vector3.zero;
+                        rb.velocity = Vector3.zero;
                         ClearAimList();
                         state = "Aiming";
                         visuthrow.SetActive(true);
@@ -701,7 +717,7 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
+            if (/*m_moveDirection.magnitude > 0.2 &&*/ m_controlState != ControlState.DIALOGUE)
             {
                 if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
