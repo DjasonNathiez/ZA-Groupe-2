@@ -64,16 +64,15 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public bool playerShowBack;
     
     [Header("VFX")]
-    public Transform hurtVFX;
-    public Transform attackVFX;
-    public Transform hitZoneVFX;
-    public Transform deathVFX;
-    public Transform explosionVFX;
+    public ParticleSystem hurtVFX;
+    public ParticleSystem attackVFX;
+    public ParticleSystem hitZoneVFX;
+    public ParticleSystem deathVFX;
+    public ParticleSystem explosionVFX;
     public bool explodeOnEvent;
-    public Transform aggroVFX;
+    public ParticleSystem aggroVFX;
     public ParticleSystem counterVFX;
-    public Transform standUpVFX;
-    
+
     [Header("Visual")] 
     public List<SkinnedMeshRenderer> modelMeshRenderer;
     public Material modelNonAggroMat;
@@ -90,10 +89,7 @@ public class AIBrain : MonoBehaviour
     {
         if (explosionVFX != null)
         {
-            // AUC Changes
-            var exploVfx = PoolManager.Instance.PoolInstantiate(transform.GetComponent<BearBehaviour>() != null ? PoolManager.Object.VFX_BearDeathExplosion : PoolManager.Object.VFX_LionDeathExplosion);
-            exploVfx.transform.position = explosionVFX.position;
-            exploVfx.transform.rotation = explosionVFX.rotation;
+            explosionVFX.Play();
         }
     }
     
@@ -156,10 +152,7 @@ public class AIBrain : MonoBehaviour
                         
                         if (aggroVFX != null)
                         {
-                            // AUC Changes
-                            GameObject vfxAggro = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Chase_Surprise);
-                            vfxAggro.transform.position = aggroVFX.position;
-                            vfxAggro.transform.rotation = aggroVFX.rotation;
+                            aggroVFX.Play();
                         }
 
                         if (GetComponent<LionBehaviour>())
@@ -218,24 +211,7 @@ public class AIBrain : MonoBehaviour
     {
         if (attackVFX != null)
         {
-            // AUC Changes
-            GameObject atkVfx;
-            if (transform.GetComponent<BearBehaviour>())
-            {
-                atkVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_BearAttack);
-            }
-            else if (transform.GetComponent<RabbitBehaviour>())
-            {
-                atkVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Attack);
-            }
-            else
-            {
-                atkVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Attack);
-            }
-
-            atkVfx.transform.position = attackVFX.position;
-            atkVfx.transform.rotation = attackVFX.rotation;
-
+            attackVFX.Play();
         }
     }
 
@@ -253,11 +229,8 @@ public class AIBrain : MonoBehaviour
         isAttacking = false;
         canAttack = false;
         canMove = false;
-
-        // AUC
-        GameObject standUpTempVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_StandUp);
-        standUpTempVfx.transform.position = standUpVFX.position;
-        standUpTempVfx.transform.rotation = standUpVFX.rotation;
+        
+        GetComponent<LionBehaviour>().standUpVFX.Play();
         
         if (hitZoneVFX != null)
         {
@@ -314,22 +287,7 @@ public class AIBrain : MonoBehaviour
             
             if (hurtVFX != null)
             {
-                // AUC Changes
-                GameObject getHurtVfx;
-                
-                if (GetComponent<BearBehaviour>() != null)
-                {
-                    getHurtVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_BearHurt);  
-                }
-                else if (GetComponent<LionBehaviour>() != null)
-                { 
-                    getHurtVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Hurt);
-                }
-                else
-                    getHurtVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Damage);
-
-                getHurtVfx.transform.position = hurtVFX.position;
-                getHurtVfx.transform.rotation = hurtVFX.rotation;
+                hurtVFX.Play();
             }
 
             if (currentHealth <= 0)
@@ -362,27 +320,12 @@ public class AIBrain : MonoBehaviour
 
         if (deathVFX != null)
         {
-            GameObject deathVfx;
-            if (GetComponent<BearBehaviour>() != null)
-            {
-                deathVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Death);  
-            }
-            else if (GetComponent<LionBehaviour>() != null)
-            { 
-                deathVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Death);
-            }
-            else
-                deathVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Rabbit_Death);
-
-            deathVfx.transform.position = deathVFX.position;
-            deathVfx.transform.rotation = deathVFX.rotation;
+            deathVFX.Play();
         }
 
         if (explosionVFX != null && !explodeOnEvent)
         {
-            GameObject explodeOnEventVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_LionDeathExplosion);
-            explodeOnEventVfx.transform.position = explosionVFX.position;
-            explodeOnEventVfx.transform.rotation = explosionVFX.rotation;
+            explosionVFX.Play();
         }
         
         GameManager.instance.enemyList.Remove(this);

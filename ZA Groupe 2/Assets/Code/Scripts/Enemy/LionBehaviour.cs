@@ -13,7 +13,9 @@ public class LionBehaviour : AIBrain
     public float rushSpeed;
     
     public float timerToResetCounterState;
-    public Transform fallVFX;
+
+    public ParticleSystem fallVFX;
+    public ParticleSystem standUpVFX;
     
     private void Start()
     {
@@ -92,7 +94,6 @@ public class LionBehaviour : AIBrain
                 }
 
                 
-                
                 if (distanceToPlayer <= attackRange)
                 {
                     if (canAttack)
@@ -129,12 +130,7 @@ public class LionBehaviour : AIBrain
             isFalling = true;
             
             FallOnTheGround();
-            
-            // AUC Change
-            GameObject tempFallVfx = PoolManager.Instance.PoolInstantiate(PoolManager.Object.VFX_Lion_Fall);
-            tempFallVfx.transform.position = fallVFX.position;
-            tempFallVfx.transform.rotation = fallVFX.rotation;
-
+            fallVFX.Play();
         }
     }
 
