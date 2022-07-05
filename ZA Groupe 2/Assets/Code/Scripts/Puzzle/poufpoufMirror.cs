@@ -20,9 +20,9 @@ public class poufpoufMirror : MonoBehaviour
         {
             Debug.Log("Oui");
             PlayerManager.instance.poufpoufInstantiated = false;
-            GameObject go = Instantiate(PlayerManager.instance.VFXPoufpouf, PlayerManager.instance.transform.position + PlayerManager.instance.transform.TransformVector( PlayerManager.instance.poufpoufOffset), Quaternion.identity);
-            go.transform.parent = transform;
-            go.transform.localPosition = new Vector3(go.transform.localPosition.x, go.transform.localPosition.y, go.transform.localPosition.z * -1);
+            //GameObject go = Instantiate(PlayerManager.instance.VFXPoufpouf, PlayerManager.instance.transform.position + PlayerManager.instance.transform.TransformVector( PlayerManager.instance.poufpoufOffset), Quaternion.identity).gameObject;
+            //go.transform.parent = transform;
+            //go.transform.localPosition = new Vector3(go.transform.localPosition.x, go.transform.localPosition.y, go.transform.localPosition.z * -1);
         }
     }
 }
