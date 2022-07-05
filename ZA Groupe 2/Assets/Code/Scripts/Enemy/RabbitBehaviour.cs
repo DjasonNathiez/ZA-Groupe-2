@@ -83,7 +83,7 @@ public class RabbitBehaviour : AIBrain
     {
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
         
-        if (player.GetComponent<PlayerManager>().state != "StatusQuo")
+        if (player.GetComponent<PlayerManager>().state != ActionType.StatusQuo)
         {
             if (distanceToPlayer <= dectectionRange && dectectionRange < distanceToNearestPoint && !isAggro)
             {
