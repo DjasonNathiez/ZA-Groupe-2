@@ -445,12 +445,14 @@ public class PlayerManager : MonoBehaviour
 
             //Distance
 
+            /*
             if (state == "Throw")
             {
              
                 throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
 
             }
+            */
 
             if (state == "Aiming")
             {
@@ -573,6 +575,16 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Pause.started += PauseOnStarted;
         
         #endregion
+    }
+
+    private void FixedUpdate()
+    {
+        if (state == "Throw")
+        {
+             
+            throwingWeapon.transform.Translate(direction * (Time.fixedDeltaTime * throwingSpeed));
+
+        }
     }
 
     #region ATTACK
