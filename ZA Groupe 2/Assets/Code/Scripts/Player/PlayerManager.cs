@@ -650,6 +650,8 @@ public class PlayerManager : MonoBehaviour
     
     public void OnRange()
     {
+        if(m_controlState == ControlState.DIALOGUE) return;
+    
         if (!isDead)
         {
             switch (state)
