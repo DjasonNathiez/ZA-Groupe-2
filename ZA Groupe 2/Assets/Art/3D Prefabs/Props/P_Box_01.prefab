@@ -13,12 +13,13 @@ GameObject:
   - component: {fileID: 6916855435911877215}
   - component: {fileID: 73903179}
   - component: {fileID: 73903178}
+  - component: {fileID: 2650949901536686171}
   m_Layer: 0
   m_Name: P_Box_01
-  m_TagString: Untagged
+  m_TagString: GrippableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &5743980150582552880
 Transform:
@@ -116,3 +117,19 @@ MonoBehaviour:
   boxExplosion: {fileID: 3873526123980352243, guid: 8edf6da888fb04b44a21561429dc376c, type: 3}
   destructionSound: {fileID: 8300000, guid: c1b0391e2a8989d49a1ec170897e8381, type: 3}
   volume: 0
+--- !u!54 &2650949901536686171
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4971243015297201034}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
