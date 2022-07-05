@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (AIBrain a in enemyList)
         {
-            a.Enable();
+            if(a.enabled) a.Enable();
         }
     }
     
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (AIBrain a in enemyList)
         {
-            a.Disable();
+            if(a.enabled) a.Disable();
         }
     }
 
