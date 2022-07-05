@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialize();
+        
     }
 
     public void Initialize()
@@ -124,7 +125,7 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        
+
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();
@@ -148,6 +149,8 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
         
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 144;
     }
 
     private void OnEnable()
