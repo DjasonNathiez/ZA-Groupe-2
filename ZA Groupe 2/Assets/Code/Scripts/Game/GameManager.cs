@@ -101,9 +101,10 @@ public class GameManager : MonoBehaviour
         public VideoPlayer lastCinematic;
         public VideoPlayer playingCinematic;
     
-    private void Start()
+    private void Awake()
     {
         Initialize();
+        
     }
 
     public void Initialize()
@@ -124,11 +125,12 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        
+
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();
-        UpdateUILanguage();
+        
+        //UpdateUILanguage();
         
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
@@ -147,8 +149,8 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
         
-        UpdateUILanguage();
-
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 144;
     }
 
     private void OnEnable()
@@ -212,6 +214,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (AIBrain a in enemyList)
         {
+            if (!a.enabled) continue;
             a.Disable();
         }
     }

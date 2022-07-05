@@ -135,6 +135,7 @@ public class AIBrain : MonoBehaviour
     public void Detection()
     {
         //Detect the player to aggro
+        if (player == null) return;
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         if (distanceToPlayer <= dectectionRange && !isAggro)
@@ -228,7 +229,9 @@ public class AIBrain : MonoBehaviour
         isAttacking = false;
         canAttack = false;
         canMove = false;
-
+        
+        GetComponent<LionBehaviour>().standUpVFX.Play();
+        
         if (hitZoneVFX != null)
         {
             hitZoneVFX.gameObject.SetActive(true);
@@ -238,8 +241,6 @@ public class AIBrain : MonoBehaviour
     }
     
     #region Routine
-    
-   
     
     public IEnumerator WaitForStand()
     {

@@ -7,6 +7,7 @@ public class rotatingProp : MonoBehaviour
 {
     public float myrotation;
     public float previousrotation;
+    public float lastRot;
     public bool done;
     [SerializeField] private DialogueLine[] dialogue;
     [SerializeField] private TextEffectManager textEffectManager;
@@ -16,6 +17,7 @@ public class rotatingProp : MonoBehaviour
     public float rotationKey;
     void Update()
     {
+        lastRot = myrotation;
         if ((transform.rotation.eulerAngles.y - previousrotation) > 180)
         {
             myrotation += 360 -(transform.rotation.eulerAngles.y - previousrotation);

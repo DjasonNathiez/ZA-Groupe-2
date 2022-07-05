@@ -21,6 +21,7 @@ public class Door : MonoBehaviour
     public GameObject[] child;
     public bool startedTapeTaupe;
     private bool soundLoad;
+    public Animation animator;
 
     void Update()
     {
@@ -40,6 +41,10 @@ public class Door : MonoBehaviour
                 {
                     enabled = false;
                 }   
+            }
+            if (type == "Cine")
+            {
+                 animator.Play("WaterRise");
             }
             else if (type == "Rotating")
             {

@@ -177,6 +177,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (var lore in LoreItems)
         {
+            if (lore.arrow == null) continue;
             if (EventSystem.current.currentSelectedGameObject == lore.loreItem)
             {
                 lore.arrow.SetActive(true);

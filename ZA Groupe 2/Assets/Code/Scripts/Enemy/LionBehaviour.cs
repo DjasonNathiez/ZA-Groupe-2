@@ -17,7 +17,7 @@ public class LionBehaviour : AIBrain
     public ParticleSystem fallVFX;
     public ParticleSystem standUpVFX;
     
-    private void Awake()
+    private void Start()
     {
         InitializationData();
     }
@@ -93,7 +93,6 @@ public class LionBehaviour : AIBrain
                     MoveToPlayer(target);
                 }
 
-                
                 
                 if (distanceToPlayer <= attackRange)
                 {

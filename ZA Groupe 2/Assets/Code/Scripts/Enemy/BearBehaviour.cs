@@ -103,9 +103,8 @@ public class BearBehaviour : AIBrain
         canAttack = true;
         isFalling = false;
     }
-
-   
-
+    
+    
     private void SpecialBearAttack()
     {
         AttackPlayer();
