@@ -479,7 +479,7 @@ public class GameManager : MonoBehaviour
         firstCinematic.Play();
         playingCinematic = firstCinematic;
         yield return new WaitForSeconds(48);
-        StartCoroutine(LoadScene("MAP_Parc"));
+        StartCoroutine(LoadScene(parcScene));
         firstCinematic.Stop();
     }
     
@@ -500,7 +500,7 @@ public class GameManager : MonoBehaviour
         if (playingCinematic == firstCinematic)
         {
             StopCoroutine(LoadFirstCinematic());
-            StartCoroutine(LoadScene("MAP_Parc"));
+            StartCoroutine(LoadScene(parcScene));
         }
 
         if (playingCinematic == lastCinematic)
