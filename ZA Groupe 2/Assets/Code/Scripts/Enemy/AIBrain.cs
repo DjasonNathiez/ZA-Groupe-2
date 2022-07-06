@@ -219,15 +219,20 @@ public class AIBrain : MonoBehaviour
     
     public void FallOnTheGround()
     {
+        LionBehaviour lionBehaviour = GetComponent<LionBehaviour>();
+        
         //Set State
         isFalling = true;
         isInvincible = false;
         isAttacking = false;
         canAttack = false;
         canMove = false;
-        
-        GetComponent<LionBehaviour>().standUpVFX.Play();
-        
+
+        if (lionBehaviour)
+        {
+            lionBehaviour.fallVFX.Play();
+        }
+
         if (hitZoneVFX)
         {
             hitZoneVFX.gameObject.SetActive(true);
