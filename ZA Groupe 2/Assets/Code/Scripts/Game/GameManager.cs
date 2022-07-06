@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
         
-        QualitySettings.vSyncCount = 1;
+        QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
     }
 
