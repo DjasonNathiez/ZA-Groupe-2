@@ -3469,7 +3469,7 @@ Light:
     serializedVersion: 2
     m_Bits: 2147483648
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -9258,7 +9258,7 @@ Light:
     serializedVersion: 2
     m_Bits: 2147483648
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -44688,7 +44688,7 @@ MonoBehaviour:
   sfxMixer: {fileID: -949029449827080841, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   environmentMixer: {fileID: -1591014527875698147, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   testSoundFeedback: {fileID: 8300000, guid: bbeea7990d9c99649ad774ba891cd5f5, type: 3}
-  parcScene: MAP_Parc
+  parcScene: MAP_Parc 1 (Lucas)
   dungeonScene: Manoir
   menuScene: MAJ_Boss
   dungeonEnded: 0
@@ -46534,7 +46534,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
       propertyPath: looping
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
       propertyPath: stopAction
@@ -46542,11 +46542,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
       propertyPath: autoRandomSeed
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.minScalar
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4537413318643258881, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.minMaxState
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5542936462249446828, guid: 9aefb6cb7ef71a14db82e271c610f1db, type: 3}
       propertyPath: m_Name
