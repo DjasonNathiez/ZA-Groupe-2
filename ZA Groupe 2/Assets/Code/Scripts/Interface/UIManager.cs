@@ -177,7 +177,7 @@ public class UIManager : MonoBehaviour
     {
         foreach (var lore in LoreItems)
         {
-            if (lore.arrow == null) continue;
+            if (!lore.arrow) continue;
             if (EventSystem.current.currentSelectedGameObject == lore.loreItem)
             {
                 lore.arrow.SetActive(true);
@@ -202,13 +202,16 @@ public class UIManager : MonoBehaviour
 
         foreach (var hat in allDisplayHat)
         {
-            if (hat.hatObj.GetComponent<Mesh>() == m_player.currentHat.GetComponent<Mesh>())
+            var hatObjMesh = hat.hatObj.GetComponent<Mesh>();
+            var hatObjMeshRenderer = hat.hatObj.GetComponent<MeshRenderer>();
+            
+            if (hatObjMesh == m_player.currentHat.GetComponent<Mesh>())
             {
-                hat.hatObj.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 1);
+                hatObjMeshRenderer.material.SetFloat("_EnableOutline", 1);
             }
             else
             {
-                hat.hatObj.GetComponent<MeshRenderer>().material.SetFloat("_EnableOutline", 0);
+                hatObjMeshRenderer.material.SetFloat("_EnableOutline", 0);
             }
             
             //Display Hat
