@@ -1,5 +1,4 @@
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -78,7 +77,7 @@ public class Attack : MonoBehaviour
 
           if (knockableObject.isHit)
           {
-              Instantiate(popcornVFX, transform.position, quaternion.identity);
+              Instantiate(popcornVFX, -other.ClosestPointOnBounds(other.transform.position), quaternion.identity);
               Destroy(knockableObject.popcornInterior);
               knockableObject.isHit = false; 
           }

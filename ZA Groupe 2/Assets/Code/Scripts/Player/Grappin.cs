@@ -10,20 +10,25 @@ public class Grappin : MonoBehaviour
     public int ropeSizeNecessary;
     [SerializeField] private DialogueLine[] dialogue;
     public float timer;
-    public float delay;
+    public float delay; 
     public float timerCable;
     public float delayCable;
     public bool cable;
     public bool travel;
     public Vector3 pos;
     public float x;
+
+    public PlayerManager _playerManager;
+    
     public void StartGrappin()
     {
-        pos = PlayerManager.instance.transform.position;
-        PlayerManager.instance.ropeGrappin.SetPosition(0,PlayerManager.instance.transform.position);
-        PlayerManager.instance.ropeGrappin.SetPosition(1,pos);
-        PlayerManager.instance.EnterDialogue();
-        PlayerManager.instance.ropeGrappin.gameObject.SetActive(true);
+        _playerManager = PlayerManager.instance;
+        
+        pos = _playerManager.transform.position;
+        _playerManager.ropeGrappin.SetPosition(0,_playerManager.transform.position);
+        _playerManager.ropeGrappin.SetPosition(1,pos);
+        _playerManager.EnterDialogue();
+        _playerManager.ropeGrappin.gameObject.SetActive(true);
         travel = true;
     }
 
@@ -33,15 +38,15 @@ public class Grappin : MonoBehaviour
         {
             if (cable)
             {
-                PlayerManager.instance.transform.position = Vector3.Lerp(pointToGo.transform.position, pos,timer/delay);
-                PlayerManager.instance.ropeGrappin.SetPosition(0,PlayerManager.instance.transform.position);
-                PlayerManager.instance.ropeGrappin.SetPosition(1,pointToGo.position);   
+                _playerManager.transform.position = Vector3.Lerp(pointToGo.transform.position, pos,timer/delay);
+                _playerManager.ropeGrappin.SetPosition(0,_playerManager.transform.position);
+                _playerManager.ropeGrappin.SetPosition(1,pointToGo.position);   
             }
             else
             {
-                PlayerManager.instance.transform.position = pos;
-                PlayerManager.instance.ropeGrappin.SetPosition(0,pos);
-                PlayerManager.instance.ropeGrappin.SetPosition(1,Vector3.Lerp(pointToGo.transform.position, pos,timerCable/delayCable)); 
+                _playerManager.transform.position = pos;
+                _playerManager.ropeGrappin.SetPosition(0,pos);
+                _playerManager.ropeGrappin.SetPosition(1,Vector3.Lerp(pointToGo.transform.position, pos,timerCable/delayCable)); 
             }
             if (timerCable > 0)
             {
@@ -50,7 +55,7 @@ public class Grappin : MonoBehaviour
             else
             {
                 timerCable = 0;
-                PlayerManager.instance.ropeGrappin.SetPosition(1,pointToGo.transform.position);
+                _playerManager.ropeGrappin.SetPosition(1,pointToGo.transform.position);
                 cable = true;
             }
             
@@ -60,8 +65,8 @@ public class Grappin : MonoBehaviour
             }
             else if (cable)
             {
-                PlayerManager.instance.ExitDialogue();
-                PlayerManager.instance.ropeGrappin.gameObject.SetActive(false);
+                _playerManager.ExitDialogue();
+                _playerManager.ropeGrappin.gameObject.SetActive(false);
                 travel = false;
                 cable = false;
                 timer = delay;

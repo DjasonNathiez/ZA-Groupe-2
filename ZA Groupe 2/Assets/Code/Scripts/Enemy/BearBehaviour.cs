@@ -1,6 +1,5 @@
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BearBehaviour : AIBrain
 {

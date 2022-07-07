@@ -103,7 +103,7 @@ public class KonamiCode : MonoBehaviour
         {
             PlayerManager.instance.transform.position = new Vector3(27.85f, 2.7f, -99.83f);
             PlayerManager.instance.manoirLight.SetActive(true);
-            SceneManager.LoadScene("Manoir");
+            SceneManager.LoadScene("AUC_Manoir");
             buffer = "";
         }
 
