@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &5448040419691974126
 Transform:
@@ -54,7 +54,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
+  m_StaticShadowCaster: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -114,3 +114,5 @@ MonoBehaviour:
   isLoot: 0
   lootName: 
   boxExplosion: {fileID: 4115429008550558110, guid: 4475bdbb311f9914cb1d986f82262cb5, type: 3}
+  destructionSound: {fileID: 0}
+  volume: 0
