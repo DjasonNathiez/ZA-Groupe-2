@@ -2,11 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Numerics;
 using DG.Tweening;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -19,7 +15,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager instance; //Singleton
 
-    public GameObject VFXPoufpouf;
+    public ParticleSystem VFXPoufpouf;
 
     #region Components
 
@@ -93,13 +89,14 @@ public class PlayerManager : MonoBehaviour
 
     // Melee Attack
     public int attackDamage;
+
     public float attackSpeed;
 
     // Distance Attack
     public GameObject throwingWeapon;
     public float throwingSpeed;
     [HideInInspector] public Vector3 direction;
-    public string state = "StatusQuo";
+    public ActionType state = ActionType.StatusQuo;
     public GameObject playerThrowingWeapon;
     public float aimHelpAngle;
 
@@ -115,21 +112,20 @@ public class PlayerManager : MonoBehaviour
     public GameObject manoirLight;
     public LineRenderer ropeGrappin;
 
-    [Header("Debug Commands")] 
-    public GameObject godModeText;
+    [Header("Debug Commands")] public GameObject godModeText;
     public GameObject speedBoostText;
     public GameObject maxLevelText;
-    
+
     //Inventory
-    [Header("Inventory")]
-    public bool gloves;
+    [Header("Inventory")] public bool gloves;
     public string startHat;
     public GameObject currentHat;
     public MeshFilter hatMesh;
     public MeshRenderer HatMeshRenderer;
     public Hat[] hats;
-    
-    [Serializable] public class Hat
+
+    [Serializable]
+    public class Hat
     {
         public string hatName;
         public string displayName;
@@ -140,7 +136,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
-
 
 
     #region Private variables
@@ -182,8 +177,7 @@ public class PlayerManager : MonoBehaviour
 
     #region VFX
 
-    [Header("VFX")] 
-    public ParticleSystem attackVFX;
+    [Header("VFX")] public ParticleSystem attackVFX;
     public ParticleSystem hurtVFX;
     public ParticleSystem rollVFX;
 
@@ -193,22 +187,22 @@ public class PlayerManager : MonoBehaviour
 
     public ParticleSystem collectVFX;
     public ParticleSystem kentScaredVFX;
-    
+
     #endregion
-    
+
     #region HurtImpact
-    [Header("Visual Hurt")] 
-    public Material modelKent;
+
+    [Header("Visual Hurt")] public Material modelKent;
     public AnimationCurve animationHurt;
     public float hurtTime;
     public bool hurtAnim;
-    [Header("Visual Blink")]
-    public AnimationCurve blinkIteration;
+    [Header("Visual Blink")] public AnimationCurve blinkIteration;
     public AnimationCurve blinkSpeed;
     public float blinkTime;
     public bool blinkAnim;
+
     #endregion
-    
+
 
     private void Awake()
     {
@@ -225,12 +219,11 @@ public class PlayerManager : MonoBehaviour
 
         #endregion
 
-        
+
         foreach (Hat i in hats)
         {
             if (i.hatName == startHat)
             {
-                
                 currentHat = i.hatObj;
                 i.hatObj.SetActive(true);
             }
@@ -239,7 +232,7 @@ public class PlayerManager : MonoBehaviour
                 i.hatObj.SetActive(false);
             }
         }
-        
+
         m_inputController = new InputController();
 
         m_animator = GetComponent<Animator>();
@@ -248,7 +241,7 @@ public class PlayerManager : MonoBehaviour
         m_playerInput = GetComponent<PlayerInput>();
         m_attack = GetComponentInChildren<Attack>();
     }
-    
+
 
     public void SwitchHat(string selectedHat)
     {
@@ -282,17 +275,16 @@ public class PlayerManager : MonoBehaviour
         rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
         m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
         StartCoroutine(RadarEventTimer());
-      
-    
 
-        if(GameManager.instance) GameManager.instance.ui.UpdateHat();
+
+        if (GameManager.instance) GameManager.instance.ui.UpdateHat();
     }
 
     //GameStats
     IEnumerator RadarEventTimer()
     {
         GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "PlayerRadar"));
-        
+
         yield return new WaitForSeconds(1f);
 
         StartCoroutine(RadarEventTimer());
@@ -309,7 +301,7 @@ public class PlayerManager : MonoBehaviour
         {
             currentLifePoint = maxLifePoint;
         }
-        
+
         //animator Set Bool
         m_animator.SetBool("isAttacking", isAttacking);
         m_animator.SetBool("isMoving", isMoving);
@@ -326,12 +318,13 @@ public class PlayerManager : MonoBehaviour
         {
             isAttacking = false;
         }
+
         if (isAttacking)
         {
             isRolling = false;
         }
-        
-        if(hurtAnim)
+
+        if (hurtAnim)
         {
             modelKent.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
             modelKent.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
@@ -352,7 +345,7 @@ public class PlayerManager : MonoBehaviour
 
         #region Read Input
 
-         if (!isDead && m_controlState != ControlState.DIALOGUE)
+        if (!isDead && m_controlState != ControlState.DIALOGUE)
         {
             m_inputController.Player.Interact.started += Interact;
             m_inputController.Player.Interact.canceled += Interact;
@@ -362,6 +355,7 @@ public class PlayerManager : MonoBehaviour
             {
                 m_inputController.Player.Roll.started += Roll;
             }
+
             m_inputController.Player.Roll.started += RollInput;
             m_inputController.Player.Roll.canceled += RollInput;
             if (m_isRolling)
@@ -410,19 +404,18 @@ public class PlayerManager : MonoBehaviour
             {
                 m_inputController.Player.Move.started += Move;
                 m_inputController.Player.Move.performed += Move;
-                m_inputController.Player.Move.canceled += Move;   
+                m_inputController.Player.Move.canceled += Move;
             }
 
 
             if (!m_attack.isAttacking)
             {
-                if (state != "Aiming" && state != "Throw")
+                if (state != ActionType.Aiming && state != ActionType.Throwing)
                     rb.velocity = Quaternion.Euler(0, -45, 0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y,
                         m_moveDirection.z * m_speed);
             }
             else
             {
-                
                 rb.velocity = Vector3.zero;
             }
 
@@ -436,7 +429,6 @@ public class PlayerManager : MonoBehaviour
             if (currentAttackCD > 0)
             {
                 currentAttackCD -= Time.deltaTime;
-              
             }
             else if (currentAttackCD <= 0)
             {
@@ -444,60 +436,64 @@ public class PlayerManager : MonoBehaviour
             }
 
             //Distance
-
-            if (state == "Throw")
-            {
-             
-                throwingWeapon.transform.Translate(direction * (Time.deltaTime * throwingSpeed));
-
-            }
-
-            if (state == "Aiming")
+            if (state == ActionType.Aiming)
             {
                 if (m_inputController.Player.Move.ReadValue<Vector2>() != Vector2.zero)
                 {
                     List<ValueTrack> reachable = new List<ValueTrack>(0);
-                    
+
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
                     {
                         if (obj == null || obj.GetComponent<ValueTrack>() == null) return;
-                        if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z)) < Mathf.Clamp(rope.maximumLenght ,0,12) * Mathf.Clamp(rope.maximumLenght ,0,12)  && obj.transform.position.y > transform.position.y - 1 && obj.transform.position.y < transform.position.y + 1)
+                        if (Vector2.SqrMagnitude(new Vector2(obj.transform.position.x, obj.transform.position.z) -
+                                                 new Vector2(transform.position.x, transform.position.z)) <
+                            Mathf.Clamp(rope.maximumLenght, 0, 12) * Mathf.Clamp(rope.maximumLenght, 0, 12) &&
+                            obj.transform.position.y > transform.position.y - 1 &&
+                            obj.transform.position.y < transform.position.y + 1)
                         {
                             reachable.Add(obj);
                         }
                     }
-                
+
                     ValueTrack nearest = null;
                     float angle = aimHelpAngle;
-                    Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) + m_inputController.Player.Move.ReadValue<Vector2>();
+                    Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) +
+                                   m_inputController.Player.Move.ReadValue<Vector2>();
                     foreach (ValueTrack obj in reachable)
                     {
-                        if(Vector2.Angle(test,new Vector2(obj.transform.position.x,obj.transform.position.z) - new Vector2(transform.position.x,transform.position.z))< angle)
+                        if (Vector2.Angle(test,
+                            new Vector2(obj.transform.position.x, obj.transform.position.z) -
+                            new Vector2(transform.position.x, transform.position.z)) < angle)
                         {
-                            angle = Vector2.Angle(test, new Vector2(obj.transform.position.x, obj.transform.position.z) - new Vector2(transform.position.x, transform.position.z));
+                            angle = Vector2.Angle(test,
+                                new Vector2(obj.transform.position.x, obj.transform.position.z) -
+                                new Vector2(transform.position.x, transform.position.z));
                             nearest = obj;
                         }
                     }
 
                     if (nearest != null)
                     {
-                        transform.rotation = Quaternion.LookRotation(new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z) - new Vector3(transform.position.x, 0, transform.position.z));
+                        transform.rotation = Quaternion.LookRotation(
+                            new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z) -
+                            new Vector3(transform.position.x, 0, transform.position.z));
                         foreach (ValueTrack obj in reachable)
                         {
                             if (nearest == obj && obj.meshRenderer != null)
                             {
                                 if (obj.isEnemy)
                                 {
-                                    obj.meshRenderer.material.SetFloat("_EnableOutline",1);
+                                    obj.meshRenderer.material.SetFloat("_EnableOutline", 1);
                                     obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 1);
-                                    obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 1);
+                                    obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat
+                                        .SetFloat("_EnableOutline", 1);
                                 }
-                                else obj.meshRenderer.material.SetFloat("_EnableOutline",1);
+                                else obj.meshRenderer.material.SetFloat("_EnableOutline", 1);
                             }
-                            else if(nearest != obj && obj.meshRenderer != null)
+                            else if (nearest != obj && obj.meshRenderer != null)
                             {
-                                obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                                
+                                obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
+
                                 if (!obj.isEnemy) continue;
                                 if (obj == null) return;
                                 obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
@@ -509,26 +505,24 @@ public class PlayerManager : MonoBehaviour
                     {
                         foreach (ValueTrack obj in reachable)
                         {
-
                             if (obj.meshRenderer != null)
                             {
-                                obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                                
+                                obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
+
                                 if (!obj.isEnemy) continue;
                                 if (obj == null) return;
                                 obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
                                 obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                             }
-                            
                         }
                     }
                 }
                 else
                 {
                     foreach (ValueTrack obj in GameManager.instance.grippableObj)
-                    { 
-                        if (obj.meshRenderer != null) obj.meshRenderer.material.SetFloat("_EnableOutline",0);
-                        
+                    {
+                        if (obj.meshRenderer != null) obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
+
                         if (!obj.isEnemy) continue;
                         if (obj == null) return;
                         obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
@@ -537,7 +531,7 @@ public class PlayerManager : MonoBehaviour
                 }
             }
 
-            if (state != "Aiming")
+            if (state != ActionType.Aiming)
             {
                 foreach (ValueTrack obj in GameManager.instance.grippableObj)
                 {
@@ -552,27 +546,32 @@ public class PlayerManager : MonoBehaviour
                     obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
                 }
             }
-            
-            
-
         }
-         
+
         m_inputController.Player.MousePosition.performed += context => m_mousePos = context.ReadValue<Vector2>();
 
 
         m_inputController.Player.Bugtracker.started += _ =>
-             GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
+            GameManager.instance.OpenBugTrackerPanel(!GameManager.instance.bugtracker.reportPanel.activeSelf);
         m_inputController.Player.Bugtracker.started += _ =>
-             m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf
-                 ? ControlState.UI
-                 : ControlState.NORMAL;
+            m_controlState = GameManager.instance.bugtracker.reportPanel.activeSelf
+                ? ControlState.UI
+                : ControlState.NORMAL;
         m_inputController.Player.Bugtracker.started += _ =>
-             Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
+            Time.timeScale = GameManager.instance.bugtracker.reportPanel.activeSelf ? 0 : 1;
 
 
         m_inputController.Player.Pause.started += PauseOnStarted;
-        
+
         #endregion
+    }
+
+    private void FixedUpdate()
+    {
+        if (state == ActionType.Throwing)
+        {
+            throwingWeapon.transform.Translate(direction * (Time.fixedDeltaTime * throwingSpeed));
+        }
     }
 
     #region ATTACK
@@ -586,17 +585,18 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && (state is "StatusQuo" or "Rope") && m_controlState != ControlState.DIALOGUE)
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && (state is ActionType.StatusQuo or ActionType.RopeAttached) &&
+                m_controlState != ControlState.DIALOGUE)
             {
-                if(state == "Rope") Rewind();
-                
+                if (state == ActionType.RopeAttached) Rewind();
+
                 m_canRoll = false;
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
-                
+
                 GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "attack"));
-                
+
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
@@ -615,31 +615,30 @@ public class PlayerManager : MonoBehaviour
     {
         if (m_controlState != ControlState.DIALOGUE)
         {
-            if (state == "Aiming")
+            if (state == ActionType.Aiming)
             {
                 isThrowing = true;
-            
+
                 throwingWeapon.SetActive(true);
                 throwingWeapon.transform.position = transform.position + transform.forward * 0.5f;
                 throwingWeapon.transform.LookAt(throwingWeapon.transform.position + transform.forward);
-            
+
                 direction = Vector3.forward;
-                state = "Throw";
+                state = ActionType.Throwing;
                 playerThrowingWeapon.SetActive(false);
                 rope.enabled = true;
                 rope.rope.gameObject.SetActive(true);
                 PlaySFX("P_Throw");
                 PlaySFX("P_RopeThrow");
-            } 
+            }
         }
-        
     }
 
     public void Rewind()
     {
         if (m_controlState != ControlState.DIALOGUE)
         {
-            if (state == "Rope" || state == "Throw")
+            if (state is ActionType.RopeAttached or ActionType.Throwing)
             {
                 isThrowing = false;
                 rope.rewinding = true;
@@ -647,29 +646,29 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    
+
     public void OnRange()
     {
-        if(m_controlState == ControlState.DIALOGUE) return;
-    
+        if (m_controlState == ControlState.DIALOGUE) return;
+
         if (!isDead)
         {
             switch (state)
             {
-                case "StatusQuo":
+                case ActionType.StatusQuo:
                     if (!m_attack.isAttacking && !m_isRolling)
                     {
                         rb.velocity = Vector3.zero;
                         ClearAimList();
-                        state = "Aiming";
+                        state = ActionType.Aiming;
                         visuthrow.SetActive(true);
                     }
 
                     break;
-                case "Throw":
+                case ActionType.Throwing:
                     Rewind();
                     break;
-                case "Rope":
+                case ActionType.RopeAttached:
                     Rewind();
                     break;
                 default: return;
@@ -683,7 +682,7 @@ public class PlayerManager : MonoBehaviour
         {
             switch (state)
             {
-                case "Aiming":
+                case ActionType.Aiming:
                     Throw();
                     visuthrow.SetActive(false);
                     ClearAimList();
@@ -691,7 +690,6 @@ public class PlayerManager : MonoBehaviour
                 default: return;
             }
         }
-        
     }
 
     #endregion
@@ -705,32 +703,21 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            if (/*m_moveDirection.magnitude > 0.2 &&*/ m_controlState != ControlState.DIALOGUE)
+            if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
             {
                 if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
                     isMoving = true;
 
-                    if (poufpoufTimer < poufpoufTime)
-                    {
-                        poufpoufTimer += Time.deltaTime;
-                    }
-                    else
-                    {
-                        poufpoufTimer = 0;
-                        poufpoufInstantiated = true;
-                        GameObject go = Instantiate(VFXPoufpouf, transform.position + transform.TransformVector( poufpoufOffset), Quaternion.identity);
-                        go.transform.parent = this.GameObject().transform;
-                    }
                 }
             }
             else
             {
                 isMoving = false;
             }
-            
+
             m_moving = true;
-            
+
             //Rotation
             if (!isDead && m_controlState != ControlState.DIALOGUE)
             {
@@ -742,7 +729,7 @@ public class PlayerManager : MonoBehaviour
         if (moveInput.canceled)
         {
             isMoving = false;
-            
+
             if (!m_attack.isAttacking && !m_isRolling && !isDead)
             {
                 poufpoufTimer = poufpoufTime;
@@ -755,7 +742,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Roll(InputAction.CallbackContext roll)
     {
-        
         if (roll.started)
         {
             if (!m_attack.isAttacking && !isDead && isMoving)
@@ -769,12 +755,9 @@ public class PlayerManager : MonoBehaviour
                     m_isRolling = true;
                 }
             }
-
         }
-        
     }
-    
-    
+
 
     private void Rotation()
     {
@@ -822,7 +805,7 @@ public class PlayerManager : MonoBehaviour
                     isHurt = true;
                 }
             }
-            
+
             if (currentLifePoint <= 0)
             {
                 GameManager.instance.DisableAllEnemy();
@@ -840,7 +823,7 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(invicibiltyTimer);
         isInvincible = false;
     }
-    
+
     public IEnumerator StartStun(float stunDuration)
     {
         isElectrocut = true;
@@ -849,7 +832,7 @@ public class PlayerManager : MonoBehaviour
         isElectrocut = false;
         m_playerStateMachine = PlayerStateMachine.IDLE;
     }
-    
+
     public void ResetState()
     {
         m_attack.isAttacking = false;
@@ -857,12 +840,12 @@ public class PlayerManager : MonoBehaviour
         m_attack.m_collider.enabled = false;
 
         isAttacking = false;
-        
+
         if (!m_moving)
         {
             isMoving = false;
         }
-        
+
         isRolling = false;
         collect = false;
         isThrowing = false;
@@ -888,7 +871,7 @@ public class PlayerManager : MonoBehaviour
             inputInteractPushed = false;
         }
     }
-    
+
     public void EnterDialogue()
     {
         m_controlState = ControlState.DIALOGUE;
@@ -911,7 +894,6 @@ public class PlayerManager : MonoBehaviour
             buttonAPressed = false;
         }
     }
-    
 
     #endregion
 
@@ -931,7 +913,7 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-    
+
     public void LoadVFX(ParticleSystem effect, Transform spawnT)
     {
         Instantiate(effect, spawnT.position, Quaternion.identity);
@@ -940,7 +922,7 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     #region GAME
-    
+
     public void RespawnPlayer()
     {
         ResetState();
@@ -948,7 +930,7 @@ public class PlayerManager : MonoBehaviour
         currentLifePoint = maxLifePoint = baseLifePoint;
         Rewind();
         rope.rewinding = true;
-        
+
         if (SceneManager.GetActiveScene().name == "MAP_Boss_BackUp")
         {
             SceneManager.LoadScene("MAP_Boss_BackUp");
@@ -956,12 +938,11 @@ public class PlayerManager : MonoBehaviour
         else
         {
             GameManager.instance.BackToCheckpoint();
-            
         }
-        
+
         GameManager.instance.ui.UpdateHealth();
         GameManager.instance.EnableAllEnemy();
-        
+
         if (GameManager.instance.arenaParc != null)
         {
             GameManager.instance.arenaParc.ResetArena();
@@ -972,15 +953,14 @@ public class PlayerManager : MonoBehaviour
         {
             a.isAggro = false;
         }
-        
     }
-    
+
     IEnumerator WaitForRespawn()
     {
         yield return new WaitForSeconds(3);
         RespawnPlayer();
     }
-    
+
     public void OnRespawn()
     {
         transform.position = GameManager.instance.lastCheckpoint.respawnPoint.position;
@@ -1001,8 +981,6 @@ public class PlayerManager : MonoBehaviour
             GameManager.instance.inPause = false;
         }
     }
-    
-    
 
     #endregion
 
@@ -1014,7 +992,7 @@ public class PlayerManager : MonoBehaviour
             {
                 if (s.loop)
                 {
-                    SoundManager.PlayFx(s.clip,loop: true, volume: s.volume);
+                    SoundManager.PlayFx(s.clip, loop: true, volume: s.volume);
                 }
                 else
                 {
@@ -1030,7 +1008,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (s.soundName == soundName)
             {
-               SoundManager.StopFx(s.clip);
+                SoundManager.StopFx(s.clip);
             }
         }
     }
@@ -1042,7 +1020,7 @@ public class PlayerManager : MonoBehaviour
         if (item && !item.distributed)
         {
             collectVFX.Play();
-            
+
             switch (item.affectedValue)
             {
                 case "Health":
@@ -1050,17 +1028,18 @@ public class PlayerManager : MonoBehaviour
                     {
                         currentLifePoint += item.valuePercentage;
                     }
+
                     GameManager.instance.ui.UpdateHealth();
                     break;
 
                 case "Rope":
                     rope.maximumLenght += item.valuePercentage;
                     break;
-                
+
                 case "Gloves":
                     gloves = true;
                     break;
-                
+
                 case "Hat":
                     foreach (Hat hats in hats)
                     {
@@ -1070,6 +1049,7 @@ public class PlayerManager : MonoBehaviour
                             GameManager.instance.ui.UpdateHat();
                         }
                     }
+
                     break;
                 case "Lore":
                     foreach (UIManager.LoreItem uiLore in GameManager.instance.ui.LoreItems)
@@ -1083,9 +1063,10 @@ public class PlayerManager : MonoBehaviour
 
                     break;
             }
+
             item.height = 1;
             item.distributed = true;
-            if( item.PnjDialoguesManager) item.PnjDialoguesManager.StartDialogue();
+            if (item.PnjDialoguesManager) item.PnjDialoguesManager.StartDialogue();
             else Destroy(item.gameObject);
         }
     }
@@ -1112,8 +1093,9 @@ public class PlayerManager : MonoBehaviour
             {
                 GameManager.instance.grippableObj.Remove(obj);
             }
+
             if (obj.meshRenderer == null) return;
-            obj.meshRenderer.material.SetFloat("_EnableOutline",0);
+            obj.meshRenderer.material.SetFloat("_EnableOutline", 0);
             if (!obj.isEnemy) continue;
             obj.gameObject.GetComponent<AIBrain>().modelAggroMat.SetFloat("_EnableOutline", 0);
             obj.gameObject.GetComponent<AIBrain>().modelNonAggroMat.SetFloat("_EnableOutline", 0);
@@ -1133,7 +1115,6 @@ public class PlayerManager : MonoBehaviour
             moveSpeed = 20f;
             speedBoostText.SetActive(true);
             isSpeedBoost = true;
-
         }
     }
 
@@ -1150,22 +1131,24 @@ public class PlayerManager : MonoBehaviour
             godModeText.SetActive(true);
         }
     }
-    
+
 
     #region SETUP
 
     private void OnEnable()
     {
-        if(m_inputController != null) m_inputController.Enable();
+        if (m_inputController != null) m_inputController.Enable();
     }
 
     private void OnDisable()
     {
-        if(m_inputController != null) m_inputController.Disable();
+        if (m_inputController != null) m_inputController.Disable();
     }
 
     #endregion
-    
+}
 
-    
+public enum ActionType
+{
+    StatusQuo, Aiming, Throwing, RopeAttached
 }

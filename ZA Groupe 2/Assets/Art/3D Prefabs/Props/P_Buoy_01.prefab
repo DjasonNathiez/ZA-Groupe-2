@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 78164094033771508}
   - component: {fileID: 3943581251475977297}
   - component: {fileID: 1251610408419934363}
-  - component: {fileID: 2638996199036254112}
   - component: {fileID: 4368918093911435071}
   - component: {fileID: 7027237430434578136}
+  - component: {fileID: 142328991835268978}
   m_Layer: 0
   m_Name: P_Buoy_01
   m_TagString: UngrippableObject
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2638996199036254112
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 747141759596945742}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 3.0000007, z: 0.89946616}
-  m_Center: {x: 0, y: -8.4926594e-16, z: 0.059761792}
 --- !u!54 &4368918093911435071
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -130,5 +117,19 @@ MonoBehaviour:
   rb: {fileID: 4368918093911435071}
   force: 8
   yforce: 2
-  isHit: 1
+  isHit: 0
   popcornInterior: {fileID: 0}
+--- !u!64 &142328991835268978
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747141759596945742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 905485977951547768, guid: f9439fb6069f7164aaa855b176cdb4b7, type: 3}

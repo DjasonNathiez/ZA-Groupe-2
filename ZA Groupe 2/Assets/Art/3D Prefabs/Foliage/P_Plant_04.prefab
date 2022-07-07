@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5457634821609541253}
   - component: {fileID: 8940404340264911136}
   - component: {fileID: 6626559944047539690}
-  - component: {fileID: 4698561371680173638}
   - component: {fileID: 7643141019743316492}
   - component: {fileID: 5198925018884858391}
+  - component: {fileID: 6842541819336280238}
   m_Layer: 0
   m_Name: P_Plant_04
   m_TagString: TractableObject
@@ -28,14 +28,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4681132653752521791}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 24.35, y: 0.5000005, z: -60.98}
-  m_LocalScale: {x: 0.493693, y: 0.493693, z: 0.493693}
+  m_LocalScale: {x: 0.41950998, y: 0.4195101, z: 0.4195101}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &8940404340264911136
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,19 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4698561371680173638
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4681132653752521791}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.3666115, y: 2.4465232, z: 2.391496}
-  m_Center: {x: 0, y: 0.036683984, z: 1.1676248}
 --- !u!114 &7643141019743316492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
+  canActivatePressurePlate: 0
   weightClass: 1
+  meshRenderer: {fileID: 0}
+  posCam: {x: 0, y: 0, z: 0}
+  rotCam: {x: 0, y: 0, z: 0}
+  moveCam: 0
+  splashVFX: {fileID: 0}
 --- !u!54 &5198925018884858391
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,3 +122,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6842541819336280238
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4681132653752521791}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.3666115, y: 2.4465232, z: 2.391496}
+  m_Center: {x: 0, y: 0.036683984, z: 1.1676229}

@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialize();
+        
     }
 
     public void Initialize()
@@ -124,7 +125,7 @@ public class GameManager : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-        
+
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
        
         CheckScene();
@@ -148,6 +149,8 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
         
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 144;
     }
 
     private void OnEnable()
@@ -476,7 +479,7 @@ public class GameManager : MonoBehaviour
         firstCinematic.Play();
         playingCinematic = firstCinematic;
         yield return new WaitForSeconds(48);
-        StartCoroutine(LoadScene("MAP_Parc"));
+        StartCoroutine(LoadScene(parcScene));
         firstCinematic.Stop();
     }
     
@@ -497,7 +500,7 @@ public class GameManager : MonoBehaviour
         if (playingCinematic == firstCinematic)
         {
             StopCoroutine(LoadFirstCinematic());
-            StartCoroutine(LoadScene("MAP_Parc"));
+            StartCoroutine(LoadScene(parcScene));
         }
 
         if (playingCinematic == lastCinematic)

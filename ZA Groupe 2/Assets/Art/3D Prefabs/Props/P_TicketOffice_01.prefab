@@ -19,7 +19,7 @@ GameObject:
   m_TagString: GrippableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4566835680733579692
 Transform:
@@ -98,7 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
+  canActivatePressurePlate: 0
   weightClass: 0
+  meshRenderer: {fileID: 0}
+  posCam: {x: 0, y: 0, z: 0}
+  rotCam: {x: 0, y: 0, z: 0}
+  moveCam: 0
+  splashVFX: {fileID: 0}
 --- !u!65 &272710735955649765
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -110,8 +117,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.2337017, y: 4.288672, z: 4.7771573}
-  m_Center: {x: 0.45797357, y: 0.19586504, z: 2.387667}
+  m_Size: {x: 3.6092637, y: 3.6434977, z: 4.7771573}
+  m_Center: {x: 0.14575484, y: 0.5184519, z: 2.387667}
 --- !u!54 &1065891945312548453
 Rigidbody:
   m_ObjectHideFlags: 0

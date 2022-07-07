@@ -1,12 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
+
 using Random = UnityEngine.Random;
 
 public class AIBrain : MonoBehaviour
@@ -180,7 +176,7 @@ public class AIBrain : MonoBehaviour
             {
                 AIBrain neighborAI = c.GetComponent<AIBrain>();
                 
-                if (neighborAI != null && !neighborAI.isAggro)
+                if (neighborAI && !neighborAI.isAggro)
                 {
                     neighborAI.isAggro = true;
                 }
@@ -223,6 +219,8 @@ public class AIBrain : MonoBehaviour
     
     public void FallOnTheGround()
     {
+        LionBehaviour lionBehaviour = GetComponent<LionBehaviour>();
+        
         //Set State
         isFalling = true;
         isInvincible = false;
@@ -230,7 +228,12 @@ public class AIBrain : MonoBehaviour
         canAttack = false;
         canMove = false;
 
-        if (hitZoneVFX != null)
+        if (lionBehaviour)
+        {
+            lionBehaviour.fallVFX.Play();
+        }
+
+        if (hitZoneVFX)
         {
             hitZoneVFX.gameObject.SetActive(true);
         }
@@ -239,8 +242,6 @@ public class AIBrain : MonoBehaviour
     }
     
     #region Routine
-    
-   
     
     public IEnumerator WaitForStand()
     {

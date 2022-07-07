@@ -94,7 +94,6 @@ public class LionBehaviour : AIBrain
                 }
 
                 
-                
                 if (distanceToPlayer <= attackRange)
                 {
                     if (canAttack)
