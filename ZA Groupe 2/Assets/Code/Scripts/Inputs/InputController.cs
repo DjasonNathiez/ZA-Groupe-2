@@ -161,6 +161,42 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""1275fc67-e8be-4b4b-b25c-6ade2fa27b92"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightTrigger"",
+                    ""type"": ""Button"",
+                    ""id"": ""e68abf08-b509-4cef-b0a7-cbe59b47c2bb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightTriggerGone"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a00e007-a96d-477b-b3c2-e04328d81511"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftTriggerGone"",
+                    ""type"": ""Button"",
+                    ""id"": ""d54b3a9a-832f-489d-86c2-8c1bac5fc541"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -526,6 +562,50 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                     ""action"": ""Command"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""868ca4c5-6b02-4f66-b63a-a92712313aa5"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82508c9f-1191-4c19-a4c2-05627e54760e"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightTrigger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f9d83c2f-4d51-4f18-9690-ba47c80fa476"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftTriggerGone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""09f108f3-f549-421a-a3d2-9d68cfa1ff09"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RightTriggerGone"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -583,6 +663,10 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         m_Player_Unclamp = m_Player.FindAction("Unclamp", throwIfNotFound: true);
         m_Player_OutRange = m_Player.FindAction("OutRange", throwIfNotFound: true);
         m_Player_Command = m_Player.FindAction("Command", throwIfNotFound: true);
+        m_Player_LeftTrigger = m_Player.FindAction("LeftTrigger", throwIfNotFound: true);
+        m_Player_RightTrigger = m_Player.FindAction("RightTrigger", throwIfNotFound: true);
+        m_Player_RightTriggerGone = m_Player.FindAction("RightTriggerGone", throwIfNotFound: true);
+        m_Player_LeftTriggerGone = m_Player.FindAction("LeftTriggerGone", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -657,6 +741,10 @@ public partial class @InputController : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Unclamp;
     private readonly InputAction m_Player_OutRange;
     private readonly InputAction m_Player_Command;
+    private readonly InputAction m_Player_LeftTrigger;
+    private readonly InputAction m_Player_RightTrigger;
+    private readonly InputAction m_Player_RightTriggerGone;
+    private readonly InputAction m_Player_LeftTriggerGone;
     public struct PlayerActions
     {
         private @InputController m_Wrapper;
@@ -676,6 +764,10 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         public InputAction @Unclamp => m_Wrapper.m_Player_Unclamp;
         public InputAction @OutRange => m_Wrapper.m_Player_OutRange;
         public InputAction @Command => m_Wrapper.m_Player_Command;
+        public InputAction @LeftTrigger => m_Wrapper.m_Player_LeftTrigger;
+        public InputAction @RightTrigger => m_Wrapper.m_Player_RightTrigger;
+        public InputAction @RightTriggerGone => m_Wrapper.m_Player_RightTriggerGone;
+        public InputAction @LeftTriggerGone => m_Wrapper.m_Player_LeftTriggerGone;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -730,6 +822,18 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Command.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
                 @Command.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
                 @Command.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCommand;
+                @LeftTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @LeftTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTrigger;
+                @RightTrigger.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTrigger.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTrigger;
+                @RightTriggerGone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTriggerGone;
+                @RightTriggerGone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTriggerGone;
+                @RightTriggerGone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRightTriggerGone;
+                @LeftTriggerGone.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTriggerGone;
+                @LeftTriggerGone.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTriggerGone;
+                @LeftTriggerGone.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeftTriggerGone;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -779,6 +883,18 @@ public partial class @InputController : IInputActionCollection2, IDisposable
                 @Command.started += instance.OnCommand;
                 @Command.performed += instance.OnCommand;
                 @Command.canceled += instance.OnCommand;
+                @LeftTrigger.started += instance.OnLeftTrigger;
+                @LeftTrigger.performed += instance.OnLeftTrigger;
+                @LeftTrigger.canceled += instance.OnLeftTrigger;
+                @RightTrigger.started += instance.OnRightTrigger;
+                @RightTrigger.performed += instance.OnRightTrigger;
+                @RightTrigger.canceled += instance.OnRightTrigger;
+                @RightTriggerGone.started += instance.OnRightTriggerGone;
+                @RightTriggerGone.performed += instance.OnRightTriggerGone;
+                @RightTriggerGone.canceled += instance.OnRightTriggerGone;
+                @LeftTriggerGone.started += instance.OnLeftTriggerGone;
+                @LeftTriggerGone.performed += instance.OnLeftTriggerGone;
+                @LeftTriggerGone.canceled += instance.OnLeftTriggerGone;
             }
         }
     }
@@ -827,5 +943,9 @@ public partial class @InputController : IInputActionCollection2, IDisposable
         void OnUnclamp(InputAction.CallbackContext context);
         void OnOutRange(InputAction.CallbackContext context);
         void OnCommand(InputAction.CallbackContext context);
+        void OnLeftTrigger(InputAction.CallbackContext context);
+        void OnRightTrigger(InputAction.CallbackContext context);
+        void OnRightTriggerGone(InputAction.CallbackContext context);
+        void OnLeftTriggerGone(InputAction.CallbackContext context);
     }
 }

@@ -27,6 +27,11 @@ public class Rope : MonoBehaviour
     public int ropeHealth;
     public float lenghtToStick;
     public bool clamped;
+    public bool rightTrig;
+    public float stickLenght;
+    public bool leftTrig;
+    public AnimationCurve reactorStrenght;
+    public float memoryTemp;
 
     void Update()
     {
@@ -78,6 +83,8 @@ public class Rope : MonoBehaviour
                     }
 
                     nodes.Add(nodeToCreate);
+
+                    if (rightTrig || leftTrig) rewinding = true;
                 }
             }
 
@@ -127,6 +134,7 @@ public class Rope : MonoBehaviour
                             }
 
                             nodes.Insert(0, nodeToCreate);
+                            if (rightTrig || leftTrig) rewinding = true;
                         }
                     }
                 }
@@ -189,7 +197,7 @@ public class Rope : MonoBehaviour
                                 }
 
                                 nodes.Insert(node.index - 2, nodeToCreate);
-
+                                if (rightTrig || leftTrig) rewinding = true;
                                 break;
                             }
                         }
@@ -426,10 +434,120 @@ public class Rope : MonoBehaviour
             if (transform.position.y > gripY + yCheckDistance || transform.position.y < gripY - yCheckDistance)
             {
                 rewinding = true;
-                // Debug.Log("ReasonNumberTwo");
                 //Debug.Log(transform.position.y + " and " + gripY);
             }
         }
+
+
+
+        if (rightTrig)
+        {
+            float usedLenght = 0;
+            if (nodes.Count > 0)
+            {
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    if (i < nodes.Count - 1)
+                    {
+                        usedLenght += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
+                    }
+                    else
+                    {
+                        usedLenght += (nodes[i].nodePoint.transform.position - playerManager.transform.position).magnitude;
+                    }
+                    float remain = stickLenght - usedLenght;
+
+                    if ((pinnedTo.transform.position - nodes[0].nodePoint.transform.position).sqrMagnitude > remain * remain)
+                    {
+                        pinnedTo.transform.position =
+                            new Vector3(nodes[0].nodePoint.transform.position.x, pinnedTo.transform.position.y,
+                                nodes[0].nodePoint.transform.position.z) + Vector3.ClampMagnitude(
+                                pinnedTo.transform.position - new Vector3(nodes[0].nodePoint.transform.position.x,
+                                    pinnedTo.transform.position.y, nodes[0].nodePoint.transform.position.z), remain);
+                    }
+                }
+            }
+            else
+            {
+                float remain = stickLenght;
+                if ((pinnedTo.transform.position - playerManager.transform.position).sqrMagnitude > remain * remain)
+                {
+                    pinnedTo.transform.position =
+                        new Vector3(playerManager.transform.position.x, pinnedTo.transform.position.y,
+                            playerManager.transform.position.z) + Vector3.ClampMagnitude(
+                            pinnedTo.transform.position - new Vector3(playerManager.transform.position.x,
+                                pinnedTo.transform.position.y, playerManager.transform.position.z), remain);
+                }
+            }
+        }
+        
+        if (rightTrig || leftTrig)
+        {
+            float usedLenght = 0;
+            if (nodes.Count > 0)
+            {
+                for (int i = 0; i < nodes.Count; i++)
+                {
+                    if (i < nodes.Count - 1)
+                    {
+                        usedLenght += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
+                    }
+                    else
+                    {
+                        usedLenght += (nodes[i].nodePoint.transform.position - playerManager.transform.position).magnitude;
+                    }
+                    float remain = stickLenght - usedLenght;
+
+                    if ((pinnedTo.transform.position - nodes[0].nodePoint.transform.position).sqrMagnitude > remain * remain)
+                    {
+                        pinnedTo.transform.position =
+                            new Vector3(nodes[0].nodePoint.transform.position.x, pinnedTo.transform.position.y,
+                                nodes[0].nodePoint.transform.position.z) + Vector3.ClampMagnitude(
+                                pinnedTo.transform.position - new Vector3(nodes[0].nodePoint.transform.position.x,
+                                    pinnedTo.transform.position.y, nodes[0].nodePoint.transform.position.z), remain);
+                    }
+                }
+            }
+            else
+            {
+                float remain = stickLenght;
+                if ((pinnedTo.transform.position - playerManager.transform.position).sqrMagnitude > remain * remain)
+                {
+                    pinnedTo.transform.position =
+                        new Vector3(playerManager.transform.position.x, pinnedTo.transform.position.y,
+                            playerManager.transform.position.z) + Vector3.ClampMagnitude(
+                            pinnedTo.transform.position - new Vector3(playerManager.transform.position.x,
+                                pinnedTo.transform.position.y, playerManager.transform.position.z), remain);
+                }
+            }
+        }
+    }
+
+    public void FindStickLenght()
+    {
+        float newStick = 0;
+        if (nodes.Count > 0)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (i < nodes.Count - 1)
+                {
+                    newStick += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
+                }
+                else
+                {
+                    newStick += (nodes[i].nodePoint.transform.position - playerManager.transform.position).magnitude;
+                }
+            }
+
+            newStick += (nodes[0].nodePoint.transform.position - pinnedTo.transform.position).magnitude;
+        }
+        else
+        {
+            newStick = (playerManager.transform.position - pinnedTo.transform.position).magnitude;
+        }
+
+        stickLenght = newStick;
     }
 
     private void FixedUpdate()
@@ -456,6 +574,63 @@ public class Rope : MonoBehaviour
 
                 pinnedRb.AddForceAtPosition(force * factor, pin.transform.position, ForceMode.Acceleration);
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
+            }
+            
+            if ((rightTrig && !leftTrig) || (!rightTrig && leftTrig))
+            {
+                Vector3 rotationCenter = playerManager.transform.position;
+
+                if (nodes.Count > 0)
+                {
+                    for (int i = 0; i < nodes.Count; i++)
+                    {
+                        if (nodes[i].anchor != pinnedTo)
+                        {
+                            rotationCenter = nodes[i].nodePoint.transform.position;
+                            break;
+                        }
+                    }   
+                }
+
+                Vector2 rotationVector = (new Vector2(pinnedTo.transform.position.x, pinnedTo.transform.position.z) - new Vector2(rotationCenter.x, rotationCenter.z)).normalized;
+
+                Vector3 forceToUse;
+                
+                if(rightTrig) forceToUse = new Vector3(rotationVector.y, 0, -rotationVector.x);
+                else forceToUse = new Vector3(-rotationVector.y, 0, rotationVector.x);
+
+                Debug.DrawRay(pinnedTo.transform.position,new Vector3(rotationVector.x,0,rotationVector.y),Color.green);
+
+                float factor = new float();
+                WeightClass objectToPull = WeightClass.LIGHT;
+                objectToPull = pinnedRb.gameObject.GetComponent<ValueTrack>() != null
+                    ? pinnedRb.gameObject.GetComponent<ValueTrack>().weightClass
+                    : WeightClass.NULL;
+
+                factor = objectToPull switch
+                {
+                    WeightClass.NULL => 0,
+                    WeightClass.LIGHT => 20,
+                    WeightClass.MEDIUM => 10,
+                    WeightClass.HEAVY => 5,
+                    _ => factor
+                };
+
+                pinnedRb.AddForce(forceToUse*reactorStrenght.Evaluate(Time.time-memoryTemp), ForceMode.VelocityChange);
+                pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 10);
+                
+                // TROUVER ANGLE ROTATION
+
+               Vector3 dirGrip = pin.transform.position - pinnedTo.transform.position;
+                Vector3 dirToAlign = nodes.Count > 0
+                    ? (nodes[0].nodePoint.transform.position - pinnedTo.transform.position)
+                    : (playerManager.transform.position - pinnedTo.transform.position);
+
+                float angle = Vector3.SignedAngle(dirGrip, dirToAlign, Vector3.up);
+
+                Quaternion alignement = Quaternion.Euler(pinnedTo.transform.eulerAngles.x,pinnedTo.transform.eulerAngles.y + angle,pinnedTo.transform.eulerAngles.z);
+                
+                pinnedRb.AddTorque(0,angle,0);
             }
         }
     }

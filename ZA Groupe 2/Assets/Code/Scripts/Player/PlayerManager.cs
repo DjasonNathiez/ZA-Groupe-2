@@ -780,6 +780,34 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    public void OnLeftTrigger()
+    {
+        rope.rightTrig = true;
+        rope.FindStickLenght();
+        rope.memoryTemp = Time.time;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+    
+    public void OnRightTrigger()
+    {
+        rope.leftTrig = true;
+        rope.FindStickLenght();
+        rope.memoryTemp = Time.time;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+    
+    public void OnLeftTriggerGone()
+    {
+        rope.rightTrig = false;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+    
+    public void OnRightTriggerGone()
+    {
+        rope.leftTrig = false;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+    }
+
     #endregion
 
     #region STATE
