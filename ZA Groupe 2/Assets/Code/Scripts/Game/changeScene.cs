@@ -25,6 +25,7 @@ public class changeScene : MonoBehaviour
 
     public IEnumerator ChangeScene()
     {
+        GameManager.instance.transitionOff = false;
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
         GameManager.instance.transitionOff = true;
         yield return new WaitForSeconds(1);
