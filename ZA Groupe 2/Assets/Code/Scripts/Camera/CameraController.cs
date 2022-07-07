@@ -47,11 +47,13 @@ public class CameraController : MonoBehaviour
             {
                 cameraPos.position = PlayerManager.instance.rope.pinnedValueTrack.posCam;
                 cameraPos.rotation = Quaternion.Euler(PlayerManager.instance.rope.pinnedValueTrack.rotCam);
+                cameraZoom = PlayerManager.instance.rope.pinnedValueTrack.zoomCam;
             }
             else
             {
                 cameraPos.position = m_player.transform.position;   
-                cameraPos.rotation = Quaternion.Euler(45,-45,0);   
+                cameraPos.rotation = Quaternion.Euler(45,-45,0); 
+                cameraZoom = 8.22f;
             }
         }
     }

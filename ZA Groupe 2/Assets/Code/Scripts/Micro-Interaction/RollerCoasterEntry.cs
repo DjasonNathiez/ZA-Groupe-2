@@ -11,6 +11,7 @@ public class RollerCoasterEntry : MonoBehaviour
     [FormerlySerializedAs("m_cam")] [SerializeField] private CameraController cam;
     [FormerlySerializedAs("m_Button")] [SerializeField] private GameObject button;
     [SerializeField] private bool check;
+    [SerializeField] private QuadraticCurve curve;
     [SerializeField] private Transform SpawnPointEnd;
     public Vector3 pos;
 
@@ -20,6 +21,8 @@ public class RollerCoasterEntry : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            rollerCoaster.points = curve.points;
+            rollerCoaster.transform.position = curve.followCurve.points[0].point;
             rollerCoaster.moving = true;
             rollerCoaster.cam = cam;
             cam.playerFocused = false;

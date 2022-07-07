@@ -5,7 +5,7 @@ using UnityEngine;
 public class bossDetector : MonoBehaviour
 {
     [SerializeField] private BossBehaviour m_bossBehaviour;
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (m_bossBehaviour.state == 2)
         {

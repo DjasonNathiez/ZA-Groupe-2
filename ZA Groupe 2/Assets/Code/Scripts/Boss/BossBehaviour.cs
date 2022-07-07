@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class BossBehaviour : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class BossBehaviour : MonoBehaviour
     [FormerlySerializedAs("m_rb")] [SerializeField]
     public Rigidbody rb;
     public Transform legsColider;
-    [SerializeField] private Transform[] spawnPosPillars;
+    [SerializeField] private GameObject[] spawnPosPillars;
     [SerializeField] private Transform[] spawnPosRabbits;
     [SerializeField] private GameObject pillarGameObject;
     [SerializeField] private GameObject shockWaveGameObject;
@@ -37,6 +38,7 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
     [SerializeField] private float rotationSpeed;
+    public bool spawnedRabbit;
     public Animator animator;
     public GameObject[] vfx;
     public Transform attackSpawnPlace;
@@ -50,10 +52,14 @@ public class BossBehaviour : MonoBehaviour
     public Teleporter teleporter;
     public Transform afterBossPos;
     public PnjDialoguesManager pnjDialoguesManager;
+    public BossRollerCoaster BossRollerCoaster;
 
     
     [Header("VFX")]
     public ParticleSystem hurtVFX;
+    
+    [Header("Temp")]
+    [SerializeField] private FollowCurve followCurve;
     
 
     private void Start()
@@ -82,54 +88,52 @@ public class BossBehaviour : MonoBehaviour
             case 0:
                 break;
             case 1:
-                Vector3 forward = (PlayerManager.instance.transform.position - transform.position);
+                Vector3 forward;
+                if(!followCurve.moving) forward = (PlayerManager.instance.transform.position - transform.position);
+                else forward = (followCurve.transform.position - transform.position);
                 timeStamp -= Time.deltaTime;
                 forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
                 rb.velocity = forward;
                 bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*rotationSpeed);
-                if (cableRotation is >= 360 or <= -360)
-                {
-                    PlayerManager.instance.rope.rewinding = true;
-                    state = 0;
-                    StartCoroutine(Fall(1));
-                    Debug.Log("Falls");
-                }
                 break;
             case 2:
                 rb.velocity = dashDirection * dashingSpeed;
                 bossDetector.transform.rotation = Quaternion.LookRotation(dashDirection);
                 break;
-            case 4:
-                if (cableRotation is >= 360 or <= -360)
-                {
-                    PlayerManager.instance.rope.rewinding = true;
-                    state = 0;
-                    StartCoroutine(Fall(1));
-                    Debug.Log("Falls");
-                }
-                break;
+           
         }
 
         if (timeStamp <= 0 )
         {
+            
             timeStamp = timeBetweenAttacks;
-            if (pillars.Count == 0)
+
+            if (!followCurve.moving)
             {
-                state = 0;
-                StartCoroutine(SpawnRabbits(2.2f,1.20f));
-            }
-            else
-            {
-                if (Vector3.SqrMagnitude(PlayerManager.instance.transform.position - transform.position) < detectionDist * detectionDist)
+                if (!spawnedRabbit)
                 {
                     state = 0;
-                    StartCoroutine(ShockWave(1));
+                    spawnedRabbit = true;
+                    StartCoroutine(SpawnRabbits(2.2f,1.20f));
                 }
                 else
                 {
-                    state = 0;
-                    StartCoroutine(Dash(0.2f));
-                }
+                    if (Vector3.SqrMagnitude(PlayerManager.instance.transform.position - transform.position) < detectionDist * detectionDist)
+                    {
+                        state = 0;
+                        StartCoroutine(ShockWave(1));
+                    }
+                    else
+                    {
+                        state = 0;
+                        StartCoroutine(Dash(0.2f));
+                    }
+                }   
+            }
+            else
+            {
+                state = 0;
+                StartCoroutine(DashRandom(0.2f));
             }
         }
         
@@ -146,34 +150,16 @@ public class BossBehaviour : MonoBehaviour
             shockWaveGameObject.transform.localScale += new Vector3((Time.deltaTime * shockWaveSpeed),0,(Time.deltaTime * shockWaveSpeed));
         }
 
-        if (legsColider.childCount > 1 + cableNodes.Count || legsColider.childCount < 1 + cableNodes.Count)
+        if (legsColider.childCount > 3)
         {
-            List<GameObject> nodes = new List<GameObject>(0);
-            foreach (Node node in PlayerManager.instance.rope.nodes)
-            {
-                if (node.anchor == legsColider.gameObject)
-                {
-                    nodes.Add(node.nodePoint);
-                }
-            }
-            cableNodes = nodes;
-            if (cableNodes.Count > 0 && phase == 0 && state == 1)
-            {
-                state = 4;
-                animator.Play("BeforeFalling");
-            }
-            else if (cableNodes.Count == 0 && phase == 0 && state == 4)
-            {
-                state = 1;
-                animator.Play("Marche");
-            }
-            cableRotation = CalculateCableRotation();
+            PlayerManager.instance.Rewind();
         }
     }
 
     public IEnumerator SpawnRabbits(float delay,float vfxDelay)
     {
         material.color = Color.cyan;
+        BossRollerCoaster.returning = false;
         animator.Play("Lance-Lapin");
         yield return new WaitForSeconds(vfxDelay);
         vfx[1].SetActive(true);
@@ -181,13 +167,12 @@ public class BossBehaviour : MonoBehaviour
         vfx[1].GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(delay-vfxDelay);
         
-        foreach (Transform pos in spawnPosPillars)
+        foreach (GameObject pos in spawnPosPillars)
         {
-            GameObject pillar = Instantiate(pillarGameObject, pos.position, quaternion.identity);
-            GameObject vfxpillar = Instantiate(vfx[2], pos.position, quaternion.identity);
+            pos.SetActive(true);
+            GameObject vfxpillar = Instantiate(vfx[2], pos.transform.position, quaternion.identity);
             vfxpillar.transform.rotation = Quaternion.Euler(-90,0,0);
             Destroy(vfxpillar,3);
-            pillars.Add(pillar);
         }
         foreach (Transform pos in spawnPosRabbits)
         {
@@ -199,28 +184,6 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("Marche");
     }
 
-    public float CalculateCableRotation()
-    {
-        float cableRot = 0;
-        if (cableNodes.Count > 1)
-        {
-            for (int i = 1; i < cableNodes.Count; i++)
-            {
-                Vector3 pos = cableNodes[i - 1].transform.position;
-                Vector3 nextpos = cableNodes[i].transform.position;
-                cableRot += Vector3.SignedAngle(new Vector3(pos.x,transform.position.y,pos.z) - transform.position, new Vector3(nextpos.x,transform.position.y,nextpos.z) - transform.position, Vector3.up);
-            }   
-        }
-        
-        foreach (var pilone in pilones)
-        {
-            if (cableRot > pilone.rotation || cableRot < -pilone.rotation) pilone.pilone.SetActive(true);
-            else pilone.pilone.SetActive(false);
-        }
-
-        return cableRot;
-    }
-    
     public IEnumerator Dash(float delay)
     {
         animator.Play("Dash");
@@ -229,8 +192,24 @@ public class BossBehaviour : MonoBehaviour
         vfx[3].SetActive(true);
         vfx[3].GetComponent<ParticleSystem>().Stop();
         vfx[3].GetComponent<ParticleSystem>().Play();
-        //GameObject DashVFX = Instantiate(vfx[3], transform.position, quaternion.identity);
+        
         dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
+        dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
+        transform.rotation = Quaternion.LookRotation(dashDirection);
+        material.color = Color.blue;
+        state = 2;
+    }
+    
+    public IEnumerator DashRandom(float delay)
+    {
+        animator.Play("Dash");
+        material.color = Color.cyan;
+        yield return new WaitForSeconds(delay);
+        vfx[3].SetActive(true);
+        vfx[3].GetComponent<ParticleSystem>().Stop();
+        vfx[3].GetComponent<ParticleSystem>().Play();
+        
+        dashDirection = Quaternion.AngleAxis(Random.Range(0,360),Vector3.up) * Vector3.forward;
         dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
         transform.rotation = Quaternion.LookRotation(dashDirection);
         material.color = Color.blue;
@@ -262,6 +241,21 @@ public class BossBehaviour : MonoBehaviour
         
         material.color = Color.white;
         shockWaveGameObject.SetActive(false);
+        state = 1;
+        animator.Play("Marche");
+    }
+    
+    public IEnumerator BreakRoller(float delay)
+    {
+        animator.Play("Attaque");
+        yield return new WaitForSeconds(delay);
+        material.color = Color.blue;
+        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0) + bossDetector.transform.forward*2,quaternion.identity,attackSpawnPlace);
+        attack.transform.SetParent(null);
+        attack.transform.rotation = Quaternion.Euler(-90,0,0);
+        BossRollerCoaster.returning = true;
+        BossRollerCoaster.materialLight.SetFloat("_flick",0);
+        yield return new WaitForSeconds(shockWaveDuration);
         state = 1;
         animator.Play("Marche");
     }

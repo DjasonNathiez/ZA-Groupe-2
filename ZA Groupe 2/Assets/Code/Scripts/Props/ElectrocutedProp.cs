@@ -21,6 +21,7 @@ public class ElectrocutedProp : MonoBehaviour
     public ParticleSystem electricity;
     public ParticleSystem electricityLoop;
     private bool vfxLoop;
+    public bool persistent;
 
     private void Awake()
     {
@@ -67,7 +68,7 @@ public class ElectrocutedProp : MonoBehaviour
     
     public void LightsOff()
     {
-        if (!sender && isOn)
+        if (!sender && isOn && !persistent)
         {
             isOn = false;
             offMesh.SetActive(true);

@@ -30,11 +30,14 @@ public class QuadraticCurve : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        points = EvenlySpacedPoints(spacing, resolution);
-        foreach (WayPoints pos in points)
+        if (spacing > 0)
         {
-            Gizmos.DrawSphere(pos.point,0.25f);
-            Gizmos.DrawRay(pos.point,pos.up*2);
+            points = EvenlySpacedPoints(spacing, resolution);
+            foreach (WayPoints pos in points)
+            {
+                Gizmos.DrawSphere(pos.point,0.25f);
+                Gizmos.DrawRay(pos.point,pos.up*2);
+            }   
         }
     }
 
@@ -167,9 +170,9 @@ public class QuadraticCurve : MonoBehaviour
                 binormal = points[i].up;
                 normal = (points[i+1].point - points[i].point).normalized;
                 Vector3.OrthoNormalize(ref binormal,ref normal,ref tangent);
-                Debug.DrawRay(points[i].point,normal,Color.red,100);
-                Debug.DrawRay(points[i].point,binormal,Color.green,100);
-                Debug.DrawRay(points[i].point,tangent,Color.blue,100);
+                Debug.DrawRay(points[i].point,normal,Color.yellow,100);
+                Debug.DrawRay(points[i].point,binormal,Color.magenta,100);
+                Debug.DrawRay(points[i].point,tangent,Color.cyan,100);
             }
 
 
@@ -179,8 +182,8 @@ public class QuadraticCurve : MonoBehaviour
             for (int j = 0; j < x; j++)
             {
                 Vector3 point;
-                if (i > 0) point = points[i].point + tangent * meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
-                else  point = points[i].point + meshPointCoord[j];
+                point = points[i].point + tangent * meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
+                
                 meshPoints.Add(point);
             }
 
@@ -203,6 +206,27 @@ public class QuadraticCurve : MonoBehaviour
                 }
             }
         }
+
+        int y = points.Length - 1;
+        
+        for (int j = 0; j < x; j++)
+        {
+            meshTriangles.Add( y * x + ((j +1)% x));
+        
+            meshTriangles.Add( y * x + j);
+
+            meshTriangles.Add( 0 + j);
+                    
+                    
+            meshTriangles.Add( 0 + j);
+
+            meshTriangles.Add( ((j +1)% x));
+                    
+            meshTriangles.Add( y * x + ((j +1)% x));
+        }
+
+        y = meshPoints.Count - 1;
+
 
         int pos = meshPoints.Count;
         
@@ -239,8 +263,7 @@ public class QuadraticCurve : MonoBehaviour
             for (int j = 0; j < x; j++)
             {
                 Vector3 point;
-                if (i > 0) point = points[i].point + tangent * -meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
-                else  point = points[i].point + meshPointCoord[j];
+                point = points[i].point + tangent * -meshPointCoord[j].x + binormal * meshPointCoord[j].y + normal * meshPointCoord[j].z;
                 meshPoints.Add(point);
             }
 
@@ -264,6 +287,28 @@ public class QuadraticCurve : MonoBehaviour
                 }
             }
         }
+        
+        
+        int z = points.Length * 2 - 1;
+
+        for (int j = 0; j < x; j++)
+        {
+            meshTriangles.Add( z * x + j);
+            
+            meshTriangles.Add( z * x + ((j +1)% x));
+
+            meshTriangles.Add( y + 1 + j);
+                    
+            
+            meshTriangles.Add( y + 1 + ((j +1)% x));
+                    
+            meshTriangles.Add( y + 1 + j);
+
+            meshTriangles.Add( z * x + ((j +1)% x));
+        }
+        
+        
+        
         Mesh mesh = new Mesh();
         mesh.vertices = meshPoints.ToArray();
         mesh.triangles = meshTriangles.ToArray();

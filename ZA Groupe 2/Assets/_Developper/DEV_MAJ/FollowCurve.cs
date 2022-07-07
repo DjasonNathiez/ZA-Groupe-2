@@ -23,6 +23,10 @@ public class FollowCurve : MonoBehaviour
     public GameObject bullet;
     public Transform canonTir;
     public Transform visee;
+    public int unpackNode = 606;
+    public bool reUsable;
+    public float bulletSpeed = 10;
+    public BossRollerCoaster BossRollerCoaster;
 
     private void FixedUpdate()
     {
@@ -94,7 +98,7 @@ public class FollowCurve : MonoBehaviour
                 cam.cameraZoom = Mathf.Lerp(points[currentPoint].camZoom, points[0].camZoom, step);
             }
 
-            if (currentPoint > 606)
+            if (currentPoint > unpackNode)
             {
                 moving = false;
                 control = false;
@@ -102,7 +106,8 @@ public class FollowCurve : MonoBehaviour
                 PlayerManager.instance.ExitDialogue();
                 PlayerManager.instance.transform.position = pos;
                 GameManager.instance.CheckScene();
-                FindObjectOfType<RollerCoasterEntry>().statue.GetComponent<Animator>().enabled = false;
+                if (reUsable) currentPoint = 0;
+                if(BossRollerCoaster) BossRollerCoaster.EndRollerCoaster();
             }
         }
     }
@@ -111,7 +116,7 @@ public class FollowCurve : MonoBehaviour
     {
         AudioManager.instance.PlayEnvironment("FireworkShoot");
         GameObject newbullet = Instantiate(bullet,canonTir.position,quaternion.identity);
-        newbullet.GetComponent<Rigidbody>().AddForce((canonTir.position - visee.position).normalized * 10,ForceMode.Impulse);
+        newbullet.GetComponent<Rigidbody>().AddForce((canonTir.position - visee.position).normalized * bulletSpeed,ForceMode.Impulse);
     }
 
     private void Start()

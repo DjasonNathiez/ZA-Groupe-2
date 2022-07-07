@@ -8,6 +8,7 @@ using Random = System.Random;
 public class bulletCoaster : MonoBehaviour
 {
     public GameObject explo;
+    public bool boss;
 
     private void OnCollisionEnter(Collision other)
     {

@@ -20,6 +20,7 @@ public class ValueTrack : MonoBehaviour
     public MeshRenderer meshRenderer;
     public Vector3 posCam;
     public Vector3 rotCam;
+    public float zoomCam;
     public bool moveCam;
     
     [Header("Visual")]
