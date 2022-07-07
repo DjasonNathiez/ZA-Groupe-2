@@ -88,7 +88,10 @@ public class PlayerGravity : MonoBehaviour
 
     private bool PlayerGroundCheck()
     {
-        return DistanceToGround() < 0.8;
+        float sphereCastRadius = capsuleCollider.radius * groundCheckRadiusMultiplier;
+        float sphereCastTravelDistance = capsuleCollider.bounds.extents.y - sphereCastRadius + groundCheckDistance;
+        return Physics.SphereCast(rb.position, sphereCastRadius, Vector3.down, out _groundCheckHit,
+            sphereCastTravelDistance);
     }
 
     private float DistanceToGround()
