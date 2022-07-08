@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4137143104575588520}
   - component: {fileID: 2201946796962331746}
   - component: {fileID: 5559555108179720651}
-  - component: {fileID: 5102828490530877187}
+  - component: {fileID: 304082472699087979}
   m_Layer: 0
   m_Name: P_Citrouille_01 (1)
   m_TagString: GrippableObject
@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400290961408662967}
-  m_LocalRotation: {x: -0.00000004214685, y: 0.7071068, z: 0.7071068, w: 0.00000004214685}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
   m_LocalPosition: {x: -1.0597738, y: -0.19982, z: -8.178}
-  m_LocalScale: {x: 0.7441909, y: 0.78405964, z: 0.8529567}
+  m_LocalScale: {x: 0.74419093, y: 0.7840597, z: 0.8529568}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 180}
 --- !u!33 &4137143104575588520
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -101,8 +101,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &5102828490530877187
-MeshCollider:
+--- !u!136 &304082472699087979
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -111,7 +111,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -3199882507944211962, guid: 36f01a09de628dc43ad568e99eef9845, type: 3}
+  m_Radius: 0.5018579
+  m_Height: 0.9987645
+  m_Direction: 1
+  m_Center: {x: -0.00007554892, y: 0.00020945002, z: 0.34766904}
