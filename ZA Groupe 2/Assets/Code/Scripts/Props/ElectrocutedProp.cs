@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ElectrocutedProp : MonoBehaviour
@@ -13,8 +10,7 @@ public class ElectrocutedProp : MonoBehaviour
     public bool enablecinematic;
     public GameObject offMesh;
 
-    [Header("Eye Pillar ?")]
-    public bool isEyePillar;
+    [Header("Eye Pillar ?")] public bool isEyePillar;
     public PuzzleEyePillar eyePillar;
 
     private DUNGEON_PuzzleManager pzManager;
@@ -26,7 +22,7 @@ public class ElectrocutedProp : MonoBehaviour
     private void Awake()
     {
         pzManager = FindObjectOfType<DUNGEON_PuzzleManager>();
-        
+
         if (activated && electricity)
         {
             electricity.Play();
@@ -35,15 +31,15 @@ public class ElectrocutedProp : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerManager.instance.rope.pinnedTo == this.gameObject && !vfxLoop)
+        if (PlayerManager.instance.rope.pinnedTo == gameObject && !vfxLoop)
         {
-            if(electricityLoop) electricityLoop.Play();
+            if (electricityLoop) electricityLoop.Play();
             vfxLoop = true;
         }
 
-        if (PlayerManager.instance.rope.pinnedTo != this.gameObject && vfxLoop)
+        if (PlayerManager.instance.rope.pinnedTo != gameObject && vfxLoop)
         {
-            if(electricityLoop) electricityLoop.Stop();
+            if (electricityLoop) electricityLoop.Stop();
             vfxLoop = false;
         }
     }
@@ -65,7 +61,7 @@ public class ElectrocutedProp : MonoBehaviour
             eyePillar.pillarTouchedNumber--;
         }
     }
-    
+
     public void LightsOff()
     {
         if (!sender && isOn && !persistent)
@@ -74,7 +70,7 @@ public class ElectrocutedProp : MonoBehaviour
             offMesh.SetActive(true);
             foreach (Door door in door)
             {
-                door.keysValid--;      
+                door.keysValid--;
             }
         }
     }
