@@ -30625,7 +30625,7 @@ ParticleSystem:
   UVModule:
     serializedVersion: 2
     enabled: 0
-    mode: 0
+    mode: 1
     timeMode: 0
     fps: 30
     frameOverTime:
@@ -30743,7 +30743,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 0}
+    - sprite: {fileID: 21300000, guid: 7e123a46da9e5524b9c143b6cb6ecb2a, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -33505,7 +33505,7 @@ ParticleSystem:
     colorLabel0: Color
     vector0_0:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       scalar: 1.28
       minScalar: 0
       maxCurve:
@@ -33513,13 +33513,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 0.6035801
+          value: 1
+          inSlope: 0
+          outSlope: -7.5509906
+          tangentMode: 1
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.22614136
         - serializedVersion: 3
           time: 1
           value: 0
