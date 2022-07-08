@@ -73,6 +73,9 @@ MonoBehaviour:
   amplitude: 0
   floatSpeed: 0
   height: 0
+  goToPos: 0
+  pos: {x: 0, y: 0, z: 0}
+  possOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 1081853700}
 --- !u!33 &6561352845750078769
 MeshFilter:
@@ -4919,9 +4922,11 @@ MonoBehaviour:
   textEffectManager: {fileID: 0}
   timer: 0
   auto: 0
+  storyState: 0
   dialogue:
   - speakingName: "C\xE2ble"
-    text: Vous avez obtenu plus de longueur de cable !
+    frenchText: 
+    englishText: 
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4933,8 +4938,11 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   - speakingName: "C\xE2ble"
-    text: "Vous pouvez d\xE9sormais tirer votre cable sur une plus grande distance."
+    frenchText: 
+    englishText: 
     textEffects: []
     modifyCameraPosition: 0
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4946,6 +4954,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
@@ -4964,6 +4974,8 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   playerRot: {x: 0, y: 0, z: 0}
   movePlayer: 0
+  teleporter: {fileID: 0}
+  cinematik: 0
 --- !u!1001 &6561352844527578834
 PrefabInstance:
   m_ObjectHideFlags: 0
