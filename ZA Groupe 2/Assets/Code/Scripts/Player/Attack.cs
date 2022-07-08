@@ -77,7 +77,11 @@ public class Attack : MonoBehaviour
 
           if (knockableObject.isHit)
           {
-              Instantiate(popcornVFX, -other.ClosestPointOnBounds(other.transform.position), quaternion.identity);
+              var collisionPoint = other.ClosestPoint(transform.position);
+              var collisionNormale = transform.position - collisionPoint;
+              Quaternion rot = Quaternion.FromToRotation(Vector3.up, collisionNormale);
+              
+              Instantiate(popcornVFX, collisionPoint, rot);
               Destroy(knockableObject.popcornInterior);
               knockableObject.isHit = false; 
           }
