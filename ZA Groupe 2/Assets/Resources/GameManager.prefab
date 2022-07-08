@@ -2733,6 +2733,16 @@ MonoBehaviour:
   ropeHealth: 2
   lenghtToStick: 0
   clamped: 0
+  rightTrig: 0
+  stickLenght: 0
+  leftTrig: 0
+  reactorStrenght:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  memoryTemp: 0
 --- !u!54 &8267530351848828145
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2763,6 +2773,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capsuleCollider: {fileID: 5455848930028628629}
   rb: {fileID: 8267530351848828145}
+  isBouncing: 0
   playerIsGrounded: 1
   groundCheckRadiusMultiplier: 0.9
   groundCheckDistance: 0.6
@@ -2777,6 +2788,7 @@ MonoBehaviour:
   gravityFallIncrementTime: 0.05
   playerFallTimer: 0
   gravity: 0
+  bounceTime: 0
 --- !u!1 &651805632848361357
 GameObject:
   m_ObjectHideFlags: 0
@@ -14988,6 +15000,11 @@ MonoBehaviour:
   - {fileID: 2251231665980892132}
   activeHearth: {fileID: 21300000, guid: b02dc5bbf3fbde24fa07aa0764a0f3ae, type: 2}
   emptyHearth: {fileID: 21300000, guid: 655f901cc7be17a4d89e58efdde01f68, type: 2}
+  pauseMenu: {fileID: 0}
+  pauseButton:
+    listID: 0
+    button: []
+  panels: []
   allDisplayHat:
   - hatName: Kent
     displayName: Casquette de Kent
@@ -17213,7 +17230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8427784550321090506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38682,7 +38699,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1211152542954999557
 RectTransform:
   m_ObjectHideFlags: 0

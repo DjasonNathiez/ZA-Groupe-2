@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -15,6 +16,13 @@ public class UIManager : MonoBehaviour
 
     public Sprite activeHearth;
     public Sprite emptyHearth;
+
+    [Header("Pause Menu")] 
+    public GameObject pauseMenu;
+    public ButtonList pauseButton;
+    public Panels[] panels;
+    private int currentHeaderButton;
+    private GameObject currentPanel;
     
     [Header("Hat Collection Panel")]
     public PlayerManager.Hat[] allDisplayHat;
@@ -36,6 +44,7 @@ public class UIManager : MonoBehaviour
         public Material baseMat;
         public bool collected;
     }
+    
     
     private void Awake()
     {
@@ -246,4 +255,89 @@ public class UIManager : MonoBehaviour
         }
     }
     
+    
+    #region INTERFACE
+
+    public void OpenPause()
+    {
+        pauseMenu.SetActive(true);
+        hudParent.SetActive(false);
+        GameManager.instance.Pause();
+        SetSelectedButton(0, pauseButton);
+        currentHeaderButton = 0;
+        currentPanel = panels[0].panelObj;
+    }
+
+    public void OpenPanel(string panel)
+    {
+        foreach (Panels p in panels)
+        {
+            if (p.panelName == panel)
+            {
+                p.panelObj.SetActive(true);
+                currentPanel = p.panelObj;
+            }
+            else
+            {
+                p.panelObj.SetActive(false);
+            }
+        }
+    }
+
+    public void ClosePanel()
+    {
+        currentPanel.SetActive(false);
+    }
+
+    public void NextHeaderButton()
+    {
+        if (currentHeaderButton > pauseButton.button.Length)
+        {
+            SetSelectedButton(currentHeaderButton +1, pauseButton);
+        }
+        else
+        {
+            SetSelectedButton(0, pauseButton);
+        }
+    }
+
+    public void PreviousHeaderButton()
+    {
+        if (currentHeaderButton < 0)
+        {
+            SetSelectedButton(currentHeaderButton -1, pauseButton);
+        }
+        else
+        {
+            SetSelectedButton(pauseButton.button.Length, pauseButton);
+        }
+    }
+
+    public void ClosePause()
+    {
+        pauseMenu.SetActive(false);
+        hudParent.SetActive(true);
+        GameManager.instance.Resume();
+        SetSelectedButton(0, pauseButton);
+        currentHeaderButton = 0;
+    }
+
+    public void SetSelectedButton(int buttonID, ButtonList buttonList)
+    {
+        EventSystem.current.SetSelectedGameObject(buttonList.button[buttonID]);
+    }
+
+    [Serializable] public struct ButtonList
+    {
+        public int listID;
+        public GameObject[] button;
+    }
+
+    [Serializable] public struct Panels
+    {
+        public string panelName;
+        public GameObject panelObj;
+    }
+
+    #endregion
 }

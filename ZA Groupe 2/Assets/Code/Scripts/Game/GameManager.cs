@@ -327,23 +327,11 @@ public class GameManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0;
-        ui.hudParent.SetActive(false);
-        pauseMenu.SetActive(true);
-        SetSelectedButton(pauseFirstSelectedButton);
     }
 
     public void Resume()
     {
         Time.timeScale = 1;
-        
-        characterPanel.SetActive(false);
-        settingsPanel.SetActive(false);
-        playtestMenu.SetActive(false);
-        collectionPanel.SetActive(false);
-
-        ui.hudParent.SetActive(true);
-        pauseMenu.SetActive(false);
-        
     }
 
     private void InitializeGame()
