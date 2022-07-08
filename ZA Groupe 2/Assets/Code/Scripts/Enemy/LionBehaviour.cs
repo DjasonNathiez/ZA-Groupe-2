@@ -144,6 +144,12 @@ public class LionBehaviour : AIBrain
         {
             if (s.soundName == soundName)
             {
+                if (s.clip == null)
+                {
+                    Debug.LogWarning("Audio Clip has not been found !");
+                    return;
+                }
+                
                 if (s.loop)
                 {
                     SoundManager.PlayFx(s.clip, loop: true, volume: s.volume);

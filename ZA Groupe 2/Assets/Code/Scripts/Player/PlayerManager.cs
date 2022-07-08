@@ -408,7 +408,7 @@ public class PlayerManager : MonoBehaviour
             }
 
 
-            if (!m_attack.isAttacking)
+            if (!m_attack.isAttacking && isMoving)
             {
                 if (state != ActionType.Aiming && state != ActionType.Throwing)
                     rb.velocity = Quaternion.Euler(0, -45, 0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y,
@@ -462,8 +462,8 @@ public class PlayerManager : MonoBehaviour
                     foreach (ValueTrack obj in reachable)
                     {
                         if (Vector2.Angle(test,
-                            new Vector2(obj.transform.position.x, obj.transform.position.z) -
-                            new Vector2(transform.position.x, transform.position.z)) < angle)
+                                new Vector2(obj.transform.position.x, obj.transform.position.z) -
+                                new Vector2(transform.position.x, transform.position.z)) < angle)
                         {
                             angle = Vector2.Angle(test,
                                 new Vector2(obj.transform.position.x, obj.transform.position.z) -
@@ -585,7 +585,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (attack.started)
         {
-            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking && (state is ActionType.StatusQuo or ActionType.RopeAttached) &&
+            if (!m_isRolling && !m_attack.isAttacking && !isDead && !isAttacking &&
+                (state is ActionType.StatusQuo or ActionType.RopeAttached) &&
                 m_controlState != ControlState.DIALOGUE)
             {
                 if (state == ActionType.RopeAttached) Rewind();
@@ -703,12 +704,19 @@ public class PlayerManager : MonoBehaviour
 
         if (moveInput.performed)
         {
-            if (m_moveDirection.magnitude > 0.2 && m_controlState != ControlState.DIALOGUE)
+            if (m_moveDirection.magnitude > 0.2f && m_controlState != ControlState.DIALOGUE)
             {
                 if (!m_isRolling && !m_attack.isAttacking && !isDead)
                 {
                     isMoving = true;
 
+                    //Rotation
+                    if (!isDead && m_controlState != ControlState.DIALOGUE)
+                    {
+                        Quaternion lookRotation =
+                            Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
+                        rb.MoveRotation(lookRotation);
+                    }
                 }
             }
             else
@@ -717,13 +725,6 @@ public class PlayerManager : MonoBehaviour
             }
 
             m_moving = true;
-
-            //Rotation
-            if (!isDead && m_controlState != ControlState.DIALOGUE)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
-                rb.MoveRotation(lookRotation);
-            }
         }
 
         if (moveInput.canceled)
@@ -787,7 +788,7 @@ public class PlayerManager : MonoBehaviour
         rope.memoryTemp = Time.time;
         rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
     }
-    
+
     public void OnRightTrigger()
     {
         rope.leftTrig = true;
@@ -795,13 +796,13 @@ public class PlayerManager : MonoBehaviour
         rope.memoryTemp = Time.time;
         rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
     }
-    
+
     public void OnLeftTriggerGone()
     {
         rope.rightTrig = false;
         rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
     }
-    
+
     public void OnRightTriggerGone()
     {
         rope.leftTrig = false;
@@ -1178,5 +1179,8 @@ public class PlayerManager : MonoBehaviour
 
 public enum ActionType
 {
-    StatusQuo, Aiming, Throwing, RopeAttached
+    StatusQuo,
+    Aiming,
+    Throwing,
+    RopeAttached
 }

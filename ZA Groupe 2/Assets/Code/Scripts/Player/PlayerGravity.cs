@@ -53,7 +53,7 @@ public class PlayerGravity : MonoBehaviour
         playerIsGrounded = PlayerGroundCheck();
         rb.velocity = new Vector3(rb.velocity.x, PlayerGravityMethod() ,rb.velocity.z);
 
-        Debug.Log(DistanceToGround());
+        //Debug.Log(DistanceToGround());
         
         if (isBouncing)
         {
