@@ -208,6 +208,15 @@ public class Rope : MonoBehaviour
                             node.nodePoint.transform.position), Color.green);
                 }
             }
+            
+            // Gotgot
+
+            if (lenght > maximumLenght)
+            {
+                playerManager.Rewind();
+            }
+            
+            
         }
 
         rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);
