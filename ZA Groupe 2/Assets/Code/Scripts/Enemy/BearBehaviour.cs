@@ -4,8 +4,7 @@ using UnityEngine.Serialization;
 
 public class BearBehaviour : AIBrain
 {
-    [Header("Bear Self Data")]
-    public float attackZoneRange;
+    [Header("Bear Self Data")] public float attackZoneRange;
     public float stunDuration;
     public float attackRangeDeadZone;
 
@@ -22,7 +21,7 @@ public class BearBehaviour : AIBrain
     private void Update()
     {
         //bodyCol.isTrigger = !isFalling;
-        
+
         //Animator Set Bool
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isFalling", isFalling);
@@ -31,28 +30,29 @@ public class BearBehaviour : AIBrain
         animator.SetBool("isDead", isDead);
         if (isDead)
         {
-            modelAggroMat.SetFloat("_NoiseStrenght",animationDeath.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_NoiseStrenght",animationDeath.Evaluate(Time.time - hurtTime));
+            modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
         }
+
         if (hurtAnim)
         {
-            modelAggroMat.SetFloat("_UseOnAlbedo",animationHurt.Evaluate(Time.time - hurtTime));
-            modelAggroMat.SetFloat("_UseOnEmission",animationHurt.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_UseOnAlbedo",animationHurt.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_UseOnEmission",animationHurt.Evaluate(Time.time - hurtTime));
+            modelAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
+            modelAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
             if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
         }
-        
+
         if (!isDead)
         {
             CheckState();
             Detection();
         }
-        
+
         SetColor();
         enemyStatusPointer.SetActive(isAggro);
     }
-    
+
     void CheckState()
     {
         //invincible while he is not onground
@@ -103,18 +103,18 @@ public class BearBehaviour : AIBrain
         canAttack = true;
         isFalling = false;
     }
-    
-    
+
+
     private void SpecialBearAttack()
     {
         AttackPlayer();
         isAttacking = true;
-        
+
         if (!m_canSpawn) return;
         Instantiate(feedbackWarningAttack, transform.position, quaternion.identity);
         m_canSpawn = false;
     }
-    
+
     public void PlaySFX(string soundName)
     {
         foreach (AudioManager.Sounds s in AudioManager.instance.bearSounds)
@@ -123,7 +123,7 @@ public class BearBehaviour : AIBrain
             {
                 if (s.loop)
                 {
-                    SoundManager.PlayFx(s.clip,loop: true, volume: s.volume);
+                    SoundManager.PlayFx(s.clip, loop: true, volume: s.volume);
                 }
                 else
                 {

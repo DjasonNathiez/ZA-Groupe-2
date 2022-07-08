@@ -16,8 +16,9 @@ public class ArenaParc : MonoBehaviour
     public GameObject doorNorth;
     public GameObject doorSouth;
     public GameObject reward;
-    
-    [Serializable] public struct Wave
+
+    [Serializable]
+    public struct Wave
     {
         public List<GameObject> enemy;
     }
@@ -49,10 +50,8 @@ public class ArenaParc : MonoBehaviour
                 {
                     SpawnEnemy();
                 }
-
             }
         }
-
     }
 
     public void ResetArena()
@@ -63,16 +62,15 @@ public class ArenaParc : MonoBehaviour
         doorNorth.SetActive(false);
         doorSouth.SetActive(false);
         currentWave = 0;
-        
+
         foreach (var enemy in currentSpawned)
         {
             Destroy(enemy);
         }
-        
+
         currentSpawned.Clear();
-        
+
         enabled = false;
-        
     }
 
     private void OnEnable()
@@ -85,10 +83,11 @@ public class ArenaParc : MonoBehaviour
     {
         for (int i = 0; i < waves[currentWave].enemy.Count; i++)
         {
-            GameObject newEnemy = Instantiate(waves[currentWave].enemy[i], spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count-1)].position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(waves[currentWave].enemy[i],
+                spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count - 1)].position, Quaternion.identity);
             newEnemy.GetComponent<AIBrain>().currentArena = this;
             currentSpawned.Add(newEnemy);
-            
+
             if (newEnemy.GetComponent<ValueTrack>())
             {
                 GameManager.instance.grippableObj.Add(newEnemy.GetComponent<ValueTrack>());
