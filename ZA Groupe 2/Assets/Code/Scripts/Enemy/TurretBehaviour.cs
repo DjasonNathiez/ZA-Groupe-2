@@ -6,7 +6,12 @@ using UnityEngine;
 public class TurretBehaviour : AIBrain
 {
     public StateMachine stateMachine;
-    public enum StateMachine{IDLE, ATTACK}
+
+    public enum StateMachine
+    {
+        IDLE,
+        ATTACK
+    }
 
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
@@ -16,7 +21,7 @@ public class TurretBehaviour : AIBrain
 
     [Range(0.5f, 20)] public float distanceToDestroy;
     private float m_distanceToOrigin;
-    
+
     private Vector3 m_originPos;
 
     private void Start()
