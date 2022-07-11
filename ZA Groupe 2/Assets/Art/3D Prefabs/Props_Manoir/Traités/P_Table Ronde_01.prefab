@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7106622451552233031}
   - component: {fileID: 6138424858705996258}
   - component: {fileID: 8274493137910095144}
-  - component: {fileID: 3506476877414487565}
   - component: {fileID: 4511449189961744522}
+  - component: {fileID: 8712971526605970079}
   m_Layer: 0
   m_Name: P_Table Ronde_01
   m_TagString: GrippableObject
@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7625750696509734141}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 61.200714, y: 2.5135612, z: -88.80297}
-  m_LocalScale: {x: 0.55, y: 0.55, z: 0.55}
+  m_LocalScale: {x: 0.60770255, y: 0.60770255, z: 0.60770255}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &6138424858705996258
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -85,20 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3506476877414487565
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7625750696509734141}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 483381468612168782, guid: aa92e078d1ad6f74cadbce5c2a2d895f, type: 3}
 --- !u!54 &4511449189961744522
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -115,3 +101,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &8712971526605970079
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7625750696509734141}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.6156937
+  m_Height: 3.2313883
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.0000076293945, z: -1.051794}
