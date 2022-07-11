@@ -17,12 +17,13 @@ public class TapeTaupeArcade : MonoBehaviour
     public GameObject directionalOn;
     public GameObject directionalOff;
     public float timer = 50;
-    public TextMeshPro timerText;
-    public TextMeshPro scoreText;
+    public TextMeshPro[] timerText;
     public int score;
     public AnimationCurve rate;
     public int goal;
     public GameObject reward;
+
+    public ParticleSystem VictoryFX;
 
     private void Start()
     {
@@ -87,6 +88,7 @@ public class TapeTaupeArcade : MonoBehaviour
                     }
 
                     activated[rng] = true;
+                    taupes[rng].GetComponent<Taupe>().appearPs.Play();
                 }
             
                 taupeTimer = rate.Evaluate(1 - timer/50);
@@ -100,17 +102,17 @@ public class TapeTaupeArcade : MonoBehaviour
             if (timer <= 0)
             {
                 StopTapeTaupe();
-           
             }
             else
             {
                 timer -= Time.deltaTime;
             }
 
-            timerText.text = Mathf.CeilToInt(timer).ToString();
-            scoreText.text = score + " / " + goal;
+            for (int i = 0; i < timerText.Length; i++)
+            {
+                timerText[i].text = Mathf.CeilToInt(timer).ToString();
+            }
         }
-        
     }
 
     public void StartTapeTaupe()
@@ -139,7 +141,11 @@ public class TapeTaupeArcade : MonoBehaviour
             light.SetActive(false);
             directionalOff.SetActive(false);
             directionalOn.SetActive(true);
-            if(reward && score >= goal) reward.SetActive(true);
+            if (reward && score >= goal)
+            {
+                reward.SetActive(true);
+                VictoryFX.Play();
+            }
             AudioManager.instance.SetMusic(GameManager.instance.dungeonEnded ? "Parc_2" : "Parc_1");
         }
     }
