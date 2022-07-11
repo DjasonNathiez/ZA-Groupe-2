@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 180671054913979574}
   - component: {fileID: -1452587447184399258}
   - component: {fileID: 7318834019165183265}
+  - component: {fileID: 7528007638627703127}
   m_Layer: 0
   m_Name: P_Turnstyle_01
   m_TagString: UngrippableObject
@@ -115,6 +116,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &7528007638627703127
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837788804358366563}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 3.5400002, y: 3.1250002, z: 3.5400002}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 3.5400002}
+  m_TimeToStationary: 0.5
 --- !u!1001 &6765918601232773039
 PrefabInstance:
   m_ObjectHideFlags: 0

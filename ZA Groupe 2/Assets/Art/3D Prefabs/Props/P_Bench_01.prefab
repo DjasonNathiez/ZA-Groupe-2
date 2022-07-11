@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2136946894}
   - component: {fileID: 2136946895}
   - component: {fileID: 387438751688756640}
+  - component: {fileID: 8519208128540325109}
   m_Layer: 0
   m_Name: P_Bench_01
   m_TagString: TractableObject
@@ -133,5 +134,22 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
+--- !u!208 &8519208128540325109
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725977527602476298}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.6630001, y: 0.70000005, z: 0.43800002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.002, y: 0.70000005, z: -0.10700001}
+  m_TimeToStationary: 0.5

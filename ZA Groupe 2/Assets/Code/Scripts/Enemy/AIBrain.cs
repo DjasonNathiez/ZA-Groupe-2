@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
 using Random = UnityEngine.Random;
 
 public class AIBrain : MonoBehaviour
@@ -10,57 +9,51 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public SpawnArea spawnPoint;
 
     [HideInInspector] public Rigidbody rb;
-    public GameObject player;
+    public PlayerManager player;
     public NavMeshAgent nav;
     [HideInInspector] public Animator animator;
     [HideInInspector] public float distanceToPlayer;
 
     [HideInInspector] public bool isEnable = true;
 
-    [Header("State")]
-    public int currentHealth;
+    [Header("State")] public int currentHealth;
     public int maxHealth;
     [HideInInspector] public bool isInvincible;
-    
+
     public float fallTime;
     [HideInInspector] public float timeOnGround;
-   
+
     public bool canFall;
     public bool canMove = true;
     public bool canAttack = true;
     public bool canBeKnocked;
-    public bool counterState;
-    
+
     [HideInInspector] public bool isFalling;
     public bool isAttacking;
     public bool isAggro;
     [HideInInspector] public bool isKnocked;
     public bool isMoving;
-     public bool isDead;
+    public bool isDead;
     public bool isHurt;
-    
-    [Header("Movement")]
-    public float moveSpeed;
-    
-    [Header("Attack")]
-    public int attackDamage;
+
+    [Header("Movement")] public float moveSpeed;
+
+    [Header("Attack")] public int attackDamage;
     public float attackRange;
-    public float attackSpeed; 
+    public float attackSpeed;
     public float attackDelay;
     [HideInInspector] public float activeAttackCd;
     [HideInInspector] public bool attackOnCd;
     public float knockbackForce;
-    
-    [Header("Detection")]
-    public float dectectionRange;
+
+    [Header("Detection")] public float dectectionRange;
     public float massAggroRange;
-    [Range(0,180)] public float detectionAngle;
+    [Range(0, 180)] public float detectionAngle;
     public Door doorIfDead;
     public ArenaParc currentArena;
     [HideInInspector] public bool playerShowBack;
-    
-    [Header("VFX")]
-    public ParticleSystem hurtVFX;
+
+    [Header("VFX")] public ParticleSystem hurtVFX;
     public ParticleSystem attackVFX;
     public ParticleSystem hitZoneVFX;
     public ParticleSystem deathVFX;
@@ -69,8 +62,7 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem aggroVFX;
     public ParticleSystem counterVFX;
 
-    [Header("Visual")] 
-    public List<SkinnedMeshRenderer> modelMeshRenderer;
+    [Header("Visual")] public List<SkinnedMeshRenderer> modelMeshRenderer;
     public Material modelNonAggroMat;
     public Material modelAggroMat;
     public GameObject enemyStatusPointer;
@@ -81,6 +73,8 @@ public class AIBrain : MonoBehaviour
     public bool hurtAnim;
     public float hurtTime;
 
+    [Header("Drop")] [SerializeField] private int dropRate;
+
     public void ExplosionVFX()
     {
         if (explosionVFX != null)
@@ -88,7 +82,7 @@ public class AIBrain : MonoBehaviour
             explosionVFX.Play();
         }
     }
-    
+
     public void InitializationData()
     {
         currentHealth = maxHealth;
@@ -98,14 +92,14 @@ public class AIBrain : MonoBehaviour
         modelNonAggroMat = new Material(modelNonAggroMat);
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
-        player = GameManager.instance.player;
+        player = PlayerManager.instance;
         nav = GetComponent<NavMeshAgent>();
-        
+
         nav.speed = moveSpeed;
         nav.stoppingDistance = attackRange + 0.02f;
     }
 
-    public void MoveToPlayer(Vector3 destination)
+    public virtual void MoveToPlayer(Vector3 destination)
     {
         isMoving = true;
         nav.SetDestination(destination);
@@ -127,45 +121,12 @@ public class AIBrain : MonoBehaviour
             }
         }
     }
-    
-    public void Detection()
+
+    public virtual void Detection()
     {
         //Detect the player to aggro
         if (player == null) return;
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-        if (distanceToPlayer <= dectectionRange && !isAggro)
-        {
-            Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
-        
-            foreach (Collider col in hit)
-            {
-                if (col.GetComponent<PlayerManager>())
-                {
-                    if (GetComponent<RabbitBehaviour>() == null)
-                    {
-                        isAggro = true;
-                        
-                        if (aggroVFX != null)
-                        {
-                            aggroVFX.Play();
-                        }
-
-                        if (GetComponent<LionBehaviour>())
-                        {
-                            GetComponent<LionBehaviour>().PlaySFX("L_Aggro");
-                        }
-
-                        if (GetComponent<BearBehaviour>())
-                        {
-                            GetComponent<BearBehaviour>().PlaySFX("B_Aggro");
-                        }
-                    }
-                
-                }
-            }
-        }
-        
 
         //Mass Aggro AI Comportement
         if (isAggro)
@@ -175,7 +136,7 @@ public class AIBrain : MonoBehaviour
             foreach (Collider c in hitMass)
             {
                 AIBrain neighborAI = c.GetComponent<AIBrain>();
-                
+
                 if (neighborAI && !neighborAI.isAggro)
                 {
                     neighborAI.isAggro = true;
@@ -183,11 +144,9 @@ public class AIBrain : MonoBehaviour
             }
         }
 
-        
         float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
 
         playerShowBack = directionAngle < detectionAngle;
-
     }
 
     public void AttackPlayer()
@@ -196,7 +155,7 @@ public class AIBrain : MonoBehaviour
         isMoving = false;
         canAttack = false;
     }
-    
+
     public IEnumerator WaitForCooldown()
     {
         yield return new WaitForSeconds(attackDelay);
@@ -205,10 +164,7 @@ public class AIBrain : MonoBehaviour
 
     public void AttackVFX()
     {
-        if (attackVFX != null)
-        {
-            attackVFX.Play();
-        }
+        if (attackVFX != null) attackVFX.Play();
     }
 
     public void AttackExit()
@@ -216,11 +172,13 @@ public class AIBrain : MonoBehaviour
         isAttacking = false;
         canMove = true;
     }
-    
+
     public void FallOnTheGround()
     {
         LionBehaviour lionBehaviour = GetComponent<LionBehaviour>();
         
+        rb.velocity = Vector3.zero;
+
         //Set State
         isFalling = true;
         isInvincible = false;
@@ -240,23 +198,24 @@ public class AIBrain : MonoBehaviour
 
         StartCoroutine(WaitForStand());
     }
-    
+
     #region Routine
-    
+
     public IEnumerator WaitForStand()
     {
         yield return new WaitForSeconds(fallTime);
         isFalling = false;
+        yield return new WaitForSeconds(1f); // Durée de l'animation
         canAttack = true;
         canMove = true;
         if (hitZoneVFX != null)
         {
-            hitZoneVFX.gameObject.SetActive(false);  
+            hitZoneVFX.gameObject.SetActive(false);
         }
     }
 
     #endregion
-    
+
     public void DoDamage()
     {
         if (distanceToPlayer < attackRange + 0.02)
@@ -268,33 +227,22 @@ public class AIBrain : MonoBehaviour
         }
     }
 
-
-    public void GetHurt(int damage)
+    public virtual void GetHurt(int damage)
     {
-        if (!isDead)
-        {
-            if (counterState)
-            {
-               counterVFX.Play();
-            }
-            
-            if (isInvincible) return;
-            
-            currentHealth -= damage;
-            
-            isHurt = true;
-            hurtAnim = true;
-            hurtTime = Time.time;
-            
-            if (hurtVFX != null)
-            {
-                hurtVFX.Play();
-            }
+        if (isDead) return;
+        if (isInvincible) return;
 
-            if (currentHealth <= 0)
-            {
-                Death();
-            }
+        currentHealth -= damage;
+
+        isHurt = true;
+        hurtAnim = true;
+        hurtTime = Time.time;
+
+        if (hurtVFX != null) hurtVFX.Play();
+
+        if (currentHealth <= 0)
+        {
+            Death();
         }
     }
 
@@ -305,57 +253,39 @@ public class AIBrain : MonoBehaviour
 
     public void Death()
     {
+        rb.velocity = Vector3.zero;
         isDead = true;
-        modelAggroMat.SetFloat("_Destruction",1);
+        modelAggroMat.SetFloat("_Destruction", 1);
         if (doorIfDead) doorIfDead.keysValid++;
-        if (currentArena) currentArena.currentSpawned.Remove(this.gameObject);
-        
+        if (currentArena) currentArena.currentSpawned.Remove(gameObject);
+
         Disable();
-        
+
         GetComponent<CapsuleCollider>().isTrigger = true;
-        
+
         if (GetComponentInChildren<CapsuleCollider>())
         {
             GetComponentInChildren<CapsuleCollider>().isTrigger = true;
         }
 
-        if (deathVFX != null)
-        {
-            deathVFX.Play();
-        }
+        if (deathVFX != null) deathVFX.Play();
+        
+        if (explosionVFX != null && !explodeOnEvent) explosionVFX.Play();
 
-        if (explosionVFX != null && !explodeOnEvent)
-        {
-            explosionVFX.Play();
-        }
-        
         GameManager.instance.enemyList.Remove(this);
-        
+
         StartCoroutine(WaitForDestroy());
     }
 
-    void DropLoot()
+    public void DropLoot()
     {
-        int i = Random.Range(0, 100);
-        
-        if (GetComponent<LionBehaviour>())
+        int i = Random.Range(0, 101);
+        if (i <= dropRate)
         {
-            if (i >= 77)
-            {
-                GameManager.instance.DropItem("Health", transform);
-            }
+            GameManager.instance.DropItem("Health", transform);
         }
-
-        if (GetComponent<BearBehaviour>())
-        {
-            if (i >= 50)
-            {
-                GameManager.instance.DropItem("Health", transform);
-            }
-        }
-        
     }
-    
+
     IEnumerator WaitForDestroy()
     {
         DropLoot();
@@ -367,7 +297,7 @@ public class AIBrain : MonoBehaviour
     {
         effect.Play();
     }
-    
+
     public void Enable()
     {
         isEnable = true;
@@ -375,14 +305,13 @@ public class AIBrain : MonoBehaviour
         canMove = true;
         canAttack = true;
     }
-    
+
     public void Disable()
     {
         isEnable = false;
-        if(nav.enabled) nav.SetDestination(transform.position);
+        if (nav.enabled) nav.SetDestination(transform.position);
         rb.velocity = Vector3.zero;
     }
-
 
     #region INSPECTOR
 
@@ -394,6 +323,4 @@ public class AIBrain : MonoBehaviour
     }
 
     #endregion
-    
 }
-

@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 6733902402281487689}
   - component: {fileID: 4821192354715571857}
   - component: {fileID: 1766041960630250692}
+  - component: {fileID: 5644859042080973014}
   m_Layer: 0
   m_Name: P_Stand Ballon_01
   m_TagString: TractableObject
@@ -188,6 +189,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
 --- !u!65 &4821192354715571857
@@ -219,3 +221,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &5644859042080973014
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817897027343822395}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.63000005, y: 0.37, z: 0.48400003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.28, y: 0.025, z: 0.50100005}
+  m_TimeToStationary: 0.5

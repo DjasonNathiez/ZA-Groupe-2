@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7727215503244406024}
   - component: {fileID: 6528596114919878820}
   - component: {fileID: 7863265355363890577}
+  - component: {fileID: 2971320199801930303}
   m_Layer: 0
   m_Name: P_Baril_01
   m_TagString: TractableObject
@@ -133,5 +134,22 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
+--- !u!208 &2971320199801930303
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759183914470447023}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.5, y: 1.5, z: 2}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 2}
+  m_TimeToStationary: 0.5

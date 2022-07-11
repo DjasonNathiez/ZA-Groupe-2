@@ -22,6 +22,25 @@ public class BearBehaviour : AIBrain
     {
         //bodyCol.isTrigger = !isFalling;
 
+        SetAnimator();
+
+        if (!isDead)
+        {
+            CheckState();
+            Detection();
+        }
+
+        SetColor();
+        enemyStatusPointer.SetActive(isAggro);
+    }
+
+    public override void GetHurt(int damage)
+    {
+        base.GetHurt(damage);
+    }
+
+    public void SetAnimator()
+    {
         //Animator Set Bool
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isFalling", isFalling);
@@ -42,15 +61,30 @@ public class BearBehaviour : AIBrain
             modelNonAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
             if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
         }
+    }
 
-        if (!isDead)
+    public override void Detection()
+    {
+        base.Detection();
+
+        if (distanceToPlayer <= dectectionRange && !isAggro)
         {
-            CheckState();
-            Detection();
-        }
+            Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
 
-        SetColor();
-        enemyStatusPointer.SetActive(isAggro);
+            foreach (Collider col in hit)
+            {
+                if (col.GetComponent<PlayerManager>())
+                {
+                    isAggro = true;
+                    PlaySFX("B_Aggro");
+                }
+            }
+        }
+    }
+
+    public override void MoveToPlayer(Vector3 destination)
+    {
+        base.MoveToPlayer(destination);
     }
 
     void CheckState()
@@ -103,7 +137,6 @@ public class BearBehaviour : AIBrain
         canAttack = true;
         isFalling = false;
     }
-
 
     private void SpecialBearAttack()
     {

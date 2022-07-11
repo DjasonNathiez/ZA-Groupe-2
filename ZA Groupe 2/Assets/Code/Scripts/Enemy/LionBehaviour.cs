@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,8 @@ public class LionBehaviour : AIBrain
     public ParticleSystem fallVFX;
     public ParticleSystem standUpVFX;
 
+    public bool counterState;
+
     private void Start()
     {
         InitializationData();
@@ -23,31 +26,11 @@ public class LionBehaviour : AIBrain
 
     private void Update()
     {
-        //AnimatorSetBool
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isDead", isDead);
-        animator.SetBool("isFalling", isFalling);
-        animator.SetBool("isHurt", isHurt);
-        animator.SetBool("isMoving", isMoving);
-
-        if (hurtAnim)
-        {
-            modelAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
-            modelAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
-            if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
-        }
-
-        if (isDead)
-        {
-            modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
-            modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
-        }
+        SetAnimator();
 
         counterState = isInvincible = !isFalling;
 
-        Detection();
+        if (canAttack) Detection();
         SetColor();
 
         if (isEnable && !isDead)
@@ -100,6 +83,12 @@ public class LionBehaviour : AIBrain
                         AttackPlayer();
                     }
                 }
+                
+                if (!isFalling)
+                {
+                    transform.LookAt(player.transform);
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                }
             }
 
             if (isFalling)
@@ -108,16 +97,66 @@ public class LionBehaviour : AIBrain
                 canMove = false;
                 canFall = false;
             }
-            else
-            {
-                if (isAggro)
-                {
-                    transform.LookAt(player.transform);
-                }
-            }
         }
 
         enemyStatusPointer.SetActive(isAggro);
+    }
+
+    public override void GetHurt(int damage)
+    {
+        if (counterState) return;
+        
+        base.GetHurt(damage);
+    }
+
+    public void SetAnimator()
+    {
+        //AnimatorSetBool
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isDead", isDead);
+        animator.SetBool("isFalling", isFalling);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("isMoving", isMoving);
+
+        if (hurtAnim)
+        {
+            modelAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
+            modelAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnAlbedo", animationHurt.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_UseOnEmission", animationHurt.Evaluate(Time.time - hurtTime));
+            if (Time.time - hurtTime > animationHurt.keys[animationHurt.keys.Length - 1].time) hurtAnim = false;
+        }
+
+        if (isDead)
+        {
+            modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
+            modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
+        }
+    }
+
+    public override void Detection()
+    {
+        base.Detection();
+
+        if (distanceToPlayer <= dectectionRange && !isAggro)
+        {
+            Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
+
+            foreach (Collider col in hit)
+            {
+                if (col.GetComponent<PlayerManager>())
+                {
+                    isAggro = true;
+                    PlaySFX("L_Aggro");
+                }
+            }
+        }
+    }
+
+    public override void MoveToPlayer(Vector3 destination)
+    {
+        base.MoveToPlayer(destination);
+        
     }
 
     public void StopCounterState()
@@ -149,7 +188,7 @@ public class LionBehaviour : AIBrain
                     Debug.LogWarning("Audio Clip has not been found !");
                     return;
                 }
-                
+
                 if (s.loop)
                 {
                     SoundManager.PlayFx(s.clip, loop: true, volume: s.volume);

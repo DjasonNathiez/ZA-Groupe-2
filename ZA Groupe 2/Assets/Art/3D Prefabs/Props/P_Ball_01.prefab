@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3913506469919270317}
   - component: {fileID: 4563221006649899428}
   - component: {fileID: 1692167626277021976}
+  - component: {fileID: 2527911922893903251}
   m_Layer: 0
   m_Name: P_Ball_01
   m_TagString: UngrippableObject
@@ -132,3 +133,19 @@ MonoBehaviour:
   yforce: 2
   isHit: 0
   popcornInterior: {fileID: 0}
+--- !u!208 &2527911922893903251
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5262666801810475259}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.6, y: 0.6, z: 0.6}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
