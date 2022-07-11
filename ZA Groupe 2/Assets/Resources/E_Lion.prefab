@@ -70853,7 +70853,6 @@ MonoBehaviour:
   canMove: 1
   canAttack: 1
   canBeKnocked: 1
-  counterState: 0
   isFalling: 0
   isAttacking: 0
   isAggro: 0
@@ -70963,6 +70962,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   hurtAnim: 0
   hurtTime: 0
+  dropRate: 23
   stayAtRange: 1
   awayRange: 6
   awayPoint: {x: 0, y: 0, z: 0}
@@ -70971,6 +70971,7 @@ MonoBehaviour:
   timerToResetCounterState: 2
   fallVFX: {fileID: 5866821950185705349}
   standUpVFX: {fileID: 6239553787663976664}
+  counterState: 0
 --- !u!54 &6227108461447566804
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -71025,6 +71026,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 2155511381822249415}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
 --- !u!195 &1407482519141632021

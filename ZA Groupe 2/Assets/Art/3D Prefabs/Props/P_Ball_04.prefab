@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2125816882162139927}
   - component: {fileID: 1296374978802064255}
   - component: {fileID: 2003075560074448420}
+  - component: {fileID: 5003855103006611230}
   m_Layer: 0
   m_Name: P_Ball_04
   m_TagString: UngrippableObject
@@ -132,3 +133,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &5003855103006611230
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5262666801810475259}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.6, y: 0.6, z: 0.6}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

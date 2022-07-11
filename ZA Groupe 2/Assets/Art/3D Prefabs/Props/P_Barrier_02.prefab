@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3024801956528742517}
   - component: {fileID: 6837854262559006855}
   - component: {fileID: 7963816066566248862}
+  - component: {fileID: 6833762027866481152}
   m_Layer: 0
   m_Name: P_Barrier_02
   m_TagString: TractableObject
@@ -98,7 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isEnemy: 0
+  canActivatePressurePlate: 0
   weightClass: 1
+  meshRenderer: {fileID: 0}
+  posCam: {x: 0, y: 0, z: 0}
+  rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
+  moveCam: 0
+  splashVFX: {fileID: 0}
 --- !u!54 &6837854262559006855
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -128,3 +137,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.29095387, y: 0.2954424, z: 1.4181082}
   m_Center: {x: -0.0045230463, y: -0.000000007450582, z: 0.7090541}
+--- !u!208 &6833762027866481152
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3058194007609158375}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.14500001, y: 0.148, z: 0.70900005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.0050000004, y: 0, z: 0.70900005}
+  m_TimeToStationary: 0.5

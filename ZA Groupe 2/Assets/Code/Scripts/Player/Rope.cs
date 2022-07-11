@@ -535,6 +535,13 @@ public class Rope : MonoBehaviour
     public void FindStickLenght()
     {
         float newStick = 0;
+
+        if (pinnedTo.gameObject == null)
+        {
+            Debug.LogWarning("PinnedTo is null");
+            return;
+        }
+        
         if (nodes.Count > 0)
         {
             for (int i = 0; i < nodes.Count; i++)
@@ -793,7 +800,6 @@ public class Rope : MonoBehaviour
             {
                 ai.FallOnTheGround();
                 rewinding = true;
-                //Debug.Log("ReasonNumberThree");
             }
         }
     }

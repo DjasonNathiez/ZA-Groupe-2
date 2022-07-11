@@ -42,6 +42,11 @@ public class TurretBehaviour : AIBrain
             Detection();
         }
     }
+    
+    public override void Detection()
+    {
+        base.Detection();
+    }
 
     private void CheckState()
     {
@@ -56,8 +61,8 @@ public class TurretBehaviour : AIBrain
 
             if (m_distanceToOrigin > distanceToDestroy)
             {
-                player.GetComponent<PlayerManager>().rope.rewinding = true;
-                player.GetComponent<PlayerManager>().rope.ResetPin();
+                player.rope.rewinding = true;
+                player.rope.ResetPin();
                 currentHealth = 0;
                 //StartCoroutine(Death());
                 Debug.Log("Turret Destroy");

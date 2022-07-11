@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8878455333187543738}
   - component: {fileID: 8275803083638338735}
   - component: {fileID: 1969116887732843684}
+  - component: {fileID: 6939979355420961454}
   m_Layer: 0
   m_Name: P_HeadPoster_01
   m_TagString: TractableObject
@@ -133,5 +134,22 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
+--- !u!208 &6939979355420961454
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2155802669245587098}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.135, y: 0.96700007, z: 1.342}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.021000002, y: 0, z: 1.342}
+  m_TimeToStationary: 0.5

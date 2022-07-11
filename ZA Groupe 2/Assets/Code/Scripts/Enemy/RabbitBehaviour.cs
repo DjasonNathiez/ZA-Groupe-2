@@ -51,6 +51,26 @@ public class RabbitBehaviour : AIBrain
 
     void Update()
     {
+        SetAnimator();
+
+        if (!isDead)
+        {
+            CheckState();
+            Detection();
+            SetColor();
+        }
+
+        enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
+        enemyStatusPointer.SetActive(isAggro);
+    }
+
+    public override void Detection()
+    {
+        base.Detection();
+    }
+
+    public void SetAnimator()
+    {
         //Animator Set Bool
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isPatrolling", isPatrolling);
@@ -72,23 +92,13 @@ public class RabbitBehaviour : AIBrain
             modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
             modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
         }
-
-        if (!isDead)
-        {
-            CheckState();
-            Detection();
-            SetColor();
-        }
-
-        enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
-        enemyStatusPointer.SetActive(isAggro);
     }
 
     private void CheckState()
     {
         float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
 
-        if (player.GetComponent<PlayerManager>().state != ActionType.StatusQuo)
+        if (player.state != ActionType.StatusQuo)
         {
             if (distanceToPlayer <= dectectionRange && dectectionRange < distanceToNearestPoint && !isAggro)
             {
@@ -101,7 +111,7 @@ public class RabbitBehaviour : AIBrain
                 isAggro = true;
                 stateMachine = StateMachine.CHASE;
             }
-            
+
             stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
         }
         else
@@ -169,7 +179,7 @@ public class RabbitBehaviour : AIBrain
 
             case StateMachine.ATTACK:
                 isAttacking = true;
-                player.GetComponent<PlayerManager>().rope.rewinding = true;
+                player.rope.rewinding = true;
                 break;
         }
     }
@@ -195,9 +205,9 @@ public class RabbitBehaviour : AIBrain
 
     private void RopePointDetection()
     {
-        if (player.GetComponent<PlayerManager>().rope.enabled)
+        if (player.rope.enabled)
         {
-            detectedPoints = player.GetComponent<Rope>().CalculateCuttingPoints(1);
+            detectedPoints = player.rope.CalculateCuttingPoints(1);
 
             if (detectedPoints.Length > distanceToPoints.Count)
             {
@@ -236,6 +246,11 @@ public class RabbitBehaviour : AIBrain
                 }
             }
         }
+    }
+
+    public override void GetHurt(int damage)
+    {
+        base.GetHurt(damage);
     }
 
     private void AddPointDistanceToRope()
