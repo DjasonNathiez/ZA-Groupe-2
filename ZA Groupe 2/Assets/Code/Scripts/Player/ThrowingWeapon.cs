@@ -68,6 +68,7 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<Taupe>())
                 {
                     other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
+                    other.GetComponent<Taupe>().TaupeHit();
                 }
             }
             else if (other.CompareTag("TractableObject"))

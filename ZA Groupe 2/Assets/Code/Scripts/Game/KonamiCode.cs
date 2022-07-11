@@ -122,6 +122,15 @@ public class KonamiCode : MonoBehaviour
             AudioManager.instance.secretImageUI.SetActive(true);
             buffer = "";
         }
+        
+        if (buffer.EndsWith(validPatterns[6].inputBuffer))
+        {
+            PlayerManager.instance.transform.position = new Vector3(23.4f, -0.133f, 18.62f);
+            PlayerManager.instance.haveGloves = true;
+            PlayerManager.instance.rope.maximumLenght = 25f;
+            SceneManager.LoadScene(GameManager.instance.arcadeScene);
+            buffer = "";
+        }
     }
 }
 

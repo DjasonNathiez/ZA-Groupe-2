@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     [Header("Level")]
     public string parcScene;
     public string dungeonScene;
+    public string arcadeScene;
     public string menuScene;
     public bool dungeonEnded;
     public Checkpoint lastCheckpoint;
