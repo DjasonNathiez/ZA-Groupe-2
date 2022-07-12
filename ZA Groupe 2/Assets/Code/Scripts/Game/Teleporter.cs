@@ -24,7 +24,7 @@ public class Teleporter : MonoBehaviour
     
     public IEnumerator ChangeScene(PlayerManager player)
     {
-        GameManager.instance.transitionOff = true;
+        GameManager.instance.transitionOn = false;
         yield return new WaitForSeconds(1);
         player.transform.position = teleportPoint.position;
         player.cameraController.transform.position = teleportPoint.position;
