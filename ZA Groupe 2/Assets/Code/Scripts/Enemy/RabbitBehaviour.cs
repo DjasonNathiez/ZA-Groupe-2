@@ -21,12 +21,10 @@ public class RabbitBehaviour : AIBrain
 
     public bool isPatrolling;
 
-    [HideInInspector] public Vector3[] detectedPoints;
-    [HideInInspector] public List<float> distanceToPoints;
-    [HideInInspector] public Vector3 nearestPoint;
-
-    private Material enemyStatutPointerMaterial;
-
+    public Vector3[] detectedPoints;
+    public List<float> distanceToPoints;
+    public Vector3 nearestPoint;
+    
     [Header("Rabbit Self VFX")] public ParticleSystem chaseBegin;
     public ParticleSystem chaseContinue;
     public ParticleSystem chaseEnd;
@@ -37,7 +35,6 @@ public class RabbitBehaviour : AIBrain
     {
         isInvincible = false;
         m_originPoint = transform.position;
-        enemyStatutPointerMaterial = enemyStatusPointer.GetComponent<MeshRenderer>().material;
 
         float minX = transform.position.x - areaToMove;
         float minZ = transform.position.z - areaToMove;
@@ -49,19 +46,15 @@ public class RabbitBehaviour : AIBrain
         InitializationData();
     }
 
-    void Update()
+    public override void Update()
     {
-        SetAnimator();
-
+        base.Update();
+        
         if (!isDead)
         {
             CheckState();
             Detection();
-            SetColor();
         }
-
-        enemyStatutPointerMaterial = isAggro ? aggroMaterial : nonAggroMaterial;
-        enemyStatusPointer.SetActive(isAggro);
     }
 
     public override void Detection()
@@ -69,14 +62,9 @@ public class RabbitBehaviour : AIBrain
         base.Detection();
     }
 
-    public void SetAnimator()
+    public override void SetAnimator()
     {
-        //Animator Set Bool
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isPatrolling", isPatrolling);
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isHurt", isHurt);
-        animator.SetBool("isDead", isDead);
+        base.SetAnimator();
 
         if (hurtAnim)
         {
@@ -100,7 +88,7 @@ public class RabbitBehaviour : AIBrain
 
         if (player.state != ActionType.StatusQuo)
         {
-            if (distanceToPlayer <= dectectionRange && dectectionRange < distanceToNearestPoint && !isAggro)
+            if (distanceToPlayer <= dectectionRange && !isAggro)
             {
                 chaseBegin.Play();
                 chaseContinue.Play();
@@ -110,9 +98,12 @@ public class RabbitBehaviour : AIBrain
 
                 isAggro = true;
                 stateMachine = StateMachine.CHASE;
+
+                stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
             }
 
-            stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
+
+            //stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
         }
         else
         {

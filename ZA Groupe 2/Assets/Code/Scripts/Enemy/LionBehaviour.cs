@@ -18,20 +18,21 @@ public class LionBehaviour : AIBrain
     public ParticleSystem standUpVFX;
 
     public bool counterState;
+    [HideInInspector] public bool playerShowBack;
+
 
     private void Start()
     {
         InitializationData();
     }
 
-    private void Update()
+    public override void Update()
     {
-        SetAnimator();
-
+        base.Update();
+        
         counterState = isInvincible = !isFalling;
 
         if (canAttack) Detection();
-        SetColor();
 
         if (isEnable && !isDead)
         {
@@ -98,8 +99,6 @@ public class LionBehaviour : AIBrain
                 canFall = false;
             }
         }
-
-        enemyStatusPointer.SetActive(isAggro);
     }
 
     public override void GetHurt(int damage)
@@ -109,14 +108,10 @@ public class LionBehaviour : AIBrain
         base.GetHurt(damage);
     }
 
-    public void SetAnimator()
+    public override void SetAnimator()
     {
-        //AnimatorSetBool
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isDead", isDead);
-        animator.SetBool("isFalling", isFalling);
-        animator.SetBool("isHurt", isHurt);
-        animator.SetBool("isMoving", isMoving);
+       base.SetAnimator();
+       animator.SetBool("isFalling", isFalling);
 
         if (hurtAnim)
         {
@@ -151,6 +146,10 @@ public class LionBehaviour : AIBrain
                 }
             }
         }
+        
+        float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
+
+        playerShowBack = directionAngle < detectionAngle;
     }
 
     public override void MoveToPlayer(Vector3 destination)
