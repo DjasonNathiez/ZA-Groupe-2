@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RabbitBehaviour : AIBrain
 {
+    #region Variables
+
     [Header("Rabbit Self Data")] public float areaToMove;
     private Vector3 m_pointToGo;
     public float avoidFront;
     private Vector3 m_originPoint;
-    public float timeToGoNextPoint;
 
-    [HideInInspector] public StateMachine stateMachine;
+    public StateMachine stateMachine;
 
     public enum StateMachine
     {
@@ -18,19 +20,19 @@ public class RabbitBehaviour : AIBrain
         CHASE,
         ATTACK
     }
-
-    public bool isPatrolling;
-
-    public Vector3[] detectedPoints;
+    
+    public List<Vector3> detectedPoints;
     public List<float> distanceToPoints;
     public Vector3 nearestPoint;
-    
+
     [Header("Rabbit Self VFX")] public ParticleSystem chaseBegin;
     public ParticleSystem chaseContinue;
     public ParticleSystem chaseEnd;
     public ParticleSystem chaseSurprise;
     public ParticleSystem chaseMangaAngry;
 
+    #endregion
+    
     void Start()
     {
         isInvincible = false;
@@ -40,16 +42,16 @@ public class RabbitBehaviour : AIBrain
         float minZ = transform.position.z - areaToMove;
         float maxX = transform.position.x + areaToMove;
         float maxZ = transform.position.z + areaToMove;
-
-        m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
-
+        
         InitializationData();
+        
+        SwitchState(StateMachine.IDLE);
     }
 
     public override void Update()
     {
         base.Update();
-        
+
         if (!isDead)
         {
             CheckState();
@@ -84,56 +86,11 @@ public class RabbitBehaviour : AIBrain
 
     private void CheckState()
     {
-        float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
-
-        if (player.state != ActionType.StatusQuo)
-        {
-            if (distanceToPlayer <= dectectionRange && !isAggro)
-            {
-                chaseBegin.Play();
-                chaseContinue.Play();
-                chaseSurprise.Play();
-                chaseMangaAngry.Play();
-                PlaySFX("R_Aggro");
-
-                isAggro = true;
-                stateMachine = StateMachine.CHASE;
-
-                stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
-            }
-
-
-            //stateMachine = attackRange > distanceToNearestPoint ? StateMachine.ATTACK : StateMachine.CHASE;
-        }
-        else
-        {
-            if (isAggro)
-            {
-                stateMachine = StateMachine.IDLE;
-
-                chaseContinue.Stop();
-                chaseEnd.Play();
-
-                isAggro = false;
-            }
-        }
-
-        if (isAggro)
-        {
-            RopePointDetection();
-        }
-
         switch (stateMachine)
         {
             case StateMachine.IDLE:
-                if (!isPatrolling)
-                {
-                    isAttacking = false;
-                    isPatrolling = true;
-                    isMoving = false;
-                    isAggro = false;
-                }
 
+                // Moving Idle
                 Vector3 pointToGoMin = new Vector3(m_pointToGo.x - 3, transform.position.y, m_pointToGo.z - 3);
                 Vector3 pointToGoMax = new Vector3(m_pointToGo.x + 3, transform.position.y, m_pointToGo.z + 3);
 
@@ -141,6 +98,7 @@ public class RabbitBehaviour : AIBrain
                     transform.position.x <= pointToGoMax.x && transform.position.z <= pointToGoMax.z)
                 {
                     SetNavPoint();
+                    nav.SetDestination(m_pointToGo);
                 }
 
                 RaycastHit hit;
@@ -151,26 +109,97 @@ public class RabbitBehaviour : AIBrain
                     if (distToFrontHit <= avoidFront)
                     {
                         SetNavPoint();
+                        nav.SetDestination(m_pointToGo);
                     }
                 }
+                
+                if (nav.path.status != NavMeshPathStatus.PathComplete)
+                {
+                    m_pointToGo = m_originPoint;
+                    nav.SetDestination(m_pointToGo);
+                    Debug.LogWarning(nav.path.status);
 
-                nav.SetDestination(m_pointToGo);
+                }
+                
+                //Debug.LogWarning(nav.path.status);
 
+                // Aggro Idle
+                if (player.state == ActionType.RopeAttached && !player.rope.rewinding)
+                {
+                    if (distanceToPlayer <= dectectionRange)
+                    {
+                        if (!isAggro)
+                        {
+                            SwitchState(StateMachine.CHASE);
+                            break;
+                        }
+                    }
+                }
                 break;
 
             case StateMachine.CHASE:
-                isAggro = true;
-                isMoving = true;
-                isPatrolling = false;
-                isAttacking = false;
 
+                if (player.state != ActionType.RopeAttached || player.rope.rewinding) SwitchState(StateMachine.IDLE);
+                
+                RopePointDetection();
+
+                if (nearestPoint == Vector3.zero) SwitchState(StateMachine.IDLE);
+                
                 MoveToRope();
+
+                float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
+                if (attackRange > distanceToNearestPoint)
+                {
+                    SwitchState(StateMachine.ATTACK);
+                }
 
                 break;
 
             case StateMachine.ATTACK:
                 isAttacking = true;
                 player.rope.rewinding = true;
+                SwitchState(StateMachine.IDLE);
+                break;
+        }
+    }
+
+    private void SwitchState(StateMachine state)
+    {
+        switch (state)
+        {
+            case StateMachine.IDLE:
+                chaseContinue.Stop();
+                chaseEnd.Play();
+                isAggro = false;
+
+                isAttacking = false;
+                isMoving = false;
+
+                distanceToPoints.Clear();
+                detectedPoints.Clear();
+                
+                m_pointToGo = m_originPoint;
+                nav.SetDestination(m_pointToGo);
+                
+                stateMachine = StateMachine.IDLE;
+                break;
+
+            case StateMachine.CHASE:
+                chaseBegin.Play();
+                chaseContinue.Play();
+                chaseSurprise.Play();
+                chaseMangaAngry.Play();
+                PlaySFX("R_Aggro");
+                isAggro = true;
+                isMoving = true;
+                isAttacking = false;
+                distanceToPoints.Clear();
+                stateMachine = StateMachine.CHASE;
+                break;
+
+            case StateMachine.ATTACK:
+                animator.Play("R_Attack");
+                stateMachine = StateMachine.ATTACK;
                 break;
         }
     }
@@ -181,8 +210,9 @@ public class RabbitBehaviour : AIBrain
         float minZ = m_originPoint.z - areaToMove;
         float maxX = m_originPoint.x + areaToMove;
         float maxZ = m_originPoint.z + areaToMove;
-
+        
         m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        
     }
 
     private void MoveToRope()
@@ -200,15 +230,19 @@ public class RabbitBehaviour : AIBrain
         {
             detectedPoints = player.rope.CalculateCuttingPoints(1);
 
-            if (detectedPoints.Length > distanceToPoints.Count)
+            if (detectedPoints.Count > distanceToPoints.Count)
             {
                 AddPointDistanceToRope();
             }
-
-
+            
             if (distanceToPoints.Count > 0)
             {
                 CheckNearestPoint();
+            }
+            else
+            {
+                Debug.Log("Player is now nearest point");
+                nearestPoint = player.transform.position;
             }
         }
         else
@@ -218,13 +252,13 @@ public class RabbitBehaviour : AIBrain
 
         if (distanceToPoints != null && detectedPoints != null)
         {
-            if (distanceToPoints.Count > detectedPoints.Length)
+            if (distanceToPoints.Count > detectedPoints.Count)
             {
                 List<int> indexes = new List<int>(0);
 
                 for (int x = 0; x < distanceToPoints.Count; x++)
                 {
-                    for (int i = detectedPoints.Length; i < distanceToPoints.Count; i++)
+                    for (int i = detectedPoints.Count; i < distanceToPoints.Count; i++)
                     {
                         indexes.Add(x);
                     }
@@ -246,7 +280,7 @@ public class RabbitBehaviour : AIBrain
 
     private void AddPointDistanceToRope()
     {
-        for (int i = distanceToPoints.Count; i < detectedPoints.Length; i++)
+        for (int i = distanceToPoints.Count; i < detectedPoints.Count; i++)
         {
             distanceToPoints.Add(Vector3.Distance(transform.position, detectedPoints[i]));
         }
@@ -254,12 +288,17 @@ public class RabbitBehaviour : AIBrain
 
     private void CheckNearestPoint()
     {
+        if (distanceToPoints.Count == 1)
+        {
+            nearestPoint = detectedPoints[0];
+            return;
+        }
+        
         for (int i = 0; i < distanceToPoints.Count - 1; i++)
         {
             if (distanceToPoints[i] < distanceToPoints[i + 1])
             {
-                if (i > detectedPoints.Length - 1)
-                    return;
+                if (i > detectedPoints.Count - 1) return;
                 nearestPoint = detectedPoints[i];
             }
         }
