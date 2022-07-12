@@ -50,19 +50,23 @@ public class GameData : MonoBehaviour
 
     public void CheckGameState()
     {
-        foreach (EnemyPool.EnemyPoolItem enemyPoolItem in enemyPools[gameState].enemiesInPool)
+        if (enemyPools.Count != 0)
         {
-            if (enemyPoolItem.isDead)
+            foreach (EnemyPool.EnemyPoolItem enemyPoolItem in enemyPools[gameState].enemiesInPool)
             {
-                Destroy(enemyPoolItem.enemy);
+                if (enemyPoolItem.isDead)
+                {
+                    Destroy(enemyPoolItem.enemy);
+                }
+            }
+                
+            foreach (GameObject objToDisable in enemyPools[gameState].objectToDisable)
+            {
+                Destroy(objToDisable);
+                enemyPools[0].objectToDisable.Remove(objToDisable);
             }
         }
-                
-        foreach (GameObject objToDisable in enemyPools[gameState].objectToDisable)
-        {
-            Destroy(objToDisable);
-            enemyPools[0].objectToDisable.Remove(objToDisable);
-        }
+        
     }
 
     private void OnValidate()
