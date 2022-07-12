@@ -68,7 +68,7 @@ public class KonamiCode : MonoBehaviour
         }
         else if (isA && !PlayerManager.instance.buttonAPressed) isA = false;
 
-        checkPatterns();
+        CheckPatterns();
     }
 
     void addToBuffer(string c)
@@ -77,7 +77,7 @@ public class KonamiCode : MonoBehaviour
         buffer += c;
     }
 
-    void checkPatterns()
+    void CheckPatterns()
     {
         if (buffer.EndsWith(validPatterns[0].inputBuffer))
         {
