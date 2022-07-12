@@ -10,7 +10,6 @@ public class RabbitBehaviour : AIBrain
     private Vector3 m_pointToGo;
     public float avoidFront;
     private Vector3 m_originPoint;
-    public float timeToGoNextPoint;
 
     [HideInInspector] public StateMachine stateMachine;
 
@@ -132,8 +131,11 @@ public class RabbitBehaviour : AIBrain
 
             case StateMachine.CHASE:
                 RopePointDetection();
-                
-                if(nearestPoint == Vector3.zero) Debug.LogWarning("Nearest point is not valid!");
+
+                if (nearestPoint == Vector3.zero || player.state != ActionType.RopeAttached)
+                {
+                    SwitchState(StateMachine.IDLE);
+                }
                 
                 MoveToRope();
 
@@ -207,8 +209,7 @@ public class RabbitBehaviour : AIBrain
         if (isAggro)
         {
             isMoving = true;
-            
-            nav.SetDestination(nearestPoint == Vector3.zero ? m_originPoint : nearestPoint);
+            nav.SetDestination(nearestPoint);
         }
     }
 
