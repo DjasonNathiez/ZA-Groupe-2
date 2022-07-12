@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
        
         CheckScene();
         
-        //UpdateUILanguage();
+        UpdateUILanguage();
         
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
@@ -154,6 +154,22 @@ public class GameManager : MonoBehaviour
         environmentSlider.onValueChanged.AddListener(SetEffectVolume);
 
         transitionOn = true;
+
+        if (GameData.instance)
+        {
+            
+            switch (GameData.instance.currentLanguage)
+            {
+                case GameData.Language.FRENCH:
+                    language = Language.FRENCH;
+                    break;
+            
+                case GameData.Language.ENGLISH:
+                    language = Language.ENGLISH;
+                    break;
+            }
+
+        }
         
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
@@ -227,20 +243,23 @@ public class GameManager : MonoBehaviour
 
     public void UpdateUILanguage()
     {
-        foreach (UIText uiText in uiTexts)
+        if (GameData.instance)
         {
-            
-            switch (GameData.instance.currentLanguage)
+            foreach (UIText uiText in uiTexts)
             {
-                case GameData.Language.FRENCH:
-                    uiText.uiTMP.text = uiText.frenchText;
-                    break;
+                switch (GameData.instance.currentLanguage)
+                {
+                    case GameData.Language.FRENCH:
+                        uiText.uiTMP.text = uiText.frenchText;
+                        break;
             
-                case GameData.Language.ENGLISH:
-                    uiText.uiTMP.text = uiText.englishText;
-                    break;
+                    case GameData.Language.ENGLISH:
+                        uiText.uiTMP.text = uiText.englishText;
+                        break;
+                }
             }
         }
+        
     }
 
     public void DropItem(string item, Transform dropPosition)
@@ -332,6 +351,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        UpdateUILanguage();
         Time.timeScale = 0;
         ui.hudParent.SetActive(false);
         pauseMenu.SetActive(true);
@@ -464,18 +484,22 @@ public class GameManager : MonoBehaviour
 
     public void SetLanguage(string languageSelect)
     {
-        switch (languageSelect)
+        if (GameData.instance)
         {
-            case "French":
-                language = Language.FRENCH;
-                break;
+            switch (languageSelect)
+            {
+                case "French":
+                    GameData.instance.currentLanguage = GameData.Language.FRENCH;
+                    break;
             
-            case "English":
-                language = Language.ENGLISH;
-                break;
+                case "English":
+                    GameData.instance.currentLanguage = GameData.Language.ENGLISH;
+                    break;
+            }
+        
+            UpdateUILanguage();
         }
         
-        UpdateUILanguage();
     }
     
     public IEnumerator LoadFirstCinematic()

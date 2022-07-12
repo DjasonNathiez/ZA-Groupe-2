@@ -45,7 +45,7 @@ public class GameData : MonoBehaviour
         
         #endregion
         
-        CheckGameState();
+        //CheckGameState();
     }
 
     public void CheckGameState()
