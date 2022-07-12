@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class RabbitBehaviour : AIBrain
 {
@@ -11,7 +12,7 @@ public class RabbitBehaviour : AIBrain
     public float avoidFront;
     private Vector3 m_originPoint;
 
-    [HideInInspector] public StateMachine stateMachine;
+    public StateMachine stateMachine;
 
     public enum StateMachine
     {
@@ -130,14 +131,28 @@ public class RabbitBehaviour : AIBrain
                 break;
 
             case StateMachine.CHASE:
+
+                /*
+                if (player.state != ActionType.RopeAttached || player.rope.rewinding)
+                {
+                    SwitchState(StateMachine.IDLE);
+                }
+                else
+                {
+                    nearestPoint = player.transform.position;
+                    MoveToRope();
+                }
+                */
+
                 RopePointDetection();
 
-                if (nearestPoint == Vector3.zero || player.state != ActionType.RopeAttached)
+                if (nearestPoint == Vector3.zero || player.state != ActionType.RopeAttached || player.rope.rewinding)
                 {
                     SwitchState(StateMachine.IDLE);
                 }
                 
                 MoveToRope();
+                
 
                 // Check if can attack
                 float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
@@ -287,6 +302,7 @@ public class RabbitBehaviour : AIBrain
         {
             if (distanceToPoints[i] < distanceToPoints[i + 1])
             {
+                if (i > detectedPoints.Count - 1) return;
                 nearestPoint = detectedPoints[i];
             }
         }
