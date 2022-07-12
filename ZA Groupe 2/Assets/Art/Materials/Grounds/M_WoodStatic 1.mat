@@ -7,14 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_GroundFinal
-  m_Shader: {fileID: -6465566751694194690, guid: 3de1fe9b4b13f2f44af0fcff66f6cd35, type: 3}
+  m_Name: M_WoodStatic 1
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -52,8 +53,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DiffuseTex2D:
-        m_Texture: {fileID: 2800000, guid: 24d7c128acfee9248af09b075c523a23, type: 3}
-        m_Scale: {x: 0.8, y: 0.8}
+        m_Texture: {fileID: 2800000, guid: 72c36144e81e8c04c960ad0357c3242c, type: 3}
+        m_Scale: {x: 0.5, y: 0.5}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
@@ -92,7 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex2D:
-        m_Texture: {fileID: 2800000, guid: ca7a39a95a55a284ca5e350a16588cd6, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -189,14 +190,14 @@ Material:
     - _Roughness_Intensity: 0
     - _Roughness_Smoothstep_Max: 1
     - _Roughness_Smoothstep_Min: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessMap: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
     - _Tiling: 0.522
-    - _UseNormal: 1
+    - _UseNormal: 0
     - _WorkflowMode: 1
     - _XTexture: 0
     - _XTexture_TwoSide: 0
@@ -209,12 +210,12 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _AjustTexPos: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.36862746, g: 0.19215687, b: 0.02745098, a: 0}
+    - _Color: {r: 0.36862743, g: 0.19215682, b: 0.02745098, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Fog_BackgroundColor: {r: 0, g: 0, b: 0, a: 1}
     - _HS_SmoothStep_Adjust: {r: 0, g: 1, b: 0, a: 0}
-    - _MainColor: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 0}
+    - _MainColor: {r: 0.3679245, g: 0.19209427, b: 0.02603239, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8002172517200831966
