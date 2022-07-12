@@ -136,6 +136,10 @@ public class GameManager : MonoBehaviour
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
+        
+        if (SceneManager.GetActiveScene().ToString() == GameManager.instance.parcScene)
+            GetComponent<KonamiCode>().enabled = true;
+        
         Cursor.lockState = CursorLockMode.Confined;
 
         SoundManager.AudioMixer = mainMixer;
@@ -358,6 +362,7 @@ public class GameManager : MonoBehaviour
     {
         transitionOn= true;
         yield return new WaitForSeconds(2f);
+        
         SceneManager.LoadScene(sceneName);
         CheckScene();
     }
