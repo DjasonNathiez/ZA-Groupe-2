@@ -665,7 +665,7 @@ public class Rope : MonoBehaviour
         clamped = false;
     }
 
-    public Vector3[] CalculateCuttingPoints(float resolution)
+    public List<Vector3> CalculateCuttingPoints(float resolution)
     {
         List<Vector3> positions = new List<Vector3>();
 
@@ -675,7 +675,7 @@ public class Rope : MonoBehaviour
             point = nodes[nodes.Count - 1].nodePoint.transform.position;
 
             float dist = Vector3.Distance(point, transform.position);
-            int numberOfPoints = Mathf.RoundToInt(Mathf.FloorToInt(dist) * resolution);
+            int numberOfPoints = Mathf.RoundToInt(Mathf.CeilToInt(dist) * resolution);
             for (int i = 1; i < numberOfPoints; i++)
             {
                 Vector3 pos = transform.position +
@@ -686,7 +686,7 @@ public class Rope : MonoBehaviour
             point = nodes[0].nodePoint.transform.position;
 
             dist = Vector3.Distance(point, pin.transform.position);
-            numberOfPoints = Mathf.RoundToInt(Mathf.FloorToInt(dist) * resolution);
+            numberOfPoints = Mathf.RoundToInt(Mathf.CeilToInt(dist) * resolution);
             for (int i = 1; i < numberOfPoints; i++)
             {
                 Vector3 pos = pin.transform.position +
@@ -698,7 +698,7 @@ public class Rope : MonoBehaviour
         {
             point = pin.transform.position;
             float dist = Vector3.Distance(point, transform.position);
-            int numberOfPoints = Mathf.RoundToInt(Mathf.FloorToInt(dist) * resolution);
+            int numberOfPoints = Mathf.RoundToInt(Mathf.CeilToInt(dist) * resolution);
             for (int i = 1; i < numberOfPoints; i++)
             {
                 Vector3 pos = transform.position +
@@ -714,7 +714,7 @@ public class Rope : MonoBehaviour
             {
                 float dist = Vector3.Distance(node.nodePoint.transform.position,
                     nodes[node.index - 2].nodePoint.transform.position);
-                int numberOfPoints = Mathf.RoundToInt(Mathf.FloorToInt(dist) * resolution);
+                int numberOfPoints = Mathf.RoundToInt(Mathf.CeilToInt(dist) * resolution);
                 for (int i = 1; i < numberOfPoints; i++)
                 {
                     Vector3 pos = node.nodePoint.transform.position +
@@ -725,7 +725,7 @@ public class Rope : MonoBehaviour
             }
         }
 
-        return positions.ToArray();
+        return positions;
     }
 
     public void ResetPin()

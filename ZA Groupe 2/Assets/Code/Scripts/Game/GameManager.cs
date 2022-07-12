@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
         public VideoPlayer firstCinematic;
         public VideoPlayer lastCinematic;
         public VideoPlayer playingCinematic;
+        private bool isSkipping;
     
     private void Awake()
     {
@@ -131,12 +132,12 @@ public class GameManager : MonoBehaviour
        
         CheckScene();
         
-        //UpdateUILanguage();
+        UpdateUILanguage();
         
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
-        
+
         if (SceneManager.GetActiveScene().ToString() == GameManager.instance.parcScene)
             GetComponent<KonamiCode>().enabled = true;
         
@@ -153,6 +154,22 @@ public class GameManager : MonoBehaviour
         environmentSlider.onValueChanged.AddListener(SetEffectVolume);
 
         transitionOn = true;
+
+        if (GameData.instance)
+        {
+            
+            switch (GameData.instance.currentLanguage)
+            {
+                case GameData.Language.FRENCH:
+                    language = Language.FRENCH;
+                    break;
+            
+                case GameData.Language.ENGLISH:
+                    language = Language.ENGLISH;
+                    break;
+            }
+
+        }
         
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
@@ -226,20 +243,23 @@ public class GameManager : MonoBehaviour
 
     public void UpdateUILanguage()
     {
-        foreach (UIText uiText in uiTexts)
+        if (GameData.instance)
         {
-            
-            switch (GameData.instance.currentLanguage)
+            foreach (UIText uiText in uiTexts)
             {
-                case GameData.Language.FRENCH:
-                    uiText.uiTMP.text = uiText.frenchText;
-                    break;
+                switch (GameData.instance.currentLanguage)
+                {
+                    case GameData.Language.FRENCH:
+                        uiText.uiTMP.text = uiText.frenchText;
+                        break;
             
-                case GameData.Language.ENGLISH:
-                    uiText.uiTMP.text = uiText.englishText;
-                    break;
+                    case GameData.Language.ENGLISH:
+                        uiText.uiTMP.text = uiText.englishText;
+                        break;
+                }
             }
         }
+        
     }
 
     public void DropItem(string item, Transform dropPosition)
@@ -331,6 +351,7 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        UpdateUILanguage();
         Time.timeScale = 0;
         ui.hudParent.SetActive(false);
         pauseMenu.SetActive(true);
@@ -360,11 +381,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadScene(string sceneName)
     {
-        transitionOn= true;
-        yield return new WaitForSeconds(2f);
-        
-        SceneManager.LoadScene(sceneName);
-        CheckScene();
+        yield return new WaitForSeconds(1);
+        playingCinematic.Stop();
+        SceneManager.LoadScene(sceneName); 
     }
 
     public void ApplicationQuit()
@@ -465,18 +484,22 @@ public class GameManager : MonoBehaviour
 
     public void SetLanguage(string languageSelect)
     {
-        switch (languageSelect)
+        if (GameData.instance)
         {
-            case "French":
-                language = Language.FRENCH;
-                break;
+            switch (languageSelect)
+            {
+                case "French":
+                    GameData.instance.currentLanguage = GameData.Language.FRENCH;
+                    break;
             
-            case "English":
-                language = Language.ENGLISH;
-                break;
+                case "English":
+                    GameData.instance.currentLanguage = GameData.Language.ENGLISH;
+                    break;
+            }
+        
+            UpdateUILanguage();
         }
         
-        UpdateUILanguage();
     }
     
     public IEnumerator LoadFirstCinematic()
@@ -484,9 +507,9 @@ public class GameManager : MonoBehaviour
         SoundManager.StopAll();
         firstCinematic.Play();
         playingCinematic = firstCinematic;
-        yield return new WaitForSeconds(48);
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil((() => !firstCinematic.isPlaying));
         StartCoroutine(LoadScene(parcScene));
-        firstCinematic.Stop();
     }
     
     public IEnumerator LoadEndCinematic()
@@ -495,24 +518,34 @@ public class GameManager : MonoBehaviour
         SoundManager.StopAll();
         lastCinematic.Play();
         playingCinematic = lastCinematic;
-        yield return new WaitForSeconds(50);
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil((() => !lastCinematic.isPlaying));
         StartCoroutine(LoadScene("Menu_Principal"));
     }
 
     void SkipCinematic()
     {
-        playingCinematic.Stop();
-
-        if (playingCinematic == firstCinematic)
+        if (!isSkipping)
         {
-            StopCoroutine(LoadFirstCinematic());
-            StartCoroutine(LoadScene(parcScene));
-        }
+            playingCinematic.Pause();
+            transitionOff = true;
+            
+            if (playingCinematic == firstCinematic)
+            {
+                StopCoroutine(LoadFirstCinematic());
+                StartCoroutine(LoadScene(parcScene));
+                Debug.Log("Skipping");
+                isSkipping = true;
+            }
 
-        if (playingCinematic == lastCinematic)
-        {
-            StopCoroutine(LoadEndCinematic());
-            StartCoroutine(LoadScene("Menu_Principal"));
+            if (playingCinematic == lastCinematic)
+            {
+                StopCoroutine(LoadEndCinematic());
+                StartCoroutine(LoadScene("Menu_Principal"));
+                Debug.Log("Skipping");
+                isSkipping = true;
+            }
         }
+       
     }
 }
