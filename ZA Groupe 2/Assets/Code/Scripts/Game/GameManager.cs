@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
         public VideoPlayer firstCinematic;
         public VideoPlayer lastCinematic;
         public VideoPlayer playingCinematic;
+        private bool isSkipping;
     
     private void Awake()
     {
@@ -136,6 +137,10 @@ public class GameManager : MonoBehaviour
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
+
+        if (SceneManager.GetActiveScene().ToString() == GameManager.instance.parcScene)
+            GetComponent<KonamiCode>().enabled = true;
+        
         Cursor.lockState = CursorLockMode.Confined;
 
         SoundManager.AudioMixer = mainMixer;
@@ -356,10 +361,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadScene(string sceneName)
     {
-        transitionOn= true;
-        yield return new WaitForSeconds(2f);
-        SceneManager.LoadScene(sceneName);
-        CheckScene();
+        yield return new WaitForSeconds(1);
+        playingCinematic.Stop();
+        SceneManager.LoadScene(sceneName); 
     }
 
     public void ApplicationQuit()
@@ -479,9 +483,9 @@ public class GameManager : MonoBehaviour
         SoundManager.StopAll();
         firstCinematic.Play();
         playingCinematic = firstCinematic;
-        yield return new WaitForSeconds(48);
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil((() => !firstCinematic.isPlaying));
         StartCoroutine(LoadScene(parcScene));
-        firstCinematic.Stop();
     }
     
     public IEnumerator LoadEndCinematic()
@@ -490,24 +494,34 @@ public class GameManager : MonoBehaviour
         SoundManager.StopAll();
         lastCinematic.Play();
         playingCinematic = lastCinematic;
-        yield return new WaitForSeconds(50);
+        yield return new WaitForSeconds(1);
+        yield return new WaitUntil((() => !lastCinematic.isPlaying));
         StartCoroutine(LoadScene("Menu_Principal"));
     }
 
     void SkipCinematic()
     {
-        playingCinematic.Stop();
-
-        if (playingCinematic == firstCinematic)
+        if (!isSkipping)
         {
-            StopCoroutine(LoadFirstCinematic());
-            StartCoroutine(LoadScene(parcScene));
-        }
+            playingCinematic.Pause();
+            transitionOff = true;
+            
+            if (playingCinematic == firstCinematic)
+            {
+                StopCoroutine(LoadFirstCinematic());
+                StartCoroutine(LoadScene(parcScene));
+                Debug.Log("Skipping");
+                isSkipping = true;
+            }
 
-        if (playingCinematic == lastCinematic)
-        {
-            StopCoroutine(LoadEndCinematic());
-            StartCoroutine(LoadScene("Menu_Principal"));
+            if (playingCinematic == lastCinematic)
+            {
+                StopCoroutine(LoadEndCinematic());
+                StartCoroutine(LoadScene("Menu_Principal"));
+                Debug.Log("Skipping");
+                isSkipping = true;
+            }
         }
+       
     }
 }

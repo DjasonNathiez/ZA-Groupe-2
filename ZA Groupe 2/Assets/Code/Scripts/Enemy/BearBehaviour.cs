@@ -18,20 +18,15 @@ public class BearBehaviour : AIBrain
         InitializationData();
     }
 
-    private void Update()
+    public override void Update()
     {
-        //bodyCol.isTrigger = !isFalling;
-
-        SetAnimator();
-
+        base.Update();
+        
         if (!isDead)
         {
             CheckState();
             Detection();
         }
-
-        SetColor();
-        enemyStatusPointer.SetActive(isAggro);
     }
 
     public override void GetHurt(int damage)
@@ -39,14 +34,11 @@ public class BearBehaviour : AIBrain
         base.GetHurt(damage);
     }
 
-    public void SetAnimator()
+    public override void SetAnimator()
     {
-        //Animator Set Bool
-        animator.SetBool("isAttacking", isAttacking);
+        base.SetAnimator();
         animator.SetBool("isFalling", isFalling);
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isHurt", isHurt);
-        animator.SetBool("isDead", isDead);
+
         if (isDead)
         {
             modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
