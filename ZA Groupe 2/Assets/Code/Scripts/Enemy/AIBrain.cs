@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -51,7 +53,6 @@ public class AIBrain : MonoBehaviour
     [Range(0, 180)] public float detectionAngle;
     public Door doorIfDead;
     public ArenaParc currentArena;
-    [HideInInspector] public bool playerShowBack;
 
     [Header("VFX")] public ParticleSystem hurtVFX;
     public ParticleSystem attackVFX;
@@ -65,7 +66,6 @@ public class AIBrain : MonoBehaviour
     [Header("Visual")] public List<SkinnedMeshRenderer> modelMeshRenderer;
     public Material modelNonAggroMat;
     public Material modelAggroMat;
-    public GameObject enemyStatusPointer;
     public Material aggroMaterial;
     public Material nonAggroMaterial;
     public AnimationCurve animationHurt;
@@ -99,6 +99,20 @@ public class AIBrain : MonoBehaviour
         nav.stoppingDistance = attackRange + 0.02f;
     }
 
+    public virtual void Update()
+    {
+        SetColor();
+        SetAnimator();
+    }
+
+    public virtual void SetAnimator()
+    {
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isDead", isDead);
+        animator.SetBool("isHurt", isHurt);
+        animator.SetBool("isMoving", isMoving);
+    }
+
     public virtual void MoveToPlayer(Vector3 destination)
     {
         isMoving = true;
@@ -112,12 +126,10 @@ public class AIBrain : MonoBehaviour
             if (isAggro)
             {
                 mesh.material = modelAggroMat;
-                enemyStatusPointer.GetComponent<MeshRenderer>().material = aggroMaterial;
             }
             else
             {
                 mesh.material = modelNonAggroMat;
-                enemyStatusPointer.GetComponent<MeshRenderer>().material = nonAggroMaterial;
             }
         }
     }
@@ -144,9 +156,7 @@ public class AIBrain : MonoBehaviour
             }
         }
 
-        float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
-
-        playerShowBack = directionAngle < detectionAngle;
+        
     }
 
     public void AttackPlayer()
