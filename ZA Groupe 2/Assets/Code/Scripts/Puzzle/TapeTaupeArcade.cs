@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class TapeTaupeArcade : MonoBehaviour
 {
     [SerializeField] private GameObject[] taupes;
+    [SerializeField] private Light[] taupesLights;
     [SerializeField] private bool[] activated;
     public bool active;
     public GameObject grille;
@@ -31,6 +32,7 @@ public class TapeTaupeArcade : MonoBehaviour
         {
             taupes[i].GetComponent<Taupe>().TapeTaupeArcade = this;
             taupes[i].GetComponent<Taupe>().number = i;
+            taupesLights[i].enabled = false;
         }
     }
 
@@ -41,10 +43,12 @@ public class TapeTaupeArcade : MonoBehaviour
             if (activated[i] == true)
             {
                 taupes[i].transform.localPosition = Vector3.Lerp(taupes[i].transform.localPosition,new Vector3(taupes[i].transform.localPosition.x, taupes[i].transform.localPosition.y, -0.1f),5*Time.deltaTime);
+                taupesLights[i].enabled = true;
             }
             else
             {
                 taupes[i].transform.localPosition = Vector3.Lerp(taupes[i].transform.localPosition,new Vector3(taupes[i].transform.localPosition.x, taupes[i].transform.localPosition.y, 5f),5*Time.deltaTime);
+                taupesLights[i].enabled = false;
             }
         }
 
@@ -92,7 +96,6 @@ public class TapeTaupeArcade : MonoBehaviour
                 }
             
                 taupeTimer = rate.Evaluate(1 - timer/50);
-           
             }
             else
             {
@@ -126,6 +129,10 @@ public class TapeTaupeArcade : MonoBehaviour
             timer = 50;
             score = 0;
             AudioManager.instance.SetMusic("Arcade");
+            
+            timerText[0].transform.GetComponent<Animation>().Play("text_anim");
+            timerText[1].transform.GetComponent<Animation>().Play("text_anim2");
+            
         }
     }
     
