@@ -42,10 +42,9 @@ public class RabbitBehaviour : AIBrain
         float minZ = transform.position.z - areaToMove;
         float maxX = transform.position.x + areaToMove;
         float maxZ = transform.position.z + areaToMove;
-
-        m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
-
+        
         InitializationData();
+        
         SwitchState(StateMachine.IDLE);
     }
 
@@ -87,8 +86,6 @@ public class RabbitBehaviour : AIBrain
 
     private void CheckState()
     {
-        Debug.Log(stateMachine);
-
         switch (stateMachine)
         {
             case StateMachine.IDLE:
@@ -101,6 +98,7 @@ public class RabbitBehaviour : AIBrain
                     transform.position.x <= pointToGoMax.x && transform.position.z <= pointToGoMax.z)
                 {
                     SetNavPoint();
+                    nav.SetDestination(m_pointToGo);
                 }
 
                 RaycastHit hit;
@@ -111,10 +109,19 @@ public class RabbitBehaviour : AIBrain
                     if (distToFrontHit <= avoidFront)
                     {
                         SetNavPoint();
+                        nav.SetDestination(m_pointToGo);
                     }
                 }
+                
+                if (nav.path.status != NavMeshPathStatus.PathComplete)
+                {
+                    m_pointToGo = m_originPoint;
+                    nav.SetDestination(m_pointToGo);
+                    Debug.LogWarning(nav.path.status);
 
-                nav.SetDestination(m_pointToGo);
+                }
+                
+                //Debug.LogWarning(nav.path.status);
 
                 // Aggro Idle
                 if (player.state == ActionType.RopeAttached && !player.rope.rewinding)
@@ -132,31 +139,15 @@ public class RabbitBehaviour : AIBrain
 
             case StateMachine.CHASE:
 
-                /*
-                if (player.state != ActionType.RopeAttached || player.rope.rewinding)
-                {
-                    SwitchState(StateMachine.IDLE);
-                }
-                else
-                {
-                    nearestPoint = player.transform.position;
-                    MoveToRope();
-                }
-                */
-
+                if (player.state != ActionType.RopeAttached || player.rope.rewinding) SwitchState(StateMachine.IDLE);
+                
                 RopePointDetection();
 
-                if (nearestPoint == Vector3.zero || player.state != ActionType.RopeAttached || player.rope.rewinding)
-                {
-                    SwitchState(StateMachine.IDLE);
-                }
+                if (nearestPoint == Vector3.zero) SwitchState(StateMachine.IDLE);
                 
                 MoveToRope();
-                
 
-                // Check if can attack
                 float distanceToNearestPoint = Vector3.Distance(transform.position, nearestPoint);
-                
                 if (attackRange > distanceToNearestPoint)
                 {
                     SwitchState(StateMachine.ATTACK);
@@ -187,6 +178,9 @@ public class RabbitBehaviour : AIBrain
                 distanceToPoints.Clear();
                 detectedPoints.Clear();
                 
+                m_pointToGo = m_originPoint;
+                nav.SetDestination(m_pointToGo);
+                
                 stateMachine = StateMachine.IDLE;
                 break;
 
@@ -204,6 +198,7 @@ public class RabbitBehaviour : AIBrain
                 break;
 
             case StateMachine.ATTACK:
+                animator.Play("R_Attack");
                 stateMachine = StateMachine.ATTACK;
                 break;
         }
@@ -215,8 +210,9 @@ public class RabbitBehaviour : AIBrain
         float minZ = m_originPoint.z - areaToMove;
         float maxX = m_originPoint.x + areaToMove;
         float maxZ = m_originPoint.z + areaToMove;
-
+        
         m_pointToGo = new Vector3(Random.Range(minX, maxX), transform.position.y, Random.Range(minZ, maxZ));
+        
     }
 
     private void MoveToRope()
