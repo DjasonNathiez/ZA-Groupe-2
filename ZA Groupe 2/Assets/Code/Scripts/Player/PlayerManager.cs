@@ -77,7 +77,6 @@ public class PlayerManager : MonoBehaviour
     public bool startTalking;
     public bool isTalking;
     public int storyState;
-    public bool isTeleporting;
 
     [Header("Movements Stats")] public float moveSpeed;
     public float rotationSpeed;
@@ -615,8 +614,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Throw()
     {
-        if (isTeleporting) return;
-        
         if (m_controlState != ControlState.DIALOGUE)
         {
             if (state == ActionType.Aiming)
@@ -653,8 +650,6 @@ public class PlayerManager : MonoBehaviour
 
     public void OnRange()
     {
-        if (isTeleporting) return;
-
         if (m_controlState == ControlState.DIALOGUE) return;
 
         if (!isDead)
@@ -704,13 +699,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Move(InputAction.CallbackContext moveInput)
     {
-        if (isTeleporting)
-        {
-            isMoving = false;
-            rb.velocity = Vector3.zero;
-            return;
-        }
-
         m_moveDirection = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
         move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
 
@@ -755,8 +743,6 @@ public class PlayerManager : MonoBehaviour
 
     private void Roll(InputAction.CallbackContext roll)
     {
-        if (isTeleporting) return;
-
         if (roll.started)
         {
             if (!m_attack.isAttacking && !isDead && isMoving)
