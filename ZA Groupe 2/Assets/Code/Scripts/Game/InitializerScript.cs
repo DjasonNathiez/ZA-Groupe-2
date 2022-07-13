@@ -19,6 +19,7 @@ public class InitializerScript : MonoBehaviour
 
     private void Awake()
     {
+
         if (PlayerManager.instance.storyState >= 1)
         {
             GameManager.instance.Initialize();
@@ -71,7 +72,8 @@ public class InitializerScript : MonoBehaviour
             PlayerManager.instance.storyState = 0;
         }
         
-        GameManager.instance.CheckScene();
+        GameManager.instance.CheckScene(); 
+        GameData.instance.LoadToJson();
     }
 }
 

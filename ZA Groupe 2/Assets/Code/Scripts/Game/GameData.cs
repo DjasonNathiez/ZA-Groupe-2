@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
@@ -12,7 +14,9 @@ public class GameData : MonoBehaviour
     public enum Language{FRENCH, ENGLISH}
 
     public int gameState;
-    public List<EnemyPool> enemyPools;
+    
+    public List<Transform> allObjFind;
+    public Data data;
     
     [Serializable] public class EnemyPool
     {
@@ -44,39 +48,141 @@ public class GameData : MonoBehaviour
         }
         
         #endregion
-        
-        //CheckGameState();
     }
 
-    public void CheckGameState()
+    public void GetObjectInScene()
     {
-        if (enemyPools.Count != 0)
+        allObjFind.AddRange(FindObjectsOfType<Transform>());
+
+        GetData();
+    }
+    
+    void GetData()
+    {
+        foreach (Transform o in allObjFind)
         {
-            foreach (EnemyPool.EnemyPoolItem enemyPoolItem in enemyPools[gameState].enemiesInPool)
+            if (o == null)
             {
-                if (enemyPoolItem.isDead)
-                {
-                    Destroy(enemyPoolItem.enemy);
-                }
+                allObjFind.Remove(o);
             }
-                
-            foreach (GameObject objToDisable in enemyPools[gameState].objectToDisable)
+            
+            if (o.GetComponent<ValueTrack>())
             {
-                Destroy(objToDisable);
-                enemyPools[0].objectToDisable.Remove(objToDisable);
+                if (!data.objects.Contains(o.gameObject))
+                {
+                    data.objects.Add(o.gameObject);
+                    data.positions.Add(o.transform.position);
+                }
             }
         }
+
+        data.gameState = gameState;
+        data.currentScene = SceneManager.GetActiveScene().name;
+        data.lastPlayerPosition = GameManager.instance.player.transform.position;
+    }
+
+    private void Start()
+    {
+        ClearData();
+    }
+
+    private void ClearData()
+    {
+        string saveData = JsonUtility.ToJson(null);
+        string filePath = Application.persistentDataPath + "/data.json";
+        System.IO.File.WriteAllText(filePath, saveData);
+        
+        allObjFind.Clear();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveToJson();
+    }
+    
+    private string key = "d0in2rf209c22jsd031";
+    private string crypted = "";
+    private string decrypted = "";
+    
+    string Encrypt(string data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            crypted = crypted + (char) (data[i] ^ key[i % key.Length]);
+        }
+
+        return crypted;
+    }
+
+    string Decrypted(string data)
+    {
+        for (int i = 0; i < data.Length; i++)
+        {
+            decrypted = decrypted + (char) (data[i] ^ key[i % key.Length]);
+        }
+
+        return decrypted;
+    }
+    
+    public void SaveToJson()
+    {
+        GetObjectInScene();
+        
+        string saveData = JsonUtility.ToJson(data);
+        string filePath = Application.persistentDataPath + "/data.json";
+        crypted = Encrypt(saveData);
+        System.IO.File.WriteAllText(filePath, saveData);
+        Debug.Log("Data saved inside " + filePath);
         
     }
 
-    private void OnValidate()
+    public void LoadToJson()
     {
-            for (int i = 0; i < enemyPools.Count; i++)
+        GetObjectInScene();
+        
+        string filePath = Application.persistentDataPath + "/data.json";
+        string rData = System.IO.File.ReadAllText(filePath);
+        
+        decrypted = Decrypted(rData);
+        
+        data = JsonUtility.FromJson<Data>(rData);
+        
+        Debug.Log("Data loaded from " + filePath);
+    }
+
+    public void CheckSaveScene()
+    {
+       
+        ApplyData();
+        
+    }
+    
+    public void ApplyData()
+    {
+        GetObjectInScene();
+        
+        for (int i = 0; i < data.objects.Count; i++)
+        {
+            foreach (var allObj in allObjFind)
             {
-                if (i > 0)
+                if (data.objects[i] == allObj.gameObject)
                 {
-                    enemyPools[i].poolAttribution = enemyPools[i - 1].poolAttribution + 1;
+                    allObj.position = data.positions[i];
                 }
             }
+        }
+
+        GameManager.instance.player.transform.position = data.lastPlayerPosition;
+    }
+
+    [Serializable] public class Data
+    {
+        //World data
+        public List<GameObject> objects;
+        public List<Vector3> positions;
+        public int gameState;
+        public string currentScene;
+        
+        //Player Data
+        public Vector3 lastPlayerPosition;
     }
 }

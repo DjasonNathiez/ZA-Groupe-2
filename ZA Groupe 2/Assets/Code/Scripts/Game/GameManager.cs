@@ -106,7 +106,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialize();
-        
     }
 
     public void Initialize()
