@@ -37,5 +37,6 @@ public class changeScene : MonoBehaviour
         if (setFalseLight) PlayerManager.instance.manoirLight.SetActive(false);
         PlayerManager.instance.ExitDialogue();
         SceneManager.LoadScene(scene);
+        GameManager.instance.loading.SetActive(false);
     }
 }

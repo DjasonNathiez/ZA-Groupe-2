@@ -28,7 +28,7 @@ public class CinematicEnvent : MonoBehaviour
             {
                 Animation.Play(anim);
                 vfx.SetActive(true);
-                vfx.GetComponent<ParticleSystem>().Play();
+                //vfx.GetComponent<ParticleSystem>().Play();
             } 
             Destroy(toDestroy,timeforDestruction);
             PlayerManager.instance.EnterDialogue();
