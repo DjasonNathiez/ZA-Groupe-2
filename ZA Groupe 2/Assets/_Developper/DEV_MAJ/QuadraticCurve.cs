@@ -17,6 +17,7 @@ public class QuadraticCurve : MonoBehaviour
     public int[] plankInts;
     public MeshFilter meshFilter;
     [HideInInspector] public bool bake;
+    [HideInInspector] public bool bakerail;
 
     private void Start()
     {

@@ -147,7 +147,9 @@ public class AIBrain : MonoBehaviour
 
             foreach (Collider c in hitMass)
             {
-                AIBrain neighborAI = c.GetComponent<AIBrain>();
+                var neighborAI = c.GetComponent<AIBrain>();
+                if (neighborAI == null) continue;
+                if (neighborAI.GetComponent<RabbitBehaviour>()) continue;
 
                 if (neighborAI && !neighborAI.isAggro)
                 {
