@@ -25,6 +25,11 @@ public class changeScene : MonoBehaviour
 
     public IEnumerator ChangeScene()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Parc"))
+        {
+            DATA_LOAD.instance.SaveData();
+        }
+
         GameManager.instance.transitionOff = false;
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
         GameManager.instance.transitionOff = true;

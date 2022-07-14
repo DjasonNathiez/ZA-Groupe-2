@@ -24,20 +24,20 @@ public class TextEffectManager : MonoBehaviour
     {
         Debug.Log("ShowText Void Launching");
         
-        if (GameData.instance == null)
+        if (DATA_LOAD.instance == null)
         {
             Debug.LogWarning("GameData not found !");
             textElement.text = dialogue[dialogueIndex].frenchText;
         }
         else
         {
-            switch (GameData.instance.currentLanguage)
+            switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
             {
-                case GameData.Language.FRENCH:
+                case DATA_SETTINGS.LANGUAGE.FRENCH:
                     textElement.text = dialogue[dialogueIndex].frenchText;
                     break;
                 
-                case GameData.Language.ENGLISH:
+                case DATA_SETTINGS.LANGUAGE.ENGLISH:
                     textElement.text = dialogue[dialogueIndex].englishText;
                     break;
             }     
@@ -64,20 +64,20 @@ public class TextEffectManager : MonoBehaviour
         if (dialogueIndex < dialogue.Length-1)
         {
             dialogueIndex++;
-            if (GameData.instance == null)
+            if (DATA_LOAD.instance == null)
             {
                 Debug.LogWarning("GameData not found !");
                 textElement.text = dialogue[dialogueIndex].frenchText;
             }
             else
             {
-                switch (GameData.instance.currentLanguage)
+                switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
                 {
-                    case GameData.Language.FRENCH:
+                    case DATA_SETTINGS.LANGUAGE.FRENCH:
                         textElement.text = dialogue[dialogueIndex].frenchText;
                         break;
                 
-                    case GameData.Language.ENGLISH:
+                    case DATA_SETTINGS.LANGUAGE.ENGLISH:
                         textElement.text = dialogue[dialogueIndex].englishText;
                         break;
                 }

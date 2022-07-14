@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InitializerScript : MonoBehaviour
 {
@@ -72,8 +73,31 @@ public class InitializerScript : MonoBehaviour
             PlayerManager.instance.storyState = 0;
         }
         
-        GameManager.instance.CheckScene(); 
-        GameData.instance.LoadToJson();
+        GameManager.instance.CheckScene();
+
+
+        if (SceneManager.GetActiveScene().name.Contains("Parc"))
+        {    
+            if (DATA_LOAD.instance)
+            {
+                if (state != 0)
+                {
+                    DATA_LOAD.instance.LoadData();
+                }
+                
+                if(state == 0)
+                {
+                    DATA_LOAD.instance.SaveData();
+                }
+
+                if (DATA_LOAD.instance.resume)
+                {
+                    DATA_LOAD.instance.SetGameData();
+                }
+                
+                
+            }
+        }
     }
 }
 
