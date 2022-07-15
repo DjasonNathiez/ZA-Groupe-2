@@ -191,6 +191,12 @@ public class RabbitBehaviour : AIBrain
         }
     }
 
+    public override void Enable()
+    {
+        base.Enable();
+        m_pointToGo = m_originPoint;
+    }
+
     private void SetNavPoint()
     {
         float minX = m_originPoint.x - areaToMove;

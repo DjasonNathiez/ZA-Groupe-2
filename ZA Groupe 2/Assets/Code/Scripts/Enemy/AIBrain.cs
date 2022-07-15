@@ -312,7 +312,7 @@ public class AIBrain : MonoBehaviour
         effect.Play();
     }
 
-    public void Enable()
+    public virtual void Enable()
     {
         isEnable = true;
         isHurt = false;
