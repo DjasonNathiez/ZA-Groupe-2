@@ -945,7 +945,7 @@ public class PlayerManager : MonoBehaviour
 
     public void LoadVFX(ParticleSystem effect, Transform spawnT)
     {
-        Instantiate(effect, spawnT.position, Quaternion.identity);
+        Destroy(Instantiate(effect, spawnT.position, Quaternion.identity).gameObject, 3); 
     }
 
     #endregion

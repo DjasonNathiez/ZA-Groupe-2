@@ -131,7 +131,11 @@ public class LionBehaviour : AIBrain
         {
             isAggro = true;
             PlaySFX("L_Aggro");
-            if(!aggroVFX.isPlaying) aggroVFX.Play();
+            if (!isDead)
+            {
+                Debug.Log("DETECTED");
+                if(!aggroVFX.isPlaying) aggroVFX.Play();
+            }
         }
         
         float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
