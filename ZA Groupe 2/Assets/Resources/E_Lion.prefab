@@ -70399,7 +70399,6 @@ MonoBehaviour:
   knockbackForce: 3
   dectectionRange: 6
   massAggroRange: 3
-  detectionAngle: 50
   doorIfDead: {fileID: 0}
   currentArena: {fileID: 0}
   hurtVFX: {fileID: 1799565415015621393}
@@ -70409,7 +70408,6 @@ MonoBehaviour:
   explosionVFX: {fileID: 5421599584437339048}
   explodeOnEvent: 1
   aggroVFX: {fileID: 219000499935246818}
-  counterVFX: {fileID: 7477788614156936387}
   modelMeshRenderer:
   - {fileID: 5876374909300912018}
   - {fileID: 1957082996786986401}
@@ -70495,10 +70493,10 @@ MonoBehaviour:
   awayPoint: {x: 0, y: 0, z: 0}
   target: {x: 0, y: 0, z: 0}
   rushSpeed: 10
-  timerToResetCounterState: 2
+  detectionAngle: 50
   fallVFX: {fileID: 5866821950185705349}
   standUpVFX: {fileID: 6239553787663976664}
-  counterState: 0
+  counterVFX: {fileID: 7477788614156936387}
   playerShowBack: 0
 --- !u!54 &6227108461447566804
 Rigidbody:
@@ -110528,6 +110526,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6227108461447566809}
     m_Modifications:
+    - target: {fileID: 5473767685276993201, guid: aca6657081c5bff42965d78971970585, type: 3}
+      propertyPath: moveWithCustomTransform
+      value: 
+      objectReference: {fileID: 6227108461447566809}
     - target: {fileID: 5473767685482185349, guid: aca6657081c5bff42965d78971970585, type: 3}
       propertyPath: m_Name
       value: VFX_Lion_StandUp
@@ -110542,7 +110544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5473767685482185350, guid: aca6657081c5bff42965d78971970585, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3260002
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5473767685482185350, guid: aca6657081c5bff42965d78971970585, type: 3}
       propertyPath: m_LocalPosition.z
@@ -110662,6 +110664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4240802839000348282}
     m_Modifications:
+    - target: {fileID: 4329146514512333684, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4329146514512333685, guid: 4a4e941b182e42249996ba4fcff7e3b8, type: 3}
       propertyPath: m_RootOrder
       value: 5

@@ -11,13 +11,12 @@ public class LionBehaviour : AIBrain
     public Vector3 awayPoint;
     public Vector3 target;
     public float rushSpeed;
-
-    public float timerToResetCounterState;
-
+    [Range(0, 180)] public float detectionAngle;
+    
     public ParticleSystem fallVFX;
     public ParticleSystem standUpVFX;
+    public ParticleSystem counterVFX;
 
-    public bool counterState;
     [HideInInspector] public bool playerShowBack;
 
 
@@ -29,8 +28,8 @@ public class LionBehaviour : AIBrain
     public override void Update()
     {
         base.Update();
-        
-        counterState = isInvincible = !isFalling;
+
+        if (isFalling) return;
 
         if (canAttack) Detection();
 
@@ -75,8 +74,7 @@ public class LionBehaviour : AIBrain
 
                     MoveToPlayer(target);
                 }
-
-
+                
                 if (distanceToPlayer <= attackRange)
                 {
                     if (canAttack)
@@ -91,20 +89,16 @@ public class LionBehaviour : AIBrain
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                 }
             }
-
-            if (isFalling)
-            {
-                canAttack = false;
-                canMove = false;
-                canFall = false;
-            }
         }
     }
 
     public override void GetHurt(int damage)
     {
-        if (counterState) return;
-        
+        if (!isFalling || isInvincible)
+        {
+            if(!counterVFX.isPlaying) counterVFX.Play();
+            return;
+        }
         base.GetHurt(damage);
     }
 
@@ -135,16 +129,9 @@ public class LionBehaviour : AIBrain
 
         if (distanceToPlayer <= dectectionRange && !isAggro)
         {
-            Collider[] hit = Physics.OverlapSphere(transform.position, dectectionRange);
-
-            foreach (Collider col in hit)
-            {
-                if (col.GetComponent<PlayerManager>())
-                {
-                    isAggro = true;
-                    PlaySFX("L_Aggro");
-                }
-            }
+            isAggro = true;
+            PlaySFX("L_Aggro");
+            if(!aggroVFX.isPlaying) aggroVFX.Play();
         }
         
         float directionAngle = Vector3.Angle(player.transform.forward, transform.forward);
@@ -162,10 +149,6 @@ public class LionBehaviour : AIBrain
     {
         if (!isDead)
         {
-            isInvincible = false;
-            canMove = false;
-            isFalling = true;
-
             FallOnTheGround();
             fallVFX.Play();
         }

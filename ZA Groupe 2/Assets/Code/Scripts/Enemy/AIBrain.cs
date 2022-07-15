@@ -50,7 +50,6 @@ public class AIBrain : MonoBehaviour
 
     [Header("Detection")] public float dectectionRange;
     public float massAggroRange;
-    [Range(0, 180)] public float detectionAngle;
     public Door doorIfDead;
     public ArenaParc currentArena;
 
@@ -61,7 +60,6 @@ public class AIBrain : MonoBehaviour
     public ParticleSystem explosionVFX;
     public bool explodeOnEvent;
     public ParticleSystem aggroVFX;
-    public ParticleSystem counterVFX;
 
     [Header("Visual")] public List<SkinnedMeshRenderer> modelMeshRenderer;
     public Material modelNonAggroMat;
@@ -115,6 +113,12 @@ public class AIBrain : MonoBehaviour
 
     public virtual void MoveToPlayer(Vector3 destination)
     {
+        if (!nav.enabled)
+        {
+            Debug.LogWarning("Navmesh Agent is not active!");
+            return;
+        }
+
         isMoving = true;
         nav.SetDestination(destination);
     }
@@ -147,16 +151,14 @@ public class AIBrain : MonoBehaviour
 
             foreach (Collider c in hitMass)
             {
-                AIBrain neighborAI = c.GetComponent<AIBrain>();
+                var neighborAI = c.GetComponent<AIBrain>();
+                if (neighborAI == null) continue;
+                if (neighborAI.GetComponent<RabbitBehaviour>()) continue;
+                if (neighborAI.isFalling || !neighborAI.canAttack) continue;
 
-                if (neighborAI && !neighborAI.isAggro)
-                {
-                    neighborAI.isAggro = true;
-                }
+                if (!neighborAI.isAggro) neighborAI.isAggro = true;
             }
         }
-
-        
     }
 
     public void AttackPlayer()
@@ -185,8 +187,7 @@ public class AIBrain : MonoBehaviour
 
     public void FallOnTheGround()
     {
-        LionBehaviour lionBehaviour = GetComponent<LionBehaviour>();
-        
+        nav.enabled = false;
         rb.velocity = Vector3.zero;
 
         //Set State
@@ -195,16 +196,9 @@ public class AIBrain : MonoBehaviour
         isAttacking = false;
         canAttack = false;
         canMove = false;
+        isAggro = false;
 
-        if (lionBehaviour)
-        {
-            lionBehaviour.fallVFX.Play();
-        }
-
-        if (hitZoneVFX)
-        {
-            hitZoneVFX.gameObject.SetActive(true);
-        }
+        if (hitZoneVFX) hitZoneVFX.gameObject.SetActive(true);
 
         StartCoroutine(WaitForStand());
     }
@@ -213,10 +207,19 @@ public class AIBrain : MonoBehaviour
 
     public IEnumerator WaitForStand()
     {
+        if (GetType() == typeof(LionBehaviour))
+        {
+            var lion = (LionBehaviour)this;
+            if (!lion.standUpVFX.isPlaying) lion.standUpVFX.Play();
+        }
+
         yield return new WaitForSeconds(fallTime);
         isFalling = false;
+
         yield return new WaitForSeconds(1f); // Durée de l'animation
+        nav.enabled = true;
         canAttack = true;
+        isMoving = false;
         canMove = true;
         if (hitZoneVFX != null)
         {
@@ -279,7 +282,7 @@ public class AIBrain : MonoBehaviour
         }
 
         if (deathVFX != null) deathVFX.Play();
-        
+
         if (explosionVFX != null && !explodeOnEvent) explosionVFX.Play();
 
         GameManager.instance.enemyList.Remove(this);
