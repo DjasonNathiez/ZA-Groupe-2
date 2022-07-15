@@ -77,6 +77,7 @@ public class PlayerManager : MonoBehaviour
     public bool startTalking;
     public bool isTalking;
     public int storyState;
+    public bool isTeleporting;
 
     [Header("Movements Stats")] public float moveSpeed;
     public float rotationSpeed;
@@ -162,6 +163,12 @@ public class PlayerManager : MonoBehaviour
     private float m_cdRoll;
 
     public bool isDead;
+    [SerializeField] private CapsuleCollider normalCollider;
+    [SerializeField] private CapsuleCollider rollCollider;
+    [SerializeField] private Vector3 rollCenter;
+    [SerializeField] private float rollHeight;
+    [SerializeField] private Vector3 normalCenter;
+    [SerializeField] private float normalHeight;
 
 
     //Animations
@@ -322,6 +329,8 @@ public class PlayerManager : MonoBehaviour
         if (isAttacking)
         {
             isRolling = false;
+            normalCollider.center = normalCenter;
+            normalCollider.height = normalHeight;
         }
 
         if (hurtAnim)
@@ -369,6 +378,8 @@ public class PlayerManager : MonoBehaviour
                 if (m_acTimer <= 0)
                 {
                     m_isRolling = false;
+                    normalCollider.center = normalCenter;
+                    normalCollider.height = normalHeight;
                 }
             }
             else
@@ -614,6 +625,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Throw()
     {
+        if (isTeleporting) return;
+        
         if (m_controlState != ControlState.DIALOGUE)
         {
             if (state == ActionType.Aiming)
@@ -650,6 +663,8 @@ public class PlayerManager : MonoBehaviour
 
     public void OnRange()
     {
+        if (isTeleporting) return;
+
         if (m_controlState == ControlState.DIALOGUE) return;
 
         if (!isDead)
@@ -699,6 +714,13 @@ public class PlayerManager : MonoBehaviour
 
     private void Move(InputAction.CallbackContext moveInput)
     {
+        if (isTeleporting)
+        {
+            isMoving = false;
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
         m_moveDirection = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
         move = new Vector3(moveInput.ReadValue<Vector2>().x, 0, moveInput.ReadValue<Vector2>().y);
 
@@ -739,10 +761,11 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
-
-
+    
     private void Roll(InputAction.CallbackContext roll)
     {
+        if (isTeleporting) return;
+
         if (roll.started)
         {
             if (!m_attack.isAttacking && !isDead && isMoving)
@@ -753,6 +776,8 @@ public class PlayerManager : MonoBehaviour
                     rollVFX.Play();
                     PlaySFX("P_Roll");
                     isRolling = true;
+                    normalCollider.center = rollCenter;
+                    normalCollider.height = rollHeight;
                     m_isRolling = true;
                 }
             }
@@ -786,7 +811,7 @@ public class PlayerManager : MonoBehaviour
         rope.rightTrig = true;
         rope.FindStickLenght();
         rope.memoryTemp = Time.time;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY | rope.pinnedValueTrack.constraints;
     }
 
     public void OnRightTrigger()
@@ -794,19 +819,19 @@ public class PlayerManager : MonoBehaviour
         rope.leftTrig = true;
         rope.FindStickLenght();
         rope.memoryTemp = Time.time;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY | rope.pinnedValueTrack.constraints;
     }
 
     public void OnLeftTriggerGone()
     {
         rope.rightTrig = false;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = rope.pinnedValueTrack.constraints;
     }
 
     public void OnRightTriggerGone()
     {
         rope.leftTrig = false;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = rope.pinnedValueTrack.constraints;
     }
 
     #endregion
@@ -876,6 +901,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         isRolling = false;
+        normalCollider.center = normalCenter;
+        normalCollider.height = normalHeight;
         collect = false;
         isThrowing = false;
         isElectrocut = false;
@@ -945,7 +972,7 @@ public class PlayerManager : MonoBehaviour
 
     public void LoadVFX(ParticleSystem effect, Transform spawnT)
     {
-        Instantiate(effect, spawnT.position, Quaternion.identity);
+        Destroy(Instantiate(effect, spawnT.position, Quaternion.identity).gameObject, 3); 
     }
 
     #endregion

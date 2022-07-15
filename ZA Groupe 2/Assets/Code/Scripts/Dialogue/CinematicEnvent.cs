@@ -27,8 +27,6 @@ public class CinematicEnvent : MonoBehaviour
             if (Animation)
             {
                 Animation.Play(anim);
-                vfx.SetActive(true);
-                //vfx.GetComponent<ParticleSystem>().Play();
             } 
             Destroy(toDestroy,timeforDestruction);
             PlayerManager.instance.EnterDialogue();
@@ -57,8 +55,7 @@ public class CinematicEnvent : MonoBehaviour
         yield return new WaitForSeconds(timeforEnabling);
         if (enableCollider) enableCollider.enabled = true;
         if (enableMesh) enableMesh.enabled = true;
-
-
+        vfx.SetActive(true);
     }
 
     private void Start()
