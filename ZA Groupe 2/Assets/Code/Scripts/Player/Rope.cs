@@ -355,6 +355,7 @@ public class Rope : MonoBehaviour
                         pinnedTo.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
                     }
                 }
+                if (pinnedRb) pinnedRb.constraints = pinnedValueTrack.constraints;
 
                 pinnedTo = null;
                 pinnedValueTrack = null;
@@ -447,50 +448,8 @@ public class Rope : MonoBehaviour
             }
         }
 
-
-
-        if (rightTrig)
-        {
-            float usedLenght = 0;
-            if (nodes.Count > 0)
-            {
-                for (int i = 0; i < nodes.Count; i++)
-                {
-                    if (i < nodes.Count - 1)
-                    {
-                        usedLenght += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
-                    }
-                    else
-                    {
-                        usedLenght += (nodes[i].nodePoint.transform.position - playerManager.transform.position).magnitude;
-                    }
-                    float remain = stickLenght - usedLenght;
-
-                    if ((pinnedTo.transform.position - nodes[0].nodePoint.transform.position).sqrMagnitude > remain * remain)
-                    {
-                        pinnedTo.transform.position =
-                            new Vector3(nodes[0].nodePoint.transform.position.x, pinnedTo.transform.position.y,
-                                nodes[0].nodePoint.transform.position.z) + Vector3.ClampMagnitude(
-                                pinnedTo.transform.position - new Vector3(nodes[0].nodePoint.transform.position.x,
-                                    pinnedTo.transform.position.y, nodes[0].nodePoint.transform.position.z), remain);
-                    }
-                }
-            }
-            else
-            {
-                float remain = stickLenght;
-                if ((pinnedTo.transform.position - playerManager.transform.position).sqrMagnitude > remain * remain)
-                {
-                    pinnedTo.transform.position =
-                        new Vector3(playerManager.transform.position.x, pinnedTo.transform.position.y,
-                            playerManager.transform.position.z) + Vector3.ClampMagnitude(
-                            pinnedTo.transform.position - new Vector3(playerManager.transform.position.x,
-                                pinnedTo.transform.position.y, playerManager.transform.position.z), remain);
-                }
-            }
-        }
         
-        if (rightTrig || leftTrig)
+        if ((rightTrig || leftTrig) && pinnedValueTrack.canBePropulsed)
         {
             float usedLenght = 0;
             if (nodes.Count > 0)
@@ -592,7 +551,7 @@ public class Rope : MonoBehaviour
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
             }
             
-            if ((rightTrig && !leftTrig) || (!rightTrig && leftTrig))
+            if (((rightTrig && !leftTrig) || (!rightTrig && leftTrig)) && pinnedValueTrack.canBePropulsed)
             {
                 Vector3 rotationCenter = playerManager.transform.position;
 

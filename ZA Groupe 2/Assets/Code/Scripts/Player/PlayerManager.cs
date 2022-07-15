@@ -163,6 +163,12 @@ public class PlayerManager : MonoBehaviour
     private float m_cdRoll;
 
     public bool isDead;
+    [SerializeField] private CapsuleCollider normalCollider;
+    [SerializeField] private CapsuleCollider rollCollider;
+    [SerializeField] private Vector3 rollCenter;
+    [SerializeField] private float rollHeight;
+    [SerializeField] private Vector3 normalCenter;
+    [SerializeField] private float normalHeight;
 
 
     //Animations
@@ -323,6 +329,8 @@ public class PlayerManager : MonoBehaviour
         if (isAttacking)
         {
             isRolling = false;
+            normalCollider.center = normalCenter;
+            normalCollider.height = normalHeight;
         }
 
         if (hurtAnim)
@@ -370,6 +378,8 @@ public class PlayerManager : MonoBehaviour
                 if (m_acTimer <= 0)
                 {
                     m_isRolling = false;
+                    normalCollider.center = normalCenter;
+                    normalCollider.height = normalHeight;
                 }
             }
             else
@@ -766,6 +776,8 @@ public class PlayerManager : MonoBehaviour
                     rollVFX.Play();
                     PlaySFX("P_Roll");
                     isRolling = true;
+                    normalCollider.center = rollCenter;
+                    normalCollider.height = rollHeight;
                     m_isRolling = true;
                 }
             }
@@ -799,7 +811,7 @@ public class PlayerManager : MonoBehaviour
         rope.rightTrig = true;
         rope.FindStickLenght();
         rope.memoryTemp = Time.time;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY | rope.pinnedValueTrack.constraints;
     }
 
     public void OnRightTrigger()
@@ -807,19 +819,19 @@ public class PlayerManager : MonoBehaviour
         rope.leftTrig = true;
         rope.FindStickLenght();
         rope.memoryTemp = Time.time;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY | rope.pinnedValueTrack.constraints;
     }
 
     public void OnLeftTriggerGone()
     {
         rope.rightTrig = false;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = rope.pinnedValueTrack.constraints;
     }
 
     public void OnRightTriggerGone()
     {
         rope.leftTrig = false;
-        rope.pinnedRb.constraints = RigidbodyConstraints.FreezePositionY;
+        rope.pinnedRb.constraints = rope.pinnedValueTrack.constraints;
     }
 
     #endregion
@@ -889,6 +901,8 @@ public class PlayerManager : MonoBehaviour
         }
 
         isRolling = false;
+        normalCollider.center = normalCenter;
+        normalCollider.height = normalHeight;
         collect = false;
         isThrowing = false;
         isElectrocut = false;

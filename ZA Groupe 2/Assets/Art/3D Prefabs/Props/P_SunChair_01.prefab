@@ -16,10 +16,10 @@ GameObject:
   - component: {fileID: 2367770161031349811}
   m_Layer: 0
   m_Name: P_SunChair_01
-  m_TagString: GrippableObject
+  m_TagString: TractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2288459122378840501
 Transform:
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemy: 0
   canActivatePressurePlate: 0
+  canBePropulsed: 1
   weightClass: 1
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
@@ -119,7 +120,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
