@@ -75,7 +75,14 @@ public class InitializerScript : MonoBehaviour
         
         GameManager.instance.CheckScene();
 
+        StartCoroutine(LateStart());
 
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1);
+        
         if (SceneManager.GetActiveScene().name.Contains("Parc"))
         {    
             if (DATA_LOAD.instance)
@@ -85,7 +92,7 @@ public class InitializerScript : MonoBehaviour
                     DATA_LOAD.instance.LoadData();
                 }
                 
-                if(state == 0)
+                if(state == 0 && !DATA_LOAD.instance.resume)
                 {
                     DATA_LOAD.instance.SaveData();
                 }
@@ -94,8 +101,6 @@ public class InitializerScript : MonoBehaviour
                 {
                     DATA_LOAD.instance.SetGameData();
                 }
-                
-                
             }
         }
     }

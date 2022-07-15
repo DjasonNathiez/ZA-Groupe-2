@@ -130,12 +130,22 @@ public class DATA_LOAD : MonoBehaviour
         {
             pool.gameStateSettings.objectsWithVT.Clear();
         }
-        
+
+        if(pool.gameStateSettings.tractableObj.Count != 0) pool.gameStateSettings.tractableObj.Clear();
+           
         pool.gameStateSettings.objectsWithVT = FindObjectsOfType<ValueTrack>().ToList();
+
+        for (int i = 0; i < pool.gameStateSettings.objectsWithVT.Count; i++)
+        {
+            pool.gameStateSettings.tractableObj.Add(pool.gameStateSettings.objectsWithVT[i].gameObject);
+        }
+
     }
-    
+
     public void SetGameData()
     {
+        GetPersistentData();
+        
         GameManager.instance.player.transform.position = pool.gameStateSettings.playerPosition;
         
         if (FindObjectOfType<InitializerScript>())
@@ -220,9 +230,9 @@ public class DATA_GAMESTATE
     public int gameState;
     public int currentScene;
 
+    public List<GameObject> tractableObj;
     public List<ValueTrack> objectsWithVT;
     public List<Vector3> objectsPos;
-
 }
 
 

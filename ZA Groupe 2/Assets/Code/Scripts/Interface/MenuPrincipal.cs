@@ -29,7 +29,6 @@ public class MenuPrincipal : MonoBehaviour
         
         public void StartTheGame()
         {
-            DATA_LOAD.instance.pool = null;
             StartCoroutine(GameManager.instance.LoadFirstCinematic());
             GameManager.instance.player.transform.position = new Vector3(-30.53f, 1.96f, -100.06f);
         }
