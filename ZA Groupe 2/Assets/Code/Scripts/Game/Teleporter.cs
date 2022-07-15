@@ -23,6 +23,7 @@ public class Teleporter : MonoBehaviour
     
     public IEnumerator ChangeScene(PlayerManager player)
     {
+        player.Rewind();
         GameManager.instance.transitionOn = false;
         yield return new WaitForSeconds(.4f);
         player.transform.position = teleportPoint.position;
