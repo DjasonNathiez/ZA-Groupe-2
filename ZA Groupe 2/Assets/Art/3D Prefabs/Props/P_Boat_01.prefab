@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4515329639811968366}
   - component: {fileID: 8852966207341787460}
   - component: {fileID: 4883626073939043792}
-  - component: {fileID: 2180357891171035492}
+  - component: {fileID: 6240338888837982285}
   m_Layer: 0
   m_Name: P_Boat_01
   m_TagString: GrippableObject
@@ -105,6 +105,7 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
   rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
   moveCam: 0
   splashVFX: {fileID: 0}
 --- !u!54 &4883626073939043792
@@ -123,19 +124,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &2180357891171035492
-BoxCollider:
+--- !u!64 &6240338888837982285
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2713788290559331515}
-  m_Material: {fileID: 13400000, guid: c1d390d37a638f84f8ce92be51731c72, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 6.2586546, y: 2.6125977, z: 1.2368325}
-  m_Center: {x: -0.12700535, y: -1.188692, z: 0.40254372}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8675452379081041382, guid: ba74535fc14cea24e8521b8de3928d65, type: 3}
 --- !u!1 &5903753753277213824
 GameObject:
   m_ObjectHideFlags: 0
