@@ -14,6 +14,7 @@ public class ValueTrack : MonoBehaviour
     [Header("Usefull Attributs")]
     public bool isEnemy;
     public bool canActivatePressurePlate;
+    public bool canBePropulsed;
     
     [Header("Outline Attributs")]
     public WeightClass weightClass;
@@ -22,6 +23,7 @@ public class ValueTrack : MonoBehaviour
     public Vector3 rotCam;
     public float zoomCam;
     public bool moveCam;
+    public RigidbodyConstraints constraints;
     
     [Header("Visual")]
     public GameObject splashVFX;
@@ -29,6 +31,7 @@ public class ValueTrack : MonoBehaviour
     private void Start()
     {
         if(!meshRenderer) meshRenderer = GetComponent<MeshRenderer>();
+        constraints = GetComponent<Rigidbody>().constraints;
     }
 
     private void OnCollisionEnter(Collision collision)
