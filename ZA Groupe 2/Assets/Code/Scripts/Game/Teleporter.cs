@@ -11,7 +11,6 @@ public class Teleporter : MonoBehaviour
 
         if (player != null)
         {
-            Debug.Log("attention");
             StartCoroutine(ChangeScene(player));
         }
     }
@@ -24,11 +23,14 @@ public class Teleporter : MonoBehaviour
     public IEnumerator ChangeScene(PlayerManager player)
     {
         player.Rewind();
+        player.isTeleporting = true;
         GameManager.instance.transitionOn = false;
-        yield return new WaitForSeconds(.4f);
+        yield return new WaitForSeconds(.5f);
         player.transform.position = teleportPoint.position;
         player.cameraController.transform.position = teleportPoint.position;
         PlayerManager.instance.ExitDialogue();
         GameManager.instance.transitionOn = true;
+        yield return new WaitForSeconds(1);
+        player.isTeleporting = false;
     }
 }
