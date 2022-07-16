@@ -355,7 +355,7 @@ public class Rope : MonoBehaviour
                         pinnedTo.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
                     }
                 }
-                if (pinnedRb) pinnedRb.constraints = pinnedValueTrack.constraints;
+                //if (pinnedRb) pinnedRb.constraints = pinnedValueTrack.constraints;
 
                 pinnedTo = null;
                 pinnedValueTrack = null;
