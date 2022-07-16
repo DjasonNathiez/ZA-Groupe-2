@@ -13,7 +13,7 @@ public class rotatingProp : MonoBehaviour
     [SerializeField] private TextEffectManager textEffectManager;
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private CameraController cameraController;
-    public Door door;
+    public Animation door;
     public float rotationKey;
     void Update()
     {
@@ -56,7 +56,7 @@ public class rotatingProp : MonoBehaviour
     IEnumerator DelayedDialogueLine()
     {
         yield return new WaitForSeconds(1.5f);
-        door.keysValid++;
+        door.Play("closePortal");
         yield return new WaitForSeconds(1.5f);
         dialogueBox.transform.position = new Vector3(960, -320, 0);
         cameraController.playerFocused = true;
