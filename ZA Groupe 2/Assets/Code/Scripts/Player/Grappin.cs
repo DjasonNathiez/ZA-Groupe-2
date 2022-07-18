@@ -17,9 +17,23 @@ public class Grappin : MonoBehaviour
     public bool travel;
     public Vector3 pos;
     public float x;
+    public BoueeBehavior buoy;
+    public Vector3 dock;
+    public float dockLenght;
+    public Material onMat;
+    public Material offMat;
+    public MeshRenderer meshRenderer;
+    public bool disabled;
+
+    private void Start()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
     public void StartGrappin()
     {
         pos = PlayerManager.instance.transform.position;
+        PlayerManager.instance.Rewind();
         PlayerManager.instance.ropeGrappin.SetPosition(0,PlayerManager.instance.transform.position);
         PlayerManager.instance.ropeGrappin.SetPosition(1,pos);
         PlayerManager.instance.EnterDialogue();
@@ -66,6 +80,26 @@ public class Grappin : MonoBehaviour
                 cable = false;
                 timer = delay;
                 timerCable = delayCable;
+                if (buoy)
+                {
+                    buoy.playerAboard = true;
+                    if(buoy.waterManager.up) buoy.rb.isKinematic = false;
+                }
+            }
+        }
+
+        if (buoy)
+        {
+            if (disabled && (buoy.transform.position - dock).sqrMagnitude <= dockLenght * dockLenght)
+            {
+                disabled = false;
+                meshRenderer.material = onMat;
+            }
+            
+            if (!disabled && (buoy.transform.position - dock).sqrMagnitude > dockLenght * dockLenght)
+            {
+                disabled = true;
+                meshRenderer.material = offMat;
             }
         }
     }

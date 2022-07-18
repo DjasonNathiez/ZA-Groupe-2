@@ -488,6 +488,17 @@ public class Rope : MonoBehaviour
                                 pinnedTo.transform.position.y, playerManager.transform.position.z), remain);
                 }
             }
+            
+            
+            Vector3 dirGrip = pin.transform.position - pinnedTo.transform.position;
+            Vector3 dirToAlign = nodes.Count > 0
+                ? (nodes[0].nodePoint.transform.position - pinnedTo.transform.position)
+                : (playerManager.transform.position - pinnedTo.transform.position);
+
+            float angle = Vector3.SignedAngle(dirGrip, dirToAlign, Vector3.up);
+
+            Quaternion alignement = Quaternion.Euler(pinnedTo.transform.eulerAngles.x,pinnedTo.transform.eulerAngles.y + angle,pinnedTo.transform.eulerAngles.z);
+            pinnedTo.transform.rotation = alignement;
         }
     }
 
@@ -596,16 +607,7 @@ public class Rope : MonoBehaviour
                 
                 // TROUVER ANGLE ROTATION
 
-               Vector3 dirGrip = pin.transform.position - pinnedTo.transform.position;
-                Vector3 dirToAlign = nodes.Count > 0
-                    ? (nodes[0].nodePoint.transform.position - pinnedTo.transform.position)
-                    : (playerManager.transform.position - pinnedTo.transform.position);
-
-                float angle = Vector3.SignedAngle(dirGrip, dirToAlign, Vector3.up);
-
-                Quaternion alignement = Quaternion.Euler(pinnedTo.transform.eulerAngles.x,pinnedTo.transform.eulerAngles.y + angle,pinnedTo.transform.eulerAngles.z);
-                
-                pinnedRb.AddTorque(0,angle,0);
+               
             }
         }
     }
