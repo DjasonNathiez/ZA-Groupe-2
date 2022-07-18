@@ -215,6 +215,8 @@ public class Rope : MonoBehaviour
             {
                 playerManager.Rewind();
             }
+            
+            
         }
 
         rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);

@@ -15,6 +15,10 @@ public class UIManager : MonoBehaviour
 
     public Sprite activeHearth;
     public Sprite emptyHearth;
+
+    public Slider ropeSlider;
+    public Image fillImage;
+    public Gradient ropeGradient;
     
     [Header("Hat Collection Panel")]
     public PlayerManager.Hat[] allDisplayHat;
@@ -98,8 +102,6 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
-        
-        
     }
 
     public void UpdateHat()
@@ -236,8 +238,7 @@ public class UIManager : MonoBehaviour
         }
 
     }
-
-
+    
     public void UpdateHealth()
     {
         for (int i = Mathf.FloorToInt(m_player.maxLifePoint); i > 0; i--)
@@ -245,5 +246,21 @@ public class UIManager : MonoBehaviour
             lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
         }
     }
-    
+
+    public void UpdateRopeLenght()
+    {
+        // Position
+        ropeSlider.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(m_player.transform.position) + Vector3.up * 100;
+        
+        // Value
+        var max = m_player.rope.maximumLenght; // 1
+        var lenght = m_player.rope.lenght; // Between 0 and 1
+
+        var ratio = lenght / max;
+
+        fillImage.color = ropeGradient.Evaluate(ratio);
+
+        ropeSlider.value = ratio;
+
+    }
 }
