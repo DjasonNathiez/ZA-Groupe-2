@@ -930,6 +930,8 @@ public class PlayerManager : MonoBehaviour
 
     public void EnterDialogue()
     {
+        Debug.Log("Stopping player...");
+        rb.velocity = Vector3.zero;
         m_controlState = ControlState.DIALOGUE;
     }
 

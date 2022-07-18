@@ -83,7 +83,7 @@ public class LionBehaviour : AIBrain
                     }
                 }
                 
-                if (!isFalling)
+                if (!isFalling && nav.enabled)
                 {
                     transform.LookAt(player.transform);
                     transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
