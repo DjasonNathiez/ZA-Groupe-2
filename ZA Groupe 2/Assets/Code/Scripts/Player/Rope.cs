@@ -73,7 +73,7 @@ public class Rope : MonoBehaviour
                     nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
 
                     if (Vector3.SignedAngle(nodeToCreate.anchor.transform.position - transform.position, dir,
-                        Vector3.up) > 0)
+                            Vector3.up) > 0)
                     {
                         nodeToCreate.positive = true;
                     }
@@ -153,8 +153,8 @@ public class Rope : MonoBehaviour
                     Ray rayNode = new Ray((node.nodePoint.transform.position) + dirNode.normalized * checkDistance,
                         dirNode);
                     if (Physics.Raycast(rayNode, out RaycastHit hitNode,
-                        Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position,
-                            node.nodePoint.transform.position)))
+                            Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position,
+                                node.nodePoint.transform.position)))
                     {
                         if (!hitNode.collider.isTrigger)
                         {
@@ -208,15 +208,13 @@ public class Rope : MonoBehaviour
                             node.nodePoint.transform.position), Color.green);
                 }
             }
-            
+
             // Gotgot
 
             if (lenght > maximumLenght)
             {
                 playerManager.Rewind();
             }
-            
-            
         }
 
         rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);
@@ -448,7 +446,7 @@ public class Rope : MonoBehaviour
             }
         }
 
-        
+
         if ((rightTrig || leftTrig) && pinnedValueTrack.canBePropulsed)
         {
             float usedLenght = 0;
@@ -458,15 +456,20 @@ public class Rope : MonoBehaviour
                 {
                     if (i < nodes.Count - 1)
                     {
-                        usedLenght += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
+                        usedLenght +=
+                            (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position)
+                            .magnitude;
                     }
                     else
                     {
-                        usedLenght += (nodes[i].nodePoint.transform.position - playerManager.transform.position).magnitude;
+                        usedLenght += (nodes[i].nodePoint.transform.position - playerManager.transform.position)
+                            .magnitude;
                     }
+
                     float remain = stickLenght - usedLenght;
 
-                    if ((pinnedTo.transform.position - nodes[0].nodePoint.transform.position).sqrMagnitude > remain * remain)
+                    if ((pinnedTo.transform.position - nodes[0].nodePoint.transform.position).sqrMagnitude >
+                        remain * remain)
                     {
                         pinnedTo.transform.position =
                             new Vector3(nodes[0].nodePoint.transform.position.x, pinnedTo.transform.position.y,
@@ -500,14 +503,15 @@ public class Rope : MonoBehaviour
             Debug.LogWarning("PinnedTo is null");
             return;
         }
-        
+
         if (nodes.Count > 0)
         {
             for (int i = 0; i < nodes.Count; i++)
             {
                 if (i < nodes.Count - 1)
                 {
-                    newStick += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position).magnitude;
+                    newStick += (nodes[i].nodePoint.transform.position - nodes[i + 1].nodePoint.transform.position)
+                        .magnitude;
                 }
                 else
                 {
@@ -550,7 +554,7 @@ public class Rope : MonoBehaviour
                 pinnedRb.AddForceAtPosition(force * factor, pin.transform.position, ForceMode.Acceleration);
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
             }
-            
+
             if (((rightTrig && !leftTrig) || (!rightTrig && leftTrig)) && pinnedValueTrack.canBePropulsed)
             {
                 Vector3 rotationCenter = playerManager.transform.position;
@@ -564,17 +568,19 @@ public class Rope : MonoBehaviour
                             rotationCenter = nodes[i].nodePoint.transform.position;
                             break;
                         }
-                    }   
+                    }
                 }
 
-                Vector2 rotationVector = (new Vector2(pinnedTo.transform.position.x, pinnedTo.transform.position.z) - new Vector2(rotationCenter.x, rotationCenter.z)).normalized;
+                Vector2 rotationVector = (new Vector2(pinnedTo.transform.position.x, pinnedTo.transform.position.z) -
+                                          new Vector2(rotationCenter.x, rotationCenter.z)).normalized;
 
                 Vector3 forceToUse;
-                
-                if(rightTrig) forceToUse = new Vector3(rotationVector.y, 0, -rotationVector.x);
+
+                if (rightTrig) forceToUse = new Vector3(rotationVector.y, 0, -rotationVector.x);
                 else forceToUse = new Vector3(-rotationVector.y, 0, rotationVector.x);
 
-                Debug.DrawRay(pinnedTo.transform.position,new Vector3(rotationVector.x,0,rotationVector.y),Color.green);
+                Debug.DrawRay(pinnedTo.transform.position, new Vector3(rotationVector.x, 0, rotationVector.y),
+                    Color.green);
 
                 float factor = new float();
                 WeightClass objectToPull = WeightClass.LIGHT;
@@ -591,21 +597,23 @@ public class Rope : MonoBehaviour
                     _ => factor
                 };
 
-                pinnedRb.AddForce(forceToUse*reactorStrenght.Evaluate(Time.time-memoryTemp), ForceMode.VelocityChange);
+                pinnedRb.AddForce(forceToUse * reactorStrenght.Evaluate(Time.time - memoryTemp),
+                    ForceMode.VelocityChange);
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 10);
-                
+
                 // TROUVER ANGLE ROTATION
 
-               Vector3 dirGrip = pin.transform.position - pinnedTo.transform.position;
+                Vector3 dirGrip = pin.transform.position - pinnedTo.transform.position;
                 Vector3 dirToAlign = nodes.Count > 0
                     ? (nodes[0].nodePoint.transform.position - pinnedTo.transform.position)
                     : (playerManager.transform.position - pinnedTo.transform.position);
 
                 float angle = Vector3.SignedAngle(dirGrip, dirToAlign, Vector3.up);
 
-                Quaternion alignement = Quaternion.Euler(pinnedTo.transform.eulerAngles.x,pinnedTo.transform.eulerAngles.y + angle,pinnedTo.transform.eulerAngles.z);
-                
-                pinnedRb.AddTorque(0,angle,0);
+                Quaternion alignement = Quaternion.Euler(pinnedTo.transform.eulerAngles.x,
+                    pinnedTo.transform.eulerAngles.y + angle, pinnedTo.transform.eulerAngles.z);
+
+                pinnedRb.AddTorque(0, angle, 0);
             }
         }
     }
