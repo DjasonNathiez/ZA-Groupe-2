@@ -7,6 +7,7 @@ public class closeDoorCollision : MonoBehaviour
 {
     public Animation door;
     public float delay;
+    public string anim;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,6 +20,6 @@ public class closeDoorCollision : MonoBehaviour
     IEnumerator DelayedAnim()
     {
         yield return new WaitForSeconds(delay);
-        door.Play("portalAnim");
+        door.Play(anim);
     }
 }

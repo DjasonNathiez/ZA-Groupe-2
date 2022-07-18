@@ -152,6 +152,7 @@ public class TapeTaupeArcade : MonoBehaviour
             {
                 reward.SetActive(true);
                 VictoryFX.Play();
+                PlayerManager.instance.storyState = 1;
             }
             AudioManager.instance.SetMusic(GameManager.instance.dungeonEnded ? "Parc_2" : "Parc_1");
         }

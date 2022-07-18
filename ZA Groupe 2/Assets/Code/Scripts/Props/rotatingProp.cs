@@ -56,7 +56,7 @@ public class rotatingProp : MonoBehaviour
     IEnumerator DelayedDialogueLine()
     {
         yield return new WaitForSeconds(1.5f);
-        door.Play("closePortal");
+        door.Play("Barrer_down");
         yield return new WaitForSeconds(1.5f);
         dialogueBox.transform.position = new Vector3(960, -320, 0);
         cameraController.playerFocused = true;
