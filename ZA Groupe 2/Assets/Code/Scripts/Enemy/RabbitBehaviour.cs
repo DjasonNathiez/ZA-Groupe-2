@@ -97,7 +97,7 @@ public class RabbitBehaviour : AIBrain
                 }
                 else
                 {
-                    Debug.LogWarning("No point available");
+                    //Debug.LogWarning("No point available");
                 }
 
                 RaycastHit hit;
