@@ -575,6 +575,19 @@ public class PlayerManager : MonoBehaviour
         m_inputController.Player.Pause.started += PauseOnStarted;
 
         #endregion
+        
+        // Interface
+
+        if (state != ActionType.StatusQuo)
+        {
+            if(!GameManager.instance.ui.ropeSlider.gameObject.activeSelf) GameManager.instance.ui.ropeSlider.gameObject.SetActive(true);
+            GameManager.instance.ui.UpdateRopeLenght();
+        }
+        else
+        {
+            GameManager.instance.ui.ropeSlider.value = 0;
+            if (GameManager.instance.ui.ropeSlider.gameObject.activeSelf) GameManager.instance.ui.ropeSlider.gameObject.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
