@@ -14,6 +14,8 @@ public class CameraController : MonoBehaviour
     public Transform cameraPos;
     public float cameraZoom;
     public float panSpeed = 0.5f;
+    public Vector3 baseCamRot;
+    public float baseCamZoom;
 
     private void Awake()
     {
@@ -52,8 +54,8 @@ public class CameraController : MonoBehaviour
             else
             {
                 cameraPos.position = m_player.transform.position;   
-                cameraPos.rotation = Quaternion.Euler(45,-45,0); 
-                cameraZoom = 8.22f;
+                cameraPos.rotation = Quaternion.Euler(baseCamRot); 
+                cameraZoom = baseCamZoom;
             }
         }
     }

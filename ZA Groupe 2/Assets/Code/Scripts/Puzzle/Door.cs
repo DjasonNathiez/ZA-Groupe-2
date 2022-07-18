@@ -22,6 +22,7 @@ public class Door : MonoBehaviour
     public bool startedTapeTaupe;
     private bool soundLoad;
     public Animation animator;
+    public bool activated;
 
     void Update()
     {
@@ -78,6 +79,14 @@ public class Door : MonoBehaviour
                     GetComponent<PnjDialoguesManager>().StartDialogue();   
                 }
             }
+            else if (type == "Water")
+            {
+                if (!activated)
+                {
+                    activated = true;
+                    GetComponent<WaterManager>().up = !GetComponent<WaterManager>().up;
+                }
+            }
             else if (type == "ActivateElec")
             {
                 GetComponent<ElectrocutedProp>().activated = true;
@@ -119,6 +128,13 @@ public class Door : MonoBehaviour
             else if (type == "Rising")
             {
                 transform.position = Vector3.Lerp(transform.position, rotationClosed, Time.deltaTime * 5);
+            }
+            else if (type == "Water")
+            {
+                if (activated)
+                {
+                    activated = false;
+                }
             }
             else if (type == "ActivateElec")
             {

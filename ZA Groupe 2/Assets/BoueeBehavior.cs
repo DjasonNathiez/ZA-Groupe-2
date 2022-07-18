@@ -12,9 +12,23 @@ public class BoueeBehavior : MonoBehaviour
     public float force;
     public Vector3 previousPos;
     public float previousangle;
+    public Grappin[] dockingPoints;
+    public Transform[] pointToGo;
+    public Grappin myGrapple;
+    public int currentDock = -1;
+    public WaterManager waterManager;
     private void OnDrawGizmos()
     {
+        Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position,radius);
+        Gizmos.color = Color.yellow;
+        if(dockingPoints.Length > 0)
+        {
+            for (int i = 0; i < dockingPoints.Length; i++)
+            {
+                Gizmos.DrawWireSphere(dockingPoints[i].dock,dockingPoints[i].dockLenght);
+            }
+        }
     }
 
     private void Start()
@@ -24,33 +38,30 @@ public class BoueeBehavior : MonoBehaviour
 
     private void Update()
     {
-        
-        
-        if (!playerAboard)
+        currentDock = -1;
+        for (int i = 0; i < dockingPoints.Length; i++)
         {
-            if ((new Vector2(PlayerManager.instance.transform.position.x, PlayerManager.instance.transform.position.z) -
-                 new Vector2(transform.position.x, transform.position.z)).sqrMagnitude < radius * radius)
+            if ((dockingPoints[i].dock - transform.position).sqrMagnitude <=
+                dockingPoints[i].dockLenght * dockingPoints[i].dockLenght)
             {
-                playerAboard = true;
-                
-            }   
+                currentDock = i;
+                break;
+            }
         }
-        else
+        
+        if (playerAboard)
         {
             if ((new Vector2(PlayerManager.instance.transform.position.x, PlayerManager.instance.transform.position.z) -
                  new Vector2(transform.position.x, transform.position.z)).sqrMagnitude > radius * radius)
             {
+                
                 PlayerManager.instance.transform.position = new Vector3(transform.position.x,
-                    PlayerManager.instance.transform.position.y, transform.position.z) +
-                    (PlayerManager.instance.transform.position - new Vector3(transform.position.x,
-                        PlayerManager.instance.transform.position.y, transform.position.z)).normalized * radius;
+                                                                    PlayerManager.instance.transform.position.y, transform.position.z) +
+                                                                (PlayerManager.instance.transform.position - new Vector3(transform.position.x,
+                                                                    PlayerManager.instance.transform.position.y, transform.position.z)).normalized * radius;
+                
             }
             
-
-            if (PlayerManager.instance.rope.pinnedTo && PlayerManager.instance.rope.clamped)
-            {
-                rb.AddForceAtPosition((PlayerManager.instance.rope.pin.transform.position - PlayerManager.instance.transform.position).normalized * force,new Vector3(PlayerManager.instance.transform.position.x,transform.position.y,PlayerManager.instance.transform.position.z));
-            }
             
             PlayerManager.instance.transform.position += transform.position - previousPos;
             previousPos = transform.position;
@@ -64,6 +75,24 @@ public class BoueeBehavior : MonoBehaviour
             PlayerManager.instance.transform.position += newPos - previousPosAngle;
             previousangle = transform.eulerAngles.y;
 
+
+
+            if (currentDock >= 0 && PlayerManager.instance.inputInteractPushed)
+            {
+                myGrapple.pointToGo = pointToGo[currentDock];
+                playerAboard = false;
+                rb.isKinematic = true;
+                myGrapple.StartGrappin();
+                PlayerManager.instance.inputInteractPushed = false;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (PlayerManager.instance.rope.pinnedTo && PlayerManager.instance.rope.clamped && playerAboard)
+        {
+            rb.AddForceAtPosition((PlayerManager.instance.rope.pin.transform.position - PlayerManager.instance.transform.position).normalized * force,new Vector3(PlayerManager.instance.transform.position.x,transform.position.y,PlayerManager.instance.transform.position.z));
         }
     }
 }

@@ -1148,6 +1148,8 @@ public class PlayerManager : MonoBehaviour
             rope.maximumLenght >= other.GetComponent<Grappin>().ropeSizeNecessary)
         {
             other.GetComponent<Grappin>().StartGrappin();
+            
+            inputInteractPushed = false;
         }
         else if (other.GetComponent<Grappin>() && inputInteractPushed &&
                  rope.maximumLenght < other.GetComponent<Grappin>().ropeSizeNecessary)
