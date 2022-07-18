@@ -95,6 +95,10 @@ public class RabbitBehaviour : AIBrain
                     SetNavPoint();
                     nav.SetDestination(m_pointToGo);
                 }
+                else
+                {
+                    Debug.LogWarning("No point available");
+                }
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
