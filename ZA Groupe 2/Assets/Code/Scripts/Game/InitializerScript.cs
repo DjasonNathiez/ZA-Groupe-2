@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InitializerScript : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class InitializerScript : MonoBehaviour
 
     private void Awake()
     {
+
         if (PlayerManager.instance.storyState >= 1)
         {
             GameManager.instance.Initialize();
@@ -72,6 +74,35 @@ public class InitializerScript : MonoBehaviour
         }
         
         GameManager.instance.CheckScene();
+
+        StartCoroutine(LateStart());
+
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1);
+        
+        if (SceneManager.GetActiveScene().name.Contains("Parc"))
+        {    
+            if (DATA_LOAD.instance)
+            {
+                if (state != 0)
+                {
+                    DATA_LOAD.instance.LoadData();
+                }
+                
+                if(state == 0 && !DATA_LOAD.instance.resume)
+                {
+                    DATA_LOAD.instance.SaveData();
+                }
+
+                if (DATA_LOAD.instance.resume)
+                {
+                    DATA_LOAD.instance.SetGameData();
+                }
+            }
+        }
     }
 }
 

@@ -106,24 +106,28 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHat()
     {
-        foreach (PlayerManager.Hat playerHat in m_player.hats)
+        if (m_player)
         {
-            foreach (var uiHat in allDisplayHat)
+            foreach (PlayerManager.Hat playerHat in m_player.hats)
             {
-                if (playerHat.hatName == uiHat.hatName)
+                foreach (var uiHat in allDisplayHat)
                 {
-                    uiHat.collected = playerHat.collected;
-                }
-                if (uiHat.collected)
-                {
-                    uiHat.hatObj.GetComponent<MeshRenderer>().material = uiHat.baseMaterial;
-                }
-                else
-                {
-                    uiHat.hatObj.GetComponent<MeshRenderer>().material = hideMaterial;
+                    if (playerHat.hatName == uiHat.hatName)
+                    {
+                        uiHat.collected = playerHat.collected;
+                    }
+                    if (uiHat.collected)
+                    {
+                        uiHat.hatObj.GetComponent<MeshRenderer>().material = uiHat.baseMaterial;
+                    }
+                    else
+                    {
+                        uiHat.hatObj.GetComponent<MeshRenderer>().material = hideMaterial;
+                    }
                 }
             }
         }
+        
     }
 
     public void UpdateLore()
@@ -177,63 +181,66 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (var lore in LoreItems)
+        if (m_player)
         {
-            if (!lore.arrow) continue;
-            if (EventSystem.current.currentSelectedGameObject == lore.loreItem)
+            foreach (var lore in LoreItems)
             {
-                lore.arrow.SetActive(true);
-            }
-            else
-            {
-                lore.arrow.SetActive(false);
-            }
-        }
-        
-        if (currentDisplayInt < 0)
-        {
-            currentDisplayInt = allDisplayHat.Length - 1;
-        }
-
-        if (currentDisplayInt > allDisplayHat.Length - 1)
-        {
-            currentDisplayInt = 0;
-        }
-        
-        currentDisplayHat = allDisplayHat[currentDisplayInt].hatObj;
-
-        foreach (var hat in allDisplayHat)
-        {
-            var hatObjMesh = hat.hatObj.GetComponent<Mesh>();
-            var hatObjMeshRenderer = hat.hatObj.GetComponent<MeshRenderer>();
-            
-            if (hatObjMesh == m_player.currentHat.GetComponent<Mesh>())
-            {
-                hatObjMeshRenderer.material.SetFloat("_EnableOutline", 1);
-            }
-            else
-            {
-                hatObjMeshRenderer.material.SetFloat("_EnableOutline", 0);
-            }
-            
-            //Display Hat
-            if (hat.hatObj != currentDisplayHat)
-            {
-                hat.hatObj.SetActive(false);
-            }
-            else
-            {
-                if (hat.collected)
+                if (!lore.arrow) continue;
+                if (EventSystem.current.currentSelectedGameObject == lore.loreItem)
                 {
-                    hatNameText.text = hat.displayName;
-                    hatDescriptionText.text = hat.description;
+                    lore.arrow.SetActive(true);
                 }
                 else
                 {
-                    hatNameText.text = "?";
-                    hatDescriptionText.text = "???";
+                    lore.arrow.SetActive(false);
                 }
-                hat.hatObj.SetActive(true);
+            }
+        
+            if (currentDisplayInt < 0)
+            {
+                currentDisplayInt = allDisplayHat.Length - 1;
+            }
+
+            if (currentDisplayInt > allDisplayHat.Length - 1)
+            {
+                currentDisplayInt = 0;
+            }
+        
+            currentDisplayHat = allDisplayHat[currentDisplayInt].hatObj;
+
+            foreach (var hat in allDisplayHat)
+            {
+                var hatObjMesh = hat.hatObj.GetComponent<Mesh>();
+                var hatObjMeshRenderer = hat.hatObj.GetComponent<MeshRenderer>();
+            
+                if (hatObjMesh == m_player.currentHat.GetComponent<Mesh>())
+                {
+                    hatObjMeshRenderer.material.SetFloat("_EnableOutline", 1);
+                }
+                else
+                {
+                    hatObjMeshRenderer.material.SetFloat("_EnableOutline", 0);
+                }
+            
+                //Display Hat
+                if (hat.hatObj != currentDisplayHat)
+                {
+                    hat.hatObj.SetActive(false);
+                }
+                else
+                {
+                    if (hat.collected)
+                    {
+                        hatNameText.text = hat.displayName;
+                        hatDescriptionText.text = hat.description;
+                    }
+                    else
+                    {
+                        hatNameText.text = "?";
+                        hatDescriptionText.text = "???";
+                    }
+                    hat.hatObj.SetActive(true);
+                }
             }
         }
 
@@ -241,9 +248,12 @@ public class UIManager : MonoBehaviour
     
     public void UpdateHealth()
     {
-        for (int i = Mathf.FloorToInt(m_player.maxLifePoint); i > 0; i--)
+        if (m_player)
         {
-            lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
+            for (int i = Mathf.FloorToInt(m_player.maxLifePoint); i > 0; i--)
+            {
+                lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
+            }
         }
     }
 
