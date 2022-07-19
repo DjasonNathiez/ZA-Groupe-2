@@ -103,10 +103,10 @@ public class ThrowingWeapon : MonoBehaviour
             transform.rotation = grip.rotation;
         }
 
-        if (playerManager.state == ActionType.RopeAttached &&
+        if (playerManager.state == ActionType.Throwing &&
             playerManager.rope.lenght >= playerManager.rope.maximumLenght)
         {
-            playerManager.rope.rewinding = true;
+            playerManager.Rewind();
         }
 
         if (playerManager.rope.rewinding)

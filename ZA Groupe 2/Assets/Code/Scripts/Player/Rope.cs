@@ -209,14 +209,7 @@ public class Rope : MonoBehaviour
                 }
             }
 
-            // Gotgot
 
-            if (lenght > maximumLenght)
-            {
-                playerManager.Rewind();
-            }
-            
-            
         }
 
         rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);
