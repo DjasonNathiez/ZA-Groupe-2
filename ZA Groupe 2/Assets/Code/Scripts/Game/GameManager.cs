@@ -20,8 +20,6 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     private PlayerManager m_playerManager;
     public new GameObject camera;
-    public Language language;
-    public enum Language{FRENCH, ENGLISH}
     
     [Header("UI")]
     public UIManager ui;
@@ -106,7 +104,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Initialize();
-        
     }
 
     public void Initialize()
@@ -155,22 +152,6 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
 
-        if (GameData.instance)
-        {
-            
-            switch (GameData.instance.currentLanguage)
-            {
-                case GameData.Language.FRENCH:
-                    language = Language.FRENCH;
-                    break;
-            
-                case GameData.Language.ENGLISH:
-                    language = Language.ENGLISH;
-                    break;
-            }
-
-        }
-        
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
     }
@@ -243,17 +224,17 @@ public class GameManager : MonoBehaviour
 
     public void UpdateUILanguage()
     {
-        if (GameData.instance)
+        if (DATA_LOAD.instance)
         {
             foreach (UIText uiText in uiTexts)
             {
-                switch (GameData.instance.currentLanguage)
+                switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
                 {
-                    case GameData.Language.FRENCH:
+                    case DATA_SETTINGS.LANGUAGE.FRENCH:
                         uiText.uiTMP.text = uiText.frenchText;
                         break;
             
-                    case GameData.Language.ENGLISH:
+                    case DATA_SETTINGS.LANGUAGE.ENGLISH:
                         uiText.uiTMP.text = uiText.englishText;
                         break;
                 }
@@ -484,16 +465,16 @@ public class GameManager : MonoBehaviour
 
     public void SetLanguage(string languageSelect)
     {
-        if (GameData.instance)
+        if (DATA_LOAD.instance)
         {
             switch (languageSelect)
             {
                 case "French":
-                    GameData.instance.currentLanguage = GameData.Language.FRENCH;
+                    DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.FRENCH;
                     break;
             
                 case "English":
-                    GameData.instance.currentLanguage = GameData.Language.ENGLISH;
+                    DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.ENGLISH;
                     break;
             }
         
