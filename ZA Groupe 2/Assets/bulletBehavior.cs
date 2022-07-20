@@ -7,23 +7,52 @@ public class bulletBehavior : MonoBehaviour
 {
     public Rigidbody rb;
     public float speed;
+    public float usedSpeed;
     public bool canBounce;
-    public float timer;
-    public float delay;
+    public bool bounced;
+    public Vector3 velocity;
+    public AnimationCurve bounceSpeed;
+    public float timeComparator;
+    public Vector3 normal;
+    public float bounceTime;
 
+
+    private void Start()
+    {
+        usedSpeed = speed;
+    }
 
     private void Update()
     {
-        rb.velocity = new Vector3(rb.velocity.x,0,rb.velocity.z) * speed;
+        velocity = new Vector3(velocity.x, 0, velocity.z).normalized;
+        rb.velocity = velocity * usedSpeed;
+        
         if (!canBounce)
         {
-            timer -= Time.deltaTime;
-            if (timer <= 0)
+            usedSpeed = Mathf.Lerp(0,speed,bounceSpeed.Evaluate((Time.time - timeComparator)/bounceTime));
+            if ((Time.time - timeComparator)/bounceTime >= bounceSpeed.keys[1].time && !bounced)
             {
-                timer = delay;
-                canBounce = true;
+                velocity = Vector3.Reflect(velocity, normal);
+                bounced = true;
+            }
+            if ((Time.time - timeComparator)/bounceTime >= bounceSpeed.keys[2].time)
+            {
+                Debug.Log("FinishedBounce");
+                if (transform.childCount == 0)
+                {
+                    canBounce = true;
+                    bounced = false;   
+                }
             }
         }
+    }
+
+    public void Bounce(Vector3 inNormal)
+    {
+        Debug.Log("BALL BOUNCED");
+        timeComparator = Time.time;
+        canBounce = false;
+        normal = inNormal;
     }
 
     private void OnTriggerEnter(Collider other)
