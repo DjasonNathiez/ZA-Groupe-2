@@ -1,4 +1,4 @@
-using Unity.Mathematics;
+using DG.Tweening;
 using UnityEngine;
 
 public class Attack : MonoBehaviour
@@ -10,6 +10,8 @@ public class Attack : MonoBehaviour
     public GameObject popcornVFX;
 
     public float knockbackForce;
+    public float scaleTimeDuration;
+    public float scaleForce;
 
     private void Awake()
     {
@@ -23,6 +25,16 @@ public class Attack : MonoBehaviour
         KnockableObject knockableObject = other.GetComponent<KnockableObject>();
         PropsInstructions props = other.GetComponent<PropsInstructions>();
 
+        if (other.transform.CompareTag("GrippableObject") || other.transform.CompareTag("TractableObject"))
+        {
+            if (other != null)
+            {
+                other.transform.DOKill();
+                other.transform.DOScale(other.transform.localScale * scaleForce, scaleTimeDuration).OnComplete(() => 
+                    other.transform.DOScale(other.transform.localScale / scaleForce, scaleTimeDuration / 1.3f));
+            }
+        }
+        
         if (props && isAttacking)
         {
             StartCoroutine(props.DestroyThis());
@@ -47,8 +59,7 @@ public class Attack : MonoBehaviour
 
                     iaBrain.Enable();
                 }
-
-
+                
                 iaBrain.GetComponent<AIBrain>().rb.isKinematic = true;
                 canHurt = false;
             }
