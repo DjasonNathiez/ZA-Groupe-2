@@ -4925,7 +4925,9 @@ MonoBehaviour:
   storyState: 0
   dialogue:
   - speakingName: "Haut de C\xF4ne"
-    text: "Vous avez obtenu le chapeau C\xF4ne !"
+    frenchText: "Vous avez obtenu le cosm\xE9tique : Chapeau \"Haut de C\xF4ne\"
+      !"
+    englishText: 'You got the cosmetic: Hat "Traffic Cone" !'
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4937,19 +4939,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
-  - speakingName: "Haut de C\xF4ne"
-    text: "Vous pouvez l'\xE9quiper dans le menu de collection."
-    textEffects: []
-    modifyCameraPosition: 0
-    positionCamera: {x: 0, y: 0, z: 0}
-    angleCamera: {x: 0, y: 0, z: 0}
-    zoom: 0
-    speedOfPan: 0
-    cinematicAngleOnly: 0
-    durationIfAuto: 0
-    toActivate: {fileID: 0}
-    animations: []
-    clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
@@ -4968,6 +4959,8 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   playerRot: {x: 0, y: 0, z: 0}
   movePlayer: 0
+  teleporter: {fileID: 0}
+  cinematik: 0
 --- !u!1001 &4194215895961287775
 PrefabInstance:
   m_ObjectHideFlags: 0
