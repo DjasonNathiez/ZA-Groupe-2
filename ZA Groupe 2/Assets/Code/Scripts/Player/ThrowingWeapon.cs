@@ -77,9 +77,13 @@ public class ThrowingWeapon : MonoBehaviour
                 playerManager.state = ActionType.RopeAttached;
                 playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.pinnedToObject = true;
-                if (other.GetComponent<ValueTrack>())
-                    playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
+                if (other.GetComponent<ValueTrack>()) playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
+                if (playerManager.rope.pinnedValueTrack.trailVFX != null)
+                {
+                    playerManager.rope.pinnedValueTrack.trailVFX.gameObject.SetActive(true);
+                    playerManager.rope.pinnedValueTrack.trailVFX.Play();
+                }
                 grip.position = transform.position;
                 grip.parent = other.transform;
 

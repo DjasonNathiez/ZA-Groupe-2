@@ -1,6 +1,7 @@
 using System;using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public enum WeightClass
 {
@@ -24,14 +25,22 @@ public class ValueTrack : MonoBehaviour
     public float zoomCam;
     public bool moveCam;
     public RigidbodyConstraints constraints;
-    
+
     [Header("Visual")]
     public GameObject splashVFX;
+    public VisualEffect trailVFX;
 
     private void Start()
     {
         if(!meshRenderer) meshRenderer = GetComponent<MeshRenderer>();
         constraints = GetComponent<Rigidbody>().constraints;
+        if (GetComponentInChildren<VisualEffect>())
+        {
+            trailVFX = GetComponentInChildren<VisualEffect>();
+            trailVFX.Stop();
+            trailVFX.gameObject.SetActive(false);
+        }
+        if(GetComponent<VisualEffect>()) Debug.LogWarning(name + " !!!!");
     }
 
     private void OnCollisionEnter(Collision collision)
