@@ -42,6 +42,8 @@ public class Rope : MonoBehaviour
                 ResetPin();
             }
 
+            AttributeDirection();
+
             //CHECK LES TRUCS TOUCH POUR LES FAIRES TOMBER
             CheckToFall();
 
@@ -60,8 +62,10 @@ public class Rope : MonoBehaviour
             Ray ray = new Ray(transform.position, dir);
             if (Physics.Raycast(ray, out RaycastHit hit, Vector3.Distance(transform.position, point)))
             {
-                if (!hit.collider.isTrigger)
+                if (!hit.collider.isTrigger || hit.collider.CompareTag("Bullet"))
                 {
+                    if(hit.collider.CompareTag("Bullet") && !hit.transform.GetComponent<bulletBehavior>().canBounce) goto exitOne;
+                    
                     rope.positionCount += 1;
                     Node nodeToCreate = new Node();
                     nodeToCreate.index = rope.positionCount - 2;
@@ -70,23 +74,37 @@ public class Rope : MonoBehaviour
                                   (hit.point - hit.transform.position).normalized * borderDist;
                     nodeToCreate.nodePoint = Instantiate(nodePos, new Vector3(pos.x, transform.position.y, pos.z),
                         Quaternion.identity, nodeToCreate.anchor.transform);
-                    nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
+                    
+                    if (hit.collider.CompareTag("Bullet"))
+                    {
+                        bulletBehavior bulletBehavior = hit.transform.GetComponent<bulletBehavior>();
+                        if (bulletBehavior.canBounce)
+                        {
+                            bulletBehavior.Bounce(Quaternion.AngleAxis(90, Vector3.up) * new Vector3(ray.direction.x, 0, ray.direction.z).normalized);
+                        }
 
-                    if (Vector3.SignedAngle(nodeToCreate.anchor.transform.position - transform.position, dir,
-                            Vector3.up) > 0)
-                    {
-                        nodeToCreate.positive = true;
+                        nodeToCreate.nodePoint.transform.position = hit.transform.position + bulletBehavior.velocity.normalized * 0.25f;
+                        Debug.DrawRay(hit.transform.position, Vector3.up,
+                            Color.magenta,2);
                     }
-                    else
-                    {
-                        nodeToCreate.positive = false;
-                    }
+                    
+                    nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
+                    nodeToCreate.former = transform;
+                    nodeToCreate.later = (nodes.Count == 0 ? pin.transform : nodes[nodes.Count-1].nodePoint.transform);
+                    Vector3 former = transform.position - nodeToCreate.nodePoint.transform.position;
+                    Vector3 later = nodeToCreate.nodePoint.transform.position - (nodes.Count == 0 ? pin.transform.position : nodes[nodes.Count-1].nodePoint.transform.position);
+                    
+                    nodeToCreate.angleBuffer = Vector3.SignedAngle(former,later, Vector3.up);
+
+                    nodeToCreate.direction = NodeDirection.UNDEFINED;
 
                     nodes.Add(nodeToCreate);
 
                     if (rightTrig || leftTrig) rewinding = true;
                 }
             }
+            
+            exitOne:
 
             Debug.DrawRay(ray.origin + Vector3.up, ray.direction * Vector3.Distance(transform.position, point),
                 Color.red);
@@ -114,26 +132,25 @@ public class Rope : MonoBehaviour
                                 new Vector3(pos.x, transform.position.y, pos.z),
                                 Quaternion.identity, nodeToCreate.anchor.transform);
                             nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
-                            float signedAngle = Vector3.SignedAngle(
-                                nodeToCreate.anchor.transform.position + rope.transform.position -
-                                (nodes[0].nodePoint.transform.position + rope.transform.position),
-                                dir, Vector3.up);
-                            if (signedAngle > 0)
-                            {
-                                nodeToCreate.positive = true;
-                            }
-                            else
-                            {
-                                nodeToCreate.positive = false;
-                            }
+                            nodeToCreate.former = nodes[0].nodePoint.transform;
+                            nodeToCreate.later = pin.transform;
+                            Vector3 former = nodes[0].nodePoint.transform.position - nodeToCreate.nodePoint.transform.position;
+                            Vector3 later = nodeToCreate.nodePoint.transform.position - pin.transform.position;
+                            nodeToCreate.angleBuffer = Vector3.SignedAngle(former,later, Vector3.up);
+                            
+                            Debug.DrawRay(nodeToCreate.nodePoint.transform.position + Vector3.up, former, Color.cyan,10);
+                            Debug.DrawRay(pin.transform.position + Vector3.up, later, Color.yellow,10);
+
+                            nodeToCreate.direction = NodeDirection.UNDEFINED;
 
                             foreach (Node nodeToFix in nodes)
                             {
                                 nodeToFix.index += 1;
                                 rope.SetPosition(nodeToFix.index, nodeToFix.nodePoint.transform.position);
                             }
-
+                            
                             nodes.Insert(0, nodeToCreate);
+                            
                             if (rightTrig || leftTrig) rewinding = true;
                         }
                     }
@@ -173,18 +190,13 @@ public class Rope : MonoBehaviour
                                     new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity,
                                     nodeToCreate.anchor.transform);
                                 nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
-                                float signedAngle = Vector3.SignedAngle(
-                                    nodeToCreate.anchor.transform.position -
-                                    (nodes[node.index - 1].nodePoint.transform.position),
-                                    dirNode, Vector3.up);
-                                if (signedAngle > 0)
-                                {
-                                    nodeToCreate.positive = true;
-                                }
-                                else
-                                {
-                                    nodeToCreate.positive = false;
-                                }
+                                nodeToCreate.former = node.nodePoint.transform;
+                                nodeToCreate.later = nodes[node.index - 2].nodePoint.transform;
+                                Vector3 former = node.nodePoint.transform.position - nodeToCreate.nodePoint.transform.position;
+                                Vector3 later = nodeToCreate.nodePoint.transform.position - nodes[node.index - 2].nodePoint.transform.position;
+                                nodeToCreate.angleBuffer = Vector3.SignedAngle(former,later, Vector3.up);
+
+                                nodeToCreate.direction = NodeDirection.UNDEFINED;
 
                                 foreach (Node nodeToFix in nodes)
                                 {
@@ -196,7 +208,10 @@ public class Rope : MonoBehaviour
                                     rope.SetPosition(nodeToFix.index, nodeToFix.nodePoint.transform.position);
                                 }
 
+                                
                                 nodes.Insert(node.index - 2, nodeToCreate);
+                                
+
                                 if (rightTrig || leftTrig) rewinding = true;
                                 break;
                             }
@@ -230,7 +245,7 @@ public class Rope : MonoBehaviour
                     Vector3.SignedAngle((rope.GetPosition(i - 1) - rope.GetPosition(i - 2)).normalized,
                         (rope.GetPosition(i - 2) - rope.GetPosition(i - 3)).normalized, Vector3.up);
 
-                if (nodes[i - 3].positive)
+                if (nodes[i - 3].direction == NodeDirection.POSITIVE)
                 {
                     if (angleDiffNode > 0)
                     {
@@ -263,7 +278,7 @@ public class Rope : MonoBehaviour
                         rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);
                     }
                 }
-                else
+                else if (nodes[i - 3].direction == NodeDirection.NEGATIVE)
                 {
                     if (angleDiffNode < 0)
                     {
@@ -484,6 +499,80 @@ public class Rope : MonoBehaviour
                             playerManager.transform.position.z) + Vector3.ClampMagnitude(
                             pinnedTo.transform.position - new Vector3(playerManager.transform.position.x,
                                 pinnedTo.transform.position.y, playerManager.transform.position.z), remain);
+                }
+            }
+        }
+    }
+
+
+    public void DestroyNode(int index)
+    {
+        for (int N = index+1; N < rope.positionCount - 1; N++)
+        {
+            rope.SetPosition(N, rope.GetPosition(N + 1));
+        }
+
+        Destroy(nodes[index].nodePoint);
+        if (nodes[index].anchor.GetComponent<ElectrocutedProp>())
+        {
+            nodes[index].anchor.GetComponent<ElectrocutedProp>().LightsOff();
+
+            if (nodes[index].anchor.GetComponent<ElectrocutedProp>().isEyePillar)
+            {
+                nodes[index].anchor.GetComponent<ElectrocutedProp>().RemoveToEyePillar();
+            }
+        }
+
+        nodes.RemoveAt(index);
+        foreach (Node node in nodes)
+        {
+            if (node.index > index+1)
+            {
+                node.index -= 1;
+            }
+        }
+
+        rope.positionCount -= 1;
+        rope.SetPosition(rope.positionCount - 1, transform.position - rope.transform.position);
+    }
+    
+    public void AttributeDirection()
+    {
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (nodes[i].direction == NodeDirection.UNDEFINED)
+            {
+                float angle;
+
+                if (nodes[i].former && nodes[i].later)
+                {
+                    Vector3 former = nodes[i].former.position - nodes[i].nodePoint.transform.position;
+                    Vector3 later = nodes[i].nodePoint.transform.position - nodes[i].later.position;
+                    angle = Vector3.SignedAngle(former,later, Vector3.up);
+                    Debug.DrawRay(nodes[i].nodePoint.transform.position + Vector3.up, former, Color.green,10);
+                    Debug.DrawRay(nodes[i].later.position + Vector3.up, later, Color.magenta,10);
+                    Debug.Log(angle);  
+                    
+                    if (angle > nodes[i].angleBuffer)
+                    {
+                        nodes[i].direction = NodeDirection.NEGATIVE;
+                        Debug.Log("Negative");
+                    }
+                    else if (angle < nodes[i].angleBuffer)
+                    {
+                        nodes[i].direction = NodeDirection.POSITIVE;
+                        Debug.Log("Positive");
+                    }
+                    else
+                    {
+                        if(nodes[i].angleBuffer > 0) nodes[i].direction = NodeDirection.NEGATIVE;
+                        else nodes[i].direction = NodeDirection.POSITIVE;
+                    }
+                }
+                else
+                {
+                    if(nodes[i].angleBuffer > 0) nodes[i].direction = NodeDirection.NEGATIVE;
+                    else nodes[i].direction = NodeDirection.POSITIVE;
                 }
             }
         }
@@ -757,6 +846,8 @@ public class Rope : MonoBehaviour
         foreach (Node node in nodes)
         {
             BearBehaviour ai = node.anchor.GetComponentInParent<BearBehaviour>();
+            
+            //BUG Node Anchor Destroyed ----------------------------------------------------------------------------------------------------------------------------------------------------
 
             if (ai && ai.canFall && GetComponent<PlayerManager>().state == ActionType.RopeAttached)
             {
@@ -772,6 +863,16 @@ public class Node
 {
     public int index;
     public GameObject nodePoint;
-    public bool positive;
+    public NodeDirection direction;
     public GameObject anchor;
+    public float angleBuffer;
+    public Transform former;
+    public Transform later;
+}
+
+public enum NodeDirection
+{
+    POSITIVE,
+    NEGATIVE,
+    UNDEFINED
 }

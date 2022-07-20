@@ -4925,20 +4925,24 @@ MonoBehaviour:
   storyState: 0
   dialogue:
   - speakingName: "Haut de Cro\xE2"
-    text: Vous avez obtenu le chapeau Grenouille !
+    frenchText: 
+    englishText: 
     textEffects: []
     modifyCameraPosition: 1
     positionCamera: {x: 0, y: 0, z: 0}
     angleCamera: {x: 45, y: -45, z: 0}
-    zoom: 3
+    zoom: -24
     speedOfPan: 0
     cinematicAngleOnly: 0
     durationIfAuto: 0
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   - speakingName: "Haut de Cro\xE2"
-    text: "Vous pouvez l'\xE9quiper dans le menu de collection."
+    frenchText: 
+    englishText: 
     textEffects: []
     modifyCameraPosition: 0
     positionCamera: {x: 0, y: 0, z: 0}
@@ -4950,6 +4954,8 @@ MonoBehaviour:
     toActivate: {fileID: 0}
     animations: []
     clips: []
+    durationBetweenVoiceSound: 0
+    voiceCombo: 0
   dialogueBox: {fileID: 0}
   button: {fileID: 0}
   cameraController: {fileID: 0}
@@ -4968,6 +4974,8 @@ MonoBehaviour:
   playerPos: {x: 0, y: 0, z: 0}
   playerRot: {x: 0, y: 0, z: 0}
   movePlayer: 0
+  teleporter: {fileID: 0}
+  cinematik: 0
 --- !u!1 &8854826427799972190
 GameObject:
   m_ObjectHideFlags: 0

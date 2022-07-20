@@ -260,8 +260,8 @@ public class UIManager : MonoBehaviour
     public void UpdateRopeLenght()
     {
         // Position
-        ropeSlider.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(m_player.transform.position) + Vector3.up * 100;
-        
+        ropeSlider.GetComponent<RectTransform>().position = PlayerManager.instance.cameraController.camera.WorldToScreenPoint(m_player.transform.position) + Vector3.up * 100;
+
         // Value
         var max = m_player.rope.maximumLenght; // 1
         var lenght = m_player.rope.lenght; // Between 0 and 1
