@@ -86,6 +86,16 @@ public class Rope : MonoBehaviour
 
                     if (rightTrig || leftTrig) rewinding = true;
                 }
+                else if (hit.collider.CompareTag("Bullet"))
+                {
+                    bulletBehavior bulletBehavior = hit.transform.GetComponent<bulletBehavior>();
+                    if (bulletBehavior.canBounce)
+                    {
+                        bulletBehavior.rb.velocity = Vector3.Reflect(bulletBehavior.rb.velocity, Quaternion.AngleAxis(90, Vector3.up) * new Vector3(ray.direction.x, 0, ray.direction.z).normalized);
+                        bulletBehavior.canBounce = false;
+                    }
+                    
+                }
             }
 
             Debug.DrawRay(ray.origin + Vector3.up, ray.direction * Vector3.Distance(transform.position, point),
