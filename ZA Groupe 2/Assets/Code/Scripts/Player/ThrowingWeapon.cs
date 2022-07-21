@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class ThrowingWeapon : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
+    private Vector3 collisionPoint;
     public Transform grip;
     
 
@@ -52,7 +53,9 @@ public class ThrowingWeapon : MonoBehaviour
                     }
                 }
 
-                playerManager.LoadVFX(playerManager.throwHit, other.transform);
+                collisionPoint = other.ClosestPoint(transform.position);
+                Destroy(Instantiate(playerManager.throwHit, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
+                //PlayerManager.LoadVFX(playerManager.throwHit, other.transform, Quaternion.identity);
             }
             else if (other.CompareTag("UngrippableObject"))
             {
@@ -62,11 +65,15 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<LionBehaviour>())
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
-                    playerManager.LoadVFX(playerManager.throwHitEnemy, other.transform);
+                    collisionPoint = other.ClosestPoint(transform.position);
+                    Destroy(Instantiate(playerManager.throwHitEnemy, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
+                    //playerManager.LoadVFX(playerManager.throwHitEnemy, other.transform);
                 }
 
                 if (other.GetComponent<Taupe>())
                 {
+                    collisionPoint = other.ClosestPoint(transform.position);
+                    Destroy(Instantiate(playerManager.throwHitEnemy, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
                     other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
                     other.GetComponent<Taupe>().TaupeHit();
                 }
@@ -96,6 +103,9 @@ public class ThrowingWeapon : MonoBehaviour
                     }
                 }
             }
+            
+            collisionPoint = other.ClosestPoint(transform.position);
+            Destroy(Instantiate(playerManager.throwHit, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
         }
     }
 
