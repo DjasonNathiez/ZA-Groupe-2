@@ -36,10 +36,10 @@ public class PlayerGravity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        playerIsGrounded = PlayerGroundCheck();
+       /* playerIsGrounded = PlayerGroundCheck();
         rb.velocity = new Vector3(rb.velocity.x, PlayerGravityMethod() ,rb.velocity.z);
         
-        StepClimb();
+        StepClimb();*/
     }
 
     private bool PlayerGroundCheck()

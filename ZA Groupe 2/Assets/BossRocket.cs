@@ -10,9 +10,12 @@ public class BossRocket : MonoBehaviour
     public GameObject vfx;
     private void OnTriggerEnter(Collider other)
     {
-        GameObject obj = Instantiate(vfx, transform.position, quaternion.identity);
-        ;
-        Destroy(gameObject);
+        if (!dice)
+        {
+            GameObject obj = Instantiate(vfx, transform.position + Vector3.down*2, quaternion.identity);
+            obj.GetComponent<ParticleSystem>().Play();
+            Destroy(gameObject);   
+        }
     }
     
     private void OnCollisionEnter(Collision other)

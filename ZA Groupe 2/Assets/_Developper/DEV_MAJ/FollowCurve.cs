@@ -107,7 +107,6 @@ public class FollowCurve : MonoBehaviour
                 PlayerManager.instance.transform.position = pos;
                 GameManager.instance.CheckScene();
                 if (reUsable) currentPoint = 0;
-                if(BossRollerCoaster) BossRollerCoaster.EndRollerCoaster();
             }
         }
     }

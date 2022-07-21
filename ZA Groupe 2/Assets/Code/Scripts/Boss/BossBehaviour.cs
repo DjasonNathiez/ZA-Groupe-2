@@ -58,6 +58,7 @@ public class BossBehaviour : MonoBehaviour
     public float timeBuffer;
     public bool tornadoMove;
     public bool tornado;
+    public bool doingTornado;
     public Vector3 tornadoDestination;
     public Vector3 tornadoFrom;
     public float tornadoTimer;
@@ -73,6 +74,9 @@ public class BossBehaviour : MonoBehaviour
 
     [Header("VFX")]
     public ParticleSystem hurtVFX;
+
+    public bool falling;
+    public bool fallen;
 
 
     private void Start()
@@ -125,6 +129,12 @@ public class BossBehaviour : MonoBehaviour
         {
             transform.position = Vector3.Lerp(tornadoFrom, tornadoDestination,
                 tornadoMovement.Evaluate(Time.time - timeBuffer));
+        }
+        
+        if (falling)
+        {
+            transform.position = Vector3.Lerp(transform.position, tornadoDestination,
+                Time.deltaTime*5);
         }
 
         if (tornado)
@@ -222,29 +232,46 @@ public class BossBehaviour : MonoBehaviour
     {
         animator.Play("TornadoStart");
         material.color = Color.cyan;
+        doingTornado = true;
         yield return new WaitForSeconds(1);
-        animator.Play("TornadoMiddle");
-        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z);
-        tornadoFrom = transform.position;
-        timeBuffer = Time.time;
-        tornadoMove = true;
+        if (doingTornado)
+        {
+            animator.Play("TornadoMiddle");
+            tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z);
+            tornadoFrom = transform.position;
+            timeBuffer = Time.time;
+            tornadoMove = true;   
+        }
         yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
-        tornado = true;
-        tornadoAngle = Random.Range(0, 360);
-        transform.position = tornadoDestination;
-        tornadoMove = false;
-        timeBuffer = Time.time;
+        if (doingTornado)
+        {
+            tornado = true;
+            tornadoAngle = Random.Range(0, 360);
+            transform.position = tornadoDestination;
+            tornadoMove = false;
+            timeBuffer = Time.time;
+        }
         yield return new WaitForSeconds(tornadoDuration);
-        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) - (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
-        tornadoFrom = transform.position;
-        timeBuffer = Time.time;
-        tornadoMove = true;
-        tornado = false;
+        if (doingTornado)
+        {
+            tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) - (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
+            tornadoFrom = transform.position;
+            timeBuffer = Time.time;
+            tornadoMove = true;
+            tornado = false;
+        }
         yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
-        animator.Play("TornadoEnd");
-        tornadoMove = false;
+        if (doingTornado)
+        {
+            animator.Play("TornadoEnd");
+            tornadoMove = false;
+        }
         yield return new WaitForSeconds(2);
-        StartCoroutine(Jump());
+        if (doingTornado)
+        {
+            doingTornado = false;
+            StartCoroutine(Jump());
+        }
         
 
     }
@@ -271,73 +298,22 @@ public class BossBehaviour : MonoBehaviour
         StartCoroutine(Tornado());
         
     }
-    
-    public IEnumerator ReturnToIddle(float delay)
-    {
-        material.color = Color.cyan;
-        yield return new WaitForSeconds(delay);
-        material.color = Color.white;
-        state = 1;
-        animator.Play("Marche");
-    }
-    
-    public IEnumerator ShockWave(float delay)
-    {
-        material.color = Color.cyan;
-        animator.Play("Attaque");
-        yield return new WaitForSeconds(delay);
-        shockWaveGameObject.SetActive(true);
-        shockWaveGameObject.transform.position = transform.position - new Vector3(0,2,0) + bossDetector.transform.forward*2;
-        shockWaveGameObject.transform.localScale = new Vector3(2, 1, 2);
-        material.color = Color.blue;
-        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0) + bossDetector.transform.forward*2,quaternion.identity,attackSpawnPlace);
-        attack.transform.SetParent(null);
-        attack.transform.rotation = Quaternion.Euler(-90,0,0);
-        yield return new WaitForSeconds(shockWaveDuration);
-        
-        material.color = Color.white;
-        shockWaveGameObject.SetActive(false);
-        state = 1;
-        animator.Play("Marche");
-    }
-    
-    public IEnumerator BreakRoller(float delay)
-    {
-        animator.Play("Attaque");
-        yield return new WaitForSeconds(delay);
-        material.color = Color.blue;
-        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0) + bossDetector.transform.forward*2,quaternion.identity,attackSpawnPlace);
-        attack.transform.SetParent(null);
-        attack.transform.rotation = Quaternion.Euler(-90,0,0);
-        yield return new WaitForSeconds(shockWaveDuration);
-        state = 1;
-        animator.Play("Marche");
-    }
 
-    public IEnumerator Fall(float delay)
+    public IEnumerator Fall(Vector3 dir)
     {
+        tornado = false;
+        falling = true;
+        tornadoMove = false;
+        doingTornado = false;
+        tornadoDestination = new Vector3(arenaCenter.x, transform.position.y, arenaCenter.z) + dir.normalized * 8.2f;
         Debug.Log("Chute");
         animator.Play("Chute");
         rb.isKinematic = true;
-        state = 0;
-        material.color = Color.yellow;
-        yield return new WaitForSeconds(delay);
-        
-        material.color = Color.red;
-        state = 3;
+        yield return new WaitForSeconds(2);
+        fallen = true;
+
     }
     
-    public IEnumerator StandUp(float delay)
-    {
-        rb.isKinematic = false;
-        animator.Play("StandUp");
-        yield return new WaitForSeconds(delay);
-        foreach (GameObject obj in pillars)
-        {
-            Destroy(obj);
-        }
-        pillars.Clear();
-    }
     public IEnumerator Mort(float delay, float delayMort)
     {
         animator.Play("StandUp");
@@ -358,14 +334,38 @@ public class BossBehaviour : MonoBehaviour
     }
     public void GetHurt(int damage)
     {
-        if (hurtVFX != null)
+        if (fallen)
         {
-            hurtVFX.Play();
+            fallen = false;
+            if (hurtVFX != null)
+            {
+                hurtVFX.Play();
+            }
+            hurtAnim = true;
+            hurtTime = Time.time;
+            if (phase < 2)
+            {
+                StartCoroutine(StandUp(2));
+                phase++;
+            }
+            else
+            {
+                StartCoroutine(Mort(2, 3));
+            }
         }
-        hurtAnim = true;
-        hurtTime = Time.time;
-           
-        
+    }
+    
+    public IEnumerator StandUp(float delay)
+    {
+        rb.isKinematic = false;
+        animator.Play("StandUp");
+        yield return new WaitForSeconds(delay);
+        foreach (GameObject obj in pillars)
+        {
+            Destroy(obj);
+        }
+        pillars.Clear();
+        StartCoroutine(ShootFireworks(2.2f,1.2f,5));
     }
 }
 
