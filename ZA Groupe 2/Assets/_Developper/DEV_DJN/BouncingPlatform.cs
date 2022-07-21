@@ -16,7 +16,7 @@ public class BouncingPlatform : MonoBehaviour
         {
             if(colRb.GetComponent<PlayerGravity>())
             {
-                colRb.GetComponent<PlayerGravity>().BounceEffect(bounceHeight, bouncingForce);
+                //colRb.GetComponent<PlayerGravity>().BounceEffect(bounceHeight, bouncingForce);
             }
         }
     }
