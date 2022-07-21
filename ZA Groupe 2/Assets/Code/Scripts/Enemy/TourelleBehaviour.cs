@@ -125,7 +125,7 @@ public class TourelleBehaviour : MonoBehaviour
         switch (state)
         {
             case TourelleState.Idle:
-
+                // Feedback quand passe en idle
                 break;
 
             case TourelleState.Detection:
@@ -135,16 +135,19 @@ public class TourelleBehaviour : MonoBehaviour
                 break;
 
             case TourelleState.Follow:
-
+                // Feedback quand commence à viser
+                
                 followTimer = 0f;
                 break;
 
             case TourelleState.Shoot:
-
+                // Feedback quand se bloque avant de tirer
+                
                 break;
             
             case TourelleState.Destroy:
-
+                
+                // Death feedback
                 deathTimer = 0f;
                 break;
         }
