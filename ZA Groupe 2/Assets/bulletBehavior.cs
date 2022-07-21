@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class bulletBehavior : MonoBehaviour
@@ -15,6 +16,7 @@ public class bulletBehavior : MonoBehaviour
     public float timeComparator;
     public Vector3 normal;
     public float bounceTime;
+    public GameObject vfxImpact;
 
 
     private void Start()
@@ -34,12 +36,15 @@ public class bulletBehavior : MonoBehaviour
             {
                 velocity = Vector3.Reflect(velocity, normal);
                 bounced = true;
+                GameObject vfx = Instantiate(vfxImpact, transform.position, quaternion.identity);
+                vfx.transform.LookAt(vfx.transform.position - normal);
+                Destroy(vfx,2);
             }
             if ((Time.time - timeComparator)/bounceTime >= bounceSpeed.keys[2].time)
             {
-                Debug.Log("FinishedBounce");
                 if (transform.childCount == 0)
                 {
+                    Debug.Log("ENDED BOUNCE "+ Time.time);
                     canBounce = true;
                     bounced = false;   
                 }
@@ -49,10 +54,15 @@ public class bulletBehavior : MonoBehaviour
 
     public void Bounce(Vector3 inNormal)
     {
-        Debug.Log("BALL BOUNCED");
-        timeComparator = Time.time;
-        canBounce = false;
-        normal = inNormal;
+        Debug.Log("ANNOUNCED");
+        if (canBounce)
+        {
+            Debug.Log("BALL BOUNCED "+ Time.time);
+            timeComparator = Time.time;
+            canBounce = false;
+            normal = inNormal; 
+            Debug.DrawRay(transform.position,normal,Color.black,3);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
