@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class TourelleBehaviour : MonoBehaviour
 {
+    
     private Transform player;
     [SerializeField] private Transform canon;
     [SerializeField] private Transform followTransform;
 
+    [SerializeField] private Transform bulletOrigin;
+
     [SerializeField] private TourelleState currentState;
 
     [SerializeField] private float detectionRange;
-    
+
     [SerializeField] private float detectionDuration;
     private float detectionTimer;
     [SerializeField] private float rotationSpeed;
@@ -23,14 +26,25 @@ public class TourelleBehaviour : MonoBehaviour
 
     [SerializeField] private float beforeShootDuration;
     private float beforeShootTimer;
-    
-    public GameObject currentBullet;
+
+    public bulletBehavior bullet;
+    public bulletBehavior currentBullet;
 
     [SerializeField] private ParticleSystem shootVFX;
-    
+    [SerializeField] private ParticleSystem detectionVFX;
+
+    [SerializeField] private bool isInvincible;
+
+    [SerializeField] private float deathDuration;
+    private float deathTimer;
+
     public enum TourelleState
     {
-        Idle, Detection, Follow, Shoot, Wait
+        Idle,
+        Detection,
+        Follow,
+        Shoot,
+        Destroy
     }
 
     private void Start()
@@ -54,75 +68,53 @@ public class TourelleBehaviour : MonoBehaviour
         switch (currentState)
         {
             case TourelleState.Idle:
-                
-                // Check Player Distance
-                var distance = Vector3.Distance(player.position, transform.position);
-                if (distance <= detectionRange)
-                {
-                    SwitchState(TourelleState.Detection);
-                }
 
+                var distance = Vector3.Distance(player.position, transform.position);
+                if (distance <= detectionRange) SwitchState(TourelleState.Detection);
+                
                 break;
-            
+
             case TourelleState.Detection:
 
-                if (detectionTimer >= detectionDuration)
-                {
-                    SwitchState(TourelleState.Follow);
-                }
-                else
-                {
-                    detectionTimer += Time.deltaTime;
-                }
-                
-                // Timer
-                
+                if (detectionTimer >= detectionDuration) SwitchState(TourelleState.Follow);
+                else detectionTimer += Time.deltaTime;
+
                 break;
-            
+
             case TourelleState.Follow:
 
-                followTransform.LookAt(player.position);
-
-                canon.rotation = Quaternion.RotateTowards(transform.rotation, followTransform.rotation, 360);
-                
+                canon.rotation = Quaternion.Lerp(canon.rotation, Quaternion.LookRotation(-(transform.position - player.position)),
+                    Time.deltaTime * rotationSpeed);
                 canon.eulerAngles = new Vector3(0, canon.eulerAngles.y, 0);
-                
-                if (followTimer >= followDuration)
-                {
-                    SwitchState(TourelleState.Shoot);
-                }
-                else
-                {
-                    followTimer += Time.deltaTime;
-                }
-                // Timer
-                
-                break;
-            
-            case TourelleState.Shoot:
-                
-                // Lance une fois le bullet
-                if (beforeShootTimer >= beforeShootDuration)
-                {
-                    Debug.Log("Shoot bullet !");
-                    
-                    shootVFX.Play();
-                
-                    SwitchState(TourelleState.Wait);
-                }
-                else
-                {
-                    beforeShootTimer += Time.deltaTime;
-                }
-                
-                break;
-            
-            case TourelleState.Wait:
 
                 if (currentBullet) return;
+
+                if (followTimer >= followDuration) SwitchState(TourelleState.Shoot);
+                else followTimer += Time.deltaTime;
                 
-                SwitchState(TourelleState.Idle);
-                // Attend destruction du bullet lancé
+                break;
+
+            case TourelleState.Shoot:
+
+                if (beforeShootTimer >= beforeShootDuration)
+                {
+                    shootVFX.Play();
+                    currentBullet = Instantiate(bullet, bulletOrigin.position, Quaternion.identity);
+                    currentBullet.velocity = canon.forward;
+
+                    SwitchState(TourelleState.Idle);
+                }
+                else beforeShootTimer += Time.deltaTime;
+                
+                break;
+            
+            case TourelleState.Destroy:
+
+                if (deathTimer >= deathDuration)
+                {
+                    Destroy(gameObject);
+                }
+                else deathTimer += Time.deltaTime;
                 
                 break;
         }
@@ -133,30 +125,39 @@ public class TourelleBehaviour : MonoBehaviour
         switch (state)
         {
             case TourelleState.Idle:
-                
+
                 break;
-            
+
             case TourelleState.Detection:
 
+                if (!detectionVFX.isPlaying) detectionVFX.Play();
                 detectionTimer = 0f;
                 break;
-            
+
             case TourelleState.Follow:
 
                 followTimer = 0f;
                 break;
-            
+
             case TourelleState.Shoot:
-                
+
                 break;
             
-            case TourelleState.Wait:
-                
+            case TourelleState.Destroy:
+
+                deathTimer = 0f;
                 break;
         }
 
-        Debug.Log("Tourelle est désormais en " + state);
         currentState = state;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Bullet") && !isInvincible)
+        {
+            SwitchState(TourelleState.Destroy);
+        }
     }
 
     private void OnDrawGizmos()
