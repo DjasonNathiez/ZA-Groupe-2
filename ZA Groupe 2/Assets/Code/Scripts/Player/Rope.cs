@@ -4,34 +4,43 @@ using UnityEngine;
 
 public class Rope : MonoBehaviour
 {
-    public GameObject pin;
-    public bool pinnedToObject;
-    public Rigidbody pinnedRb;
-    public float gripY;
-    public float yCheckDistance;
-    public LineRenderer rope;
-    public Material unpowered;
-    public Material powered;
-    public float checkDistance;
-    public List<Node> nodes = new List<Node>();
-    public float borderDist = 0.05f;
-    public float maximumLenght;
-    public float lenght;
-    public bool electrocuted;
-    public bool rewinding;
-    public float remainingLenght;
-    public GameObject nodePos;
-    public PlayerManager playerManager;
-    public GameObject pinnedTo;
-    public ValueTrack pinnedValueTrack;
-    public int ropeHealth;
-    public float lenghtToStick;
-    public bool clamped;
-    public bool rightTrig;
-    public float stickLenght;
-    public bool leftTrig;
-    public AnimationCurve reactorStrenght;
-    public float memoryTemp;
+    #region Variables
+    
+        public GameObject pin;
+        public bool pinnedToObject;
+        public Rigidbody pinnedRb;
+        public float gripY;
+        public float yCheckDistance;
+        public LineRenderer rope;
+        public Material unpowered;
+        public Material powered;
+        public float checkDistance;
+        public List<Node> nodes = new List<Node>();
+        public float borderDist = 0.05f;
+        public float maximumLenght;
+        public float lenght;
+        public bool electrocuted;
+        public bool rewinding;
+        public float remainingLenght;
+        public GameObject nodePos;
+        public PlayerManager playerManager;
+        public GameObject pinnedTo;
+        public ValueTrack pinnedValueTrack;
+        public int ropeHealth;
+        public float lenghtToStick;
+        public bool clamped;
+        public bool rightTrig;
+        public float stickLenght;
+        public bool leftTrig;
+        public AnimationCurve reactorStrenght;
+        public float memoryTemp;
+
+        
+        private float holdTime;
+        private bool isShakeActive;
+        [SerializeField] private CameraShakeScriptable holdCrateShake;
+        #endregion
+    
 
     void Update()
     {
@@ -600,8 +609,29 @@ public class Rope : MonoBehaviour
                     _ => factor
                 };
 
+                holdTime += Time.deltaTime;
+                if (holdTime > 1f)
+                {
+                    PlayerManager.instance.heavyVFX.SetActive(true);
+                    if (!isShakeActive)
+                    {
+                        CameraShake.Instance.AddShakeEvent(holdCrateShake);
+                        isShakeActive = true;
+                    }
+                }
+
                 pinnedRb.AddForceAtPosition(force * factor, pin.transform.position, ForceMode.Acceleration);
                 pinnedRb.velocity = Vector3.ClampMagnitude(pinnedRb.velocity, 5);
+            }
+            else
+            {
+                holdTime = 0;
+                PlayerManager.instance.heavyVFX.SetActive(false);
+                if (isShakeActive)
+                {
+                    CameraShake.Instance.shakeEvents.Clear();
+                }
+                isShakeActive = false;
             }
         }
     }

@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 using static UnityEngine.Random;
 
 public class CameraShake : MonoBehaviour
@@ -66,7 +68,7 @@ public class CameraShake : MonoBehaviour
         }
     }
 
-    public System.Collections.Generic.List<ShakeEvent> shakeEvents = new System.Collections.Generic.List<ShakeEvent>();
+    public List<ShakeEvent> shakeEvents = new List<ShakeEvent>();
 
     public void AddShakeEvent(CameraShakeScriptable data)
     {

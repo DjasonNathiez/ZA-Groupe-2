@@ -16,9 +16,10 @@ public class Attack : MonoBehaviour
     public CameraShakeScriptable hitShake;
     //public CameraShakeScriptable 
 
-    private void Awake()
+    private void Start()
     {
         m_collider = GetComponent<BoxCollider>();
+        m_collider.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -30,7 +31,7 @@ public class Attack : MonoBehaviour
 
         if (other.transform.CompareTag("GrippableObject") || other.transform.CompareTag("TractableObject"))
         {
-            if (other != null)
+            if (other != null && other.GetComponent<ValueTrack>())
             {
                 other.transform.DOKill();
                 other.transform.DOScale(other.transform.localScale * scaleForce, scaleTimeDuration).OnComplete(() => 
