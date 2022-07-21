@@ -252,7 +252,22 @@ public class UIManager : MonoBehaviour
         {
             for (int i = Mathf.FloorToInt(m_player.maxLifePoint); i > 0; i--)
             {
-                lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
+                //lifeHearth[i-1].sprite = i > m_player.currentLifePoint ? emptyHearth : activeHearth;
+
+                var heart = lifeHearth[i - 1];
+
+                if (i > m_player.currentLifePoint)
+                {
+                    heart.sprite = emptyHearth;
+                    heart.GetComponent<Animation>().Stop();
+                    heart.transform.localScale = Vector3.one;
+                }
+                else
+                {
+                    heart.sprite = activeHearth;
+                    heart.transform.localScale = Vector3.one;
+                    heart.GetComponent<Animation>().Play();
+                }
             }
         }
     }
