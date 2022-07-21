@@ -43,6 +43,5 @@ public class BossRollerCoaster : MonoBehaviour
     {
         entry.SetActive(false);
         StartCoroutine(boss.BreakRoller(1));
-        boss.spawnedRabbit = false;
     }
 }

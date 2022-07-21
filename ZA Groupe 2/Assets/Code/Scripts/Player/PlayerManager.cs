@@ -422,7 +422,7 @@ public class PlayerManager : MonoBehaviour
             if (!m_attack.isAttacking && isMoving)
             {
                 if (state != ActionType.Aiming && state != ActionType.Throwing)
-                    rb.velocity = Quaternion.Euler(0, -45, 0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y,
+                    rb.velocity = Quaternion.Euler(0, cameraController.transform.eulerAngles.y, 0) * new Vector3(m_moveDirection.x * m_speed, rb.velocity.y,
                         m_moveDirection.z * m_speed);
             }
             else
@@ -749,7 +749,7 @@ public class PlayerManager : MonoBehaviour
                     if (!isDead && m_controlState != ControlState.DIALOGUE)
                     {
                         Quaternion lookRotation =
-                            Quaternion.LookRotation(Quaternion.Euler(0, -45, 0) * m_moveDirection);
+                            Quaternion.LookRotation(Quaternion.Euler(0, cameraController.transform.eulerAngles.y, 0) * m_moveDirection);
                         rb.MoveRotation(lookRotation);
                     }
                 }

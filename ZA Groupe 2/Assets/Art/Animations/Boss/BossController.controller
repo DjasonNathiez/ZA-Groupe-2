@@ -17,28 +17,31 @@ AnimatorStateMachine:
     m_Position: {x: 470, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7645979796481946314}
-    m_Position: {x: 470, y: 170, z: 0}
+    m_Position: {x: 470, y: 570, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7527990618555032599}
-    m_Position: {x: 470, y: 220, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7249143335878740661}
     m_Position: {x: 470, y: 270, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -1438676961103093829}
+    m_State: {fileID: 7249143335878740661}
     m_Position: {x: 470, y: 320, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6428760908843632808}
+    m_State: {fileID: -1438676961103093829}
     m_Position: {x: 470, y: 370, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -6794778417910495234}
+    m_State: {fileID: -6428760908843632808}
     m_Position: {x: 470, y: 420, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 3246972345511042298}
+    m_State: {fileID: -6794778417910495234}
     m_Position: {x: 470, y: 470, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 2490135300932894381}
+    m_State: {fileID: 3246972345511042298}
     m_Position: {x: 470, y: 520, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2490135300932894381}
+    m_Position: {x: 470, y: 170, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4188617358898503991}
+    m_Position: {x: 470, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -82,7 +85,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lance-Lapin
+  m_Name: FireworkLaunch
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -160,7 +163,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dash
+  m_Name: TornadoStart
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -173,7 +176,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7d96f8f925505b041b09d526a6601908, type: 2}
+  m_Motion: {fileID: 7400000, guid: 45b5a55d33597784d9e451e752bafd7c, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-4188617358898503991
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TornadoEnd
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 2dcad1d73174d9b4f9c9cfa80908d31e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -234,7 +263,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BeforeFalling
+  m_Name: TornadoMiddle
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -247,7 +276,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 43f9d1ba527cf8845955dcfc3f48aea1, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6500b4f9870db9e4d9a38b75c3a9609c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -10,35 +10,21 @@ public class BossBehaviour : MonoBehaviour
 {
     [FormerlySerializedAs("m_state")] [SerializeField]
     public int state;
-    [FormerlySerializedAs("m_phase")] [SerializeField] private int phase;
-    [SerializeField] private float walkingSpeed;
-    [SerializeField] private float walkingSpeed3;
+    [SerializeField] private int phase;
+    
+    
     [SerializeField] private float dashingSpeed;
     [FormerlySerializedAs("m_rb")] [SerializeField]
     public Rigidbody rb;
-    public Transform legsColider;
-    [SerializeField] private GameObject[] spawnPosPillars;
-    [SerializeField] private Transform[] spawnPosRabbits;
-    [SerializeField] private GameObject pillarGameObject;
     [SerializeField] private GameObject shockWaveGameObject;
-    [SerializeField] private GameObject rabbitGameObject;
     [SerializeField] private float timeBetweenAttacks;
-    [SerializeField] private float timeBetweenAttackPhaseThree;
     [SerializeField] private float timeStamp;
-    [SerializeField] private float detectionDist;
     [SerializeField] private float shockWaveSpeed = 1;
-    [SerializeField] private float shockWaveSpeed3 = 1;
     [SerializeField] private float shockWaveDuration;
-    [SerializeField] private float shockWaveDuration2;
     [SerializeField] private Vector3 dashDirection;
     [SerializeField] public List<GameObject> pillars;
-    [SerializeField] private List<GameObject> cableNodes;
-    [SerializeField] private float cableRotation;
-    [SerializeField] private List<Pilone> pilones;
     [SerializeField] private bossDetector bossDetector;
     [SerializeField] private Material material;
-    [SerializeField] private float rotationSpeed;
-    public bool spawnedRabbit;
     public Animator animator;
     public GameObject[] vfx;
     public Transform attackSpawnPlace;
@@ -56,6 +42,25 @@ public class BossBehaviour : MonoBehaviour
     public CameraController cameraController;
     public Vector3 arenaCenter;
 
+    [Header("FIREWORKS")]
+    public float timerFirework;
+    public float delayFireWork;
+    public GameObject firework;
+    public Vector3 fireworkVelocity;
+    public bool fireworks;
+
+    
+    [Header("TORNADO")]
+    public AnimationCurve tornadoMovement;
+    public AnimationCurve tornadoforceOverTime;
+    public float tornadoforce;
+    public float tornadoDuration;
+    public float timeBuffer;
+    public bool tornadoMove;
+    public bool tornado;
+    public Vector3 tornadoDestination;
+    public Vector3 tornadoFrom;
+
     
     [Header("VFX")]
     public ParticleSystem hurtVFX;
@@ -63,11 +68,10 @@ public class BossBehaviour : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        timeStamp = timeBetweenAttacks;
+        rb = GetComponent<Rigidbody>(); timeStamp = timeBetweenAttacks;
         material = new Material(material);
         GetComponent<MeshRenderer>().material = material;
-        animator.Play("Marche");
+        StartCoroutine(ShootFireworks(2.2f,1.2f,5));
         aggroMaterial = new Material(aggroMaterial);
         foreach (SkinnedMeshRenderer mesh in modelMeshRenderer)
         {
@@ -88,38 +92,37 @@ public class BossBehaviour : MonoBehaviour
 
         cameraController.cameraPos.transform.rotation = Quaternion.Euler(25,Quaternion.LookRotation(-(PlayerManager.instance.transform.position - arenaCenter)).eulerAngles.y,0);
         cameraController.cameraPos.transform.position = arenaCenter + (PlayerManager.instance.transform.position - arenaCenter).normalized * 8;
-        cameraController.cameraPos.transform.position = new Vector3(cameraController.cameraPos.transform.position.x, 8.5f, cameraController.cameraPos.transform.position.z);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        switch (state)
+        cameraController.cameraPos.transform.position = new Vector3(cameraController.cameraPos.transform.position.x, 10.7f, cameraController.cameraPos.transform.position.z);
+
+
+
+        if (fireworks)
         {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                rb.velocity = dashDirection * dashingSpeed;
-                bossDetector.transform.rotation = Quaternion.LookRotation(dashDirection);
-                break;
-           
+            if (timerFirework > 0)
+            {
+                timerFirework -= Time.deltaTime;
+            }
+            else 
+            {
+                Vector3 pos = new Vector3(PlayerManager.instance.transform.position.x + Random.Range(-0.8f,0.8f), 25, PlayerManager.instance.transform.position.z + Random.Range(-0.5f,0.5f));
+                GameObject newFirework = Instantiate(firework, pos, Quaternion.Euler(90,0,0));
+                newFirework.GetComponent<Rigidbody>().velocity = fireworkVelocity * Random.Range(0.7f,1.3f);
+                timerFirework = delayFireWork + Random.Range(-delayFireWork/3,delayFireWork/3);
+            }    
         }
 
-        if (timeStamp <= 0 )
+        if (tornadoMove)
         {
-            
-            timeStamp = timeBetweenAttacks;
-
-
-
+            transform.position = Vector3.Lerp(tornadoFrom, tornadoDestination,
+                tornadoMovement.Evaluate(Time.time - timeBuffer));
         }
+
+        if (tornado)
+        {
+            Vector3 force = (PlayerManager.instance.transform.position - new Vector3(arenaCenter.x, PlayerManager.instance.transform.position.y, arenaCenter.z)).normalized * tornadoforceOverTime.Evaluate((Time.time - timeBuffer)/tornadoDuration);
+            PlayerManager.instance.rb.AddForce(force * tornadoforce,ForceMode.Force);
+        }
+        
         
         if (hurtAnim)
         {
@@ -133,54 +136,56 @@ public class BossBehaviour : MonoBehaviour
         {
             shockWaveGameObject.transform.localScale += new Vector3((Time.deltaTime * shockWaveSpeed),0,(Time.deltaTime * shockWaveSpeed));
         }
-
-        if (legsColider.childCount > 3)
-        {
-            PlayerManager.instance.Rewind();
-        }
+        
     }
 
-    public IEnumerator SpawnRabbits(float delay,float vfxDelay)
+    public IEnumerator ShootFireworks(float delay,float vfxDelay,float afterDelay)
     {
-        material.color = Color.cyan;
-        animator.Play("Lance-Lapin");
+        animator.Play("FireworkLaunch");
         yield return new WaitForSeconds(vfxDelay);
         vfx[1].SetActive(true);
         vfx[1].GetComponent<ParticleSystem>().Stop();
         vfx[1].GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(delay-vfxDelay);
         
-        foreach (GameObject pos in spawnPosPillars)
-        {
-            pos.SetActive(true);
-            GameObject vfxpillar = Instantiate(vfx[2], pos.transform.position, quaternion.identity);
-            vfxpillar.transform.rotation = Quaternion.Euler(-90,0,0);
-            Destroy(vfxpillar,3);
-        }
-        foreach (Transform pos in spawnPosRabbits)
-        {
-            GameObject rabbit = Instantiate(rabbitGameObject, pos.position, quaternion.identity);
-            rabbit.SetActive(true);
-        }
         material.color = Color.white;
         state = 1;
-        animator.Play("Marche");
+        fireworks = true;
+        
+        yield return new WaitForSeconds(afterDelay);
+        
+        fireworks = false;
+        StartCoroutine(Tornado());
     }
 
-    public IEnumerator Dash(float delay)
+    public IEnumerator Tornado()
     {
-        animator.Play("Dash");
+        animator.Play("TornadoStart");
         material.color = Color.cyan;
-        yield return new WaitForSeconds(delay);
-        vfx[3].SetActive(true);
-        vfx[3].GetComponent<ParticleSystem>().Stop();
-        vfx[3].GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(1);
+        animator.Play("TornadoMiddle");
+        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z);
+        tornadoFrom = transform.position;
+        timeBuffer = Time.time;
+        tornadoMove = true;
+        yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
+        tornado = true;
+        transform.position = tornadoDestination;
+        tornadoMove = false;
+        timeBuffer = Time.time;
+        yield return new WaitForSeconds(tornadoDuration);
+        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) + (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
+        tornadoFrom = transform.position;
+        timeBuffer = Time.time;
+        tornadoMove = true;
+        tornado = false;
+        yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
+        animator.Play("TornadoEnd");
+        tornadoMove = false;
+        yield return new WaitForSeconds(2);
+        StartCoroutine(ShootFireworks(2.2f,1.2f,5));
         
-        dashDirection = (PlayerManager.instance.transform.position - transform.position).normalized;
-        dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
-        transform.rotation = Quaternion.LookRotation(dashDirection);
-        material.color = Color.blue;
-        state = 2;
+
     }
     
     public IEnumerator DashRandom(float delay)
@@ -264,7 +269,6 @@ public class BossBehaviour : MonoBehaviour
             Destroy(obj);
         }
         pillars.Clear();
-        StartCoroutine(SpawnRabbits(2.2f,1.2f));
     }
     public IEnumerator Mort(float delay, float delayMort)
     {
@@ -286,33 +290,14 @@ public class BossBehaviour : MonoBehaviour
     }
     public void GetHurt(int damage)
     {
-        if (state == 3)
+        if (hurtVFX != null)
         {
-            if (hurtVFX != null)
-            {
-                hurtVFX.Play();
-            }
-            hurtAnim = true;
-            hurtTime = Time.time;
-            if (phase < 2)
-            {
-                state = 0;
-                StartCoroutine(StandUp(2));
-                phase++;
-                if (phase == 2)
-                {
-                    timeBetweenAttacks = timeBetweenAttackPhaseThree;
-                    shockWaveDuration = shockWaveDuration2;
-                    shockWaveSpeed = shockWaveSpeed3;
-                    walkingSpeed = walkingSpeed3;
-                }
-            }
-            else
-            {
-                state = 0;
-                StartCoroutine(Mort(2, 3));
-            }
+            hurtVFX.Play();
         }
+        hurtAnim = true;
+        hurtTime = Time.time;
+           
+        
     }
 }
 
