@@ -82,7 +82,6 @@ public class Attack : MonoBehaviour
 
         if (knockableObject)
         {
-            CameraShake.Instance.AddShakeEvent(hitShake);
             GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
             Vector3 dir = other.transform.position - PlayerManager.instance.transform.position;
             dir = new Vector3(dir.x, knockableObject.yforce, dir.z).normalized * knockableObject.force;
