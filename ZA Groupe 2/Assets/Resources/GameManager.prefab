@@ -2397,6 +2397,7 @@ GameObject:
   - component: {fileID: 838435004051609742}
   - component: {fileID: 8267530351848828145}
   - component: {fileID: 175150139}
+  - component: {fileID: 3891823597676176637}
   m_Layer: 2
   m_Name: Body
   m_TagString: Player
@@ -2849,6 +2850,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   blinkTime: 0
   blinkAnim: 0
+  gethurtShakePos: {fileID: 0}
+  gethurtShakeRot: {fileID: 0}
 --- !u!114 &838435004051609742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2967,6 +2970,19 @@ MonoBehaviour:
   playerFallTimer: 0
   gravity: 0
   bounceTime: 0
+--- !u!114 &3891823597676176637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616107715539217692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0458f98d9239db44bd2a3e8846129d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  epeeColldier: {fileID: 2413749812354007952}
 --- !u!1 &638164818696122799
 GameObject:
   m_ObjectHideFlags: 0
@@ -13374,6 +13390,7 @@ MonoBehaviour:
   knockbackForce: 3
   scaleTimeDuration: 0
   scaleForce: 0
+  hitShake: {fileID: 0}
 --- !u!65 &2413749812354007952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -51518,7 +51535,7 @@ MonoBehaviour:
   sfxMixer: {fileID: -949029449827080841, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   environmentMixer: {fileID: -1591014527875698147, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   testSoundFeedback: {fileID: 8300000, guid: bbeea7990d9c99649ad774ba891cd5f5, type: 3}
-  parcScene: MAP_Parc final
+  parcScene: AUC_Rearrangement
   dungeonScene: AUC_Manoir
   arcadeScene: Arcade
   menuScene: MAJ_Boss
@@ -51655,6 +51672,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8893414259933154756}
+  - component: {fileID: 7071937728287478664}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -51679,6 +51697,18 @@ Transform:
   m_Father: {fileID: 5391714930685114185}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7071937728287478664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704114524726881248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7161c27073848b54fa7568b83283019f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8844500739162871020
 GameObject:
   m_ObjectHideFlags: 0

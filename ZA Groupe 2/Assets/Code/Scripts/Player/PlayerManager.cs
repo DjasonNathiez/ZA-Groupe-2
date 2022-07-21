@@ -137,8 +137,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
-
-
+    
     #region Private variables
 
     //Movement
@@ -208,9 +207,10 @@ public class PlayerManager : MonoBehaviour
     public float blinkTime;
     public bool blinkAnim;
 
+    [SerializeField] private CameraShakeScriptable gethurtShakePos;
+    [SerializeField] private CameraShakeScriptable gethurtShakeRot;
     #endregion
-
-
+    
     private void Awake()
     {
         #region Singleton
@@ -863,6 +863,10 @@ public class PlayerManager : MonoBehaviour
                 StartCoroutine(InvincibilityFrame());
                 PlaySFX("P_Hurt");
                 hurtVFX.Play();
+                
+                CameraShake.Instance.AddShakeEvent(gethurtShakePos);
+                CameraShake.Instance.AddShakeEvent(gethurtShakeRot);
+                
                 hurtAnim = true;
                 hurtTime = Time.time;
                 blinkTime = Time.time;

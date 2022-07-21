@@ -13,6 +13,9 @@ public class Attack : MonoBehaviour
     public float scaleTimeDuration;
     public float scaleForce;
 
+    public CameraShakeScriptable hitShake;
+    //public CameraShakeScriptable 
+
     private void Awake()
     {
         m_collider = GetComponent<BoxCollider>();
@@ -43,6 +46,7 @@ public class Attack : MonoBehaviour
 
         if (iaBrain && other.CompareTag("HitBox"))
         {
+            CameraShake.Instance.AddShakeEvent(hitShake);
             if (canHurt)
             {
                 GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
@@ -67,6 +71,7 @@ public class Attack : MonoBehaviour
 
         if (bossBehaviour)
         {
+            CameraShake.Instance.AddShakeEvent(hitShake);
             if (canHurt)
             {
                 GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
@@ -77,6 +82,7 @@ public class Attack : MonoBehaviour
 
         if (knockableObject)
         {
+            CameraShake.Instance.AddShakeEvent(hitShake);
             GetComponentInParent<PlayerManager>().PlaySFX("P_AttackHit");
             Vector3 dir = other.transform.position - PlayerManager.instance.transform.position;
             dir = new Vector3(dir.x, knockableObject.yforce, dir.z).normalized * knockableObject.force;
