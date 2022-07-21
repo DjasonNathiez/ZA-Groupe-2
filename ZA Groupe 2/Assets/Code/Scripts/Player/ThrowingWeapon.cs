@@ -13,6 +13,10 @@ public class ThrowingWeapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
+        collisionPoint = other.ClosestPoint(transform.position);
+        var normalPoint = transform.position - collisionPoint;
+        
         if (other.GetComponent<TurretBehaviour>())
         {
             other.GetComponent<TurretBehaviour>().isPin = true;
@@ -52,9 +56,8 @@ public class ThrowingWeapon : MonoBehaviour
                         playerManager.Rewind();
                     }
                 }
-
-                collisionPoint = other.ClosestPoint(transform.position);
-                Destroy(Instantiate(playerManager.throwHit, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
+                
+                Destroy(Instantiate(playerManager.throwHit, collisionPoint, Quaternion.LookRotation(normalPoint)));
                 //PlayerManager.LoadVFX(playerManager.throwHit, other.transform, Quaternion.identity);
             }
             else if (other.CompareTag("UngrippableObject"))
@@ -65,15 +68,14 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<LionBehaviour>())
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
-                    collisionPoint = other.ClosestPoint(transform.position);
-                    Destroy(Instantiate(playerManager.throwHitEnemy, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
+                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint, Quaternion.LookRotation(normalPoint)));
+                    
                     //playerManager.LoadVFX(playerManager.throwHitEnemy, other.transform);
                 }
 
                 if (other.GetComponent<Taupe>())
                 {
-                    collisionPoint = other.ClosestPoint(transform.position);
-                    Destroy(Instantiate(playerManager.throwHitEnemy, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
+                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint, Quaternion.LookRotation(normalPoint)));
                     other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
                     other.GetComponent<Taupe>().TaupeHit();
                 }
@@ -102,10 +104,9 @@ public class ThrowingWeapon : MonoBehaviour
                         playerManager.Rewind();
                     }
                 }
+                
+                Destroy(Instantiate(playerManager.throwHit,collisionPoint, Quaternion.LookRotation(normalPoint)));
             }
-            
-            collisionPoint = other.ClosestPoint(transform.position);
-            Destroy(Instantiate(playerManager.throwHit, -collisionPoint, Quaternion.LookRotation(-collisionPoint)));
         }
     }
 

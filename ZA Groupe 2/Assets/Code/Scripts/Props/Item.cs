@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -17,23 +14,23 @@ public class Item : MonoBehaviour
     public bool goToPos;
     public Vector3 pos;
 
-    public Vector3 possOffset;
+    
+    public Vector3 posOffset;
     private Vector3 tempPos;
     public PnjDialoguesManager PnjDialoguesManager;
 
     void Awake()
     {
-        if(!goToPos) possOffset = transform.position;
-        else possOffset = pos;
-        if(PnjDialoguesManager) PnjDialoguesManager.dialogue[0].positionCamera = possOffset;
+        if(!goToPos) posOffset = transform.position;
+        else posOffset = pos;
+        if(PnjDialoguesManager) PnjDialoguesManager.dialogue[0].positionCamera = posOffset;
     }
 
     private void Update()
     {
         transform.Rotate(new Vector3(0f, Time.unscaledDeltaTime * rotationSpeed, 0f), Space.World);
-        tempPos = possOffset;
+        tempPos = posOffset;
         tempPos.y += Mathf.Sin(Time.fixedUnscaledTime * Mathf.PI * floatSpeed) * amplitude;
-        transform.position = Vector3.Lerp(transform.position, possOffset + Vector3.up * height, 5 * Time.deltaTime);
-
+        transform.position = Vector3.Lerp(transform.position, posOffset + Vector3.up * height, 5 * Time.deltaTime);
     }
 }

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PuzzleBoutton : MonoBehaviour
@@ -8,6 +5,8 @@ public class PuzzleBoutton : MonoBehaviour
     public bool isGripped;
     public bool isActivated;
     public Door door;
+
+    [SerializeField] private CameraShakeScriptable sucessShakeScriptable;
     
     [Header("Enigme Donjon")] 
     public bool isEnigmeLustre;
@@ -23,7 +22,9 @@ public class PuzzleBoutton : MonoBehaviour
         if (isGripped && !isActivated)
         {
             isActivated = true;
+            CameraShake.Instance.AddShakeEvent(sucessShakeScriptable);
             door.keysValid++;
+            //Destroy(this);
         }
     }
 }
