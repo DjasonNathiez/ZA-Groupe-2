@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class BossBehaviour : MonoBehaviour
 {
-    [FormerlySerializedAs("m_state")] [SerializeField]
     public int state;
     [SerializeField] private int phase;
     
@@ -54,14 +53,24 @@ public class BossBehaviour : MonoBehaviour
     public AnimationCurve tornadoMovement;
     public AnimationCurve tornadoforceOverTime;
     public float tornadoforce;
+    public float tornadoAngle = 0;
     public float tornadoDuration;
     public float timeBuffer;
     public bool tornadoMove;
     public bool tornado;
     public Vector3 tornadoDestination;
     public Vector3 tornadoFrom;
+    public float tornadoTimer;
+    public float tornadoDelay;
+    public GameObject bullet;
 
-    
+
+    [Header("JUMP")]
+    public AnimationCurve jumpcurve;
+    public bool jump;
+    public bool jumped;
+    public float yValue;
+
     [Header("VFX")]
     public ParticleSystem hurtVFX;
 
@@ -82,6 +91,7 @@ public class BossBehaviour : MonoBehaviour
             mesh.material = aggroMaterial;
         }
 
+        yValue = transform.position.y;
         cameraController = PlayerManager.instance.cameraController;
         cameraController.playerFocused = false;
     }
@@ -119,8 +129,28 @@ public class BossBehaviour : MonoBehaviour
 
         if (tornado)
         {
-            Vector3 force = (PlayerManager.instance.transform.position - new Vector3(arenaCenter.x, PlayerManager.instance.transform.position.y, arenaCenter.z)).normalized * tornadoforceOverTime.Evaluate((Time.time - timeBuffer)/tornadoDuration);
-            PlayerManager.instance.rb.AddForce(force * tornadoforce,ForceMode.Force);
+            if (tornadoTimer > 0)
+            {
+                tornadoTimer -= Time.deltaTime;
+            }
+            else 
+            {
+                GameObject newBullet = Instantiate(bullet, transform.position + Vector3.down * 2.4f, Quaternion.Euler(90,0,0));
+                newBullet.GetComponent<bulletBehavior>().velocity = Quaternion.Euler(0,tornadoAngle,0) * Vector3.forward;
+                tornadoTimer = tornadoDelay + Random.Range(-tornadoDelay/3,tornadoDelay/3);
+                tornadoAngle += tornadoforce;
+            }
+        }
+
+        if (jump)
+        {
+            transform.position = new Vector3(transform.position.x, jumpcurve.Evaluate(Time.time - timeBuffer) + yValue,transform.position.z);
+
+            if (Time.time - timeBuffer > jumpcurve.keys[1].time && !jumped)
+            {
+                jumped = true;
+                transform.position = new Vector3(PlayerManager.instance.transform.position.x, jumpcurve.keys[1].value + yValue, PlayerManager.instance.transform.position.z);
+            }
         }
         
         
@@ -155,10 +185,10 @@ public class BossBehaviour : MonoBehaviour
         yield return new WaitForSeconds(afterDelay);
         
         fireworks = false;
-        StartCoroutine(Tornado());
+        StartCoroutine(Jump());
     }
 
-    public IEnumerator Tornado()
+    /*public IEnumerator Tornado()
     {
         animator.Play("TornadoStart");
         material.color = Color.cyan;
@@ -174,7 +204,7 @@ public class BossBehaviour : MonoBehaviour
         tornadoMove = false;
         timeBuffer = Time.time;
         yield return new WaitForSeconds(tornadoDuration);
-        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) + (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
+        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) - (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
         tornadoFrom = transform.position;
         timeBuffer = Time.time;
         tornadoMove = true;
@@ -183,25 +213,63 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("TornadoEnd");
         tornadoMove = false;
         yield return new WaitForSeconds(2);
-        StartCoroutine(ShootFireworks(2.2f,1.2f,5));
+        StartCoroutine(Jump());
+        
+
+    }*/
+    
+    public IEnumerator Tornado()
+    {
+        animator.Play("TornadoStart");
+        material.color = Color.cyan;
+        yield return new WaitForSeconds(1);
+        animator.Play("TornadoMiddle");
+        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z);
+        tornadoFrom = transform.position;
+        timeBuffer = Time.time;
+        tornadoMove = true;
+        yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
+        tornado = true;
+        tornadoAngle = Random.Range(0, 360);
+        transform.position = tornadoDestination;
+        tornadoMove = false;
+        timeBuffer = Time.time;
+        yield return new WaitForSeconds(tornadoDuration);
+        tornadoDestination = new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z) - (tornadoFrom - new Vector3(arenaCenter.x,transform.position.y,arenaCenter.z));
+        tornadoFrom = transform.position;
+        timeBuffer = Time.time;
+        tornadoMove = true;
+        tornado = false;
+        yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
+        animator.Play("TornadoEnd");
+        tornadoMove = false;
+        yield return new WaitForSeconds(2);
+        StartCoroutine(Jump());
         
 
     }
     
-    public IEnumerator DashRandom(float delay)
+    public IEnumerator Jump()
     {
-        animator.Play("Dash");
+        animator.Play("Attaque");
         material.color = Color.cyan;
-        yield return new WaitForSeconds(delay);
-        vfx[3].SetActive(true);
-        vfx[3].GetComponent<ParticleSystem>().Stop();
-        vfx[3].GetComponent<ParticleSystem>().Play();
-        
-        dashDirection = Quaternion.AngleAxis(Random.Range(0,360),Vector3.up) * Vector3.forward;
-        dashDirection = new Vector3(dashDirection.x, 0, dashDirection.z);
-        transform.rotation = Quaternion.LookRotation(dashDirection);
+        jump = true;
+        timeBuffer = Time.time;
+        yield return new WaitForSeconds(jumpcurve.keys[jumpcurve.keys.Length - 1].time);
+        jump = false;
+        jumped = false;
+        transform.position = new Vector3(transform.position.x,yValue,transform.position.z);
+        shockWaveGameObject.SetActive(true);
+        shockWaveGameObject.transform.position = transform.position - new Vector3(0,2.64f,0);
+        shockWaveGameObject.transform.localScale = new Vector3(2, 1, 2);
+        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0),quaternion.identity,attackSpawnPlace);
+        attack.transform.SetParent(null);
+        attack.transform.rotation = Quaternion.Euler(-90,0,0);
+        yield return new WaitForSeconds(shockWaveDuration);
+        shockWaveGameObject.SetActive(false);
         material.color = Color.blue;
-        state = 2;
+        StartCoroutine(Tornado());
+        
     }
     
     public IEnumerator ReturnToIddle(float delay)
