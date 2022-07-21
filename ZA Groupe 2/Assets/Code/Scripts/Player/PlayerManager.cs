@@ -188,6 +188,7 @@ public class PlayerManager : MonoBehaviour
     public ParticleSystem rollVFX;
 
     public ParticleSystem throwingVFX;
+    public GameObject heavyVFX;
     public ParticleSystem throwHit;
     public ParticleSystem throwHitEnemy;
 
@@ -275,7 +276,7 @@ public class PlayerManager : MonoBehaviour
         m_speed = moveSpeed;
         m_canRoll = true;
         m_isRolling = false;
-
+        heavyVFX.SetActive(false);
         attackCD = attackAnimClip.length;
 
         //Roll Animation Curve Setup
