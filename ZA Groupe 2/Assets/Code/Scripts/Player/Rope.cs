@@ -46,6 +46,9 @@ public class Rope : MonoBehaviour
     {
         if (!rewinding)
         {
+            
+            CheckDestroyed();
+            
             if (ropeHealth <= 0)
             {
                 ResetPin();
@@ -514,7 +517,7 @@ public class Rope : MonoBehaviour
         }
 
         Destroy(nodes[index].nodePoint);
-        if (nodes[index].anchor.GetComponent<ElectrocutedProp>())
+        if (nodes[index].anchor && nodes[index].anchor.GetComponent<ElectrocutedProp>())
         {
             nodes[index].anchor.GetComponent<ElectrocutedProp>().LightsOff();
 
@@ -583,6 +586,17 @@ public class Rope : MonoBehaviour
                     if(nodes[i].angleBuffer > 0) nodes[i].direction = NodeDirection.NEGATIVE;
                     else nodes[i].direction = NodeDirection.POSITIVE;
                 }
+            }
+        }
+    }
+    
+    public void CheckDestroyed()
+    {
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (!nodes[i].anchor || !nodes[i].nodePoint)
+            {
+                DestroyNode(i);
             }
         }
     }

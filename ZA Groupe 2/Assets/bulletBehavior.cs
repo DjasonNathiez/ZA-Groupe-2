@@ -17,6 +17,7 @@ public class bulletBehavior : MonoBehaviour
     public Vector3 normal;
     public float bounceTime;
     public GameObject vfxImpact;
+    public bool hasBounced;
 
 
     private void Start()
@@ -36,6 +37,7 @@ public class bulletBehavior : MonoBehaviour
             {
                 velocity = Vector3.Reflect(velocity, normal);
                 bounced = true;
+                hasBounced = true;
                 GameObject vfx = Instantiate(vfxImpact, transform.position, quaternion.identity);
                 vfx.transform.LookAt(vfx.transform.position - normal);
                 Destroy(vfx,2);
@@ -75,6 +77,14 @@ public class bulletBehavior : MonoBehaviour
                  other.CompareTag("TractableObject") || other.CompareTag("Ground"))
         {
             Destroy(gameObject);
+        }
+        else if (other.CompareTag("Boss") && hasBounced)
+        {
+            if (other.GetComponent<BossBehaviour>().doingTornado)
+            {
+                other.GetComponent<BossBehaviour>().StartCoroutine(other.GetComponent<BossBehaviour>().Fall(velocity));
+                Destroy(gameObject);   
+            }
         }
     }
 }
