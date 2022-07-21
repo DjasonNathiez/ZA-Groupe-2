@@ -52,15 +52,14 @@ public class BossBehaviour : MonoBehaviour
     public Teleporter teleporter;
     public Transform afterBossPos;
     public PnjDialoguesManager pnjDialoguesManager;
-    public BossRollerCoaster BossRollerCoaster;
+    
+    public CameraController cameraController;
+    public Vector3 arenaCenter;
 
     
     [Header("VFX")]
     public ParticleSystem hurtVFX;
-    
-    [Header("Temp")]
-    [SerializeField] private FollowCurve followCurve;
-    
+
 
     private void Start()
     {
@@ -78,23 +77,33 @@ public class BossBehaviour : MonoBehaviour
         {
             mesh.material = aggroMaterial;
         }
-        
+
+        cameraController = PlayerManager.instance.cameraController;
+        cameraController.playerFocused = false;
     }
 
     void Update()
     {
+        // GESTION DE LA CAMERA AUTOUR DE L'ARENE
+
+        cameraController.cameraPos.transform.rotation = Quaternion.Euler(25,Quaternion.LookRotation(-(PlayerManager.instance.transform.position - arenaCenter)).eulerAngles.y,0);
+        cameraController.cameraPos.transform.position = arenaCenter + (PlayerManager.instance.transform.position - arenaCenter).normalized * 8;
+        cameraController.cameraPos.transform.position = new Vector3(cameraController.cameraPos.transform.position.x, 8.5f, cameraController.cameraPos.transform.position.z);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         switch (state)
         {
             case 0:
                 break;
             case 1:
-                Vector3 forward;
-                if(!followCurve.moving) forward = (PlayerManager.instance.transform.position - transform.position);
-                else forward = (followCurve.transform.position - transform.position);
-                timeStamp -= Time.deltaTime;
-                forward = new Vector3(forward.x, 0, forward.z).normalized * walkingSpeed;
-                rb.velocity = forward;
-                bossDetector.transform.rotation = Quaternion.Lerp(bossDetector.transform.rotation,Quaternion.LookRotation(forward),Time.deltaTime*rotationSpeed);
                 break;
             case 2:
                 rb.velocity = dashDirection * dashingSpeed;
@@ -108,33 +117,8 @@ public class BossBehaviour : MonoBehaviour
             
             timeStamp = timeBetweenAttacks;
 
-            if (!followCurve.moving)
-            {
-                if (!spawnedRabbit)
-                {
-                    state = 0;
-                    spawnedRabbit = true;
-                    StartCoroutine(SpawnRabbits(2.2f,1.20f));
-                }
-                else
-                {
-                    if (Vector3.SqrMagnitude(PlayerManager.instance.transform.position - transform.position) < detectionDist * detectionDist)
-                    {
-                        state = 0;
-                        StartCoroutine(ShockWave(1));
-                    }
-                    else
-                    {
-                        state = 0;
-                        StartCoroutine(Dash(0.2f));
-                    }
-                }   
-            }
-            else
-            {
-                state = 0;
-                StartCoroutine(DashRandom(0.2f));
-            }
+
+
         }
         
         if (hurtAnim)
@@ -159,7 +143,6 @@ public class BossBehaviour : MonoBehaviour
     public IEnumerator SpawnRabbits(float delay,float vfxDelay)
     {
         material.color = Color.cyan;
-        BossRollerCoaster.returning = false;
         animator.Play("Lance-Lapin");
         yield return new WaitForSeconds(vfxDelay);
         vfx[1].SetActive(true);
@@ -253,8 +236,6 @@ public class BossBehaviour : MonoBehaviour
         GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0) + bossDetector.transform.forward*2,quaternion.identity,attackSpawnPlace);
         attack.transform.SetParent(null);
         attack.transform.rotation = Quaternion.Euler(-90,0,0);
-        BossRollerCoaster.returning = true;
-        BossRollerCoaster.materialLight.SetFloat("_flick",0);
         yield return new WaitForSeconds(shockWaveDuration);
         state = 1;
         animator.Play("Marche");
