@@ -99,11 +99,6 @@ public class RabbitBehaviour : AIBrain
                     SetNavPoint();
                     nav.SetDestination(m_pointToGo);
                 }
-                else
-                {
-                    Debug.Log($"{gameObject.name} has not reached point yet");
-                    //Debug.LogWarning("No point available");
-                }
 
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
@@ -115,17 +110,12 @@ public class RabbitBehaviour : AIBrain
                         SetNavPoint();
                         nav.SetDestination(m_pointToGo);
                     }
-                    else Debug.Log($"No wall in front of {gameObject.name}");
                 }
 
                 if (nav.path.status != NavMeshPathStatus.PathComplete)
                 {
                     m_pointToGo = m_originPoint;
                     nav.SetDestination(m_pointToGo);
-                }
-                else
-                {
-                    Debug.Log($"{gameObject.name} should be moving");
                 }
 
                 // Aggro Idle
@@ -135,10 +125,6 @@ public class RabbitBehaviour : AIBrain
                     {
                         if (!isAggro) SwitchState(StateMachine.CHASE);
                     }
-                }
-                else
-                {
-                    Debug.Log($"{gameObject.name} stays in Idle state");
                 }
 
                 break;

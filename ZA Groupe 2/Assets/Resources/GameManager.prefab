@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &96257915
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39,7 +39,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -312}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 1414.7649, y: 220.55951}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &96257917
@@ -2878,6 +2878,7 @@ MonoBehaviour:
   hurtVFX: {fileID: 6484041033361083166}
   rollVFX: {fileID: 1360612950402948632}
   throwingVFX: {fileID: 9040208684234358838}
+  heavyVFX: {fileID: 0}
   throwHit: {fileID: 4675177734288462444, guid: c3bd507db335ec74f9274ae1e7b3258c, type: 3}
   throwHitEnemy: {fileID: 1207144114921188923, guid: 8c3aa7d51a8a3514590e3b36408fd483, type: 3}
   collectVFX: {fileID: 8475108428341029526}
@@ -3060,6 +3061,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   memoryTemp: 0
+  holdCrateShake: {fileID: 0}
 --- !u!54 &8267530351848828145
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11615,7 +11617,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!1 &2658445045468702952
 GameObject:
@@ -49869,7 +49871,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!1 &7548768396289227713
 GameObject:
@@ -57126,7 +57128,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!1001 &3713399853454731773
 PrefabInstance:
@@ -57319,7 +57321,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!4 &6468526336546762281 stripped
 Transform:
@@ -57525,7 +57527,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!4 &8652828068030502191 stripped
 Transform:
@@ -58442,7 +58444,7 @@ MonoBehaviour:
   height: 0
   goToPos: 0
   pos: {x: 0, y: 0, z: 0}
-  possOffset: {x: 0, y: 0, z: 0}
+  posOffset: {x: 0, y: 0, z: 0}
   PnjDialoguesManager: {fileID: 0}
 --- !u!4 &2972357788486840636 stripped
 Transform:

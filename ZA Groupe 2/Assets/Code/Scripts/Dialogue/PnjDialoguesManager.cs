@@ -50,7 +50,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
-                if (!dialogue[0].cinematicAngleOnly) dialogueBox.transform.position = new Vector3(960, 18, 0);
+                if (!dialogue[0].cinematicAngleOnly) dialogueBox.SetActive(true); //dialogueBox.transform.position = new Vector3(960, 18, 0);
                 textEffectManager.ShowText();
                 if (dialogue[0].modifyCameraPosition)
                 {
@@ -83,13 +83,13 @@ public class PnjDialoguesManager : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        
         if(!textEffectManager.isDialoguing && other.CompareTag("Player") && !automatic && !noTrigger)
         {
             if (PlayerManager.instance.buttonAPressed && !check && timer == 0)
             {
                 GameManager.instance.DisableAllEnemy();
-                dialogueBox.transform.position = new Vector3(960, 18, 0);
+                dialogueBox.SetActive(true);
+                //dialogueBox.transform.position = new Vector3(960, 18, 0);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
                 GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
@@ -126,8 +126,9 @@ public class PnjDialoguesManager : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isDialoguing)
         {
-            
-                dialogueBox.transform.position = new Vector3(960, -320, 0);
+                            dialogueBox.SetActive(false);
+
+                //dialogueBox.transform.position = new Vector3(960, -320, 0);
                 if (button) button.SetActive(false);
                 textEffectManager.isDialoguing = false;
                 isDialoguing = false;
@@ -170,7 +171,9 @@ public class PnjDialoguesManager : MonoBehaviour
                             {
                                 StartCoroutine(GameManager.instance.LoadEndCinematic());
                             }
-                            dialogueBox.transform.position = new Vector3(960, -320, 0);
+                                            dialogueBox.SetActive(false);
+
+                            //dialogueBox.transform.position = new Vector3(960, -320, 0);
                             textEffectManager.isDialoguing = false;
                             isDialoguing = false;
                             afterText = true;
@@ -214,11 +217,15 @@ public class PnjDialoguesManager : MonoBehaviour
                             if (dialogue[textEffectManager.dialogueIndex].toActivate) dialogue[textEffectManager.dialogueIndex].toActivate.SetActive(!dialogue[textEffectManager.dialogueIndex].toActivate.activeSelf);
                             if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                             {
-                                dialogueBox.transform.position = new Vector3(960, -320, 0);
+                                            dialogueBox.SetActive(false);
+
+                                //dialogueBox.transform.position = new Vector3(960, -320, 0);
                             }
                             else
                             {
-                                dialogueBox.transform.position = new Vector3(960, 18, 0);
+                                            dialogueBox.SetActive(true);
+
+                                //dialogueBox.transform.position = new Vector3(960, 18, 0);
                             }
                             if (dialogue[textEffectManager.dialogueIndex].durationIfAuto != 0)
                             {
@@ -253,7 +260,9 @@ public class PnjDialoguesManager : MonoBehaviour
                     if (textEffectManager.dialogueIndex == dialogue.Length - 1)
                     {
                         GameManager.instance.EnableAllEnemy();
-                        dialogueBox.transform.position = new Vector3(960, -320, 0);
+                                        dialogueBox.SetActive(false);
+
+                        //dialogueBox.transform.position = new Vector3(960, -320, 0);
                         textEffectManager.isDialoguing = false;
                         isDialoguing = false;
                         cameraController.playerFocused = true;
@@ -300,11 +309,15 @@ public class PnjDialoguesManager : MonoBehaviour
                         }
                         if (dialogue[textEffectManager.dialogueIndex].cinematicAngleOnly)
                         {
-                            dialogueBox.transform.position = new Vector3(960, -320, 0);
+                                        dialogueBox.SetActive(false);
+
+                            //dialogueBox.transform.position = new Vector3(960, -320, 0);
                         }
                         else
                         {
-                            dialogueBox.transform.position = new Vector3(960, 18, 0);
+                                        dialogueBox.SetActive(true);
+
+                            //dialogueBox.transform.position = new Vector3(960, 18, 0);
                         }
                     }
                 }
@@ -341,7 +354,7 @@ public class PnjDialoguesManager : MonoBehaviour
         isDialoguing = true;
         textEffectManager.dialogueIndex = 0;
         textEffectManager.dialogue = dialogue;
-        if (!dialogue[0].cinematicAngleOnly) dialogueBox.transform.position = new Vector3(960, 18, 0);
+        if (!dialogue[0].cinematicAngleOnly) dialogueBox.SetActive(true); //dialogueBox.transform.position = new Vector3(960, 18, 0);
         textEffectManager.ShowText();
         if (dialogue[0].modifyCameraPosition)
         {
