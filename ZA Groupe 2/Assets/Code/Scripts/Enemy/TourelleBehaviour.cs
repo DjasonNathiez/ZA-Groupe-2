@@ -155,10 +155,20 @@ public class TourelleBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet") && !isInvincible)
+        if (other.CompareTag("Bullet"))
         {
+            if (isInvincible)
+            {
+                OnInvincibleTourelleHit();
+                return;
+            }
             SwitchState(TourelleState.Destroy);
         }
+    }
+
+    private void OnInvincibleTourelleHit()
+    {
+        // Feedback 
     }
 
     private void OnDrawGizmos()
