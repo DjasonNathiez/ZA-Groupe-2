@@ -31,6 +31,8 @@ public class RabbitBehaviour : AIBrain
     public ParticleSystem chaseSurprise;
     public ParticleSystem chaseMangaAngry;
 
+    private bool isInitialized = false;
+
     #endregion
 
     void Start()
@@ -39,6 +41,8 @@ public class RabbitBehaviour : AIBrain
         m_originPoint = transform.position;
         
         InitializationData();
+
+        isInitialized = true;
 
         SwitchState(StateMachine.IDLE);
     }
@@ -208,7 +212,8 @@ public class RabbitBehaviour : AIBrain
     public override void Enable()
     {
         base.Enable();
-        m_pointToGo = m_originPoint;
+        if (!isInitialized) return;
+        SwitchState(StateMachine.IDLE);
     }
 
     private void SetNavPoint()
