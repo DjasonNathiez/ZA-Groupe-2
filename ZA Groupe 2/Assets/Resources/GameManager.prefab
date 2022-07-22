@@ -56241,7 +56241,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5391714930685114185}
   - component: {fileID: 1021111764}
-  - component: {fileID: 3713399854134550597}
   - component: {fileID: 5784857826028382169}
   - component: {fileID: 8191189187162273224}
   m_Layer: 0
@@ -56333,10 +56332,10 @@ MonoBehaviour:
   sfxMixer: {fileID: -949029449827080841, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   environmentMixer: {fileID: -1591014527875698147, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   testSoundFeedback: {fileID: 8300000, guid: bbeea7990d9c99649ad774ba891cd5f5, type: 3}
-  parcScene: AUC_Rearrangement
-  dungeonScene: AUC_Manoir
+  parcScene: Map_Parc_Build
+  dungeonScene: Map_Manoir_Build
   arcadeScene: Arcade
-  menuScene: MAJ_Boss
+  menuScene: Menu_Principal
   dungeonEnded: 0
   lastCheckpoint: {fileID: 0}
   lastCheckpointName: 
@@ -56391,22 +56390,6 @@ MonoBehaviour:
   firstCinematic: {fileID: 403374188283464434}
   lastCinematic: {fileID: 1095639544208407986}
   playingCinematic: {fileID: 0}
---- !u!114 &3713399854134550597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8700598526175036907}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8710f57e05345847937ad659713f8ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _separator: ;
-  _addSeparatorMetaData: 0
-  _printSavePathToConsole: 1
-  _runRecorderInEditor: 1
 --- !u!114 &5784857826028382169
 MonoBehaviour:
   m_ObjectHideFlags: 0
