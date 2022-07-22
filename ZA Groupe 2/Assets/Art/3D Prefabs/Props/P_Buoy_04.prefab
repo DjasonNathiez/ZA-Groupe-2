@@ -14,9 +14,10 @@ GameObject:
   - component: {fileID: 6529171136801202144}
   - component: {fileID: 151321715987319390}
   - component: {fileID: 6369973292599670575}
+  - component: {fileID: 8678541147412523825}
   m_Layer: 0
   m_Name: P_Buoy_04
-  m_TagString: UngrippableObject
+  m_TagString: TractableObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 151321715987319390}
-  force: 8
+  force: 5
   yforce: 2
   isHit: 0
   popcornInterior: {fileID: 0}
@@ -133,3 +134,27 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 905485977951547768, guid: f9439fb6069f7164aaa855b176cdb4b7, type: 3}
+--- !u!114 &8678541147412523825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747141759596945742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e5a6ca46b8034a43a93fe76ab69d15e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 0
+  canActivatePressurePlate: 0
+  canBePropulsed: 0
+  weightClass: 1
+  meshRenderer: {fileID: 0}
+  posCam: {x: 0, y: 0, z: 0}
+  rotCam: {x: 0, y: 0, z: 0}
+  zoomCam: 0
+  moveCam: 0
+  constraints: 0
+  splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
