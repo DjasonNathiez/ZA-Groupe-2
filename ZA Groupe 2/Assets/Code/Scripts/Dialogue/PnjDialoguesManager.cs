@@ -69,7 +69,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         if (dialogue[0].animations[i])
                             dialogue[0].animations[i]
                                 .Play(dialogue[0].clips[i]);
-                        else GetComponent<Animation>().Play(dialogue[0].clips[i]);
+                        else animation.Play(dialogue[0].clips[i]);
                     }
                 }
                 if (dialogue[0].durationIfAuto != 0)

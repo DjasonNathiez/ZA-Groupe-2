@@ -282,22 +282,10 @@ public class PlayerManager : MonoBehaviour
         //Roll Animation Curve Setup
         rollAnimationCurve.keys[rollAnimationCurve.length - 1].time = rollAnimClip.length;
         m_acTimer = rollAnimationCurve.keys[rollAnimationCurve.length - 1].time;
-        StartCoroutine(RadarEventTimer());
-
 
         if (GameManager.instance) GameManager.instance.ui.UpdateHat();
     }
-
-    //GameStats
-    IEnumerator RadarEventTimer()
-    {
-        GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "PlayerRadar"));
-
-        yield return new WaitForSeconds(1f);
-
-        StartCoroutine(RadarEventTimer());
-    }
-
+    
     private void Update()
     {
         if (storyState == 1 && !GameManager.instance.dungeonEnded)
@@ -620,9 +608,7 @@ public class PlayerManager : MonoBehaviour
                 m_attack.isAttacking = true;
                 m_attack.m_collider.enabled = true;
                 m_attack.canHurt = true;
-
-                GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "attack"));
-
+                
                 SetAttackCD();
 
                 m_animator.SetFloat(AttackSpeed, attackSpeed);
@@ -786,7 +772,6 @@ public class PlayerManager : MonoBehaviour
             {
                 if (m_canRoll)
                 {
-                    GameStatsRecorder.Instance.RegisterEvent(new GameStatsLineTemplate(transform.position, "roll"));
                     rollVFX.Play();
                     PlaySFX("P_Roll");
                     isRolling = true;
