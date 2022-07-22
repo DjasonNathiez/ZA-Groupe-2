@@ -598,6 +598,15 @@ public class Rope : MonoBehaviour
             {
                 DestroyNode(i);
             }
+            else if(!nodes[i].anchor.activeSelf)
+            {
+                DestroyNode(i);
+            }
+        }
+
+        if (pinnedTo && !pinnedTo.activeSelf)
+        {
+            rewinding = true;
         }
     }
 
