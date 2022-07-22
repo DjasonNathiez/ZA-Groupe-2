@@ -52,12 +52,8 @@ public class MovingPressurePlate : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         switch (isLeftPlate)
         {
-            case true:
-                _isMovingLeft = true;
-                break;
-            case false:
-                _isMovingRight = true;
-                break;
+            case true: _isMovingLeft = true; break;
+            case false: _isMovingRight = true; break;
         }
         material.material = isActivate;
     }
@@ -67,12 +63,8 @@ public class MovingPressurePlate : MonoBehaviour
         if (!other.CompareTag("Player")) return;
         switch (isLeftPlate)
         {
-            case true:
-                _isMovingLeft = false;
-                break;
-            case false:
-                _isMovingRight = false;
-                break;
+            case true: _isMovingLeft = false; break;
+            case false: _isMovingRight = false; break;
         }
         material.material = isNopeActivate;
     }
