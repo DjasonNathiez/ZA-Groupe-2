@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,10 +23,10 @@ public class changeScene : MonoBehaviour
 
     public IEnumerator ChangeScene()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Parc"))
-        {
-            DATA_LOAD.instance.SaveData();
-        }
+        //if (SceneManager.GetActiveScene().name.Contains("Parc"))
+        //{
+        //    DATA_LOAD.instance.SaveData();
+        //}
 
         GameManager.instance.transitionOff = false;
         yield return new WaitForSeconds(timeBeforeTimeBeforeSceneChange);
