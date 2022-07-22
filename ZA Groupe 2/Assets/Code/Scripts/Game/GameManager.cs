@@ -15,14 +15,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [Header("Game")] 
-    public bool isStartGM;
+    [Header("Game")] public bool isStartGM;
     public GameObject player;
     private PlayerManager m_playerManager;
     public new GameObject camera;
-    
-    [Header("UI")]
-    public UIManager ui;
+
+    [Header("UI")] public UIManager ui;
     public GameObject pauseMenu;
     public bool inPause;
     public GameObject pauseFirstSelectedButton;
@@ -37,16 +35,16 @@ public class GameManager : MonoBehaviour
     public bool transitionOff;
     public GameObject loading;
     public UIText[] uiTexts;
-    
-    [Serializable] public struct UIText
+
+    [Serializable]
+    public struct UIText
     {
         public string frenchText;
         public string englishText;
         public TextMeshProUGUI uiTMP;
     }
 
-    [Header("Sound")] 
-    public Slider mainSlider;
+    [Header("Sound")] public Slider mainSlider;
     public Slider musicSlider;
     public Slider environmentSlider;
     public Slider sfxSlider;
@@ -56,9 +54,8 @@ public class GameManager : MonoBehaviour
     public AudioMixerGroup environmentMixer;
     public AudioClip testSoundFeedback;
     private bool isMute;
-    
-    [Header("Level")]
-    public string parcScene;
+
+    [Header("Level")] public string parcScene;
     public string dungeonScene;
     public string arcadeScene;
     public string menuScene;
@@ -70,37 +67,35 @@ public class GameManager : MonoBehaviour
     public List<ValueTrack> grippableObj;
     public ArenaParc arenaParc;
 
-    [Header("Debug Menu")]
-    public TrelloUI bugtracker;
+    [Header("Debug Menu")] public TrelloUI bugtracker;
     public GameObject playtestMenu;
     public GameObject fpsCounter;
     public InputAction inputDisplayFPS;
 
-    [Header("Loot Table")] 
-    public ItemData[] items;
+    [Header("Loot Table")] public ItemData[] items;
 
     [Serializable]
-        public struct ItemData
-        {
-            public GameObject prefab;
-            
-            public string itemName;
-            public float valuePercentage;
-            public AffectedValue affectedValue;
-            public enum AffectedValue
-            {
-                HEALTH,
-                ROPE
-            }
-        }
+    public struct ItemData
+    {
+        public GameObject prefab;
 
-        [Header("Cinematics")] 
-        public InputAction skipCinematic;
-        public VideoPlayer firstCinematic;
-        public VideoPlayer lastCinematic;
-        public VideoPlayer playingCinematic;
-        private bool isSkipping;
-    
+        public string itemName;
+        public float valuePercentage;
+        public AffectedValue affectedValue;
+
+        public enum AffectedValue
+        {
+            HEALTH,
+            ROPE
+        }
+    }
+
+    [Header("Cinematics")] public InputAction skipCinematic;
+    public VideoPlayer firstCinematic;
+    public VideoPlayer lastCinematic;
+    public VideoPlayer playingCinematic;
+    private bool isSkipping;
+
     private void Awake()
     {
         Initialize();
@@ -126,18 +121,18 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
-       
+
         CheckScene();
-        
+
         UpdateUILanguage();
-        
+
         allCheckpoint = FindObjectsOfType<Checkpoint>();
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
 
         if (SceneManager.GetActiveScene().ToString() == GameManager.instance.parcScene)
             GetComponent<KonamiCode>().enabled = true;
-        
+
         Cursor.lockState = CursorLockMode.Confined;
 
         SoundManager.AudioMixer = mainMixer;
@@ -172,12 +167,12 @@ public class GameManager : MonoBehaviour
     {
         if (inputDisplayFPS.triggered) fpsCounter.SetActive(!fpsCounter.activeSelf);
         if (skipCinematic.triggered) SkipCinematic();
-        
+
         if (transitionOff)
         {
             if (timertransition > 0)
             {
-                transition.SetFloat("_Scale",Mathf.Lerp(0,7,timertransition/delaytransition));
+                transition.SetFloat("_Scale", Mathf.Lerp(0, 7, timertransition / delaytransition));
                 timertransition -= Time.deltaTime;
             }
             else
@@ -188,12 +183,13 @@ public class GameManager : MonoBehaviour
                 transitionOff = false;
             }
         }
+
         if (transitionOn)
         {
             if (timertransition > 0)
             {
                 loading.SetActive(false);
-                transition.SetFloat("_Scale",Mathf.Lerp(7,0,timertransition/delaytransition));
+                transition.SetFloat("_Scale", Mathf.Lerp(7, 0, timertransition / delaytransition));
                 timertransition -= Time.deltaTime;
             }
             else
@@ -203,6 +199,38 @@ public class GameManager : MonoBehaviour
                 transitionOn = false;
             }
         }
+
+        #region Vibrations
+
+        if (Time.time > rumbleDuration)
+        {
+            StopRumble();
+            return;
+        }
+
+        var gamepad = GetGamepad();
+        if (gamepad == null) return;
+
+        switch (activeRumblePattern)
+        {
+            case RumblePattern.Constant:
+                gamepad.SetMotorSpeeds(lowA, highA);
+                break;
+            case RumblePattern.Pulse:
+                if (Time.time > pulseDuration)
+                {
+                    isMotorActive = !isMotorActive;
+                    pulseDuration = Time.time + rumbleStep;
+                    if (!isMotorActive) gamepad.SetMotorSpeeds(0, 0);
+                    else gamepad.SetMotorSpeeds(lowA, highA);
+                }
+
+                break;
+
+            default: break;
+        }
+
+        #endregion
     }
 
     public void EnableAllEnemy()
@@ -212,7 +240,7 @@ public class GameManager : MonoBehaviour
             a.Enable();
         }
     }
-    
+
     public void DisableAllEnemy()
     {
         foreach (AIBrain a in enemyList)
@@ -233,14 +261,13 @@ public class GameManager : MonoBehaviour
                     case DATA_SETTINGS.LANGUAGE.FRENCH:
                         uiText.uiTMP.text = uiText.frenchText;
                         break;
-            
+
                     case DATA_SETTINGS.LANGUAGE.ENGLISH:
                         uiText.uiTMP.text = uiText.englishText;
                         break;
                 }
             }
         }
-        
     }
 
     public void DropItem(string item, Transform dropPosition)
@@ -249,30 +276,31 @@ public class GameManager : MonoBehaviour
         {
             if (i.itemName == item)
             {
-               GameObject newItem = Instantiate(i.prefab , dropPosition.position, Quaternion.identity);
+                GameObject newItem = Instantiate(i.prefab, dropPosition.position, Quaternion.identity);
 
-               newItem.transform.position = new Vector3(newItem.transform.position.x, newItem.transform.position.y + 1f, newItem.transform.position.z);
-               
-               newItem.AddComponent<Item>();
-               
-               //newItem.AddComponent<Rigidbody>();
-               //newItem.GetComponent<Rigidbody>().AddForce(newItem.transform.position * 2f, ForceMode.Impulse);
-               
-               var newItemProps = newItem.GetComponent<Item>();
-               
-               newItemProps.itemName = i.itemName;
-               newItemProps.valuePercentage = i.valuePercentage;
-               
-               switch (i.affectedValue)
-               {
-                   case ItemData.AffectedValue.ROPE:
-                       newItemProps.affectedValue = "Rope";
-                       break;
-                   
-                   case ItemData.AffectedValue.HEALTH:
-                       newItemProps.affectedValue = "Health";
-                       break;
-               }
+                newItem.transform.position = new Vector3(newItem.transform.position.x,
+                    newItem.transform.position.y + 1f, newItem.transform.position.z);
+
+                newItem.AddComponent<Item>();
+
+                //newItem.AddComponent<Rigidbody>();
+                //newItem.GetComponent<Rigidbody>().AddForce(newItem.transform.position * 2f, ForceMode.Impulse);
+
+                var newItemProps = newItem.GetComponent<Item>();
+
+                newItemProps.itemName = i.itemName;
+                newItemProps.valuePercentage = i.valuePercentage;
+
+                switch (i.affectedValue)
+                {
+                    case ItemData.AffectedValue.ROPE:
+                        newItemProps.affectedValue = "Rope";
+                        break;
+
+                    case ItemData.AffectedValue.HEALTH:
+                        newItemProps.affectedValue = "Health";
+                        break;
+                }
             }
         }
     }
@@ -281,29 +309,33 @@ public class GameManager : MonoBehaviour
     {
         switch (panelValue)
         {
-            case "Collection": collectionPanel.SetActive(true);
+            case "Collection":
+                collectionPanel.SetActive(true);
 
                 characterPanel.SetActive(false);
                 settingsPanel.SetActive(false);
                 playtestMenu.SetActive(false);
                 break;
-            
-            case "Character": characterPanel.SetActive(true);
+
+            case "Character":
+                characterPanel.SetActive(true);
 
                 collectionPanel.SetActive(false);
                 settingsPanel.SetActive(false);
                 playtestMenu.SetActive(false);
                 break;
-            
-            case "Settings": settingsPanel.SetActive(true);
+
+            case "Settings":
+                settingsPanel.SetActive(true);
                 currentTab = settingsPanel;
-                
+
                 collectionPanel.SetActive(false);
                 characterPanel.SetActive(false);
                 playtestMenu.SetActive(false);
                 break;
-            
-            case "Debug": playtestMenu.SetActive(true);
+
+            case "Debug":
+                playtestMenu.SetActive(true);
 
                 collectionPanel.SetActive(false);
                 settingsPanel.SetActive(false);
@@ -324,7 +356,7 @@ public class GameManager : MonoBehaviour
     {
         currentTab = settingsPanel;
     }
-    
+
     public void OpenBugTrackerPanel(bool isOpen)
     {
         bugtracker.reportPanel.SetActive(isOpen);
@@ -342,7 +374,7 @@ public class GameManager : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1;
-        
+
         characterPanel.SetActive(false);
         settingsPanel.SetActive(false);
         playtestMenu.SetActive(false);
@@ -350,7 +382,6 @@ public class GameManager : MonoBehaviour
 
         ui.hudParent.SetActive(true);
         pauseMenu.SetActive(false);
-        
     }
 
     private void InitializeGame()
@@ -364,23 +395,22 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         playingCinematic.Stop();
-        SceneManager.LoadScene(sceneName); 
+        SceneManager.LoadScene(sceneName);
     }
 
     public void ApplicationQuit()
     {
         Application.Quit();
     }
-    
+
     public void CheckScene()
     {
-        
         if (SceneManager.GetActiveScene().name == "Menu_Principal")
         {
             ui.hudParent.SetActive(false);
             player.SetActive(false);
         }
-        
+
         if (SceneManager.GetActiveScene().name == parcScene)
         {
             AudioManager.instance.SetMusic(dungeonEnded ? "Parc_2" : "Parc_1");
@@ -406,7 +436,6 @@ public class GameManager : MonoBehaviour
             SoundManager.PlayFx(AudioManager.instance.voices[i].clip, AudioManager.instance.voices[i].volume);
             yield return new WaitForSeconds(0.12f);
         }
-       
     }
 
     #region SETTINGS MENU
@@ -472,17 +501,16 @@ public class GameManager : MonoBehaviour
                 case "French":
                     DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.FRENCH;
                     break;
-            
+
                 case "English":
                     DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.ENGLISH;
                     break;
             }
-        
+
             UpdateUILanguage();
         }
-        
     }
-    
+
     public IEnumerator LoadFirstCinematic()
     {
         SoundManager.StopAll();
@@ -492,7 +520,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil((() => !firstCinematic.isPlaying));
         StartCoroutine(LoadScene(parcScene));
     }
-    
+
     public IEnumerator LoadEndCinematic()
     {
         ui.hudParent.SetActive(false);
@@ -510,7 +538,7 @@ public class GameManager : MonoBehaviour
         {
             playingCinematic.Pause();
             transitionOff = true;
-            
+
             if (playingCinematic == firstCinematic)
             {
                 StopCoroutine(LoadFirstCinematic());
@@ -527,6 +555,76 @@ public class GameManager : MonoBehaviour
                 isSkipping = true;
             }
         }
-       
     }
+
+    #region Vibrations
+
+    public enum RumblePattern
+    {
+        Constant,
+        Pulse
+    }
+
+    private RumblePattern activeRumblePattern;
+    private float rumbleDuration;
+    private float pulseDuration;
+    private float lowA;
+    private float highA;
+    private float rumbleStep;
+    private bool isMotorActive;
+    private bool isRumbling;
+
+
+    public void RumbleConstant(float low, float high, float duration)
+    {
+        if (isRumbling) return;
+
+        isRumbling = true;
+        activeRumblePattern = RumblePattern.Constant;
+        lowA = low;
+        highA = high;
+        rumbleDuration = Time.time + duration;
+    }
+
+
+    public void RumblePulse(float low, float high, float burstTime, float duration)
+    {
+        if (isRumbling) return;
+
+        isRumbling = true;
+        activeRumblePattern = RumblePattern.Pulse;
+
+        lowA = low;
+        highA = high;
+
+        rumbleStep = burstTime;
+        pulseDuration = Time.time + burstTime;
+        rumbleDuration = Time.time + duration;
+
+        isMotorActive = true;
+
+        var g = GetGamepad();
+        g?.SetMotorSpeeds(lowA, highA);
+    }
+
+    public void StopRumble()
+    {
+        var gamepad = GetGamepad();
+        if (gamepad == null) return;
+        gamepad.SetMotorSpeeds(0, 0);
+        isRumbling = false;
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        StopRumble();
+    }
+
+    private Gamepad GetGamepad()
+    {
+        return Gamepad.current;
+    }
+
+    #endregion
 }
