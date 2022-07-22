@@ -457,7 +457,7 @@ public class PlayerManager : MonoBehaviour
 
                     ValueTrack nearest = null;
                     float angle = aimHelpAngle;
-                    Vector2 test = Vector2.Perpendicular(m_inputController.Player.Move.ReadValue<Vector2>()) +
+                    Vector2 test = Quaternion.Euler(0, 0, -cameraController.transform.eulerAngles.y) *
                                    m_inputController.Player.Move.ReadValue<Vector2>();
                     foreach (ValueTrack obj in reachable)
                     {

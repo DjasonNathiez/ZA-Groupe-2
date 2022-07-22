@@ -32,6 +32,7 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private bool movePlayer;
     [SerializeField] private Teleporter teleporter;
     [SerializeField] private bool cinematik;
+    public bool dialogueEnded;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -151,6 +152,7 @@ public class PnjDialoguesManager : MonoBehaviour
             {
                 PlayerManager.instance.ExitDialogue();
                 liberated = true;
+                dialogueEnded = true;
                 if(animation) animation.Play("portalAnim");
             }
         }
@@ -182,7 +184,11 @@ public class PnjDialoguesManager : MonoBehaviour
                             cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
                             cameraController.cameraZoom = 8.22f;
                             cameraController.panSpeed = 0.5f;
-                            if (!liberateAfter) PlayerManager.instance.ExitDialogue();
+                            if (!liberateAfter)
+                            {
+                                PlayerManager.instance.ExitDialogue();
+                                dialogueEnded = true;
+                            }
                             else
                             {
                                 timerLiberate = 2;
@@ -270,6 +276,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         cameraController.cameraZoom = 8.22f;
                         cameraController.panSpeed = 0.5f;
                         PlayerManager.instance.ExitDialogue();
+                        dialogueEnded = true;
                         if (oneTimeDialogue)
                         {
                             if (GetComponent<Collider>())
