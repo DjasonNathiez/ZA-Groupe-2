@@ -481,6 +481,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717921596132365
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,6 +651,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717921890668422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3280,103 +3282,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &5422717922191371394
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5422717922191371395}
-  - component: {fileID: 5422717922191371406}
-  - component: {fileID: 5422717922191371393}
-  - component: {fileID: 5422717922191371392}
-  m_Layer: 0
-  m_Name: Ground_07 (224)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &5422717922191371395
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5422717922191371394}
-  m_LocalRotation: {x: -0, y: 0.38268346, z: -0, w: 0.9238796}
-  m_LocalPosition: {x: 15.353493, y: 1.6095002, z: 65.63205}
-  m_LocalScale: {x: 8.953921, y: 3, z: 17.644583}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5422717922458929740}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!33 &5422717922191371406
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5422717922191371394}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5422717922191371393
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5422717922191371394}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: d545e1f21b8964242a3f154c9d446c98, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5422717922191371392
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5422717922191371394}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5422717922196229511
 GameObject:
   m_ObjectHideFlags: 0
@@ -8900,6 +8805,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922239038474
 GameObject:
   m_ObjectHideFlags: 0
@@ -9630,6 +9536,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922428273534
 GameObject:
   m_ObjectHideFlags: 0
@@ -9883,6 +9790,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922456499611
 GameObject:
   m_ObjectHideFlags: 0
@@ -10040,7 +9948,6 @@ Transform:
   - {fileID: 5422717922008377849}
   - {fileID: 5422717922829772974}
   - {fileID: 5422717922926248308}
-  - {fileID: 5422717922191371395}
   m_Father: {fileID: 5422717922094696917}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10213,6 +10120,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922593477307
 GameObject:
   m_ObjectHideFlags: 0
@@ -10382,6 +10290,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922642040821
 GameObject:
   m_ObjectHideFlags: 0
@@ -10714,6 +10623,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717922823029484
 GameObject:
   m_ObjectHideFlags: 0
@@ -10856,8 +10766,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5422717922829772961}
   m_LocalRotation: {x: -0, y: -0.9238794, z: -0, w: 0.3826839}
-  m_LocalPosition: {x: 8.448502, y: 1.6094983, z: 78.410706}
-  m_LocalScale: {x: 18.882954, y: 3, z: 9.337984}
+  m_LocalPosition: {x: 8.757768, y: 1.6095015, z: 78.465454}
+  m_LocalScale: {x: 19.224735, y: 3, z: 9.337984}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5422717922458929740}
@@ -11308,6 +11218,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717923054545941
 GameObject:
   m_ObjectHideFlags: 0
@@ -13701,6 +13612,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717923304510554
 GameObject:
   m_ObjectHideFlags: 0
@@ -13839,6 +13751,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717923360085791
 GameObject:
   m_ObjectHideFlags: 0
@@ -14526,6 +14439,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717923425813587
 GameObject:
   m_ObjectHideFlags: 0
@@ -22021,6 +21935,7 @@ MonoBehaviour:
   moveCam: 0
   constraints: 0
   splashVFX: {fileID: 0}
+  trailVFX: {fileID: 0}
 --- !u!1 &5422717923566683828
 GameObject:
   m_ObjectHideFlags: 0
