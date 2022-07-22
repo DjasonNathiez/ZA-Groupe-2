@@ -9,14 +9,12 @@ public class ThrowingWeapon : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     private Vector3 collisionPoint;
     public Transform grip;
-    
 
     private void OnTriggerEnter(Collider other)
     {
-
         collisionPoint = other.ClosestPoint(transform.position);
         var normalPoint = transform.position - collisionPoint;
-        
+
         if (other.GetComponent<TurretBehaviour>())
         {
             other.GetComponent<TurretBehaviour>().isPin = true;
@@ -57,8 +55,8 @@ public class ThrowingWeapon : MonoBehaviour
                     }
                 }
                 
-                Destroy(Instantiate(playerManager.throwHit, collisionPoint, Quaternion.LookRotation(normalPoint)));
-                //PlayerManager.LoadVFX(playerManager.throwHit, other.transform, Quaternion.identity);
+                GameManager.instance.RumbleConstant(.15f, .2f, .2f);
+                Destroy(Instantiate(playerManager.throwHit, collisionPoint, Quaternion.LookRotation(normalPoint)), 3f);
             }
             else if (other.CompareTag("UngrippableObject"))
             {
@@ -68,14 +66,14 @@ public class ThrowingWeapon : MonoBehaviour
                 if (other.GetComponent<LionBehaviour>())
                 {
                     other.GetComponent<LionBehaviour>().StopCounterState();
-                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint, Quaternion.LookRotation(normalPoint)));
-                    
-                    //playerManager.LoadVFX(playerManager.throwHitEnemy, other.transform);
+                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint,
+                        Quaternion.LookRotation(normalPoint)));
                 }
 
                 if (other.GetComponent<Taupe>())
                 {
-                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint, Quaternion.LookRotation(normalPoint)));
+                    Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint,
+                        Quaternion.LookRotation(normalPoint)));
                     other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
                     other.GetComponent<Taupe>().TaupeHit();
                 }
@@ -86,13 +84,15 @@ public class ThrowingWeapon : MonoBehaviour
                 playerManager.state = ActionType.RopeAttached;
                 playerManager.rope.pinnedTo = other.gameObject;
                 playerManager.rope.pinnedToObject = true;
-                if (other.GetComponent<ValueTrack>()) playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
+                if (other.GetComponent<ValueTrack>())
+                    playerManager.rope.pinnedValueTrack = other.GetComponent<ValueTrack>();
                 playerManager.rope.pinnedRb = other.attachedRigidbody;
                 if (playerManager.rope.pinnedValueTrack.trailVFX != null)
                 {
                     playerManager.rope.pinnedValueTrack.trailVFX.gameObject.SetActive(true);
                     playerManager.rope.pinnedValueTrack.trailVFX.Play();
                 }
+
                 grip.position = transform.position;
                 grip.parent = other.transform;
 
@@ -105,7 +105,8 @@ public class ThrowingWeapon : MonoBehaviour
                     }
                 }
                 
-                Destroy(Instantiate(playerManager.throwHit,collisionPoint, Quaternion.LookRotation(normalPoint)));
+                GameManager.instance.RumbleConstant(.15f, .2f, .2f);
+                Destroy(Instantiate(playerManager.throwHit, collisionPoint, Quaternion.LookRotation(normalPoint)), 3f);
             }
         }
     }

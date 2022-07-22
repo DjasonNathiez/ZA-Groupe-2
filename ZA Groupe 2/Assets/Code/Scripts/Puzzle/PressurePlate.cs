@@ -12,14 +12,13 @@ public class PressurePlate : MonoBehaviour
     public Material onMat;
     public Material offMat;
     public MeshRenderer meshRenderer;
-    
+
     public AudioClip enterPlateSound;
     public AudioClip exitPlateSound;
     public float volume;
-    
+
     private void OnTriggerEnter(Collider other)
     {
-
         if (!other.gameObject.GetComponent<Rigidbody>()) return;
         if (!multiActivate)
         {
@@ -28,16 +27,20 @@ public class PressurePlate : MonoBehaviour
                 numberofCurrent++;
                 if (!isActivate)
                 {
-                    foreach (Door door in doors) { door.keysValid++; }
+                    foreach (Door door in doors)
+                    {
+                        door.keysValid++;
+                    }
+
                     AudioManager.instance.PlayEnvironment("PressurePlate_On");
 
                     isActivate = true;
+                    GameManager.instance.RumblePulse(.2f, .4f, .1f, .5f);
                     meshRenderer.material = onMat;
                 }
             }
             else
             {
-                
                 if (other.gameObject.GetComponent<ValueTrack>() == null) return;
                 if (!other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate) return;
                 numberofCurrent++;
@@ -47,10 +50,11 @@ public class PressurePlate : MonoBehaviour
                     {
                         door.keysValid++;
                     }
-                    
+
                     meshRenderer.material = onMat;
                     AudioManager.instance.PlayEnvironment("PressurePlate_On");
                     isActivate = true;
+                    GameManager.instance.RumblePulse(.2f, .4f, .1f, .5f);
                 }
             }
         }
@@ -58,30 +62,34 @@ public class PressurePlate : MonoBehaviour
         {
             if (other.gameObject.GetComponent<ValueTrack>() == null) return;
             if (!other.gameObject.GetComponent<ValueTrack>().canActivatePressurePlate) return;
-            foreach (Door door in doors) { door.keysValid++; }
-            
+            foreach (Door door in doors)
+            {
+                door.keysValid++;
+            }
+
             if (!isActivate)
             {
                 AudioManager.instance.PlayEnvironment("PressurePlate_On");
             }
             
             isActivate = true;
+            GameManager.instance.RumblePulse(.2f, .4f, .1f, .5f);
             meshRenderer.material = onMat;
         }
-
-        
     }
 
     private void OnTriggerExit(Collider other)
     {
-
         if (other.CompareTag("Player") && !multiActivate)
         {
             numberofCurrent--;
             if (numberofCurrent > 0) return;
             isActivate = false;
             meshRenderer.material = offMat;
-            foreach (Door door in doors) { door.keysValid--; }
+            foreach (Door door in doors)
+            {
+                door.keysValid--;
+            }
         }
 
         if (other.gameObject.GetComponent<ValueTrack>() &&
@@ -91,13 +99,15 @@ public class PressurePlate : MonoBehaviour
             if (numberofCurrent > 0) return;
             isActivate = false;
             meshRenderer.material = offMat;
-            foreach (Door door in doors) { door.keysValid--; }
+            foreach (Door door in doors)
+            {
+                door.keysValid--;
+            }
         }
 
         if (isActivate)
         {
             AudioManager.instance.PlayEnvironment("PressurePlate_Off");
         }
-
     }
 }

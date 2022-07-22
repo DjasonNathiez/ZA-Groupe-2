@@ -22,6 +22,7 @@ public class PuzzleBoutton : MonoBehaviour
         if (isGripped && !isActivated)
         {
             isActivated = true;
+            GameManager.instance.RumblePulse(.2f, .4f, .1f, .6f);
             CameraShake.Instance.AddShakeEvent(sucessShakeScriptable);
             door.keysValid++;
             //Destroy(this);
