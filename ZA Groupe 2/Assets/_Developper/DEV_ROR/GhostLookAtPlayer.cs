@@ -23,6 +23,7 @@ public class GhostLookAtPlayer : MonoBehaviour
         {
             Vector3 relativePos = Player.position - transform.position;
 
+
             Quaternion rotation = Quaternion.LookRotation(relativePos);
 
             Quaternion current = transform.localRotation;
