@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 
 public class TourelleBehaviour : MonoBehaviour
 {
-    
     private Transform player;
     [SerializeField] private Transform canon;
     [SerializeField] private Transform followTransform;
@@ -71,7 +66,7 @@ public class TourelleBehaviour : MonoBehaviour
 
                 var distance = Vector3.Distance(player.position, transform.position);
                 if (distance <= detectionRange) SwitchState(TourelleState.Detection);
-                
+
                 break;
 
             case TourelleState.Detection:
@@ -83,7 +78,8 @@ public class TourelleBehaviour : MonoBehaviour
 
             case TourelleState.Follow:
 
-                canon.rotation = Quaternion.Lerp(canon.rotation, Quaternion.LookRotation(-(transform.position - player.position)),
+                canon.rotation = Quaternion.Lerp(canon.rotation,
+                    Quaternion.LookRotation(-(transform.position - player.position)),
                     Time.deltaTime * rotationSpeed);
                 canon.eulerAngles = new Vector3(0, canon.eulerAngles.y, 0);
 
@@ -91,7 +87,7 @@ public class TourelleBehaviour : MonoBehaviour
 
                 if (followTimer >= followDuration) SwitchState(TourelleState.Shoot);
                 else followTimer += Time.deltaTime;
-                
+
                 break;
 
             case TourelleState.Shoot:
@@ -105,9 +101,9 @@ public class TourelleBehaviour : MonoBehaviour
                     SwitchState(TourelleState.Idle);
                 }
                 else beforeShootTimer += Time.deltaTime;
-                
+
                 break;
-            
+
             case TourelleState.Destroy:
 
                 if (deathTimer >= deathDuration)
@@ -115,7 +111,7 @@ public class TourelleBehaviour : MonoBehaviour
                     Destroy(gameObject);
                 }
                 else deathTimer += Time.deltaTime;
-                
+
                 break;
         }
     }
@@ -136,18 +132,20 @@ public class TourelleBehaviour : MonoBehaviour
 
             case TourelleState.Follow:
                 // Feedback quand commence à viser
-                
+
                 followTimer = 0f;
                 break;
 
             case TourelleState.Shoot:
                 // Feedback quand se bloque avant de tirer
-                
+
                 break;
-            
+
             case TourelleState.Destroy:
-                
+
                 // Death feedback
+                // Anim fade
+                
                 deathTimer = 0f;
                 break;
         }
