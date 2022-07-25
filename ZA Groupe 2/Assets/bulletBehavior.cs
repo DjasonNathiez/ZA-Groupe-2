@@ -48,7 +48,6 @@ public class bulletBehavior : MonoBehaviour
             {
                 if (transform.childCount == 0)
                 {
-                    Debug.Log("ENDED BOUNCE "+ Time.time);
                     canBounce = true;
                     bounced = false;   
                 }
@@ -58,10 +57,8 @@ public class bulletBehavior : MonoBehaviour
 
     public void Bounce(Vector3 inNormal)
     {
-        Debug.Log("ANNOUNCED");
         if (canBounce)
         {
-            Debug.Log("BALL BOUNCED "+ Time.time);
             timeComparator = Time.time;
             canBounce = false;
             if (PlayerManager.instance.rope.electrocuted)
@@ -83,6 +80,7 @@ public class bulletBehavior : MonoBehaviour
         else if (other.CompareTag("UngrippableObject") || other.CompareTag("GrippableObject") ||
                  other.CompareTag("TractableObject") || other.CompareTag("Ground"))
         {
+            if(other.GetComponent<ValueTrack>() && other.GetComponent<ValueTrack>().projectileDestroyed) Destroy(other.gameObject);
             Destroy(gameObject);
         }
         else if (other.CompareTag("Pilone"))

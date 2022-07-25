@@ -121,9 +121,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         m_playerManager = player.GetComponentInChildren<PlayerManager>();
-
-        CheckScene();
-
+        
         UpdateUILanguage();
 
         allCheckpoint = FindObjectsOfType<Checkpoint>();
@@ -149,6 +147,12 @@ public class GameManager : MonoBehaviour
 
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 144;
+    }
+
+    private void Start()
+    {
+        CheckScene();
+
     }
 
     private void OnEnable()
@@ -411,7 +415,7 @@ public class GameManager : MonoBehaviour
             player.SetActive(false);
         }
 
-        if (SceneManager.GetActiveScene().name == parcScene)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             AudioManager.instance.SetMusic(dungeonEnded ? "Parc_2" : "Parc_1");
             ui.hudParent.SetActive(true);
