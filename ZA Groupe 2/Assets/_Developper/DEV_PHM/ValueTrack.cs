@@ -16,7 +16,7 @@ public class ValueTrack : MonoBehaviour
 {
     [Header("Usefull Attributs")] public bool isEnemy;
     public bool canActivatePressurePlate;
-    public bool canBePropulsed;
+    public bool projectileDestroyed;
 
     [Header("Outline Attributs")] public WeightClass weightClass;
     public MeshRenderer meshRenderer;

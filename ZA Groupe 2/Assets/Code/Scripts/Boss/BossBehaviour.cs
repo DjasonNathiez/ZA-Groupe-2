@@ -134,7 +134,7 @@ public class BossBehaviour : MonoBehaviour
 
         if (fighting)
         {
-            cameraController.cameraPos.transform.rotation = Quaternion.Euler(rot.x,Quaternion.LookRotation(-(PlayerManager.instance.transform.position - arenaCenter)).eulerAngles.y,rot.z);
+            cameraController.cameraPos.transform.rotation = Quaternion.Lerp(cameraController.cameraPos.transform.rotation,Quaternion.Euler(rot.x,Quaternion.LookRotation(-(PlayerManager.instance.transform.position - arenaCenter)).eulerAngles.y,rot.z),3*Time.deltaTime);
             cameraController.cameraPos.transform.position = arenaCenter + (PlayerManager.instance.transform.position - arenaCenter).normalized * 8;
             cameraController.cameraPos.transform.position = cameraController.cameraPos.transform.position + pos;
             cameraController.cameraZoom = zoom;   
