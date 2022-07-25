@@ -245,7 +245,7 @@ public class PnjDialoguesManager : MonoBehaviour
                                     if (dialogue[textEffectManager.dialogueIndex].animations[i])
                                         dialogue[textEffectManager.dialogueIndex].animations[i]
                                             .Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
-                                    else GetComponent<Animation>().Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
+                                    else GetComponentInChildren<Animation>().Play(dialogue[textEffectManager.dialogueIndex].clips[i]);
                                 }
                             }
                         }   

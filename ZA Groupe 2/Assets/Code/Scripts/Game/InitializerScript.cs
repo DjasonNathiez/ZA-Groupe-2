@@ -26,10 +26,12 @@ public class InitializerScript : MonoBehaviour
             GameManager.instance.Initialize();
             foreach (GameObject obj in activePost)
             {
+                if(obj != null) continue;
                 obj.SetActive(true);
             }
             foreach (GameObject obj in unactivePost)
             {
+                if(obj != null) continue;
                 obj.SetActive(false);
             }
         }
