@@ -18,9 +18,9 @@ public class InitializerScript : MonoBehaviour
     public GameObject toDestroyOn2;
     [SerializeField] public Collectable[] collectables;
 
+    /*
     private void Awake()
     {
-
         if (PlayerManager.instance.storyState >= 1)
         {
             GameManager.instance.Initialize();
@@ -37,7 +37,7 @@ public class InitializerScript : MonoBehaviour
         }
         else if (PlayerManager.instance.storyState == 0)
         {
-            if(GameManager.instance) GameManager.instance.Initialize();
+            if(GameManager.instance != null) GameManager.instance.Initialize();
             foreach (GameObject obj in activeManoir)
             {
                 obj.SetActive(true);
@@ -67,13 +67,66 @@ public class InitializerScript : MonoBehaviour
             }
         }
     }
+    */
 
     private void Start()
     {
+       
+        Debug.Log("Start");
+        
         if (PlayerManager.instance.storyState == -1)
         {
             PlayerManager.instance.storyState = 0;
         }
+        
+        if (PlayerManager.instance.storyState >= 1)
+        {
+            GameManager.instance.Initialize();
+            foreach (GameObject obj in activePost)
+            {
+                if(obj == null) continue;
+                obj.SetActive(true);
+            }
+            foreach (GameObject obj in unactivePost)
+            {
+                if(obj == null) continue;
+                obj.SetActive(false);
+            }
+        }
+        else if (PlayerManager.instance.storyState == 0)
+        {
+            if(GameManager.instance != null) GameManager.instance.Initialize();
+            foreach (GameObject obj in activeManoir)
+            {
+                obj.SetActive(true);
+            }
+            foreach (GameObject obj in unactiveManoir)
+            {
+                obj.SetActive(false);
+            }
+        }
+
+        if (PlayerManager.instance.storyState == 2 && toDestroyOn2)
+        {
+            GameManager.instance.enemyList.Remove(toDestroyOn2.GetComponent<BearBehaviour>());
+            Destroy(toDestroyOn2);
+        }
+
+        if(changestoryState) PlayerManager.instance.storyState = state;
+
+        foreach (Collectable col in collectables)
+        {
+            foreach (PlayerManager.Hat hat in PlayerManager.instance.hats)
+            {
+                if (hat.hatName == col.name && hat.collected)
+                {
+                    col.loreObj.SetActive(false);
+                }
+            }
+        }
+        
+        
+        
         
         GameManager.instance.CheckScene();
 
