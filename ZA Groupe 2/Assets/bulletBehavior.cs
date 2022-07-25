@@ -18,8 +18,10 @@ public class bulletBehavior : MonoBehaviour
     public float bounceTime;
     public GameObject vfxImpact;
     public bool hasBounced;
-
-
+    public bool isElectrified;
+    public Color notElectrified;
+    public Color electrified;
+    
     private void Start()
     {
         usedSpeed = speed;
@@ -62,6 +64,11 @@ public class bulletBehavior : MonoBehaviour
             Debug.Log("BALL BOUNCED "+ Time.time);
             timeComparator = Time.time;
             canBounce = false;
+            if (PlayerManager.instance.rope.electrocuted)
+            {
+                isElectrified = true;
+                GetComponent<Renderer>().material.SetColor("_EmissionColor", electrified);
+            }
             normal = inNormal; 
             Debug.DrawRay(transform.position,normal,Color.black,3);
         }
@@ -76,6 +83,15 @@ public class bulletBehavior : MonoBehaviour
         else if (other.CompareTag("UngrippableObject") || other.CompareTag("GrippableObject") ||
                  other.CompareTag("TractableObject") || other.CompareTag("Ground"))
         {
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Pilone"))
+        {
+            if (isElectrified)
+            {
+                other.GetComponent<ElectrocutedProp>().LightsOn();
+            }
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", notElectrified);
             Destroy(gameObject);
         }
         else if (other.CompareTag("Boss") && hasBounced)
