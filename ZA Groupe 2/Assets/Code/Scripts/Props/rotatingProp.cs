@@ -37,7 +37,7 @@ public class rotatingProp : MonoBehaviour
             done = true;
             textEffectManager.dialogueIndex = 0;
             textEffectManager.dialogue = dialogue;
-            if (!dialogue[0].cinematicAngleOnly) dialogueBox.transform.position = new Vector3(960, 155, 0);
+            if (!dialogue[0].cinematicAngleOnly) dialogueBox.SetActive(true);
             textEffectManager.ShowText();
            
             cameraController.playerFocused = false;
@@ -58,7 +58,7 @@ public class rotatingProp : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         door.Play("Barrer_down");
         yield return new WaitForSeconds(1.5f);
-        dialogueBox.transform.position = new Vector3(960, -320, 0);
+        dialogueBox.SetActive(false);
         cameraController.playerFocused = true;
         cameraController.cameraPos.rotation = Quaternion.Euler(45,-45,0);
         cameraController.cameraZoom = 8.22f;

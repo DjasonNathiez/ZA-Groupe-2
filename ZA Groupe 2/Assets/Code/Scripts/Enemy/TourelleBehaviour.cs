@@ -3,6 +3,8 @@ using UnityEngine;
 public class TourelleBehaviour : MonoBehaviour
 {
     private Transform player;
+
+    [SerializeField] private Animator anim;
     [SerializeField] private Transform canon;
     [SerializeField] private Transform followTransform;
 
@@ -94,6 +96,7 @@ public class TourelleBehaviour : MonoBehaviour
 
                 if (beforeShootTimer >= beforeShootDuration)
                 {
+
                     shootVFX.Play();
                     currentBullet = Instantiate(bullet, bulletOrigin.position, Quaternion.identity);
                     currentBullet.velocity = canon.forward;
@@ -121,27 +124,33 @@ public class TourelleBehaviour : MonoBehaviour
         switch (state)
         {
             case TourelleState.Idle:
-                // Feedback quand passe en idle
+                anim.enabled = false;
+
                 break;
 
             case TourelleState.Detection:
-
+                anim.enabled = true;
+                anim.SetBool("Shooting", false);
                 if (!detectionVFX.isPlaying) detectionVFX.Play();
                 detectionTimer = 0f;
                 break;
 
             case TourelleState.Follow:
-                // Feedback quand commence à viser
+                anim.enabled = true;
+                anim.SetBool("Shooting", false);
 
                 followTimer = 0f;
                 break;
 
             case TourelleState.Shoot:
-                // Feedback quand se bloque avant de tirer
+                anim.enabled = true;
+                anim.SetBool("Shooting", true);
 
                 break;
 
             case TourelleState.Destroy:
+                anim.enabled = false;
+                anim.SetBool("Shooting", false);
 
                 // Death feedback
                 // Anim fade
