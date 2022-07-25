@@ -112,7 +112,11 @@ public class Rope : MonoBehaviour
                         Vector3 inNormal = Quaternion.AngleAxis(90, Vector3.up) *
                                            new Vector3(ray.direction.x, 0, ray.direction.z).normalized *
                                            (nodeToCreate.angleBuffer > 0 ? -1 : 1);
-                        if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90) goto exitOne;
+                        if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90)
+                        {
+                            Destroy(nodeToCreate.nodePoint);
+                            goto exitOne;
+                        }
                         bulletBehavior.Bounce(inNormal);
                     }
 
@@ -173,7 +177,11 @@ public class Rope : MonoBehaviour
                                 Vector3 inNormal = Quaternion.AngleAxis(90, Vector3.up) *
                                                    new Vector3(ray.direction.x, 0, ray.direction.z).normalized *
                                                    (nodeToCreate.angleBuffer > 0 ? -1 : 1);
-                                if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90) goto exitTwo;
+                                if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90)
+                                {
+                                    Destroy(nodeToCreate.nodePoint);
+                                    goto exitTwo;
+                                }
                                 bulletBehavior.Bounce(inNormal);
                             }
 
@@ -213,8 +221,7 @@ public class Rope : MonoBehaviour
                     {
                         if (!hitNode.collider.isTrigger || hitNode.collider.CompareTag("Bullet"))
                         {
-                            if (hitNode.collider.CompareTag("Bullet") &&
-                                !hitNode.transform.GetComponent<bulletBehavior>().canBounce) goto exitThree;
+                            if (hitNode.collider.CompareTag("Bullet") && !hitNode.transform.GetComponent<bulletBehavior>().canBounce) goto exitThree;
                             bulletBehavior bulletBehavior = hitNode.transform.GetComponent<bulletBehavior>();
 
                             Vector3 pos = hitNode.collider.ClosestPoint(hitNode.point) +
@@ -231,6 +238,8 @@ public class Rope : MonoBehaviour
                                 nodeToCreate.nodePoint = Instantiate(nodePos,
                                     new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity,
                                     nodeToCreate.anchor.transform);
+                                Debug.Log("NEWNODEPOINT");
+                                if(bulletBehavior) Debug.Log("BULLET = " + bulletBehavior.canBounce);
 
                                 if (hitNode.collider.CompareTag("Bullet") && bulletBehavior.canBounce)
                                 {
@@ -249,10 +258,14 @@ public class Rope : MonoBehaviour
 
                                 if (hitNode.collider.CompareTag("Bullet") && bulletBehavior.canBounce)
                                 {
-                                    Vector3 inNormal = Quaternion.AngleAxis(90, Vector3.up) *
-                                                       new Vector3(ray.direction.x, 0, ray.direction.z).normalized *
+                                    Vector3 inNormal = Quaternion.Euler(0,90,0) *
+                                                       new Vector3(rayNode.direction.x, 0, rayNode.direction.z).normalized *
                                                        (nodeToCreate.angleBuffer > 0 ? -1 : 1);
-                                    if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90) goto exitThree;
+                                    if (Vector3.Angle(bulletBehavior.velocity, inNormal) > 90)
+                                    {
+                                        Destroy(nodeToCreate.nodePoint);
+                                        goto exitThree;
+                                    }
                                     bulletBehavior.Bounce(inNormal);
                                 }
 
@@ -266,7 +279,7 @@ public class Rope : MonoBehaviour
                                     }
                                 }
 
-
+                                Debug.Log("INSERTED");
                                 nodes.Insert(node.index - 2, nodeToCreate);
 
                                 break;
@@ -280,59 +293,6 @@ public class Rope : MonoBehaviour
                         rayNode.direction * Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position,
                             node.nodePoint.transform.position), Color.green);
                 }
-                /*else if (node.index > 1)
-                {
-                    Vector3 dirNode = nodes[node.index - 2].nodePoint.transform.position -
-                                      node.nodePoint.transform.position;
-                    Ray rayNode = new Ray((node.nodePoint.transform.position) + dirNode.normalized * checkDistance,
-                        dirNode);
-                    if (Physics.Raycast(rayNode, out RaycastHit hitNode,
-                        Vector3.Distance(nodes[node.index - 2].nodePoint.transform.position,
-                            node.nodePoint.transform.position)))
-                    {
-                        if (hitNode.transform.gameObject == node.anchor)
-                        {
-                            Vector3 pos = hitNode.collider.ClosestPoint(hitNode.point) +
-                                          (hitNode.point - hitNode.transform.position).normalized * borderDist;
-                            if (Vector3.Distance(pos, node.nodePoint.transform.position) > checkDistance &&
-                                Vector3.Distance(pos, nodes[node.index - 2].nodePoint.transform.position) >
-                                checkDistance)
-                            {
-                                rope.positionCount += 1;
-                                
-                                Node nodeToCreate = new Node();
-                                nodeToCreate.index = node.index;
-                                nodeToCreate.anchor = hitNode.transform.gameObject;
-                                nodeToCreate.nodePoint = Instantiate(nodePos,
-                                    new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity,
-                                    nodeToCreate.anchor.transform);
-
-                                nodeToCreate.nodePoint.name = "Node " + nodeToCreate.index;
-                                nodeToCreate.former = node.nodePoint.transform;
-                                nodeToCreate.later = nodes[node.index - 2].nodePoint.transform;
-                                Vector3 former = node.nodePoint.transform.position - nodeToCreate.nodePoint.transform.position;
-                                Vector3 later = nodeToCreate.nodePoint.transform.position - nodes[node.index - 2].nodePoint.transform.position;
-                                nodeToCreate.angleBuffer = Vector3.SignedAngle(former,later, Vector3.up);
-
-                                nodeToCreate.direction = NodeDirection.UNDEFINED;
-
-                                foreach (Node nodeToFix in nodes)
-                                {
-                                    if (nodeToFix.index >= nodeToCreate.index)
-                                    {
-                                        nodeToFix.index += 1;
-                                    }
-
-                                    rope.SetPosition(nodeToFix.index, nodeToFix.nodePoint.transform.position);
-                                }
-                                
-                                nodes.Insert(nodeToCreate.index - 2, nodeToCreate);
-                                
-                                break;
-                            }
-                        }
-                    }
-                }*/
             }
         }
 
@@ -537,7 +497,6 @@ public class Rope : MonoBehaviour
         {
             rope.SetPosition(N, rope.GetPosition(N + 1));
         }
-
         Destroy(nodes[index].nodePoint);
         if (nodes[index].anchor && nodes[index].anchor.GetComponent<ElectrocutedProp>())
         {
@@ -586,17 +545,15 @@ public class Rope : MonoBehaviour
                     angle = Vector3.SignedAngle(former, later, Vector3.up);
                     Debug.DrawRay(nodes[i].nodePoint.transform.position + Vector3.up, former, Color.green, 10);
                     Debug.DrawRay(nodes[i].later.position + Vector3.up, later, Color.magenta, 10);
-                    Debug.Log(angle);
 
                     if (angle > nodes[i].angleBuffer)
                     {
                         nodes[i].direction = NodeDirection.NEGATIVE;
-                        Debug.Log("Negative");
+                        
                     }
                     else if (angle < nodes[i].angleBuffer)
                     {
                         nodes[i].direction = NodeDirection.POSITIVE;
-                        Debug.Log("Positive");
                     }
                     else
                     {
