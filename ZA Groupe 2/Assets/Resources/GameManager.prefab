@@ -385,7 +385,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 425899425}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.331, z: 0.5}
+  m_LocalPosition: {x: 0, y: -0.331, z: 0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2580,10 +2580,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5257164
-  m_Height: 1.6651908
+  m_Radius: 0.5
+  m_Height: 1.4
   m_Direction: 1
-  m_Center: {x: 0, y: 0.11816752, z: 0.17428362}
+  m_Center: {x: 0, y: 0.05, z: 0.1}
 --- !u!114 &3841712426798212822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2870,9 +2870,9 @@ MonoBehaviour:
   normalCollider: {fileID: 5455848930028628629}
   rollCollider: {fileID: 0}
   rollCenter: {x: 0, y: -0.1301651, z: 0.1742836}
-  rollHeight: 1.168526
+  rollHeight: 1
   normalCenter: {x: 0, y: 0.11816752, z: 0.17428362}
-  normalHeight: 1.665191
+  normalHeight: 1.4
   visuthrow: {fileID: 7403386933788227741}
   attackVFX: {fileID: 6896911667257383965}
   hurtVFX: {fileID: 6484041033361083166}
@@ -3094,7 +3094,7 @@ MonoBehaviour:
   rb: {fileID: 8267530351848828145}
   playerIsGrounded: 1
   groundCheckRadiusMultiplier: 0.9
-  groundCheckDistance: 0.6
+  groundCheckDistance: 0.3
   stepRayUpper: {fileID: 425899425}
   stepRayLower: {fileID: 1673474322}
   stepHeight: 1.2
