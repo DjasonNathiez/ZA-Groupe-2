@@ -13,7 +13,12 @@ public class AutoRewindPlayer : MonoBehaviour
         if (currentX >= minX && currentX <= maxX && !inRange)
         {
             inRange = true;
-            PlayerManager.instance.Rewind();
+            foreach (var node in PlayerManager.instance.rope.nodes)
+            {
+                if(node.anchor == gameObject) PlayerManager.instance.Rewind();
+            }
+            
+            
         }
         else
         {

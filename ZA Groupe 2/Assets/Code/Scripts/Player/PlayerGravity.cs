@@ -11,7 +11,7 @@ public class PlayerGravity : MonoBehaviour
 
     [Header("Ground Check")]
     public bool playerIsGrounded = true;
-    [Range(0.0f, 1.0f)] public float groundCheckRadiusMultiplier = 0.9f;
+   // [Range(0.0f, 1.0f)] public float groundCheckRadiusMultiplier = 0.9f;
     [Range(-0.95f, 1.05f)] public float groundCheckDistance = 0.05f;
     private RaycastHit _groundCheckHit = new RaycastHit();
     public GameObject stepRayUpper;
@@ -50,10 +50,25 @@ public class PlayerGravity : MonoBehaviour
 
     private bool PlayerGroundCheck()
     {
-        float sphereCastRadius = capsuleCollider.radius * groundCheckRadiusMultiplier;
-        float sphereCastTravelDistance = capsuleCollider.bounds.extents.y - sphereCastRadius + groundCheckDistance;
-        return Physics.SphereCast(rb.position, sphereCastRadius, Vector3.down, out _groundCheckHit,
-            sphereCastTravelDistance);
+        //float sphereCastRadius = capsuleCollider.radius * groundCheckRadiusMultiplier;
+        //float sphereCastTravelDistance = capsuleCollider.bounds.extents.y - sphereCastRadius + groundCheckDistance;
+        //return Physics.SphereCast(rb.position, sphereCastRadius, Vector3.down, out _groundCheckHit, sphereCastTravelDistance);
+        
+        // Raycast du joueur vers le bas (distance ground check)
+
+        var origin = new Vector3(rb.position.x + capsuleCollider.center.x, rb.position.y, rb.position.z + capsuleCollider.center.z);
+        bool check = Physics.Raycast(origin, Vector3.down, out _groundCheckHit, groundCheckDistance + capsuleCollider.height / 2);
+        if (check)
+        {
+            Debug.DrawRay(origin, Vector3.down * groundCheckDistance, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(origin, Vector3.down * groundCheckDistance, Color.red);
+
+        }
+
+        return check;
     }
 
     private float PlayerGravityMethod()
@@ -86,8 +101,7 @@ public class PlayerGravity : MonoBehaviour
         if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
         {
             RaycastHit hitUpper;
-            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward),
-                out hitUpper, 0.2f))
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.2f))
                 rb.position -= new Vector3(0f, -stepSmooth, 0f);
         }
     }
