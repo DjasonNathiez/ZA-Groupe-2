@@ -1056,7 +1056,7 @@ public class PlayerManager : MonoBehaviour
         if (item && !item.distributed)
         {
             collectVFX.Play();
-            GameManager.instance.RumbleConstant(.2f, .3f, .5f);
+            GameManager.instance.RumbleConstant(.1f, .1f, .5f);
 
             switch (item.affectedValue)
             {

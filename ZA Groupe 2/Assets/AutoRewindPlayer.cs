@@ -9,6 +9,7 @@ public class AutoRewindPlayer : MonoBehaviour
     
     private void Update()
     {
+        if (PlayerManager.instance.state != ActionType.RopeAttached) return;
         var currentX = transform.position.x;
         if (currentX >= minX && currentX <= maxX && !inRange)
         {
