@@ -152,9 +152,24 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         CheckScene();
-
+        SetupScreenResolutions();
     }
 
+    private void SetupScreenResolutions()
+    {
+        _resolutions = Screen.resolutions;
+        resolutionDropDown.ClearOptions();
+
+        List<string> options = new List<string>();
+        for (int i = 0; i < _resolutions.Length; i++)
+        {
+            var option = _resolutions[i].width + "x" + _resolutions[i].height;
+            options.Add(option);
+        }
+        
+        resolutionDropDown.AddOptions(options);
+    }
+    
     private void OnEnable()
     {
         inputDisplayFPS.Enable();
@@ -490,7 +505,20 @@ public class GameManager : MonoBehaviour
             SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", 0);
         }
     }
+    
+    public void FullScreen(bool isOn)
+    {
+        Screen.fullScreen = isOn;
+    }
 
+    private Resolution[] _resolutions;
+    public Dropdown resolutionDropDown;
+
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resolution = _resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
     #endregion
 
     public void SetLanguage(string languageSelect)
@@ -574,7 +602,6 @@ public class GameManager : MonoBehaviour
     private float rumbleStep;
     private bool isMotorActive;
     private bool isRumbling;
-
 
     public void RumbleConstant(float low, float high, float duration)
     {

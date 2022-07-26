@@ -25,6 +25,7 @@ public class bulletBehavior : MonoBehaviour
     private void Start()
     {
         usedSpeed = speed;
+        Destroy(gameObject, 5f);
     }
 
     private void Update()

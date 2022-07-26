@@ -19,7 +19,11 @@ public class Taupe : MonoBehaviour
         Quaternion t_rot = Quaternion.Euler(25,-45,0);
         GameObject gameObject = Instantiate(t_prefab, t_pos.position, t_rot);
 
+        GameManager.instance.RumbleConstant(.1f, .1f, .5f);
+
         gameObject.GetComponentInChildren<TextMeshPro>().text = TapeTaupeArcade.score + " / " + TapeTaupeArcade.goal;;
+        
+        Destroy(gameObject, 5);
         hitPs.Play();
     }
 }
