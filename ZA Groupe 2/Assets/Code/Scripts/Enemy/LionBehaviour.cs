@@ -18,8 +18,7 @@ public class LionBehaviour : AIBrain
     public ParticleSystem counterVFX;
 
     [HideInInspector] public bool playerShowBack;
-
-
+    
     private void Start()
     {
         InitializationData();
@@ -129,11 +128,10 @@ public class LionBehaviour : AIBrain
 
         if (distanceToPlayer <= dectectionRange && !isAggro)
         {
-            isAggro = true;
-            PlaySFX("L_Aggro");
             if (!isDead)
             {
-                Debug.Log("DETECTED");
+                isAggro = true;
+                PlaySFX("L_Aggro");
                 if(!aggroVFX.isPlaying) aggroVFX.Play();
             }
         }

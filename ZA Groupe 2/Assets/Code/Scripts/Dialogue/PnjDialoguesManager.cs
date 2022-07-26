@@ -52,14 +52,15 @@ public class PnjDialoguesManager : MonoBehaviour
                 textEffectManager.gameObject.SetActive(true);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
-                GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
+                if (dialogue[0].dialogueLine)
+                {
+                    GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
+                }
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
                 textEffectManager.ShowText();
                 if (dialogue[0].modifyCameraPosition)
                 {
-                    Debug.Log("Dialogue 3 camera");
-
                     cameraController.playerFocused = false;
                     cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
                     cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
@@ -72,7 +73,6 @@ public class PnjDialoguesManager : MonoBehaviour
                     {
                         if (dialogue[0].animations[i])
                         {
-                            Debug.Log("Dialogue 4 anim");
                             dialogue[0].animations[i].Play(dialogue[0].clips[i]);
                         }
                     }
@@ -82,7 +82,6 @@ public class PnjDialoguesManager : MonoBehaviour
                 {
                     timer = dialogue[0].durationIfAuto;
                     auto = true;
-                    Debug.Log("Dialogue 5 if auto");
                 }
             }
         }
@@ -98,7 +97,10 @@ public class PnjDialoguesManager : MonoBehaviour
                 dialogueBox.SetActive(true);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
-                GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].voiceCombo));
+                if (dialogue[0].dialogueLine)
+                {
+                    GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
+                }
                 if (button) button.SetActive(false);
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
@@ -213,8 +215,10 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
-                        GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.voiceCombo));
-
+                        if (d.dialogueLine)
+                        {
+                            GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
+                        }
                         if (d.modifyCameraPosition)
                         {
                             cameraController.playerFocused = false;
@@ -283,8 +287,10 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
-                        GameManager.instance.StartCoroutine(
-                            GameManager.instance.VoiceSound(d.voiceCombo));
+                        if (d.dialogueLine)
+                        {
+                            GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
+                        }
                         if (d.modifyCameraPosition)
                         {
                             cameraController.playerFocused = false;
