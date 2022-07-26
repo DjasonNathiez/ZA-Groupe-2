@@ -433,13 +433,10 @@ public class GameManager : MonoBehaviour
         player.transform.position = lastCheckpoint.respawnPoint.position;
     }
 
-    public IEnumerator VoiceSound(int counterSpeak)
+    public IEnumerator VoiceSound(AudioClip counterSpeak)
     {
-        for (int i = 0; i < counterSpeak; i++)
-        {
-            SoundManager.PlayFx(AudioManager.instance.voices[i].clip, AudioManager.instance.voices[i].volume);
-            yield return new WaitForSeconds(0.12f);
-        }
+        SoundManager.PlayFx(counterSpeak);
+        yield return new WaitForSeconds(0.12f);
     }
 
     #region SETTINGS MENU

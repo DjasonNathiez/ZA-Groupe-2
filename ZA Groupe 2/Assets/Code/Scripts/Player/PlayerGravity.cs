@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class PlayerGravity : MonoBehaviour
@@ -39,7 +40,12 @@ public class PlayerGravity : MonoBehaviour
         playerIsGrounded = PlayerGroundCheck();
         rb.velocity = new Vector3(rb.velocity.x, PlayerGravityMethod() ,rb.velocity.z);
         
+    }
+
+    private void Update()
+    {
         StepClimb();
+
     }
 
     private bool PlayerGroundCheck()
