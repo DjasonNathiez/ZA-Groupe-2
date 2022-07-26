@@ -38,6 +38,8 @@ public class TextEffectManager : MonoBehaviour
                     break;
             }
         }
+        
+        /*
 
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
@@ -50,6 +52,8 @@ public class TextEffectManager : MonoBehaviour
 
         UpdateColor();
         timeStamp = speedOfShowing;
+        
+        */
     }
 
     public void NextText()
@@ -74,6 +78,8 @@ public class TextEffectManager : MonoBehaviour
                         break;
                 }
             }
+            
+            /*
 
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
@@ -86,11 +92,17 @@ public class TextEffectManager : MonoBehaviour
 
             UpdateColor();
             timeStamp = speedOfShowing;
+            
+            */
         }
     }
 
     void Update()
     {
+        
+        /*
+         
+         
         if (isDialoguing)
         {
             var textInfo = textElement.textInfo;
@@ -136,6 +148,9 @@ public class TextEffectManager : MonoBehaviour
 
             textElement.UpdateVertexData();
         }
+        
+        */
+        
     }
 
     public void UpdateColor()
