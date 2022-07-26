@@ -80,6 +80,7 @@ public class PlayerManager : MonoBehaviour
     public bool isTeleporting;
 
     [Header("Movements Stats")] public float moveSpeed;
+    public float rollSpeed;
     public float rotationSpeed;
     public float rollCooldown;
     public AnimationCurve rollAnimationCurve;
@@ -315,6 +316,8 @@ public class PlayerManager : MonoBehaviour
             isAttacking = false;
         }
 
+        //rb.useGravity = !isRolling;
+
         if (isAttacking)
         {
             isRolling = false;
@@ -416,7 +419,7 @@ public class PlayerManager : MonoBehaviour
             }
             else
             {
-                rb.velocity = Vector3.zero;
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
             }
 
 
@@ -717,7 +720,7 @@ public class PlayerManager : MonoBehaviour
         if (isTeleporting)
         {
             isMoving = false;
-            rb.velocity = Vector3.zero;
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
             return;
         }
 
@@ -757,7 +760,7 @@ public class PlayerManager : MonoBehaviour
             {
                 poufpoufTimer = poufpoufTime;
                 m_moving = false;
-                rb.velocity = Vector3.zero;
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
             }
         }
     }
@@ -906,7 +909,7 @@ public class PlayerManager : MonoBehaviour
 
     public void EnterDialogue()
     {
-        rb.velocity = Vector3.zero;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
         m_controlState = ControlState.DIALOGUE;
     }
 
@@ -1053,7 +1056,7 @@ public class PlayerManager : MonoBehaviour
         if (item && !item.distributed)
         {
             collectVFX.Play();
-            GameManager.instance.RumbleConstant(.2f, .3f, .5f);
+            GameManager.instance.RumbleConstant(.1f, .1f, .5f);
 
             switch (item.affectedValue)
             {

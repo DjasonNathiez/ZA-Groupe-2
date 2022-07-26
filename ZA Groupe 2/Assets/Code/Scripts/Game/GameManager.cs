@@ -519,7 +519,6 @@ public class GameManager : MonoBehaviour
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
-    
     #endregion
 
     public void SetLanguage(string languageSelect)

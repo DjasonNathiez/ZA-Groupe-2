@@ -2670,10 +2670,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5257164
+  m_Radius: 0.5
   m_Height: 1.4
   m_Direction: 1
-  m_Center: {x: 0, y: 0.11816752, z: 0.17428362}
+  m_Center: {x: 0, y: 0, z: 0.1}
 --- !u!114 &3841712426798212822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2853,6 +2853,7 @@ MonoBehaviour:
   storyState: 0
   isTeleporting: 0
   moveSpeed: 6.8
+  rollSpeed: 0
   rotationSpeed: 0.3
   rollCooldown: 1.2
   rollAnimationCurve:
@@ -2959,9 +2960,9 @@ MonoBehaviour:
   isDead: 0
   normalCollider: {fileID: 5455848930028628629}
   rollCollider: {fileID: 0}
-  rollCenter: {x: 0, y: -0.1301651, z: 0.1742836}
-  rollHeight: 1.168526
-  normalCenter: {x: 0, y: 0.11816752, z: 0.17428362}
+  rollCenter: {x: 0, y: -0.2, z: 0.1}
+  rollHeight: 1
+  normalCenter: {x: 0, y: 0, z: 0.1}
   normalHeight: 1.4
   visuthrow: {fileID: 7403386933788227741}
   attackVFX: {fileID: 6896911667257383965}
@@ -3167,7 +3168,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &175150139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10263,7 +10264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 1
+  outlineWidth: 0.6
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -54981,10 +54982,10 @@ MonoBehaviour:
   - frenchText: Anglais
     englishText: English
     uiTMP: {fileID: 0}
-  mainSlider: {fileID: 0}
-  musicSlider: {fileID: 0}
-  environmentSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
+  mainSlider: {fileID: 2401274190713256516}
+  musicSlider: {fileID: 4878273332150616782}
+  environmentSlider: {fileID: 7003218600909703218}
+  sfxSlider: {fileID: 4495909556348540059}
   mainMixer: {fileID: 24300002, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   musicMixer: {fileID: 6794081875194080054, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   sfxMixer: {fileID: -949029449827080841, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
