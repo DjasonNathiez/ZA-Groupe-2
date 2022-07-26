@@ -13,7 +13,7 @@ public class TextEffectManager : MonoBehaviour
     public TMP_Text talkingCharacter;
     public bool isDialoguing;
     public int showedCharIndex = 0;
-    [SerializeField] const float speedOfShowing = 0.05f;
+    public float speedOfShowing = 0.005f;
     [SerializeField] private float timeStamp;
     [SerializeField] private float[] charBasedHeight;
     public int dialogueIndex;
@@ -278,14 +278,13 @@ public class DialogueLine
     public Vector3 positionCamera;
     public Vector3 angleCamera;
     public float zoom;
-    public float speedOfPan;
+    public float speedOfPan = 0.05f;
     public bool cinematicAngleOnly;
     public float durationIfAuto;
     public GameObject toActivate;
     public Animator[] animations;
     public string[] clips;
     public float durationBetweenVoiceSound;
-    public int voiceCombo;
     public AudioClip dialogueLine;
 }
 

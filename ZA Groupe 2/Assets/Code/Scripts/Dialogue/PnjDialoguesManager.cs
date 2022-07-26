@@ -54,6 +54,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 isDialoguing = true;
                 if (dialogue[0].dialogueLine)
                 {
+                    SoundManager.ClearFx();
                     GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
                 }
                 textEffectManager.dialogueIndex = 0;
@@ -99,6 +100,7 @@ public class PnjDialoguesManager : MonoBehaviour
                 isDialoguing = true;
                 if (dialogue[0].dialogueLine)
                 {
+                    SoundManager.ClearFx();
                     GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
                 }
                 if (button) button.SetActive(false);
@@ -217,6 +219,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         textEffectManager.NextText();
                         if (d.dialogueLine)
                         {
+                            SoundManager.ClearFx();
                             GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
                         }
                         if (d.modifyCameraPosition)
@@ -289,6 +292,7 @@ public class PnjDialoguesManager : MonoBehaviour
                         textEffectManager.NextText();
                         if (d.dialogueLine)
                         {
+                            SoundManager.ClearFx();
                             GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
                         }
                         if (d.modifyCameraPosition)
