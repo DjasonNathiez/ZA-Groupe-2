@@ -152,7 +152,6 @@ public class TapeTaupeArcade : MonoBehaviour
             directionalOn.SetActive(true);
             if (score >= goal)
             {
-                reward.SetActive(true);
                 VictoryFX.Play();
                 if(PlayerManager.instance.storyState < storyState) PlayerManager.instance.storyState = storyState;
                 if(reward) reward.SetActive(true);
