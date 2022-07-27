@@ -199,7 +199,7 @@ public class AIBrain : MonoBehaviour
         isAggro = false;
 
         if (hitZoneVFX) hitZoneVFX.gameObject.SetActive(true);
-        GameManager.instance.RumbleConstant(.3f, .6f, .4f);
+        GameManager.instance.RumbleConstant(.3f, .4f, .4f);
 
         StartCoroutine(WaitForStand());
     }
@@ -253,7 +253,7 @@ public class AIBrain : MonoBehaviour
         hurtTime = Time.time;
 
         if (hurtVFX != null) hurtVFX.Play();
-        GameManager.instance.RumbleConstant(.1f, .3f, .3f);
+        GameManager.instance.RumbleConstant(.2f, .2f, .3f);
 
         if (currentHealth <= 0)
         {

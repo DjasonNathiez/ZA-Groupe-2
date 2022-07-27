@@ -1701,7 +1701,7 @@ MonoBehaviour:
   - soundName: Parc_2
     clip: {fileID: 8300000, guid: 69e0049a156812245be9372ec67263fe, type: 3}
     loop: 1
-    volume: 0.128
+    volume: 0.219
   - soundName: Boss
     clip: {fileID: 8300000, guid: 965dff3dd8afc2148973e1b54c7cdf53, type: 3}
     loop: 1
@@ -2670,7 +2670,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0.1}
@@ -3184,12 +3184,11 @@ MonoBehaviour:
   capsuleCollider: {fileID: 5455848930028628629}
   rb: {fileID: 8267530351848828145}
   playerIsGrounded: 1
-  groundCheckRadiusMultiplier: 0.9
   groundCheckDistance: 0.3
   stepRayUpper: {fileID: 425899425}
   stepRayLower: {fileID: 1673474322}
   stepHeight: 1.2
-  stepSmooth: 0.2
+  stepSmooth: 0.05
   gravityFallCurrent: -20
   gravityFallMin: -20
   gravityFallMax: -50
