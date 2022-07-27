@@ -114,7 +114,7 @@ public class TourelleBehaviour : MonoBehaviour
 
             case TourelleState.Destroy:
                 
-                modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
+                //modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
                 
                 if (deathTimer >= deathDuration)
                 {
@@ -159,7 +159,7 @@ public class TourelleBehaviour : MonoBehaviour
             case TourelleState.Destroy:
                 anim.enabled = false;
                 anim.SetBool("Shooting", false);
-                modelNonAggroMat.SetFloat("_Destruction", 1);
+                //modelNonAggroMat.SetFloat("_Destruction", 1);
 
                 deathTimer = 0f;
                 break;
