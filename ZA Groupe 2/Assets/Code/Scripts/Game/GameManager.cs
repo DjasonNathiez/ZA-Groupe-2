@@ -145,15 +145,15 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
 
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 144;
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
     {
         CheckScene();
         SetupScreenResolutions();
-        //SetupFrameRate();
+        frameRateDropDown.onValueChanged.AddListener(delegate { SetFramerate(frameRateDropDown); });
     }
 
     private void SetupScreenResolutions()
@@ -170,31 +170,14 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < _resolutions.Length; i++)
         {
             var option = _resolutions[i].width + "x" + _resolutions[i].height;
-            options.Add(option);
         }
-        
-        resolutionDropDown.AddOptions(options);
+
+        if (options.Count > 0)
+        {
+            resolutionDropDown.AddOptions(options);
+        }
     }
-
-    /*private void SetupFrameRate()
-    {
-        _resolutions = Screen.resolutions;
-        
-        if (resolutionDropDown != null)
-        {
-            resolutionDropDown.ClearOptions();
-        }
-        
-
-        List<string> options = new List<string>();
-        for (int i = 0; i < _resolutions.Length; i++)
-        {
-            var option = _resolutions[i].width + "x" + _resolutions[i].height;
-            options.Add(option);
-        }
-        
-        resolutionDropDown.AddOptions(options);
-    } */
+    
     
     private void OnEnable()
     {
@@ -538,7 +521,7 @@ public class GameManager : MonoBehaviour
     }
 
     private Resolution[] _resolutions;
-    public Dropdown resolutionDropDown;
+    public TMP_Dropdown resolutionDropDown;
 
     public void SetResolution(int resolutionIndex)
     {
@@ -546,16 +529,15 @@ public class GameManager : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
     
-    /*
-    private Framerate[] _framerates;
-    public Dropdown frameRateDropDown;
+    private int[] _framerates;
+    public TMP_Dropdown frameRateDropDown;
 
-    public void SetResolution(int framerateIndex)
+    public void SetFramerate(TMP_Dropdown change)
     {
-        Framerate framerate = _framerates[framerateIndex];
-        Application.targetFrameRate = framerate;
+        if (change.value == 0) Application.targetFrameRate = 60;
+        else Application.targetFrameRate = 144;
 
-    } */
+    }
     #endregion
 
     public void SetLanguage(string languageSelect)
@@ -690,6 +672,5 @@ public class GameManager : MonoBehaviour
     {
         return Gamepad.current;
     }
-
     #endregion
 }
