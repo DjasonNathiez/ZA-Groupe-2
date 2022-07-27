@@ -31,6 +31,8 @@ public class TourelleBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem detectionVFX;
 
     [SerializeField] private bool isInvincible;
+    [SerializeField] private bool constantFire;
+    [SerializeField] private Door doorOnDeath;
 
     [SerializeField] private float deathDuration;
     private float deathTimer;
@@ -85,7 +87,7 @@ public class TourelleBehaviour : MonoBehaviour
                     Time.deltaTime * rotationSpeed);
                 canon.eulerAngles = new Vector3(0, canon.eulerAngles.y, 0);
 
-                if (currentBullet) return;
+                if (currentBullet && !constantFire) return;
 
                 if (followTimer >= followDuration) SwitchState(TourelleState.Shoot);
                 else followTimer += Time.deltaTime;
@@ -111,6 +113,7 @@ public class TourelleBehaviour : MonoBehaviour
 
                 if (deathTimer >= deathDuration)
                 {
+                    if(doorOnDeath) doorOnDeath.keysValid++;
                     Destroy(gameObject);
                 }
                 else deathTimer += Time.deltaTime;
