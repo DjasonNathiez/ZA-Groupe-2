@@ -153,12 +153,18 @@ public class GameManager : MonoBehaviour
     {
         CheckScene();
         SetupScreenResolutions();
+        //SetupFrameRate();
     }
 
     private void SetupScreenResolutions()
     {
         _resolutions = Screen.resolutions;
-        resolutionDropDown.ClearOptions();
+        
+        if (resolutionDropDown != null)
+        {
+            resolutionDropDown.ClearOptions();
+        }
+        
 
         List<string> options = new List<string>();
         for (int i = 0; i < _resolutions.Length; i++)
@@ -169,6 +175,26 @@ public class GameManager : MonoBehaviour
         
         resolutionDropDown.AddOptions(options);
     }
+
+    /*private void SetupFrameRate()
+    {
+        _resolutions = Screen.resolutions;
+        
+        if (resolutionDropDown != null)
+        {
+            resolutionDropDown.ClearOptions();
+        }
+        
+
+        List<string> options = new List<string>();
+        for (int i = 0; i < _resolutions.Length; i++)
+        {
+            var option = _resolutions[i].width + "x" + _resolutions[i].height;
+            options.Add(option);
+        }
+        
+        resolutionDropDown.AddOptions(options);
+    } */
     
     private void OnEnable()
     {
@@ -519,6 +545,17 @@ public class GameManager : MonoBehaviour
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
+    
+    /*
+    private Framerate[] _framerates;
+    public Dropdown frameRateDropDown;
+
+    public void SetResolution(int framerateIndex)
+    {
+        Framerate framerate = _framerates[framerateIndex];
+        Application.targetFrameRate = framerate;
+
+    } */
     #endregion
 
     public void SetLanguage(string languageSelect)
