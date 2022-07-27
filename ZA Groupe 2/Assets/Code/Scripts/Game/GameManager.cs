@@ -153,23 +153,19 @@ public class GameManager : MonoBehaviour
     {
         CheckScene();
         SetupScreenResolutions();
+        
         frameRateDropDown.onValueChanged.AddListener(delegate { SetFramerate(frameRateDropDown); });
     }
 
     private void SetupScreenResolutions()
     {
         _resolutions = Screen.resolutions;
-        
-        if (resolutionDropDown != null)
-        {
-            resolutionDropDown.ClearOptions();
-        }
-        
+        if (resolutionDropDown != null) resolutionDropDown.ClearOptions(); 
 
         List<string> options = new List<string>();
-        for (int i = 0; i < _resolutions.Length; i++)
+        foreach (var t in _resolutions)
         {
-            var option = _resolutions[i].width + "x" + _resolutions[i].height;
+            var option = t.width + "x" + t.height;
         }
 
         if (options.Count > 0)
@@ -525,7 +521,7 @@ public class GameManager : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = _resolutions[resolutionIndex];
+        var resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
     
@@ -534,9 +530,7 @@ public class GameManager : MonoBehaviour
 
     public void SetFramerate(TMP_Dropdown change)
     {
-        if (change.value == 0) Application.targetFrameRate = 60;
-        else Application.targetFrameRate = 144;
-
+        Application.targetFrameRate = change.value == 0 ? 60 : 144;
     }
     #endregion
 
