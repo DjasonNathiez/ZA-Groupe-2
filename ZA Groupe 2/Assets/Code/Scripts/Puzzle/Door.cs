@@ -152,8 +152,7 @@ public class Door : MonoBehaviour
             {
                 if (startedTapeTaupe)
                 {
-                    Debug.Log("Pour l'instant : 1 game only");
-                    //startedTapeTaupe = false;
+                    startedTapeTaupe = false;
                 }
             }
         }

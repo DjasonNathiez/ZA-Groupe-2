@@ -131,9 +131,9 @@ public class TapeTaupeArcade : MonoBehaviour
             timer = 50;
             score = 0;
             AudioManager.instance.SetMusic("Arcade");
-            
-            timerText[0].transform.GetComponent<Animation>().Play("text_anim");
-            timerText[1].transform.GetComponent<Animation>().Play("text_anim2");
+
+            timerText[0].transform.GetComponent<Animation>().Play();
+            if(timerText.Length > 1) timerText[1].transform.GetComponent<Animation>().Play();
             
         }
     }
