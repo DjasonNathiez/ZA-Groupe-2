@@ -1718,35 +1718,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: d5f365853899cc44680cf89aba2b77b4, type: 3}
     loop: 1
     volume: 0.812
-  voices:
-  - soundName: Voice_1
-    clip: {fileID: 8300000, guid: a8df6c09c66edc24595e2706e00d5026, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_2
-    clip: {fileID: 8300000, guid: 5986827eb273f7a4c90690dbae49f535, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_3
-    clip: {fileID: 8300000, guid: 381e5e8dbe6b399459d723536d25445a, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_4
-    clip: {fileID: 8300000, guid: bfe21bdce581ab64c97f8ad7fcac7834, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_5
-    clip: {fileID: 8300000, guid: 2f30437f2ef540c4184b698d05f11f89, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_6
-    clip: {fileID: 8300000, guid: 153dfc797fb6ad94e8fabee947effc64, type: 3}
-    loop: 0
-    volume: 1
-  - soundName: Voice_7
-    clip: {fileID: 8300000, guid: 04ee816278cf22447bcfac3efc240503, type: 3}
-    loop: 0
-    volume: 1
   secretSoundActivated: 0
   secretImageUI: {fileID: 3140780269222797022}
 --- !u!1 &381650576670453510
@@ -12438,7 +12409,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8973343373871707938}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1021111764}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: QuitApplication
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3204949544058228558
 GameObject:
   m_ObjectHideFlags: 0

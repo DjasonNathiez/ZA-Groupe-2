@@ -538,6 +538,11 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = change.value == 0 ? 60 : 144;
     }
+
+    public void QuitApplication()
+    {
+        Application.Quit();
+    }
     #endregion
 
     public void SetLanguage(string languageSelect)
