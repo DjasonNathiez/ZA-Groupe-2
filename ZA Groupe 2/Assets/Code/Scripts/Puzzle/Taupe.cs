@@ -10,20 +10,25 @@ public class Taupe : MonoBehaviour
     public int number;
     public GameObject t_prefab;
     public Transform t_pos;
+    public bool grappable;
 
     public ParticleSystem hitPs;
     public ParticleSystem appearPs;
     
-    public void TaupeHit()
+    public void TaupeHit(bool grapped)
     {
-        Quaternion t_rot = Quaternion.Euler(25,-45,0);
-        GameObject gameObject = Instantiate(t_prefab, t_pos.position, t_rot);
+        if (grapped && grappable || !grapped)
+        {
+            TapeTaupeArcade.TaupeIsTaped(number);
+            Quaternion t_rot = Quaternion.Euler(25,-45,0);
+            GameObject gameObject = Instantiate(t_prefab, t_pos.position, t_rot);
 
-        GameManager.instance.RumbleConstant(.1f, .1f, .5f);
+            GameManager.instance.RumbleConstant(.1f, .1f, .5f);
 
-        gameObject.GetComponentInChildren<TextMeshPro>().text = TapeTaupeArcade.score + " / " + TapeTaupeArcade.goal;;
+            gameObject.GetComponentInChildren<TextMeshPro>().text = TapeTaupeArcade.score + " / " + TapeTaupeArcade.goal;;
         
-        Destroy(gameObject, 5);
-        hitPs.Play();
+            Destroy(gameObject, 5);
+            hitPs.Play();   
+        }
     }
 }
