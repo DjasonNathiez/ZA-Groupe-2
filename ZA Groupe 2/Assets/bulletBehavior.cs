@@ -81,6 +81,11 @@ public class bulletBehavior : MonoBehaviour
         else if (other.CompareTag("UngrippableObject") || other.CompareTag("GrippableObject") ||
                  other.CompareTag("TractableObject") || other.CompareTag("Ground"))
         {
+            if (other.GetComponent<Taupe>())
+            {
+                other.GetComponent<Taupe>().TaupeHit(false);
+            }
+            
             if(other.GetComponent<ValueTrack>() && other.GetComponent<ValueTrack>().projectileDestroyed) Destroy(other.gameObject);
             Destroy(gameObject);
         }

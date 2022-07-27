@@ -74,8 +74,7 @@ public class ThrowingWeapon : MonoBehaviour
                 {
                     Destroy(Instantiate(playerManager.throwHitEnemy, collisionPoint,
                         Quaternion.LookRotation(normalPoint)));
-                    other.GetComponent<Taupe>().TapeTaupeArcade.TaupeIsTaped(other.GetComponent<Taupe>().number);
-                    other.GetComponent<Taupe>().TaupeHit();
+                    other.GetComponent<Taupe>().TaupeHit(true);
                 }
             }
             else if (other.CompareTag("TractableObject"))

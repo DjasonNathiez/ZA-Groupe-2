@@ -23,6 +23,8 @@ public class TapeTaupeArcade : MonoBehaviour
     public AnimationCurve rate;
     public int goal;
     public GameObject reward;
+    public Door doorToOpen;
+    public int storyState;
 
     public ParticleSystem VictoryFX;
 
@@ -148,12 +150,15 @@ public class TapeTaupeArcade : MonoBehaviour
             light.SetActive(false);
             directionalOff.SetActive(false);
             directionalOn.SetActive(true);
-            if (reward && score >= goal)
+            if (score >= goal)
             {
                 reward.SetActive(true);
                 VictoryFX.Play();
-                if(PlayerManager.instance.storyState == 0) PlayerManager.instance.storyState = 1;
+                if(PlayerManager.instance.storyState < storyState) PlayerManager.instance.storyState = storyState;
+                if(reward) reward.SetActive(true);
+                if(doorToOpen) doorToOpen.keysValid++;
             }
+            
             AudioManager.instance.SetMusic(GameManager.instance.dungeonEnded ? "Parc_2" : "Parc_1");
         }
     }

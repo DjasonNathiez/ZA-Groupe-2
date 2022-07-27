@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RedTourelleSocle
+  m_Name: M_ExplicationSign_02
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -25,11 +25,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AmbiantOcclusionMapTex2D:
-        m_Texture: {fileID: 2800000, guid: dedcc7959e1be2a4893f9e746e9d4004, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6edde380cbb4b764c8217f65e00118d6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AmbiantOcclusionMap_Tex:
+        m_Texture: {fileID: 2800000, guid: 6edde380cbb4b764c8217f65e00118d6, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseColor_Tex:
-        m_Texture: {fileID: 2800000, guid: c62fc058cf8efa24ca72422d855821b1, type: 3}
+        m_Texture: {fileID: 2800000, guid: af13c4c0692bb7a44ad534ed3b9c514c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -57,7 +61,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMapTex2D:
-        m_Texture: {fileID: 2800000, guid: 753acfae082807e4faa913f3c9daf83a, type: 3}
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap_Tex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMapTex2D:
@@ -73,6 +81,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMapTex2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicMap_Tex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -118,17 +130,20 @@ Material:
     - _AlphaMask_Smoothstep_Max: 1
     - _AlphaMask_Smoothstep_Min: 0
     - _AmbiantOcclusionMap: 1
+    - _AmbiantOcclusionMap__Int: 1
     - _AmbiantOcclusion_Intensity: 1
     - _AmbiantOcclusion_Smoothstep_Max: 1
     - _AmbiantOcclusion_Smoothstep_Min: 0
     - _Amplitude: 1
+    - _BaseColor_UV: 1
     - _Blend: 0
     - _BumpScale: 1
     - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Color_Intensity: 1
+    - _Color_Intensity: 7.8
     - _Cull: 2
+    - _CutOff: 0.5
     - _Cutoff: 0.5
     - _Cutoff_Height: -0.2
     - _DebugWind: 0
@@ -136,9 +151,10 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EmissionMap: 0
+    - _EmissionMap: 1
+    - _EmissionMap__Int: 0
     - _Emission_Smoothstep_Max: 1
-    - _Emission_Smoothstep_Min: -0.11
+    - _Emission_Smoothstep_Min: 1
     - _EnableOutline: 0
     - _EnvironmentReflections: 1
     - _FlipAxis_Dam: 0
@@ -151,6 +167,7 @@ Material:
     - _HSV_Saturation: 1
     - _HSV_Shift: 1
     - _HSV_Value: 1
+    - _HSV__Int: 0
     - _HeightMap: 1
     - _Height_Scale: 0.1
     - _Iteration_B: 10
@@ -158,12 +175,15 @@ Material:
     - _Looping: 0
     - _Manoir: 0
     - _Metallic: 0
-    - _MetallicMap: 0
+    - _MetallicMap: 1
+    - _MetallicMap__Int: 0
     - _Metallic_Intensity: 0
-    - _Metallic_Smoothstep_Max: 0
-    - _Metallic_Smoothstep_Min: 0
+    - _Metallic_Smoothstep_Max: 1
+    - _Metallic_Smoothstep_Min: 1
     - _Modify_Color: 1
+    - _Modify_Color__Int: 0
     - _Modify_Intensity: 0
+    - _Modify_Intensity__Int: 1
     - _Modify_Normal_Intensity: 0
     - _NoiseStrenght: 0.4
     - _Noise_Scale: 50
@@ -174,8 +194,9 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _RGB_Shift: 0
     - _ReceiveShadows: 1
-    - _Rgb_Shift: 0
+    - _Rgb_Shift: 0.481
     - _RoughnessMap: 0
     - _Roughness_Intensity: 0
     - _Roughness_Smoothstep_Max: 1
@@ -215,12 +236,13 @@ Material:
     - _ImpactColor: {r: 1, g: 0, b: 0, a: 0}
     - _MainTINT: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 4, g: 0.3921569, b: 0, a: 0}
+    - _SmoothStep_X_Y: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpeedMoveAxis: {r: 0, g: 0, b: 0, a: 0}
     - _X_DissolveAxisY_Y_DissolveAxisZ_Dam: {r: 0, g: 0, b: 0, a: 0}
     - _X_DissolveAxisY_Y_DissolveAxisZ_Des: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7491046744357629081
+--- !u!114 &4871133814825880556
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
