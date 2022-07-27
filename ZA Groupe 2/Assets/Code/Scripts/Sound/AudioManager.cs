@@ -14,7 +14,6 @@ public class AudioManager : MonoBehaviour
     public Sounds[] bossSounds;
     public Sounds[] environment;
     public Sounds[] musics;
-    public Sounds[] voices;
 
     public bool secretSoundActivated;
     public GameObject secretImageUI;

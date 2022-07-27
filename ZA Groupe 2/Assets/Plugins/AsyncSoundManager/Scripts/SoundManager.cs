@@ -1158,10 +1158,10 @@ public class SoundManager
 
     #region Volume
 
-    private static float _mainVolume = 1.0f;
-    private static float _mainEffectVolume = 1.0f;
-    private static float _mainFxVolume = 1.0f;
-    private static float _mainMusicVolume = 1.0f;
+    private static float _mainVolume = .5f;
+    private static float _mainEffectVolume = .5f;
+    private static float _mainFxVolume = .5f;
+    private static float _mainMusicVolume = .5f;
 
     /// <summary>
     ///     Main volume control
