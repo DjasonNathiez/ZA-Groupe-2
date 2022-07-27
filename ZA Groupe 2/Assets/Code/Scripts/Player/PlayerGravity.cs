@@ -35,17 +35,20 @@ public class PlayerGravity : MonoBehaviour
         stepRayUpper.transform.position = position;
     }
 
+    private void Start()
+    {
+        //capsuleCollider = PlayerManager.instance.normalCollider;
+    }
+
     private void FixedUpdate()
     {
-        playerIsGrounded = PlayerGroundCheck();
         rb.velocity = new Vector3(rb.velocity.x, PlayerGravityMethod() ,rb.velocity.z);
-        
     }
 
     private void Update()
     {
+        playerIsGrounded = PlayerGroundCheck();
         StepClimb();
-
     }
 
     private bool PlayerGroundCheck()
@@ -56,17 +59,21 @@ public class PlayerGravity : MonoBehaviour
         
         // Raycast du joueur vers le bas (distance ground check)
 
-        var origin = new Vector3(rb.position.x + capsuleCollider.center.x, rb.position.y, rb.position.z + capsuleCollider.center.z);
-        bool check = Physics.Raycast(origin, Vector3.down, out _groundCheckHit, groundCheckDistance + capsuleCollider.height / 2);
+        var origin = new Vector3(rb.position.x + capsuleCollider.center.x, 
+            transform.position.y, 
+            rb.position.z + capsuleCollider.center.z);
+        
+        Debug.Log(transform.position.y);
+        var distance = groundCheckDistance + capsuleCollider.height / 2 + Mathf.Abs(capsuleCollider.center.y);
+        bool check = Physics.Raycast(origin, Vector3.down, out _groundCheckHit, distance);
         if (check)
         {
-            rb.position = new Vector3(rb.position.x, _groundCheckHit.point.y + capsuleCollider.height / 2,
-                rb.position.z);
-            Debug.DrawRay(origin, Vector3.down * groundCheckDistance, Color.green);
+            //rb.position = new Vector3(rb.position.x, _groundCheckHit.point.y + capsuleCollider.height / 2, rb.position.z);
+            Debug.DrawRay(origin, Vector3.down * distance, Color.green);
         }
         else
         {
-            Debug.DrawRay(origin, Vector3.down * groundCheckDistance, Color.red);
+            Debug.DrawRay(origin, Vector3.down * distance, Color.red);
 
         }
 
@@ -99,7 +106,7 @@ public class PlayerGravity : MonoBehaviour
 
     private void StepClimb()
     {
-        return;
+        //return;
         
         RaycastHit hitLower;
         if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
