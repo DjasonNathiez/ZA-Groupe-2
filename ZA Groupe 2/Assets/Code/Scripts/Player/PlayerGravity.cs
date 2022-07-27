@@ -97,6 +97,8 @@ public class PlayerGravity : MonoBehaviour
 
     private void StepClimb()
     {
+        return;
+        
         RaycastHit hitLower;
         if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.1f))
         {
