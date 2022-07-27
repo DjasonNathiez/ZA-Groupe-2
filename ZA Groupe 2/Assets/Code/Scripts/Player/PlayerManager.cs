@@ -163,7 +163,7 @@ public class PlayerManager : MonoBehaviour
     private float m_cdRoll;
 
     public bool isDead;
-    [SerializeField] private CapsuleCollider normalCollider;
+    [SerializeField] public CapsuleCollider normalCollider;
     [SerializeField] private CapsuleCollider rollCollider;
     [SerializeField] private Vector3 rollCenter;
     [SerializeField] private float rollHeight;
