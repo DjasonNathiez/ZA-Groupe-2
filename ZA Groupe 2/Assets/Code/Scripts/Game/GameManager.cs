@@ -149,33 +149,45 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
+    private Resolution[] resolutions;
+    public TMP_Dropdown resolutionDropDown;
+    
     private void Start()
     {
         CheckScene();
         SetupScreenResolutions();
+        
         frameRateDropDown.onValueChanged.AddListener(delegate { SetFramerate(frameRateDropDown); });
     }
 
     private void SetupScreenResolutions()
     {
-        _resolutions = Screen.resolutions;
-        
-        if (resolutionDropDown != null)
-        {
-            resolutionDropDown.ClearOptions();
-        }
-        
+        resolutions = Screen.resolutions;
+        resolutionDropDown.ClearOptions(); 
 
         List<string> options = new List<string>();
-        for (int i = 0; i < _resolutions.Length; i++)
+
+        int currentResolutionIndex = 0;
+        foreach (var t in resolutions)
         {
-            var option = _resolutions[i].width + "x" + _resolutions[i].height;
+            
         }
 
-        if (options.Count > 0)
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            resolutionDropDown.AddOptions(options);
+            var option = resolutions[i].width + "x" + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && 
+                resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
         }
+        
+        resolutionDropDown.AddOptions(options);
+        resolutionDropDown.value = currentResolutionIndex;
+        resolutionDropDown.RefreshShownValue();
     }
     
     
@@ -467,38 +479,31 @@ public class GameManager : MonoBehaviour
 
     public void SetFxVolume(float value)
     {
-        if (!isMute)
-        {
-            SoundManager.FxAudioMixer.audioMixer.SetFloat("SFXVolume", value);
-            SoundManager.PlayOnce(testSoundFeedback, mixer: sfxMixer);
-        }
+        SoundManager.FxAudioMixer.audioMixer.SetFloat("SFXVolume", value);
+        if (isMute) return;
+        SoundManager.PlayOnce(testSoundFeedback, mixer: sfxMixer);
     }
 
     public void SetMusicVolume(float value)
     {
-        if (!isMute)
-        {
-            SoundManager.MusicAudioMixer.audioMixer.SetFloat("MusicVolume", value);
-            SoundManager.PlayOnce(testSoundFeedback, mixer: musicMixer);
-        }
+        SoundManager.MusicAudioMixer.audioMixer.SetFloat("MusicVolume", value);
+        if (isMute) return;
+        SoundManager.PlayOnce(testSoundFeedback, mixer: musicMixer);
     }
 
     public void SetEffectVolume(float value)
     {
-        if (!isMute)
-        {
-            SoundManager.EffectAudioMixer.audioMixer.SetFloat("EnvironmentVolume", value);
-            SoundManager.PlayOnce(testSoundFeedback, mixer: environmentMixer);
-        }
+        SoundManager.EffectAudioMixer.audioMixer.SetFloat("EnvironmentVolume", value);
+        if (isMute) return;
+        SoundManager.PlayOnce(testSoundFeedback, mixer: environmentMixer);
     }
 
     public void SetMainVolume(float value)
     {
-        if (!isMute)
-        {
-            SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", value);
-            SoundManager.PlayOnce(testSoundFeedback, mixer: mainMixer);
-        }
+        
+        SoundManager.AudioMixer.audioMixer.SetFloat("MasterVolume", value);
+        if (isMute) return;
+        SoundManager.PlayOnce(testSoundFeedback, mixer: mainMixer);
     }
 
     public void Mute(bool isOn)
@@ -519,13 +524,10 @@ public class GameManager : MonoBehaviour
     {
         Screen.fullScreen = isOn;
     }
-
-    private Resolution[] _resolutions;
-    public TMP_Dropdown resolutionDropDown;
-
+    
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = _resolutions[resolutionIndex];
+        var resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
     
@@ -534,9 +536,7 @@ public class GameManager : MonoBehaviour
 
     public void SetFramerate(TMP_Dropdown change)
     {
-        if (change.value == 0) Application.targetFrameRate = 60;
-        else Application.targetFrameRate = 144;
-
+        Application.targetFrameRate = change.value == 0 ? 60 : 144;
     }
     #endregion
 
