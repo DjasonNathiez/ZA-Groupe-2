@@ -4,6 +4,7 @@ public class PuzzleBoutton : MonoBehaviour
 {
     public bool isGripped;
     public bool isActivated;
+    public bool multiactivate;
     public Door door;
 
     [SerializeField] private CameraShakeScriptable sucessShakeScriptable;
@@ -14,10 +15,6 @@ public class PuzzleBoutton : MonoBehaviour
     
     private void Update()
     {
-        if (isEnigmeLustre && isGripped)
-        {
-            lustreRb.isKinematic = false;
-        }
 
         if (isGripped && !isActivated)
         {
@@ -26,6 +23,17 @@ public class PuzzleBoutton : MonoBehaviour
             CameraShake.Instance.AddShakeEvent(sucessShakeScriptable);
             door.keysValid++;
             //Destroy(this);
+        }
+        
+        
+
+        if (isGripped && multiactivate)
+        {
+            if (PlayerManager.instance.rope.rewinding)
+            {
+                isActivated = false;
+                isGripped = false;
+            }
         }
     }
 }
