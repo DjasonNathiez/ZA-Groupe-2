@@ -60,6 +60,8 @@ public class PlayerGravity : MonoBehaviour
         bool check = Physics.Raycast(origin, Vector3.down, out _groundCheckHit, groundCheckDistance + capsuleCollider.height / 2);
         if (check)
         {
+            rb.position = new Vector3(rb.position.x, _groundCheckHit.point.y + capsuleCollider.height / 2,
+                rb.position.z);
             Debug.DrawRay(origin, Vector3.down * groundCheckDistance, Color.green);
         }
         else
