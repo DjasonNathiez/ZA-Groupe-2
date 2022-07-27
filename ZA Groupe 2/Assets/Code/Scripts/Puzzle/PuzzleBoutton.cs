@@ -33,6 +33,7 @@ public class PuzzleBoutton : MonoBehaviour
             {
                 isActivated = false;
                 isGripped = false;
+                door.keysValid--;
             }
         }
     }
