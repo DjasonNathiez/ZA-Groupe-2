@@ -145,30 +145,39 @@ public class GameManager : MonoBehaviour
 
         transitionOn = true;
 
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 144;
+        QualitySettings.vSyncCount = 1;
+        Application.targetFrameRate = 60;
     }
 
     private void Start()
     {
         CheckScene();
         SetupScreenResolutions();
+        frameRateDropDown.onValueChanged.AddListener(delegate { SetFramerate(frameRateDropDown); });
     }
 
     private void SetupScreenResolutions()
     {
         _resolutions = Screen.resolutions;
-        resolutionDropDown.ClearOptions();
+        
+        if (resolutionDropDown != null)
+        {
+            resolutionDropDown.ClearOptions();
+        }
+        
 
         List<string> options = new List<string>();
         for (int i = 0; i < _resolutions.Length; i++)
         {
             var option = _resolutions[i].width + "x" + _resolutions[i].height;
-            options.Add(option);
         }
-        
-        resolutionDropDown.AddOptions(options);
+
+        if (options.Count > 0)
+        {
+            resolutionDropDown.AddOptions(options);
+        }
     }
+    
     
     private void OnEnable()
     {
@@ -512,12 +521,22 @@ public class GameManager : MonoBehaviour
     }
 
     private Resolution[] _resolutions;
-    public Dropdown resolutionDropDown;
+    public TMP_Dropdown resolutionDropDown;
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+    }
+    
+    private int[] _framerates;
+    public TMP_Dropdown frameRateDropDown;
+
+    public void SetFramerate(TMP_Dropdown change)
+    {
+        if (change.value == 0) Application.targetFrameRate = 60;
+        else Application.targetFrameRate = 144;
+
     }
     #endregion
 
@@ -653,6 +672,5 @@ public class GameManager : MonoBehaviour
     {
         return Gamepad.current;
     }
-
     #endregion
 }
