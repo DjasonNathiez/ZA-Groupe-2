@@ -5,23 +5,18 @@ using UnityEngine;
 
 public class ManoirEntryPuzzleHelper : MonoBehaviour
 {
-    private PlayerGravity _playerGravity;
-    private Rigidbody _playerRigidbody;
+    private Transform mainParent;
     
     private void OnTriggerEnter(Collider other)
     {
         if(!other.CompareTag("Player")) return;
-        if (_playerGravity == null) _playerGravity = other.gameObject.GetComponent<PlayerGravity>();
-        if(_playerRigidbody == null) _playerRigidbody = other.gameObject.GetComponent<Rigidbody>();
-
-        _playerGravity.enabled = false;
-        _playerRigidbody.useGravity = true;
+        mainParent = other.gameObject.transform.parent;
+        other.gameObject.transform.parent = transform;
     }
 
     private void OnTriggerExit(Collider other)
     {
         if(!other.CompareTag("Player")) return;
-        _playerGravity.enabled = true;
-        _playerRigidbody.useGravity = false;
+        other.gameObject.transform.parent = mainParent;
     }
 }

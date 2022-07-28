@@ -21,7 +21,7 @@ public class TextEffectManager : MonoBehaviour
 
     public void ShowText()
     {
-        /*
+        
 
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
@@ -35,7 +35,7 @@ public class TextEffectManager : MonoBehaviour
         UpdateColor();
         timeStamp = speedOfShowing;
         
-        */
+        
     }
 
     public void NextText()
@@ -44,7 +44,7 @@ public class TextEffectManager : MonoBehaviour
         {
             dialogueIndex++;
            
-            /*
+            
 
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
@@ -58,7 +58,7 @@ public class TextEffectManager : MonoBehaviour
             UpdateColor();
             timeStamp = speedOfShowing;
             
-            */
+            
         }
     }
 
