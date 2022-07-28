@@ -117,6 +117,7 @@ public class LionBehaviour : AIBrain
 
         if (isDead)
         {
+            Debug.Log("dead");
             modelAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
             modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
         }

@@ -271,6 +271,7 @@ public class AIBrain : MonoBehaviour
         rb.velocity = Vector3.zero;
         isDead = true;
         Debug.Log("DEAD");
+        modelNonAggroMat.SetFloat("_Destruction", 1);
         modelAggroMat.SetFloat("_Destruction", 1);
         if (doorIfDead) doorIfDead.keysValid++;
         if (currentArena) currentArena.currentSpawned.Remove(gameObject);

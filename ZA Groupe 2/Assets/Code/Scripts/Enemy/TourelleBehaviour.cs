@@ -37,6 +37,10 @@ public class TourelleBehaviour : MonoBehaviour
     [SerializeField] private float deathDuration;
     private float deathTimer;
 
+    public Material modelNonAggroMat;
+    public AnimationCurve animationDeath;
+    public float hurtTime;
+
     public enum TourelleState
     {
         Idle,
@@ -98,7 +102,6 @@ public class TourelleBehaviour : MonoBehaviour
 
                 if (beforeShootTimer >= beforeShootDuration)
                 {
-
                     shootVFX.Play();
                     currentBullet = Instantiate(bullet, bulletOrigin.position, Quaternion.identity);
                     currentBullet.velocity = canon.forward;
@@ -110,10 +113,12 @@ public class TourelleBehaviour : MonoBehaviour
                 break;
 
             case TourelleState.Destroy:
-
+                
+                //modelNonAggroMat.SetFloat("_NoiseStrenght", animationDeath.Evaluate(Time.time - hurtTime));
+                
                 if (deathTimer >= deathDuration)
                 {
-                    if(doorOnDeath) doorOnDeath.keysValid++;
+                    if (doorOnDeath) doorOnDeath.keysValid++;
                     Destroy(gameObject);
                 }
                 else deathTimer += Time.deltaTime;
@@ -154,10 +159,8 @@ public class TourelleBehaviour : MonoBehaviour
             case TourelleState.Destroy:
                 anim.enabled = false;
                 anim.SetBool("Shooting", false);
+                //modelNonAggroMat.SetFloat("_Destruction", 1);
 
-                // Death feedback
-                // Anim fade
-                
                 deathTimer = 0f;
                 break;
         }
@@ -174,6 +177,7 @@ public class TourelleBehaviour : MonoBehaviour
                 OnInvincibleTourelleHit();
                 return;
             }
+
             SwitchState(TourelleState.Destroy);
         }
     }

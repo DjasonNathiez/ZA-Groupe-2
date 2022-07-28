@@ -9,13 +9,13 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: RedTourelleSocle
   m_Shader: {fileID: -6465566751694194690, guid: 384dcc2cff4bf6642828d574f3704200, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -112,7 +112,7 @@ Material:
     m_Floats:
     - _AdjustPose: 0
     - _Alpha: 1
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AlphaClipUb: 1
     - _AlphaMask: 0
     - _AlphaMask_Smoothstep_Max: 1
@@ -132,7 +132,7 @@ Material:
     - _Cutoff: 0.5
     - _Cutoff_Height: -0.2
     - _DebugWind: 0
-    - _Destruction: 0
+    - _Destruction: 1
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -165,7 +165,7 @@ Material:
     - _Modify_Color: 1
     - _Modify_Intensity: 0
     - _Modify_Normal_Intensity: 0
-    - _NoiseStrenght: 0.4
+    - _NoiseStrenght: 10
     - _Noise_Scale: 50
     - _NormalMap: 0
     - _Normal_Intensity: 1
