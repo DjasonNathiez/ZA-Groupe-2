@@ -52,13 +52,11 @@ public class TextEffectManager : MonoBehaviour
 
             UpdateColor();
             timeStamp = speedOfShowing;
-            
         }
     }
 
     void Update()
     {
-        
         if (isDialoguing)
         {
             var textInfo = textElement.textInfo;
