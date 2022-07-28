@@ -21,11 +21,13 @@ public class bulletBehavior : MonoBehaviour
     public bool isElectrified;
     public Color notElectrified;
     public Color electrified;
+    public float LifeTime = 5;
     
     private void Start()
     {
         usedSpeed = speed;
-        Destroy(gameObject, 5f);
+        LifeTime = 5;
+        transform.rotation = quaternion.Euler(0,0,0);
     }
 
     private void Update()
@@ -54,12 +56,22 @@ public class bulletBehavior : MonoBehaviour
                 }
             }
         }
+
+        if (LifeTime > 0)
+        {
+            LifeTime -= Time.deltaTime;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Bounce(Vector3 inNormal)
     {
         if (canBounce)
         {
+            LifeTime = 5;
             timeComparator = Time.time;
             canBounce = false;
             if (PlayerManager.instance.rope.electrocuted)
@@ -76,6 +88,7 @@ public class bulletBehavior : MonoBehaviour
     {
         if (other.CompareTag("Player") || other.GetComponent<Door>())
         {
+            PlayerManager.instance.GetHurt(1);
             Destroy(gameObject);
         }
         else if (other.CompareTag("UngrippableObject") || other.CompareTag("GrippableObject") ||
