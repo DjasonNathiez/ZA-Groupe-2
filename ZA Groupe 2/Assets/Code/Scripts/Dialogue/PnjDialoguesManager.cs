@@ -32,6 +32,8 @@ public class PnjDialoguesManager : MonoBehaviour
     [SerializeField] private bool movePlayer;
     [SerializeField] private Teleporter teleporter;
     [SerializeField] private bool cinematik;
+
+    [SerializeField] private AudioSource pnjAudioSource;
     public bool dialogueEnded;
 
     private void OnTriggerEnter(Collider other)
@@ -54,9 +56,19 @@ public class PnjDialoguesManager : MonoBehaviour
                 isDialoguing = true;
                 if (dialogue[0].dialogueLine)
                 {
-                    SoundManager.ClearFx();
-                    GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
+                    if (pnjAudioSource.isPlaying) 
+                    {
+                        pnjAudioSource.Stop();
+                        AudioClip tempAudio = dialogue[0].dialogueLine;
+                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                    }
+                    else
+                    {
+                        AudioClip tempAudio = dialogue[0].dialogueLine;
+                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                    }
                 }
+                
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
                 textEffectManager.ShowText();
@@ -98,11 +110,22 @@ public class PnjDialoguesManager : MonoBehaviour
                 dialogueBox.SetActive(true);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
+                
                 if (dialogue[0].dialogueLine)
                 {
-                    SoundManager.ClearFx();
-                    GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(dialogue[0].dialogueLine));
+                    if (pnjAudioSource.isPlaying) 
+                    {
+                        pnjAudioSource.Stop();
+                        AudioClip tempAudio = dialogue[0].dialogueLine;
+                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                    }
+                    else
+                    {
+                        AudioClip tempAudio = dialogue[0].dialogueLine;
+                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                    }
                 }
+                
                 if (button) button.SetActive(false);
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
@@ -219,8 +242,17 @@ public class PnjDialoguesManager : MonoBehaviour
                         textEffectManager.NextText();
                         if (d.dialogueLine)
                         {
-                            SoundManager.ClearFx();
-                            GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
+                            if (pnjAudioSource.isPlaying) 
+                            {
+                                pnjAudioSource.Stop();
+                                AudioClip tempAudio = d.dialogueLine;
+                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                            }
+                            else
+                            {
+                                AudioClip tempAudio = d.dialogueLine;
+                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                            }
                         }
                         if (d.modifyCameraPosition)
                         {
@@ -292,8 +324,17 @@ public class PnjDialoguesManager : MonoBehaviour
                         textEffectManager.NextText();
                         if (d.dialogueLine)
                         {
-                            SoundManager.ClearFx();
-                            GameManager.instance.StartCoroutine(GameManager.instance.VoiceSound(d.dialogueLine));
+                            if (pnjAudioSource.isPlaying) 
+                            {
+                                pnjAudioSource.Stop();
+                                AudioClip tempAudio = d.dialogueLine;
+                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                            }
+                            else
+                            {
+                                AudioClip tempAudio = d.dialogueLine;
+                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                            }
                         }
                         if (d.modifyCameraPosition)
                         {
