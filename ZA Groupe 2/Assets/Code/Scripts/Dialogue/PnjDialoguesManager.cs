@@ -55,16 +55,10 @@ public class PnjDialoguesManager : MonoBehaviour
                 isDialoguing = true;
                 if (dialogue[0].dialogueLine)
                 {
-                    if (pnjAudioSource.isPlaying) 
-                    {
-                        pnjAudioSource.Stop();
-                        AudioClip tempAudio = dialogue[0].dialogueLine;
-                        pnjAudioSource.PlayOneShot(tempAudio, 1);
-                    }
-                    else
+                    if (!GameManager.instance.isMute)
                     {
                         AudioClip tempAudio = dialogue[0].dialogueLine;
-                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                        pnjAudioSource.PlayOneShot(tempAudio, 2);
                     }
                 }
                 
@@ -109,22 +103,16 @@ public class PnjDialoguesManager : MonoBehaviour
                 dialogueBox.SetActive(true);
                 textEffectManager.isDialoguing = true;
                 isDialoguing = true;
-                
+
                 if (dialogue[0].dialogueLine)
                 {
-                    if (pnjAudioSource.isPlaying) 
-                    {
-                        pnjAudioSource.Stop();
+                    if (!GameManager.instance.isMute)
+                    { 
                         AudioClip tempAudio = dialogue[0].dialogueLine;
-                        pnjAudioSource.PlayOneShot(tempAudio, 1);
-                    }
-                    else
-                    {
-                        AudioClip tempAudio = dialogue[0].dialogueLine;
-                        pnjAudioSource.PlayOneShot(tempAudio, 1);
+                        pnjAudioSource.PlayOneShot(tempAudio, 2);
                     }
                 }
-                
+
                 if (button) button.SetActive(false);
                 textEffectManager.dialogueIndex = 0;
                 textEffectManager.dialogue = dialogue;
@@ -159,13 +147,13 @@ public class PnjDialoguesManager : MonoBehaviour
         if (other.CompareTag("Player") && !isDialoguing)
         {
             dialogueBox.SetActive(false);
-
             if (button) button.SetActive(false);
             textEffectManager.isDialoguing = false;
             isDialoguing = false;
             cameraController.playerFocused = true;
             cameraController.cameraPos.rotation = Quaternion.Euler(45, -45, 0);
             cameraController.cameraZoom = 8.22f;
+            pnjAudioSource.Stop();
         }
     }
 
@@ -239,19 +227,14 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
+                        pnjAudioSource.Stop();
                         d = dialogue[textEffectManager.dialogueIndex];
                         if (d.dialogueLine)
                         {
-                            if (pnjAudioSource.isPlaying) 
-                            {
-                                pnjAudioSource.Stop();
-                                AudioClip tempAudio = d.dialogueLine;
-                                pnjAudioSource.PlayOneShot(tempAudio, 1);
-                            }
-                            else
+                            if (!GameManager.instance.isMute)
                             {
                                 AudioClip tempAudio = d.dialogueLine;
-                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                                pnjAudioSource.PlayOneShot(tempAudio, 2);
                             }
                         }
                         if (d.modifyCameraPosition)
@@ -322,19 +305,14 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
+                        pnjAudioSource.Stop();
                         d = dialogue[textEffectManager.dialogueIndex];
                         if (d.dialogueLine)
                         {
-                            if (pnjAudioSource.isPlaying) 
-                            {
-                                pnjAudioSource.Stop();
-                                AudioClip tempAudio = d.dialogueLine;
-                                pnjAudioSource.PlayOneShot(tempAudio, 1);
-                            }
-                            else
+                            if (!GameManager.instance.isMute)
                             {
                                 AudioClip tempAudio = d.dialogueLine;
-                                pnjAudioSource.PlayOneShot(tempAudio, 1);
+                                pnjAudioSource.PlayOneShot(tempAudio, 2);
                             }
                         }
                         if (d.modifyCameraPosition)
@@ -373,6 +351,11 @@ public class PnjDialoguesManager : MonoBehaviour
         if (!PlayerManager.instance.buttonAPressed && check)
         {
             check = false;
+        }
+
+        if (!isDialoguing && dialogueEnded)
+        {
+            Destroy(pnjAudioSource);
         }
     }
 

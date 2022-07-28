@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     public AudioMixerGroup sfxMixer;
     public AudioMixerGroup environmentMixer;
     public AudioClip testSoundFeedback;
-    private bool isMute;
+    public bool isMute;
 
     [Header("Level")] public string parcScene;
     public string dungeonScene;
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         transitionOn = true;
 
         QualitySettings.vSyncCount = 1;
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 70;
     }
 
     private Resolution[] resolutions;
@@ -518,7 +518,7 @@ public class GameManager : MonoBehaviour
 
     public void SetFramerate(TMP_Dropdown change)
     {
-        Application.targetFrameRate = change.value == 0 ? 60 : 144;
+        Application.targetFrameRate = change.value == 0 ? 70 : 150;
     }
 
     public void QuitApplication()
