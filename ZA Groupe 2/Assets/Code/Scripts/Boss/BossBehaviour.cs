@@ -33,6 +33,7 @@ public class BossBehaviour : MonoBehaviour
     public PnjDialoguesManager firstDialogue;
     public PnjDialoguesManager lastDialogue;
     public Collider collider;
+    public Teleporter teleporter;
     
     [Header("CAMERA")]
     
@@ -119,7 +120,6 @@ public class BossBehaviour : MonoBehaviour
         yValue = transform.position.y;
         foreach (GameObject pillar in pillars)
         {
-            GameManager.instance.grippableObj.Add(pillar.GetComponent<ValueTrack>());
             pillar.SetActive(false);
         }
     }
@@ -133,6 +133,10 @@ public class BossBehaviour : MonoBehaviour
         cameraController.cameraPos.transform.position = posCamBefore;
         cameraController.cameraZoom = -10;
         yield return new WaitForSeconds(2);
+        foreach (GameObject pillar in pillars)
+        {
+            GameManager.instance.grippableObj.Add(pillar.GetComponent<ValueTrack>());
+        }
         firstDialogue.StartDialogue();
 
     }
@@ -529,10 +533,12 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("Mort");
         GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
         yield return new WaitForSeconds(delayMort);
+        teleporter.StartTP();
         yield return new WaitForSeconds(1);
         Destroy(death);
         transform.position = afterBossPos.position;
         yield return new WaitForSeconds(1.2f);
+        lastDialogue.StartDialogue();
 
 
     }
