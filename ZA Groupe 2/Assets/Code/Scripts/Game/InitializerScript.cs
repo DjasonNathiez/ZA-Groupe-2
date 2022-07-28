@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class InitializerScript : MonoBehaviour
 {
     public bool changestoryState;
-    public int state;
+    public StoryState state;
     public GameObject toDestroyOn2;
     [SerializeField] public Collectable[] collectables;
 
@@ -19,19 +19,30 @@ public class InitializerScript : MonoBehaviour
     public GameObject[] afterArcadeObjects;
     public GameObject[] afterMansionObjects;
 
+    private void Awake()
+    {
+        
+
+    }
+
     private void Start()
     {
+        GameManager.instance.Initialize();
+
         InitializeScene();
         
         GameManager.instance.CheckScene();
-
-        StartCoroutine(LateStart());
+        
     }
 
     public void InitializeScene()
     {
         Debug.Log(PlayerManager.instance.currentStoryState);
         
+        // Init new state if necessary
+
+        if (changestoryState) PlayerManager.instance.currentStoryState = state;
+
         // Check triggers
         
         foreach (var obj in beginPartyObjects) obj.SetActive(false);
@@ -64,32 +75,6 @@ public class InitializerScript : MonoBehaviour
                 if (hat.hatName == col.name && hat.collected)
                 {
                     col.loreObj.SetActive(false);
-                }
-            }
-        }
-    }
-
-    IEnumerator LateStart()
-    {
-        yield return new WaitForSeconds(1);
-        
-        if (SceneManager.GetActiveScene().name.Contains("Parc"))
-        {    
-            if (DATA_LOAD.instance)
-            {
-                if (state != 0)
-                {
-                    DATA_LOAD.instance.LoadData();
-                }
-                
-                if(state == 0 && !DATA_LOAD.instance.resume)
-                {
-                    DATA_LOAD.instance.SaveData();
-                }
-
-                if (DATA_LOAD.instance.resume)
-                {
-                    DATA_LOAD.instance.SetGameData();
                 }
             }
         }

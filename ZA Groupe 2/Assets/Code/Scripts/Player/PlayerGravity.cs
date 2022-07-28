@@ -63,7 +63,6 @@ public class PlayerGravity : MonoBehaviour
             transform.position.y, 
             rb.position.z + capsuleCollider.center.z);
         
-        Debug.Log(transform.position.y);
         var distance = groundCheckDistance + capsuleCollider.height / 2 + Mathf.Abs(capsuleCollider.center.y);
         bool check = Physics.Raycast(origin, Vector3.down, out _groundCheckHit, distance);
         if (check)

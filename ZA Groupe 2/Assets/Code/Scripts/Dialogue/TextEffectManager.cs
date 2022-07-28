@@ -21,24 +21,6 @@ public class TextEffectManager : MonoBehaviour
 
     public void ShowText()
     {
-        if (DATA_LOAD.instance == null)
-        {
-            textElement.text = dialogue[dialogueIndex].frenchText;
-        }
-        else
-        {
-            switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
-            {
-                case DATA_SETTINGS.LANGUAGE.FRENCH:
-                    textElement.text = dialogue[dialogueIndex].frenchText;
-                    break;
-
-                case DATA_SETTINGS.LANGUAGE.ENGLISH:
-                    textElement.text = dialogue[dialogueIndex].englishText;
-                    break;
-            }
-        }
-        
         /*
 
         textElement.ForceMeshUpdate();
@@ -61,24 +43,7 @@ public class TextEffectManager : MonoBehaviour
         if (dialogueIndex < dialogue.Length - 1)
         {
             dialogueIndex++;
-            if (DATA_LOAD.instance == null)
-            {
-                textElement.text = dialogue[dialogueIndex].frenchText;
-            }
-            else
-            {
-                switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
-                {
-                    case DATA_SETTINGS.LANGUAGE.FRENCH:
-                        textElement.text = dialogue[dialogueIndex].frenchText;
-                        break;
-
-                    case DATA_SETTINGS.LANGUAGE.ENGLISH:
-                        textElement.text = dialogue[dialogueIndex].englishText;
-                        break;
-                }
-            }
-            
+           
             /*
 
             textElement.ForceMeshUpdate();

@@ -20,13 +20,6 @@ public class MenuPrincipal : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        public void ResumeGameAtSave()
-        {
-            DATA_LOAD.instance.LoadData();
-            DATA_LOAD.instance.resume = true;
-            DATA_LOAD.instance.LoadGameScene();
-        }
-        
         public void StartTheGame()
         {
             StartCoroutine(GameManager.instance.LoadFirstCinematic());

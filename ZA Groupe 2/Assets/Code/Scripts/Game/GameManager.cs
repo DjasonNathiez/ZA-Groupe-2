@@ -127,7 +127,7 @@ public class GameManager : MonoBehaviour
         enemyList = FindObjectsOfType<AIBrain>().ToList();
         grippableObj = FindObjectsOfType<ValueTrack>().ToList();
 
-        if (SceneManager.GetActiveScene().ToString() == GameManager.instance.parcScene)
+        if (SceneManager.GetActiveScene().ToString() == parcScene)
             GetComponent<KonamiCode>().enabled = true;
 
         Cursor.lockState = CursorLockMode.Confined;
@@ -284,6 +284,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (AIBrain a in enemyList)
         {
+            if (a == null) continue;
             if (!a.enabled) continue;
             a.Disable();
         }
@@ -291,22 +292,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateUILanguage()
     {
-        if (DATA_LOAD.instance)
-        {
-            foreach (UIText uiText in uiTexts)
-            {
-                switch (DATA_LOAD.instance.pool.dataSettings.currentLanguage)
-                {
-                    case DATA_SETTINGS.LANGUAGE.FRENCH:
-                        uiText.uiTMP.text = uiText.frenchText;
-                        break;
-
-                    case DATA_SETTINGS.LANGUAGE.ENGLISH:
-                        uiText.uiTMP.text = uiText.englishText;
-                        break;
-                }
-            }
-        }
+       
     }
 
     public void DropItem(string item, Transform dropPosition)
@@ -321,9 +307,6 @@ public class GameManager : MonoBehaviour
                     newItem.transform.position.y + 1f, newItem.transform.position.z);
 
                 newItem.AddComponent<Item>();
-
-                //newItem.AddComponent<Rigidbody>();
-                //newItem.GetComponent<Rigidbody>().AddForce(newItem.transform.position * 2f, ForceMode.Impulse);
 
                 var newItemProps = newItem.GetComponent<Item>();
 
@@ -546,21 +529,7 @@ public class GameManager : MonoBehaviour
 
     public void SetLanguage(string languageSelect)
     {
-        if (DATA_LOAD.instance)
-        {
-            switch (languageSelect)
-            {
-                case "French":
-                    DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.FRENCH;
-                    break;
-
-                case "English":
-                    DATA_LOAD.instance.pool.dataSettings.currentLanguage = DATA_SETTINGS.LANGUAGE.ENGLISH;
-                    break;
-            }
-
-            UpdateUILanguage();
-        }
+       
     }
 
     public IEnumerator LoadFirstCinematic()
