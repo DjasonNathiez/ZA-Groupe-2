@@ -3017,7 +3017,7 @@ MonoBehaviour:
   isHurt: 0
   startTalking: 0
   isTalking: 0
-  storyState: 0
+  currentStoryState: 0
   isTeleporting: 0
   moveSpeed: 6.8
   rollSpeed: 0
@@ -3351,11 +3351,12 @@ MonoBehaviour:
   capsuleCollider: {fileID: 5455848930028628629}
   rb: {fileID: 8267530351848828145}
   playerIsGrounded: 1
-  groundCheckDistance: 0.1
+  groundCheckDistance: 0.2
   stepRayUpper: {fileID: 425899425}
   stepRayLower: {fileID: 1673474322}
   stepHeight: 1.2
   stepSmooth: 0.05
+  stepCheck: 0.1
   gravityFallCurrent: -20
   gravityFallMin: -20
   gravityFallMax: -50
@@ -56461,7 +56462,6 @@ MonoBehaviour:
   dungeonScene: Map_Manoir_Build
   arcadeScene: Arcade
   menuScene: Menu_Principal
-  dungeonEnded: 0
   lastCheckpoint: {fileID: 0}
   lastCheckpointName: 
   allCheckpoint:
