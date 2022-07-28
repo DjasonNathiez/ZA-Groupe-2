@@ -1,7 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,61 +7,59 @@ public class InitializerScript : MonoBehaviour
 {
     public bool changestoryState;
     public int state;
-    public GameObject[] activePost;
-    public GameObject[] unactivePost;
-    public GameObject[] activeManoir;
-    public GameObject[] unactiveManoir;
-    public GameObject[] activeArcade;
-    public GameObject[] unactiveArcade;
     public GameObject toDestroyOn2;
     [SerializeField] public Collectable[] collectables;
 
+    public enum StoryState
+    {
+        BeginParty, AfterArcade, AfterMansion
+    }
+
+    public GameObject[] beginPartyObjects;
+    public GameObject[] afterArcadeObjects;
+    public GameObject[] afterMansionObjects;
+
     private void Start()
     {
-               
-        if (PlayerManager.instance.storyState == -1)
+        InitializeScene();
+        
+        GameManager.instance.CheckScene();
+
+        StartCoroutine(LateStart());
+    }
+
+    public void InitializeScene()
+    {
+        Debug.Log(PlayerManager.instance.currentStoryState);
+        
+        // Check triggers
+        
+        foreach (var obj in beginPartyObjects) obj.SetActive(false);
+        foreach (var obj in afterArcadeObjects) obj.SetActive(false);
+        foreach (var obj in afterMansionObjects) obj.SetActive(false);
+        
+        switch (PlayerManager.instance.currentStoryState)
         {
-            PlayerManager.instance.storyState = 0;
+            case StoryState.BeginParty:
+                foreach (var obj in beginPartyObjects) obj.SetActive(true);
+                break;
+            case StoryState.AfterArcade:
+                foreach (var obj in afterArcadeObjects) obj.SetActive(true);
+                break;
+            case StoryState.AfterMansion:
+                foreach (var obj in afterMansionObjects) obj.SetActive(true);
+                break;
+            
+            default:
+                Debug.Log("State invalide");
+                break;
         }
         
-        if (PlayerManager.instance.storyState >= 1)
+        // Check items
+        
+        foreach (var col in collectables)
         {
-            GameManager.instance.Initialize();
-            foreach (GameObject obj in activePost)
-            {
-                if(obj == null) continue;
-                obj.SetActive(true);
-            }
-            foreach (GameObject obj in unactivePost)
-            {
-                if(obj == null) continue;
-                obj.SetActive(false);
-            }
-        }
-        else if (PlayerManager.instance.storyState == 0)
-        {
-            if(GameManager.instance != null) GameManager.instance.Initialize();
-            foreach (GameObject obj in activeManoir)
-            {
-                obj.SetActive(true);
-            }
-            foreach (GameObject obj in unactiveManoir)
-            {
-                obj.SetActive(false);
-            }
-        }
-
-        if (PlayerManager.instance.storyState == 2 && toDestroyOn2)
-        {
-            GameManager.instance.enemyList.Remove(toDestroyOn2.GetComponent<BearBehaviour>());
-            Destroy(toDestroyOn2);
-        }
-
-        if(changestoryState) PlayerManager.instance.storyState = state;
-
-        foreach (Collectable col in collectables)
-        {
-            foreach (PlayerManager.Hat hat in PlayerManager.instance.hats)
+            foreach (var hat in PlayerManager.instance.hats)
             {
                 if (hat.hatName == col.name && hat.collected)
                 {
@@ -71,14 +67,6 @@ public class InitializerScript : MonoBehaviour
                 }
             }
         }
-        
-        
-        
-        
-        GameManager.instance.CheckScene();
-
-        StartCoroutine(LateStart());
-
     }
 
     IEnumerator LateStart()

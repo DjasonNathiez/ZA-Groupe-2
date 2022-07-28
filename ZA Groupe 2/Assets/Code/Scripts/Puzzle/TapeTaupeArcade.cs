@@ -153,12 +153,12 @@ public class TapeTaupeArcade : MonoBehaviour
             if (score >= goal)
             {
                 VictoryFX.Play();
-                if(PlayerManager.instance.storyState < storyState) PlayerManager.instance.storyState = storyState;
+                if(PlayerManager.instance.currentStoryState == InitializerScript.StoryState.BeginParty) PlayerManager.instance.currentStoryState = InitializerScript.StoryState.AfterArcade;
                 if(reward) reward.SetActive(true);
                 if(doorToOpen) doorToOpen.keysValid++;
             }
             
-            AudioManager.instance.SetMusic(GameManager.instance.dungeonEnded ? "Parc_2" : "Parc_1");
+            AudioManager.instance.SetMusic(PlayerManager.instance.currentStoryState != InitializerScript.StoryState.BeginParty ? "Parc_2" : "Parc_1");
         }
     }
     

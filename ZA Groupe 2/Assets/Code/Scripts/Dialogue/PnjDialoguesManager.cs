@@ -345,7 +345,7 @@ public class PnjDialoguesManager : MonoBehaviour
 
     public void StartDialogue()
     {
-        if (storyState != 0) PlayerManager.instance.storyState = storyState;
+        //if (storyState != 0) PlayerManager.instance.storyState = storyState;
         GameManager.instance.DisableAllEnemy();
         if (objToActive) objToActive.SetActive(true);
         if (animation) animation.Play("closePortal");

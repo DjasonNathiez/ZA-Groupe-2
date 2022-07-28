@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
     public string dungeonScene;
     public string arcadeScene;
     public string menuScene;
-    public bool dungeonEnded;
     public Checkpoint lastCheckpoint;
     public string lastCheckpointName;
     public Checkpoint[] allCheckpoint;
@@ -453,7 +452,7 @@ public class GameManager : MonoBehaviour
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            AudioManager.instance.SetMusic(dungeonEnded ? "Parc_2" : "Parc_1");
+            AudioManager.instance.SetMusic(PlayerManager.instance.currentStoryState != InitializerScript.StoryState.BeginParty ? "Parc_2" : "Parc_1");
             ui.hudParent.SetActive(true);
             player.SetActive(true);
         }
