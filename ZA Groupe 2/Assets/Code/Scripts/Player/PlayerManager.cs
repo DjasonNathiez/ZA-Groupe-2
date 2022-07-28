@@ -76,7 +76,8 @@ public class PlayerManager : MonoBehaviour
     public bool isHurt;
     public bool startTalking;
     public bool isTalking;
-    public int storyState;
+    //public int storyState;
+    public InitializerScript.StoryState currentStoryState;
     public bool isTeleporting;
 
     [Header("Movements Stats")] public float moveSpeed;
@@ -289,11 +290,6 @@ public class PlayerManager : MonoBehaviour
     
     private void Update()
     {
-        if (storyState == 1 && !GameManager.instance.dungeonEnded)
-        {
-            GameManager.instance.dungeonEnded = true;
-        }
-
         if (currentLifePoint > maxLifePoint)
         {
             currentLifePoint = maxLifePoint;
@@ -315,9 +311,7 @@ public class PlayerManager : MonoBehaviour
         {
             isAttacking = false;
         }
-
-        //rb.useGravity = !isRolling;
-
+        
         if (isAttacking)
         {
             isRolling = false;
