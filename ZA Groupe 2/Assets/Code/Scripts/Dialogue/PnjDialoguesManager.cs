@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PnjDialoguesManager : MonoBehaviour
 {
@@ -382,6 +381,7 @@ public class PnjDialoguesManager : MonoBehaviour
         textEffectManager = PlayerManager.instance.textEffectManager;
         dialogueBox = PlayerManager.instance.dialogueBox;
         cameraController = PlayerManager.instance.cameraController;
+        pnjAudioSource = GetComponent<AudioSource>();
     }
 
     public void StartDialogue()
