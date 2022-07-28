@@ -21,8 +21,7 @@ public class TextEffectManager : MonoBehaviour
 
     public void ShowText()
     {
-        /*
-
+        textElement.text = dialogue[dialogueIndex].frenchText;
         textElement.ForceMeshUpdate();
         showedCharIndex = 0;
         talkingCharacter.text = dialogue[dialogueIndex].speakingName;
@@ -31,11 +30,8 @@ public class TextEffectManager : MonoBehaviour
         {
             charBasedHeight[i] = -1f;
         }
-
         UpdateColor();
         timeStamp = speedOfShowing;
-        
-        */
     }
 
     public void NextText()
@@ -43,9 +39,8 @@ public class TextEffectManager : MonoBehaviour
         if (dialogueIndex < dialogue.Length - 1)
         {
             dialogueIndex++;
-           
-            /*
-
+            
+            textElement.text = dialogue[dialogueIndex].frenchText;
             textElement.ForceMeshUpdate();
             showedCharIndex = 0;
             talkingCharacter.text = dialogue[dialogueIndex].speakingName;
@@ -58,16 +53,12 @@ public class TextEffectManager : MonoBehaviour
             UpdateColor();
             timeStamp = speedOfShowing;
             
-            */
         }
     }
 
     void Update()
     {
         
-        /*
-         
-         
         if (isDialoguing)
         {
             var textInfo = textElement.textInfo;
@@ -113,9 +104,6 @@ public class TextEffectManager : MonoBehaviour
 
             textElement.UpdateVertexData();
         }
-        
-        */
-        
     }
 
     public void UpdateColor()

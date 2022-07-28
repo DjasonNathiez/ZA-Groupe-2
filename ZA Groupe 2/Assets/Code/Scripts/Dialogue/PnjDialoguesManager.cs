@@ -239,6 +239,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
+                        d = dialogue[textEffectManager.dialogueIndex];
                         if (d.dialogueLine)
                         {
                             if (pnjAudioSource.isPlaying) 
@@ -321,6 +322,7 @@ public class PnjDialoguesManager : MonoBehaviour
                     else
                     {
                         textEffectManager.NextText();
+                        d = dialogue[textEffectManager.dialogueIndex];
                         if (d.dialogueLine)
                         {
                             if (pnjAudioSource.isPlaying) 
@@ -338,10 +340,8 @@ public class PnjDialoguesManager : MonoBehaviour
                         if (d.modifyCameraPosition)
                         {
                             cameraController.playerFocused = false;
-                            cameraController.cameraPos.localPosition =
-                                dialogue[textEffectManager.dialogueIndex].positionCamera;
-                            cameraController.cameraPos.rotation =
-                                Quaternion.Euler(d.angleCamera);
+                            cameraController.cameraPos.localPosition = dialogue[textEffectManager.dialogueIndex].positionCamera;
+                            cameraController.cameraPos.rotation = Quaternion.Euler(d.angleCamera);
                             cameraController.cameraZoom = d.zoom;
                             cameraController.panSpeed = d.speedOfPan;
                         }
