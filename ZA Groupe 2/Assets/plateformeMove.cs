@@ -75,6 +75,6 @@ public class plateformeMove : MonoBehaviour
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, coordToFollow, Time.deltaTime * 5);
 
-        if (playerAboard) PlayerManager.instance.transform.position += (transform.position - lastPos);
+        //if (playerAboard) PlayerManager.instance.transform.position += (transform.position - lastPos);
     }
 }

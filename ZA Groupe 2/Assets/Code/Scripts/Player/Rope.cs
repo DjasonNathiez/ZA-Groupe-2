@@ -361,7 +361,7 @@ public class Rope : MonoBehaviour
 
         lenght = checklenght;
 
-        if (Vector3.SqrMagnitude(rope.GetPosition(rope.positionCount - 2) - rope.GetPosition(rope.positionCount - 1)) >
+        if (pinnedValueTrack != null && !pinnedValueTrack.manorPuzzleException && Vector3.SqrMagnitude(rope.GetPosition(rope.positionCount - 2) - rope.GetPosition(rope.positionCount - 1)) >
             remainingLenght * remainingLenght &&
             PlayerManager.instance.state == ActionType.RopeAttached)
         {

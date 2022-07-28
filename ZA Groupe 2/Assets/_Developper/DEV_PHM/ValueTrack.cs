@@ -29,6 +29,8 @@ public class ValueTrack : MonoBehaviour
     [Header("Visual")] public GameObject splashVFX;
     public VisualEffect trailVFX;
 
+    public bool manorPuzzleException;
+
     private void Start()
     {
         if (!meshRenderer) meshRenderer = GetComponent<MeshRenderer>();
