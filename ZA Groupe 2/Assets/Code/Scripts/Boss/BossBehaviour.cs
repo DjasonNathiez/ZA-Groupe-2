@@ -12,9 +12,6 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] private int phase;
     public bool fighting;
     
-    
-    
-    public Rigidbody rb;
     [SerializeField] private GameObject shockWaveGameObject;
     
     [SerializeField] private float shockWaveSpeed = 1;
@@ -22,7 +19,6 @@ public class BossBehaviour : MonoBehaviour
     [SerializeField] public List<GameObject> pillars;
     public Vector3[] pillarPos;
     
-    [SerializeField] private Material material;
     public Animator animator;
     public GameObject[] vfx;
     public Transform attackSpawnPlace;
@@ -36,6 +32,7 @@ public class BossBehaviour : MonoBehaviour
     public Transform afterBossPos;
     public PnjDialoguesManager firstDialogue;
     public PnjDialoguesManager lastDialogue;
+    public Collider collider;
     
     [Header("CAMERA")]
     
@@ -94,15 +91,18 @@ public class BossBehaviour : MonoBehaviour
     [Header("VFX")]
     public ParticleSystem hurtVFX;
 
+    public GameObject tornade;
+    public GameObject jumpVfx;
+
     public bool falling;
     public bool fallen;
+    public Vector3 posCamBefore;
+    public Vector3 rotCamBefore;
 
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        material = new Material(material);
-        GetComponent<MeshRenderer>().material = material;
+        cameraController = PlayerManager.instance.cameraController;
         StartCoroutine(StartFight());
         aggroMaterial = new Material(aggroMaterial);
         foreach (SkinnedMeshRenderer mesh in modelMeshRenderer)
@@ -117,12 +117,21 @@ public class BossBehaviour : MonoBehaviour
         cibleMat = new Material(cibleRender.material);
         cibleRender.material = cibleMat;
         yValue = transform.position.y;
-        cameraController = PlayerManager.instance.cameraController;
+        foreach (GameObject pillar in pillars)
+        {
+            GameManager.instance.grippableObj.Add(pillar.GetComponent<ValueTrack>());
+            pillar.SetActive(false);
+        }
     }
     
     
     public IEnumerator StartFight()
     {
+        //PlayerManager.instance.EnterDialogue();
+        cameraController.playerFocused = false;
+        cameraController.cameraPos.transform.rotation = Quaternion.Euler(rotCamBefore);
+        cameraController.cameraPos.transform.position = posCamBefore;
+        cameraController.cameraZoom = -10;
         yield return new WaitForSeconds(2);
         firstDialogue.StartDialogue();
 
@@ -299,10 +308,16 @@ public class BossBehaviour : MonoBehaviour
         fireworks = true;
         
         yield return new WaitForSeconds(1);
-        animator.Play("Attaque");
+        animator.Play("Jump");
+        GameObject vfxJump = Instantiate(jumpVfx, new Vector3(transform.position.x,6.8f,transform.position.z), Quaternion.Euler(-90,0,0));
+        Destroy(vfxJump,2);
+        yield return new WaitForSeconds(0.5f);
         jumpFirst = true;
         timeBufferJump = Time.time;
 
+        yield return new WaitForSeconds(fireworksTime-1.5f);
+        
+        fireworks = false;
         for (int i = 0; i < 4; i++)
         {
             if (pillars[i].activeSelf == false)
@@ -311,14 +326,9 @@ public class BossBehaviour : MonoBehaviour
                 pillars[i].SetActive(true);
             }
         }
-
-        yield return new WaitForSeconds(fireworksTime-1);
-        
-        fireworks = false;
         
         yield return new WaitForSeconds(3);
         
-        animator.Play("Attaque");
         jumpLast = true;
         cibleMat.color = new Color(cibleColor.r, cibleColor.g, cibleColor.b, 0);
         cible.gameObject.SetActive(true);
@@ -327,6 +337,7 @@ public class BossBehaviour : MonoBehaviour
         transform.position = new Vector3(PlayerManager.instance.transform.position.x, jumpcurve.keys[1].value + yValue, PlayerManager.instance.transform.position.z);
         
         yield return new WaitForSeconds(jumpcurve.keys[2].time - jumpcurve.keys[1].time);
+        animator.Play("Smash");
         cible.gameObject.SetActive(false);
         transform.position = new Vector3(transform.position.x,yValue,transform.position.z);
         shockWaveGameObject.SetActive(true);
@@ -337,7 +348,6 @@ public class BossBehaviour : MonoBehaviour
         attack.transform.rotation = Quaternion.Euler(-90,0,0);
         yield return new WaitForSeconds(shockWaveDuration);
         shockWaveGameObject.SetActive(false);
-        material.color = Color.blue;
         bool refill = true;
         foreach (GameObject obj in pillars)
         {
@@ -361,7 +371,8 @@ public class BossBehaviour : MonoBehaviour
     public IEnumerator Tornado()
     {
         animator.Play("TornadoStart");
-        material.color = Color.cyan;
+        tornade.SetActive(true);
+        tornade.GetComponent<Animation>().Play("TORNADOSTART");
         doingTornado = true;
         yield return new WaitForSeconds(1);
         if (phase == 0)
@@ -391,6 +402,7 @@ public class BossBehaviour : MonoBehaviour
                 timeBuffer = Time.time;
                 tornadoMove = true;
                 tornado = false;
+                tornade.GetComponent<Animation>().Play("TORNADO");
             }
             yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
             if (doingTornado)
@@ -417,6 +429,7 @@ public class BossBehaviour : MonoBehaviour
                 timeBuffer = Time.time;
                 tornadoMove = true;
                 tornado = false;
+                tornade.GetComponent<Animation>().Play("TORNADO");
             }
             yield return new WaitForSeconds(tornadoMovement.keys[tornadoMovement.keys.Length - 1].time);
             if (doingTornado)
@@ -429,6 +442,7 @@ public class BossBehaviour : MonoBehaviour
         yield return new WaitForSeconds(2);
         if (doingTornado)
         {
+            tornade.SetActive(false);
             doingTornado = false;
             StartCoroutine(Jump());
         }
@@ -438,8 +452,10 @@ public class BossBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+        Debug.Log("Collision");
         if (phase > 0 && tornado && other.transform.CompareTag("BossWall"))
         {
+            Debug.Log("Entered");
             tornadoVelocity = Vector3.Reflect(tornadoVelocity, other.contacts[0].normal);
         }
     }
@@ -447,8 +463,10 @@ public class BossBehaviour : MonoBehaviour
 
     public IEnumerator Jump()
     {
-        animator.Play("Attaque");
-        material.color = Color.cyan;
+        animator.Play("Jump");
+        GameObject vfxJump = Instantiate(jumpVfx, new Vector3(transform.position.x,6.8f,transform.position.z), Quaternion.Euler(-90,0,0));
+        Destroy(vfxJump,2);
+        yield return new WaitForSeconds(0.5f);
         jump = true;
         timeBuffer = Time.time;
         yield return new WaitForSeconds(jumpcurve.keys[jumpcurve.keys.Length - 1].time);
@@ -457,14 +475,13 @@ public class BossBehaviour : MonoBehaviour
         transform.position = new Vector3(transform.position.x,yValue,transform.position.z);
         shockWaveGameObject.SetActive(true);
         cible.gameObject.SetActive(false);
+        animator.Play("Smash");
         shockWaveGameObject.transform.position = transform.position - new Vector3(0,2.64f,0);
         shockWaveGameObject.transform.localScale = new Vector3(2, 1, 2);
-        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0),quaternion.identity,attackSpawnPlace);
+        GameObject attack = Instantiate(vfx[6], transform.position - new Vector3(0,0.35f,0),Quaternion.Euler(-90,0,0),attackSpawnPlace);
         attack.transform.SetParent(null);
-        attack.transform.rotation = Quaternion.Euler(-90,0,0);
         yield return new WaitForSeconds(shockWaveDuration);
         shockWaveGameObject.SetActive(false);
-        material.color = Color.blue;
         bool refill = true;
         foreach (GameObject obj in pillars)
         {
@@ -488,6 +505,7 @@ public class BossBehaviour : MonoBehaviour
 
     public IEnumerator Fall(Vector3 dir)
     {
+        tornade.GetComponent<Animation>().Play("TORNADO");
         hurtAnim = true;
         hurtTime = Time.time;
         tornado = false;
@@ -497,8 +515,8 @@ public class BossBehaviour : MonoBehaviour
         tornadoDestination = new Vector3(arenaCenter.x, transform.position.y, arenaCenter.z) + dir.normalized * 8.2f;
         Debug.Log("Chute");
         animator.Play("Chute");
-        rb.isKinematic = true;
         yield return new WaitForSeconds(2);
+        tornade.SetActive(false);
         fallen = true;
         falling = false;
 
@@ -508,7 +526,6 @@ public class BossBehaviour : MonoBehaviour
     {
         animator.Play("StandUp");
         yield return new WaitForSeconds(delay);
-        rb.isKinematic = true;
         animator.Play("Mort");
         GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
         yield return new WaitForSeconds(delayMort);
@@ -544,7 +561,7 @@ public class BossBehaviour : MonoBehaviour
     
     public IEnumerator StandUp(float delay)
     {
-        rb.isKinematic = false;
+        
         animator.Play("StandUp");
         yield return new WaitForSeconds(delay);
         StartCoroutine(ShootFireworks(2.2f,1.2f));

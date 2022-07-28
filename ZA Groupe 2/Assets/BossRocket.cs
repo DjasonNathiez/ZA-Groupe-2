@@ -38,6 +38,8 @@ public class BossRocket : MonoBehaviour
             GameObject obj = Instantiate(vfx, transform.position + Vector3.down*2, quaternion.identity);
             obj.GetComponent<ParticleSystem>().Play();
             Destroy(obj,3);  
+            if(other.CompareTag("Player")) PlayerManager.instance.GetHurt(1);
+            
             Destroy(gameObject);   
         }
     }
