@@ -189,10 +189,6 @@ public class PnjDialoguesManager : MonoBehaviour
                     {
                         GameManager.instance.EnableAllEnemy();
                         if (teleporter) teleporter.StartTP();
-                        if (cinematik)
-                        {
-                            StartCoroutine(GameManager.instance.LoadEndCinematic());
-                        }
 
                         dialogueBox.SetActive(false);
 
@@ -353,10 +349,7 @@ public class PnjDialoguesManager : MonoBehaviour
             check = false;
         }
 
-        if (!isDialoguing && dialogueEnded)
-        {
-            Destroy(pnjAudioSource);
-        }
+        
     }
 
     void Start()

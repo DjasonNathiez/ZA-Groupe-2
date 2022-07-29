@@ -11,6 +11,7 @@ public class BossBehaviour : MonoBehaviour
     public int state;
     [SerializeField] private int phase;
     public bool fighting;
+    public bool afterFight;
     
     [SerializeField] private GameObject shockWaveGameObject;
     
@@ -131,8 +132,8 @@ public class BossBehaviour : MonoBehaviour
         cameraController.playerFocused = false;
         cameraController.cameraPos.transform.rotation = Quaternion.Euler(rotCamBefore);
         cameraController.cameraPos.transform.position = posCamBefore;
-        cameraController.cameraZoom = -10;
-        yield return new WaitForSeconds(2);
+        cameraController.cameraZoom = -35;
+        yield return new WaitForSeconds(2.6f);
         foreach (GameObject pillar in pillars)
         {
             GameManager.instance.grippableObj.Add(pillar.GetComponent<ValueTrack>());
@@ -145,14 +146,14 @@ public class BossBehaviour : MonoBehaviour
     {
         // GESTION DE LA CAMERA AUTOUR DE L'ARENE
 
-        if (fighting)
+        if (fighting && !afterFight)
         {
             cameraController.cameraPos.transform.rotation = Quaternion.Lerp(cameraController.cameraPos.transform.rotation,Quaternion.Euler(rot.x,Quaternion.LookRotation(-(PlayerManager.instance.transform.position - arenaCenter)).eulerAngles.y,rot.z),3*Time.deltaTime);
             cameraController.cameraPos.transform.position = arenaCenter + (PlayerManager.instance.transform.position - arenaCenter).normalized * 8;
             cameraController.cameraPos.transform.position = cameraController.cameraPos.transform.position + pos;
             cameraController.cameraZoom = zoom;   
         }
-        else
+        else if(!afterFight)
         {
             if (firstDialogue.dialogueEnded)
             {
@@ -160,6 +161,13 @@ public class BossBehaviour : MonoBehaviour
                 cameraController.playerFocused = false;
                 StartCoroutine(ShootFireworks(2.2f,1.2f));
             }
+        }
+
+        if (afterFight && lastDialogue.dialogueEnded)
+        {
+            Debug.Log("OK SOSOSO");
+            afterFight = false;
+            StartCoroutine(GameManager.instance.LoadEndCinematic());
         }
 
         if (fireworks)
@@ -216,8 +224,8 @@ public class BossBehaviour : MonoBehaviour
                         {
                             GameObject newBulletthree = Instantiate(bullet, transform.position + Vector3.down * heightBullet, Quaternion.Euler(90,0,0));
                             newBulletthree.GetComponent<bulletBehavior>().velocity = Quaternion.Euler(0,i,0) * Vector3.forward;
-                            tornadoAngle += 18;
                         }
+                        tornadoAngle += 18;
                         break;
                     case 2:
                         GameObject newBulletfour = Instantiate(bullet, transform.position + Vector3.down * heightBullet, Quaternion.Euler(90,0,0));
@@ -239,6 +247,8 @@ public class BossBehaviour : MonoBehaviour
             {
                 transform.Translate(tornadoVelocity.normalized * speed * Time.deltaTime * 2);
             }
+            
+            transform.position = new Vector3(transform.position.x, yValue, transform.position.z);
         }
 
         if (jump)
@@ -533,8 +543,11 @@ public class BossBehaviour : MonoBehaviour
         animator.Play("Mort");
         GameObject death = Instantiate(vfx[5], DeathSpawnPlace);
         yield return new WaitForSeconds(delayMort);
-        teleporter.StartTP();
+        GameManager.instance.transitionOff = true;
         yield return new WaitForSeconds(1);
+        GameManager.instance.transitionOff = false;
+        afterFight = true;
+        teleporter.StartTP();
         Destroy(death);
         transform.position = afterBossPos.position;
         yield return new WaitForSeconds(1.2f);

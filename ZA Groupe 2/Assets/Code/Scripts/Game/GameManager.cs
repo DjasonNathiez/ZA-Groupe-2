@@ -544,6 +544,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadEndCinematic()
     {
+        Debug.Log("ENDCINEMATICPLAYED");
         ui.hudParent.SetActive(false);
         SoundManager.StopAll();
         lastCinematic.Play();
