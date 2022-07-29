@@ -64,8 +64,6 @@ public class TurretBehaviour : AIBrain
                 player.rope.rewinding = true;
                 player.rope.ResetPin();
                 currentHealth = 0;
-                //StartCoroutine(Death());
-                Debug.Log("Turret Destroy");
             }
         }
 

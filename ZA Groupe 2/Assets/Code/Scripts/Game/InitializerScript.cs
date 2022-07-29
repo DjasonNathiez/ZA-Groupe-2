@@ -37,8 +37,6 @@ public class InitializerScript : MonoBehaviour
 
     public void InitializeScene()
     {
-        Debug.Log(PlayerManager.instance.currentStoryState);
-        
         // Init new state if necessary
 
         if (changestoryState) PlayerManager.instance.currentStoryState = state;

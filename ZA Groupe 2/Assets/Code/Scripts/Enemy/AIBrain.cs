@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -33,7 +31,6 @@ public class AIBrain : MonoBehaviour
     [HideInInspector] public bool isFalling;
     public bool isAttacking;
     public bool isAggro;
-    [HideInInspector] public bool isKnocked;
     public bool isMoving;
     public bool isDead;
     public bool isHurt;
@@ -64,8 +61,6 @@ public class AIBrain : MonoBehaviour
     [Header("Visual")] public List<SkinnedMeshRenderer> modelMeshRenderer;
     public Material modelNonAggroMat;
     public Material modelAggroMat;
-    public Material aggroMaterial;
-    public Material nonAggroMaterial;
     public AnimationCurve animationHurt;
     public AnimationCurve animationDeath;
     public bool hurtAnim;
@@ -127,14 +122,7 @@ public class AIBrain : MonoBehaviour
     {
         foreach (SkinnedMeshRenderer mesh in modelMeshRenderer)
         {
-            if (isAggro)
-            {
-                mesh.material = modelAggroMat;
-            }
-            else
-            {
-                mesh.material = modelNonAggroMat;
-            }
+            mesh.material = isAggro ? modelAggroMat : modelNonAggroMat;
         }
     }
 
@@ -270,7 +258,6 @@ public class AIBrain : MonoBehaviour
     {
         rb.velocity = Vector3.zero;
         isDead = true;
-        Debug.Log("DEAD");
         modelNonAggroMat.SetFloat("_Destruction", 1);
         modelAggroMat.SetFloat("_Destruction", 1);
         if (doorIfDead) doorIfDead.keysValid++;
@@ -302,6 +289,7 @@ public class AIBrain : MonoBehaviour
             GameManager.instance.DropItem("Health", transform);
         }
     }
+    
 
     IEnumerator WaitForDestroy()
     {

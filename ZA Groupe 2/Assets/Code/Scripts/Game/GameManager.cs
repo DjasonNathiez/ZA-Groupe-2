@@ -544,7 +544,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadEndCinematic()
     {
-        Debug.Log("ENDCINEMATICPLAYED");
         ui.hudParent.SetActive(false);
         SoundManager.StopAll();
         lastCinematic.Play();
@@ -565,7 +564,6 @@ public class GameManager : MonoBehaviour
             {
                 StopCoroutine(LoadFirstCinematic());
                 StartCoroutine(LoadScene(parcScene));
-                Debug.Log("Skipping");
                 isSkipping = true;
             }
 
@@ -573,7 +571,6 @@ public class GameManager : MonoBehaviour
             {
                 StopCoroutine(LoadEndCinematic());
                 StartCoroutine(LoadScene("Menu_Principal"));
-                Debug.Log("Skipping");
                 isSkipping = true;
             }
         }

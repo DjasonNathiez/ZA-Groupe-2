@@ -141,7 +141,6 @@ public class arcadeController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("oui");
         if (other.gameObject.GetComponent<EnnemiArcade>())
         {
             miniGameManager.GameOver();

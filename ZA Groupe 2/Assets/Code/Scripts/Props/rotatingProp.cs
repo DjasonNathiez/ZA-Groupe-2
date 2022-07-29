@@ -41,9 +41,7 @@ public class rotatingProp : MonoBehaviour
             textEffectManager.ShowText();
            
             cameraController.playerFocused = false;
-            //m_cameraController.m_cameraPos.localPosition = Vector3.zero;
             cameraController.cameraPos.localPosition = dialogue[0].positionCamera;
-            Debug.Log(dialogue[0].positionCamera);
             cameraController.cameraPos.rotation = Quaternion.Euler(dialogue[0].angleCamera);
             cameraController.cameraZoom = dialogue[0].zoom;   
             GameManager.instance.DisableAllEnemy();

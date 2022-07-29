@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
@@ -36,7 +32,7 @@ public class CameraController : MonoBehaviour
         m_player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.position = Vector3.Lerp(transform.position,cameraPos.position, Time.deltaTime*5*panSpeed);
         transform.rotation = Quaternion.Lerp(transform.rotation,cameraPos.rotation,Time.deltaTime*5*panSpeed);
@@ -59,24 +55,4 @@ public class CameraController : MonoBehaviour
             }
         }
     }
-
-    /*private void OnValidate()
-    {
-        SetCameraBasePosDebug();
-    }
-
-    public void SetCameraBasePosDebug()
-    {
-        m_player = GameObject.FindGameObjectWithTag("Player");
-        m_camera = GetComponent<Camera>();
-        
-        transform.position = m_cameraPos.position;
-        transform.rotation = m_cameraPos.rotation;
-        m_camera.orthographicSize = m_cameraZoom;
-
-        if (playerFocused)
-        {
-            m_cameraPos.position = m_player.transform.position;   
-        }
-    }*/
 }

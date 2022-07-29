@@ -238,8 +238,6 @@ public class Rope : MonoBehaviour
                                 nodeToCreate.nodePoint = Instantiate(nodePos,
                                     new Vector3(pos.x, transform.position.y, pos.z), Quaternion.identity,
                                     nodeToCreate.anchor.transform);
-                                Debug.Log("NEWNODEPOINT");
-                                if(bulletBehavior) Debug.Log("BULLET = " + bulletBehavior.canBounce);
 
                                 if (hitNode.collider.CompareTag("Bullet") && bulletBehavior.canBounce)
                                 {
@@ -279,7 +277,6 @@ public class Rope : MonoBehaviour
                                     }
                                 }
 
-                                Debug.Log("INSERTED");
                                 nodes.Insert(node.index - 2, nodeToCreate);
 
                                 break;

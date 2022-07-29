@@ -45,7 +45,6 @@ public class PnjDialoguesManager : MonoBehaviour
             }
             else if (!noTrigger)
             {
-                Debug.Log("Dialogue 1");
                 GameManager.instance.DisableAllEnemy();
                 PlayerManager.instance.EnterDialogue();
                 if (objToActive) objToActive.SetActive(true);

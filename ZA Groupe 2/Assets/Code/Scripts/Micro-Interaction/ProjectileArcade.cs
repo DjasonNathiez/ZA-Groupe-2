@@ -48,7 +48,6 @@ public class ProjectileArcade : MonoBehaviour
                 }
                 break;
             case 2:
-                Debug.Log(other.name);
                 if (other.gameObject == miniGameManager.player)
                 {
                     Destroy(gameObject);
@@ -107,7 +106,6 @@ public class ProjectileArcade : MonoBehaviour
                 }
                 break;
             case 4:
-                Debug.Log(other.name);
                 if (other.gameObject == miniGameManager.player)
                 {
                     Destroy(gameObject);
@@ -117,7 +115,6 @@ public class ProjectileArcade : MonoBehaviour
                 }
                 break;
             case 5:
-                Debug.Log(other.name);
                 if (other.GetComponent<EnnemiArcade>())
                 {
                     Destroy(other.gameObject);

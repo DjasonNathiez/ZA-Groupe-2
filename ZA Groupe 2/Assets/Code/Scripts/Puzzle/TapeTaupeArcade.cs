@@ -198,7 +198,6 @@ public class TapeTaupeArcade : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Exit trigger");
             tapeTaupeButton.enabled = true;
         }
     }

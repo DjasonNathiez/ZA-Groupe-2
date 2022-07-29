@@ -18,7 +18,6 @@ public class poufpoufMirror : MonoBehaviour
         Debug.DrawLine(new Vector3(rect.max.x,0,rect.max.y),new Vector3(rect.min.x,0,rect.min.y),Color.blue);
         if (rect.Contains(new Vector2(PlayerManager.instance.transform.position.x, PlayerManager.instance.transform.position.z)) && PlayerManager.instance.poufpoufInstantiated)
         {
-            Debug.Log("Oui");
             PlayerManager.instance.poufpoufInstantiated = false;
             //GameObject go = Instantiate(PlayerManager.instance.VFXPoufpouf, PlayerManager.instance.transform.position + PlayerManager.instance.transform.TransformVector( PlayerManager.instance.poufpoufOffset), Quaternion.identity).gameObject;
             //go.transform.parent = transform;
