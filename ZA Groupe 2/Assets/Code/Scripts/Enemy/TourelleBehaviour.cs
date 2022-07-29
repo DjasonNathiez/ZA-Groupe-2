@@ -26,15 +26,16 @@ public class TourelleBehaviour : MonoBehaviour
 
     public bulletBehavior bullet;
     public bulletBehavior currentBullet;
-
     
-
     [SerializeField] private bool isInvincible;
     [SerializeField] private bool constantFire;
     [SerializeField] private Door doorOnDeath;
 
     [SerializeField] private float deathDuration;
     private float deathTimer;
+
+    [SerializeField] private float cooldownDuration;
+    private float cooldownTimer;
 
     public Material modelNonAggroMat;
     public AnimationCurve animationDeath;
@@ -47,13 +48,18 @@ public class TourelleBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem deathVFX;
     [SerializeField] private GameObject targetRay;
 
+    [SerializeField] private Material targetMat;
+    [SerializeField] private MeshRenderer targetRenderer;
+    [SerializeField] private AnimationCurve targetSpeed;
+
     public enum TourelleState
     {
         Idle,
         Detection,
         Follow,
         Shoot,
-        Destroy
+        Destroy,
+        Cooldown
     }
 
     private void Start()
@@ -100,7 +106,11 @@ public class TourelleBehaviour : MonoBehaviour
                 if (currentBullet && !constantFire) return;
 
                 if (followTimer >= followDuration) SwitchState(TourelleState.Shoot);
-                else followTimer += Time.deltaTime;
+                else
+                {
+                    targetRenderer.material.SetFloat("_BlinkSpeed", targetSpeed.Evaluate(followTimer));
+                    followTimer += Time.deltaTime;
+                }
 
                 break;
 
@@ -112,7 +122,7 @@ public class TourelleBehaviour : MonoBehaviour
                     currentBullet = Instantiate(bullet, bulletOrigin.position, Quaternion.identity);
                     currentBullet.velocity = canon.forward;
 
-                    SwitchState(TourelleState.Idle);
+                    SwitchState(TourelleState.Cooldown);
                 }
                 else beforeShootTimer += Time.deltaTime;
 
@@ -128,6 +138,16 @@ public class TourelleBehaviour : MonoBehaviour
                     Destroy(gameObject);
                 }
                 else deathTimer += Time.deltaTime;
+
+                break;
+            
+            case TourelleState.Cooldown:
+                
+                if (cooldownTimer >= cooldownDuration)
+                {
+                    SwitchState(TourelleState.Idle);
+                }
+                else cooldownTimer += Time.deltaTime;
 
                 break;
         }
@@ -161,6 +181,8 @@ public class TourelleBehaviour : MonoBehaviour
                 anim.enabled = true;
                 anim.SetBool("Shooting", true);
                 targetRay.SetActive(false);
+                beforeShootTimer = 0f;
+                //targetRenderer.material.SetFloat("_BlinkSpeed", 50f);
 
                 break;
 
@@ -168,9 +190,18 @@ public class TourelleBehaviour : MonoBehaviour
                 anim.enabled = false;
                 anim.SetBool("Shooting", false);
                 deathVFX.Play();
+                targetRay.SetActive(false);
                 //modelNonAggroMat.SetFloat("_Destruction", 1);
 
                 deathTimer = 0f;
+                break;
+            
+            case TourelleState.Cooldown:
+                anim.enabled = true;
+                anim.SetBool("Shooting", false);
+
+                cooldownTimer = 0f;
+                
                 break;
         }
 
