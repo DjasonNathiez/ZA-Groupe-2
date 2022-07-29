@@ -1180,14 +1180,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     #endregion
-
-
-
-    void OnLeftTrigger()
-    {
-        transform.position = new Vector3(7.04f, 8.28f, -10.3f);
-        SceneManager.LoadScene("MAP_Boss_BackUp");
-    }
+    
 }
 
 public enum ActionType
