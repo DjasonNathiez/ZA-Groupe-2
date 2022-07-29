@@ -127,7 +127,10 @@ public class TapeTaupeArcade : MonoBehaviour
     {
         if (!active)
         {
-            tapeTaupeButton.enabled = false;
+            if (tapeTaupeButton != null)
+            {
+                tapeTaupeButton.enabled = false;
+            }
             active = true;
             light.SetActive(true);
             directionalOff.SetActive(true);
@@ -163,18 +166,22 @@ public class TapeTaupeArcade : MonoBehaviour
             }
             
             AudioManager.instance.SetMusic(PlayerManager.instance.currentStoryState != InitializerScript.StoryState.BeginParty ? "Parc_2" : "Parc_1");
-            
-            var pp = tapeTaupeButton.GetComponent<PressurePlate>();
-            
-            foreach (Door door in pp.doors)
-            {
-                door.keysValid = 0;
-            }
 
-            pp.numberofCurrent--;
-            if (pp.numberofCurrent > 0) return;
-            pp.isActivate = false;
-            pp.meshRenderer.material = pp.offMat;
+            if (tapeTaupeButton != null)
+            {
+                var pp = tapeTaupeButton.GetComponent<PressurePlate>();
+            
+                foreach (Door door in pp.doors)
+                {
+                    door.keysValid = 0;
+                }
+
+                pp.numberofCurrent--;
+                if (pp.numberofCurrent > 0) return;
+                pp.isActivate = false;
+                pp.meshRenderer.material = pp.offMat;
+            }
+            
         }
     }
     
