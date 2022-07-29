@@ -258,6 +258,7 @@ public class PnjDialoguesManager : MonoBehaviour
                             for (int i = 0; i < d.animations.Length; i++)
                             {
                                 if (d.animations[i]) d.animations[i].Play(d.clips[i]);
+                                else GetComponent<Animation>().Play(d.clips[i]);
                             }
                         }
                     }
