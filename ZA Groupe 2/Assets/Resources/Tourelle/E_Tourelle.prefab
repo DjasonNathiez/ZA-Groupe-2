@@ -308,14 +308,15 @@ MonoBehaviour:
   detectionRange: 10
   detectionDuration: 0.5
   rotationSpeed: 5
-  followDuration: 2
-  beforeShootDuration: 0.7
+  followDuration: 4
+  beforeShootDuration: 0.6
   bullet: {fileID: 7550736273346067678, guid: f1f61014034856b4a93270c225d289b4, type: 3}
   currentBullet: {fileID: 0}
   isInvincible: 0
   constantFire: 0
   doorOnDeath: {fileID: 0}
   deathDuration: 3
+  cooldownDuration: 2
   modelNonAggroMat: {fileID: 2100000, guid: 65ebbf002644ca24f9654aea7c588715, type: 2}
   animationDeath:
     serializedVersion: 2
@@ -347,6 +348,32 @@ MonoBehaviour:
   shieldVFX: {fileID: 3464620951607425728}
   deathVFX: {fileID: 2917381159402176992}
   targetRay: {fileID: 3409168252675839304}
+  targetMat: {fileID: 2100000, guid: 29bc4e11afbb274439f97549a03705f8, type: 2}
+  targetRenderer: {fileID: 8570889876598567883}
+  targetSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 4
+      value: 10
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!54 &4914694916467652829
 Rigidbody:
   m_ObjectHideFlags: 0

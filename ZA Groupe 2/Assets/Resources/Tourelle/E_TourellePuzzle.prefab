@@ -19558,14 +19558,15 @@ MonoBehaviour:
   detectionRange: 10
   detectionDuration: 0.5
   rotationSpeed: 0
-  followDuration: 1
-  beforeShootDuration: 1
+  followDuration: 2
+  beforeShootDuration: 0.6
   bullet: {fileID: 7550736273346067678, guid: f1f61014034856b4a93270c225d289b4, type: 3}
   currentBullet: {fileID: 0}
   isInvincible: 1
   constantFire: 0
   doorOnDeath: {fileID: 0}
   deathDuration: 3
+  cooldownDuration: 2
   modelNonAggroMat: {fileID: 2100000, guid: 523d430ec48c527439851711b17e7145, type: 2}
   animationDeath:
     serializedVersion: 2
@@ -19597,6 +19598,32 @@ MonoBehaviour:
   shieldVFX: {fileID: 7227200926885306968}
   deathVFX: {fileID: 1219828187047648543}
   targetRay: {fileID: 6585526241684646256}
+  targetMat: {fileID: 2100000, guid: 47a8a4974eadd3c4780f842c1655a277, type: 2}
+  targetRenderer: {fileID: 8104258868023177440}
+  targetSpeed:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 2
+      value: 10
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!54 &4914694916467652829
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24951,7 +24978,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &950492644261773829
 Transform:
   m_ObjectHideFlags: 0
