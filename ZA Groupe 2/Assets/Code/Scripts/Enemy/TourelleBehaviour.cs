@@ -27,8 +27,7 @@ public class TourelleBehaviour : MonoBehaviour
     public bulletBehavior bullet;
     public bulletBehavior currentBullet;
 
-    [SerializeField] private ParticleSystem shootVFX;
-    [SerializeField] private ParticleSystem detectionVFX;
+    
 
     [SerializeField] private bool isInvincible;
     [SerializeField] private bool constantFire;
@@ -40,6 +39,12 @@ public class TourelleBehaviour : MonoBehaviour
     public Material modelNonAggroMat;
     public AnimationCurve animationDeath;
     public float hurtTime;
+
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem shootVFX;
+    [SerializeField] private ParticleSystem detectionVFX;
+    [SerializeField] private ParticleSystem shieldVFX;
+    [SerializeField] private ParticleSystem deathVFX;
 
     public enum TourelleState
     {
@@ -159,6 +164,7 @@ public class TourelleBehaviour : MonoBehaviour
             case TourelleState.Destroy:
                 anim.enabled = false;
                 anim.SetBool("Shooting", false);
+                deathVFX.Play();
                 //modelNonAggroMat.SetFloat("_Destruction", 1);
 
                 deathTimer = 0f;
@@ -184,7 +190,7 @@ public class TourelleBehaviour : MonoBehaviour
 
     private void OnInvincibleTourelleHit()
     {
-        // Feedback 
+        shieldVFX.Play();
     }
 
     private void OnDrawGizmos()
