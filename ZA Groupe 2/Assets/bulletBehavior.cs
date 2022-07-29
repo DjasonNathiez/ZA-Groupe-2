@@ -86,13 +86,13 @@ public class bulletBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.GetComponent<Door>())
+        if (other.CompareTag("Player"))
         {
             PlayerManager.instance.GetHurt(1);
             Destroy(gameObject);
         }
         else if (other.CompareTag("UngrippableObject") || other.CompareTag("GrippableObject") ||
-                 other.CompareTag("TractableObject") || other.CompareTag("Ground"))
+                 other.CompareTag("TractableObject") || other.CompareTag("Ground") || other.GetComponent<Door>())
         {
             if (other.GetComponent<Taupe>())
             {
