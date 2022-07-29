@@ -3351,12 +3351,10 @@ MonoBehaviour:
   capsuleCollider: {fileID: 5455848930028628629}
   rb: {fileID: 8267530351848828145}
   playerIsGrounded: 1
-  groundCheckDistance: 0.2
+  groundCheckDistance: 0.1
   stepRayUpper: {fileID: 425899425}
-  stepRayLower: {fileID: 1673474322}
-  stepHeight: 1.2
-  stepSmooth: 0.05
-  stepCheck: 0.1
+  stepHeight: 0.05
+  stepCheck: 0.5
   gravityFallCurrent: -20
   gravityFallMin: -20
   gravityFallMax: -50
@@ -56458,6 +56456,7 @@ MonoBehaviour:
   sfxMixer: {fileID: -949029449827080841, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   environmentMixer: {fileID: -1591014527875698147, guid: 24cc58019c647034f9ada7a91ff543f8, type: 2}
   testSoundFeedback: {fileID: 8300000, guid: bbeea7990d9c99649ad774ba891cd5f5, type: 3}
+  isMute: 0
   parcScene: Map_Parc_Build
   dungeonScene: Map_Manoir_Build
   arcadeScene: Arcade

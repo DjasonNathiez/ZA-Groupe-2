@@ -27,6 +27,9 @@ public class TapeTaupeArcade : MonoBehaviour
     public int storyState;
 
     public ParticleSystem VictoryFX;
+    
+    public Collider tapeTaupeButton;
+
 
     private void Start()
     {
@@ -124,6 +127,10 @@ public class TapeTaupeArcade : MonoBehaviour
     {
         if (!active)
         {
+            if (tapeTaupeButton != null)
+            {
+                tapeTaupeButton.enabled = false;
+            }
             active = true;
             light.SetActive(true);
             directionalOff.SetActive(true);
@@ -159,6 +166,22 @@ public class TapeTaupeArcade : MonoBehaviour
             }
             
             AudioManager.instance.SetMusic(PlayerManager.instance.currentStoryState != InitializerScript.StoryState.BeginParty ? "Parc_2" : "Parc_1");
+
+            if (tapeTaupeButton != null)
+            {
+                var pp = tapeTaupeButton.GetComponent<PressurePlate>();
+            
+                foreach (Door door in pp.doors)
+                {
+                    door.keysValid = 0;
+                }
+
+                pp.numberofCurrent--;
+                if (pp.numberofCurrent > 0) return;
+                pp.isActivate = false;
+                pp.meshRenderer.material = pp.offMat;
+            }
+            
         }
     }
     
@@ -168,6 +191,15 @@ public class TapeTaupeArcade : MonoBehaviour
         {
             activated[number] = false;
             score++;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Exit trigger");
+            tapeTaupeButton.enabled = true;
         }
     }
 }

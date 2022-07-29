@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnemy: 0
   canActivatePressurePlate: 0
-  canBePropulsed: 0
+  projectileDestroyed: 0
   weightClass: 3
   meshRenderer: {fileID: 0}
   posCam: {x: 0, y: 0, z: 0}
@@ -112,6 +112,7 @@ MonoBehaviour:
   constraints: 0
   splashVFX: {fileID: 0}
   trailVFX: {fileID: 0}
+  manorPuzzleException: 0
 --- !u!54 &4883626073939043792
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -247,10 +248,10 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: 270.19977, y: 180, z: 90}
+      - m_Value: {x: 277.81726, y: 180, z: 90}
         m_Name: Transform_angles
         m_Overridden: 1
-      - m_Value: {x: 6.899906, y: 6.431984, z: -30.487183}
+      - m_Value: {x: -5.1800003, y: -0.061958313, z: -98.96}
         m_Name: Transform_position
         m_Overridden: 1
       - m_Value: {x: 1, y: 1, z: 1}
@@ -320,6 +321,7 @@ GameObject:
   - component: {fileID: 6294183548217270278}
   - component: {fileID: 7895471361448344513}
   - component: {fileID: 1536863977429697049}
+  - component: {fileID: 8098665633659262186}
   m_Layer: 0
   m_Name: Boat_DepthMesh_01
   m_TagString: Untagged
@@ -392,3 +394,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &8098665633659262186
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5903753753277213824}
+  serializedVersion: 2
+  m_Mass: 1000
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
