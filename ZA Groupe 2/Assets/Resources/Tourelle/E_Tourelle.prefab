@@ -346,6 +346,7 @@ MonoBehaviour:
   detectionVFX: {fileID: 7686417968157341580}
   shieldVFX: {fileID: 3464620951607425728}
   deathVFX: {fileID: 2917381159402176992}
+  targetRay: {fileID: 3409168252675839304}
 --- !u!54 &4914694916467652829
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5510,7 +5511,6 @@ GameObject:
   - component: {fileID: 6557784045094113594}
   - component: {fileID: 8679074203557342290}
   - component: {fileID: 8570889876598567883}
-  - component: {fileID: 5592970952163013807}
   m_Layer: 0
   m_Name: P_TargetBeam
   m_TagString: Untagged
@@ -5527,7 +5527,7 @@ Transform:
   m_GameObject: {fileID: 3409168252675839304}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: -12.9, z: 47}
-  m_LocalScale: {x: 100000, y: 100, z: 1}
+  m_LocalScale: {x: 42100, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5200713246944558571}
@@ -5583,20 +5583,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5592970952163013807
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3409168252675839304}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &6180407331015995061
 GameObject:
   m_ObjectHideFlags: 0

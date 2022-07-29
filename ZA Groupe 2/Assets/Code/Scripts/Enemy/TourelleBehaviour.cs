@@ -45,6 +45,7 @@ public class TourelleBehaviour : MonoBehaviour
     [SerializeField] private ParticleSystem detectionVFX;
     [SerializeField] private ParticleSystem shieldVFX;
     [SerializeField] private ParticleSystem deathVFX;
+    [SerializeField] private GameObject targetRay;
 
     public enum TourelleState
     {
@@ -145,6 +146,7 @@ public class TourelleBehaviour : MonoBehaviour
                 anim.enabled = true;
                 anim.SetBool("Shooting", false);
                 if (!detectionVFX.isPlaying) detectionVFX.Play();
+                targetRay.SetActive(true);
                 detectionTimer = 0f;
                 break;
 
@@ -158,6 +160,7 @@ public class TourelleBehaviour : MonoBehaviour
             case TourelleState.Shoot:
                 anim.enabled = true;
                 anim.SetBool("Shooting", true);
+                targetRay.SetActive(false);
 
                 break;
 
